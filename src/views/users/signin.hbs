@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-4 mx-auto">    
+    <div class="card mt-1 text-center">
+        <div class="card-header">
+            <h4 style="color:red; text-shadow: 1px 1px 2px black"> Acceso Usuarios</h4>
+        </div>
+        <img class="mx-auto d-block m-2 logo " src="/css/img/card.png" alt="Logo"/>
+        <div class="card-body">
+            <form action="/users/signin" method="POST">
+                <div class="form-group">
+                    <input type:"email" class="form-control" name="email"
+                    placeholder="E-mail" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type:"password" class="form-control" name="password"
+                    placeholder="Password" autofocus>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success btn-block" type="submit">
+                        Ingresar
+                    </button>
+                    <br/>                    
+                </div>
+                {{!-- <a class="btn btn-success btn-sm" 
+                    href="/users/signup" role="button">Registrar</a> --}}
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+{{!-- // Buttons  --}}
+{{!-- <button type="button" class="btn btn-outline-primary">Primary</button>
+<button type="button" class="btn btn-outline-secondary">Secondary</button>
+<button type="button" class="btn btn-outline-success">Success</button>
+<button type="button" class="btn btn-outline-info">Info</button>
+<button type="button" class="btn btn-outline-warning">Warning</button>
+<button type="button" class="btn btn-outline-danger">Danger</button>
+<button type="button" class="btn btn-outline-light">Light</button>
+<button type="button" class="btn btn-outline-dark">Dark</button> --}}

@@ -1,0 +1,139 @@
+{{!-- {{#each errors}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/each}} --}}
+<div class="col-md-8 mx-auto">
+    <div class="card">
+        <div class="car-header mx-auto">
+            <h3 style="color:blue; text-decoration:underline">Nueva Inspección</h3>            
+        </div>
+        <div class="card-body">
+            <form action="/notes/newnotes" method="POST">  
+            <div class="form-group">  
+                    Nº Inspeccion:                 
+                    <input type="text" name="numinspeccion" class="form-control" 
+                    placeholder="Num. Inspección" autofocus>                    
+                </div>     
+                <div class="form-group" >  
+                    Fecha(Actual):                  
+                    <input name="date" class="form-control"
+                    placeholder="dd/mm/aaaa" type="date"></input>
+                </div>         
+                <div class="form-group">  
+                    Expediente:                 
+                    <input type="text" name="expediente" class="form-control" 
+                    placeholder="No Posee" autofocus>                    
+                </div>
+                <div class="form-group">  
+                    oficio:                 
+                    <input type="text" name="oficio" class="form-control" 
+                    placeholder="No Posee" autofocus>                    
+                </div>
+                <div class="form-group">  
+                    acta:                 
+                    <input type="text" name="acta" class="form-control" 
+                    placeholder="No Posee" autofocus>                    
+                </div>
+                <div class="form-group">
+                    Adrema:
+                    <input name="adrema" class="form-control"
+                    placeholder="Adrema" ></input>
+                </div>
+                <div class="form-group">
+                    Inspector/Usuario:
+                    <input name="inspuser" class="form-control"
+                    placeholder="Inspector/Usuario" ></input>
+                </div>
+                <div class="form-group">
+                    Informe de Inspección número:
+                    <input name="informeinspnum" class="form-control"
+                    placeholder="Informe Número" ></input>
+                </div>
+                {{!-- <div class="form-group">
+                    Número de Expediente:
+                    <input name="numexp" class="form-control"
+                    placeholder="Nº de Expediente" ></input>
+                </div> --}}
+                <div class="form-group">
+                    Fecha Entrada a Inspección
+                    <input name="fechaentradinspec" class="form-control"
+                    placeholder="fecha Entrada Inspección" type="date"></input>
+                </div> 
+                {{!-- <div class="form-group">
+                    Fecha de Inspección:
+                    <input name="inspecfecha" class="form-control"
+                    placeholder="fecha de Inspección" type="date"></input>
+                </div>  --}}
+                <div class="form-group">
+                    Inspector (Apellido y Nombre)
+                    <input name="inspector" class="form-control"
+                    placeholder="Inspector"></input>
+                </div>                 
+
+                <div class="form-group">
+                    Intimación  Número:
+                    <input name="intimacion" class="form-control"
+                    placeholder="Intimación Número" disabled></input>
+                </div>
+                <div class="form-group">
+                    Infracción Número:
+                    <input name="infraccion" class="form-control"
+                    placeholder="Intimación Número" disabled></input>
+                </div>                                 
+                <div class="form-group">
+                    Observaciones:
+                    <textarea name="observacion" class="form-control"
+                    placeholder="Observaciones" ></textarea>
+                </div>
+                {{!-- <div class="form-group">
+                    Pase a número de destino:
+                    <input name="paseanumdestino" class="form-control"
+                    placeholder="Pase a número de destino"></input>
+                </div>    --}}
+                <div class="form-group">
+                    Pase a:
+                    <input name="pasea" class="form-control"
+                    placeholder="Pase a número de destino"></input>
+                </div>   
+                <div class="form-group">
+                    Fecha de Pase a:
+                    <input name="fechapasea" class="form-control"
+                    placeholder="Pase a número de destino"></input>
+                </div>   
+                <div class="form-group">
+                    Foto de Inspección:
+                    <input type="file" src="" 
+                    name="fotoinspeccion"
+                    width="40" height="40" disabled></input>
+                </div> 
+                {{!-- <div class="form-group">
+                    Usuario Actual:
+                    <input type="text" src="{{User.name}}" 
+                    name="user" placeholder="User.name"
+                    width="40" height="40" disabled></input>
+                </div>    --}}
+                {{!-- <div class="form-group">
+                    Email Usuario Actual:
+                    <input type="text" src="{{User.email}}" 
+                    name="user" placeholder="User.email"
+                    width="40" height="40" disabled></input>
+                </div>    --}}
+               
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Save
+                    </button>                
+                </div>
+                <div class="form-group">
+                        <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/notes"><i class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver</p> 
+                </div>  
+            </form>
+        </div>
+    </div>
+</div>
+
+

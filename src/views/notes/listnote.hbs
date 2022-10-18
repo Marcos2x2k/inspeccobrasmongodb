@@ -1,0 +1,107 @@
+<div class="col-md-7 mx-auto">
+    <div class="card">
+        <div class="card-header mx-auto" >
+            <h3>Datos de Inspeccción</h3>
+        </div>
+        <div class="card-body">
+            <form>                
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Num.Inspección
+                    <input type="text" name="numinspeccion" class="form-control" placeholder="Sin Información"
+                        value="{{note.numinspeccion}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Expediente Nº
+                    <input type="text" name="expediente" class="form-control" placeholder="Sin Información"
+                        value="{{note.expediente}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Oficio Nº
+                    <input type="text" name="oficio" class="form-control" placeholder="Sin Información"
+                        value="{{note.oficio}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Acta Nº
+                    <input type="text" name="acta" class="form-control" placeholder="Sin Información"
+                        value="{{note.acta}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Adrema
+                    <textarea name="adrema" class="form-control" style="color: #3d0ee7; font-weight: bold;" disabled>{{note.adrema}} </textarea>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha
+                    <input type="text" name="date" class="form-control" placeholder="Sin Información" value="{{note.date}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Cargó la Inspección
+                    <input type="text" name="inspuser" class="form-control" placeholder="Sin Información"
+                        value="{{note.inspuser}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Nº Informe Inspección
+                    <input type="text" name="informeinspnum" class="form-control" placeholder="Sin Información"
+                        value="{{note.informeinspnum}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha Entrada Inspección
+                    <input type="text" name="fechaentradinspec" class="form-control" placeholder="Sin Información"
+                        value="{{note.fechaentradinspec}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha Inspección Actual
+                    <input type="text" name="inspecfecha" class="form-control" placeholder="Sin Información"
+                        value="{{note.inspecfecha}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Inspector (N y A)
+                    <input type="text" name="inspector" class="form-control" placeholder="Sin Información"
+                        value="{{note.inspector}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <img src="{{note.fotoinspeccion}}" width="200" /> <br /><br />
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Número de Intimaciones
+                    <input type="text" name="intimacion" class="form-control" placeholder="Sin Información"
+                        value="{{note.intimacion}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Número de Infracciones
+                    <input type="text" name="infraccion" class="form-control" placeholder="Sin Información"
+                        value="{{note.infraccion}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Observaciones
+                    <textarea type="text" name="observacion" class="form-control" placeholder="Sin Información"
+                        value="{{note.observacion}}" style="color: #3d0ee7; font-weight: bold;" disabled></textarea>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Pase a Num.Destino
+                    <input type="text" name="paseanumdestino" class="form-control" placeholder="Sin Información"
+                        value="{{note.paseanumdestino}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Pase a
+                    <input type="text" name="pasea" class="form-control" placeholder="Sin Información" value="{{note.pasea}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha Pase A
+                    <input type="date" name="fechapasea" class="form-control" placeholder="Sin Información"
+                        value="{{note.fechapasea}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    ID Usuario. Cargó Inspección
+                    <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
+                        value="{{note.user}}" style="color: #e90e0e" disabled>
+                </div>
+                        <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/notes/edit/{{note._id}}"><i class="fas fa-edit" style='font-size:24px;color:rgb(98, 98, 100)' ></i></a> Editar </p>
+                <div class="form-group">
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/notes"><i class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p> 
+                    {{!-- <button class="btn btn-primary btn-block" href="/notes">
+                        Volver
+                    </button> --}}
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
