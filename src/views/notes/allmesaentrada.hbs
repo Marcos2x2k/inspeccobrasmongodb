@@ -1,0 +1,47 @@
+<div class="row">
+    <a href="/" class="btn btn-success btn-block">MESA DE ENTRADA!</a>
+    <br/><br/>
+    {{#each notes}}    
+       <div class="text-dark col-md-3">
+        <br/>
+            <div class="card">
+                
+                <div class="card-body">
+                    {{!-- <a href="/notes/edit/{{_id}}"><i class="fas fa-edit"></i></a> --}}
+                    <h5 style="color:rgb(15, 14, 14); font-style:oblique; font-weight: bold;" class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Ejemplo Mesa Entrada Nº:</h5>
+                    <p class="text-secondary display-5 card-title d-flex justify-content-between align-items-center">                        
+                        <p style="color:brown; font-style:oblique; font-weight: bold;">{{ numinspeccion }}  
+                            {{!-- <a href="/notes/edit/{{_id}}"><i class="fas fa-edit" style='font-size:24px;color:blue'></i></a></p> --}}
+                    </p>
+                    <p style="color:rgb(15, 14, 14); font-style:oblique; font-weight: bold;">Usuario Creo Ingreso</p>
+                    <p style="color:rgb(16, 218, 16); font-style:oblique; font-weight: bold;">{{ name }}                            
+                    </p>
+                    <br/>   
+                    
+                    {{!-- <p style="color:brown; font-style:oblique; font-weight: bold;"><a ><i class="fas fa-edit" style='font-size:24px;color:rgb(98, 98, 100)'></i></a> Editar </p> href="/notes/edit/{{_id}}" --}}
+                    {{!-- {{#if (name=="Admin")} --}}
+                        <p style="color:brown; font-style:oblique; font-weight: bold;"><a {{!--href="/notes/edit/{{_id}}"--}}><i class="fas fa-edit" style='font-size:24px;color:rgb(98, 98, 100)' ></i></a> Editar </p>
+                    
+                        <p style="color:brown; font-style:oblique; font-weight: bold;"><a {{!--href="/notes/list/{{_id}}"--}}><i class="fas fa-list" style='font-size:24px;color:blue'></i></a> Info Completa</p>          
+                        <form action="/notes/delete/{{_id}}?_method=DELETE" method="POST" >
+                            <input type="hidden" name="_method" value="DELETE" >
+                            <button class="btn btn-danger btn-block btn-sm" type="submit" disabled> 
+                                Borrar
+                            </button>                        
+                        </form>   
+                    {{!-- {{/if}} --}}
+                </div> 
+            </div>
+        </div>
+        {{else}}
+        <div class="mx-auto">
+            <br/> <br/>
+    <div class="card mx-auto">        
+      <div class="card-body">                
+        <p class"lead" style="color:red; font-weight: bold;"> No existen Entradas Aun...</p>
+        {{!-- <a href="/notes/add" class="btn btn-success btn-block">Cargar Inspección!</a> --}}
+      </div>
+    </div>
+    </div>
+    {{/each}}
+</div>

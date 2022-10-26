@@ -1,0 +1,93 @@
+<div class="col-md-7 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Datos de Intimación</h3>
+        </div>
+        <div class="card-body">
+            <form action="/notes/editintimacion/{{intimacion._id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="form-group">
+                    Boleta Intimación
+                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num.Inspección"
+                        value="{{intimacion.boletaintnum}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Expediente
+                    <input type="text" name="expediente" class="form-control" placeholder="Expediente"
+                        value="{{intimacion.numexpedienteint}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Adrema
+                    <textarea name="adrema" class="form-control"  style="color: #3d0ee7; font-weight: bold;" disabled>{{intimacion.adremaint}}</textarea>
+                </div>
+                <div class="form-group">
+                    Señor / Señora
+                    <input type="text" name="señorseñora" class="form-control" placeholder="Sin Información" value="{{intimacion.señorseñora}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Domicilio Particular
+                    <input type="text" name="domiciliopart" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.domiciliopart}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Lugar de Actuación
+                    <input type="text" name="informeinspnum" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.lugaractuacion}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Se Otorgo el Plazo de
+                    <input type="text" name="otorgaplazode" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.otorgaplazode}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Para el Cumplimiento a
+                    <input type="text" name="paracumplimientoa" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.paracumplimientoa}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Fecha de Intimación
+                    <input type="text" name="fechaintimacion" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.fechaintimacion}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <img src="{{intimacion.fotoinspeccion}}" width="200" /> <br /><br />
+                <div class="form-group">
+                    Hora de Intimación
+                    <input type="text" name="horaintimacion" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.horaintimacion}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Vencimiento de Intimación
+                    <input type="text" name="vencimientoint" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.vencimientoint}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Noticicado Intimación
+                    <textarea type="text" name="notificadoint" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.notificadoint}}" style="color: #3d0ee7; font-weight: bold;" disabled></textarea>
+                </div>
+                <div class="form-group">
+                    Aclaración
+                    <input type="text" name="aclaracion" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.aclaracion}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Número Código Interno
+                    <input type="text" name="numcodigoint" class="form-control" placeholder="Sin Información" value="{{intimacion.numcodigoint}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    Inspector
+                    <input type="text" name="inspectorint" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.inspectorint}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
+                    ID Usuario. Cargó Intimación
+                    <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
+                        value="{{intimacion.user}}" style="color: red;" disabled>
+                </div>
+                <div class="form-group">
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/intimaciones"><i class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p> 
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
