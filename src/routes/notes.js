@@ -10,7 +10,6 @@ const Estadistica = require('../models/Estadistica')
 
 const { isAuthenticated } = require('../helpers/auth')
 
-
 router.get('/notes/add', isAuthenticated, (req, res) => {
     res.render('notes/newnotes');
 })
