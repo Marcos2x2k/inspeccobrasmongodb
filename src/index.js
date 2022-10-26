@@ -61,14 +61,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     console.log ('Server on Port', app.get('port'));
 // });
 
-// Modifica el listener
-const port = 8080;
-//aquí va tu ip de mi pc o servidor q tenga el sistema
-const IP = "172.25.2.119";
+// Modifica el listener ****************************
+// const port = 8080;
+// //aquí va tu ip de mi pc o servidor q tenga el sistema
+// const IP = "172.25.2.119";
 
-// app.listen(app.get('port'), () => {
-app.listen(port, () => {
-  console.log("http://"+ IP +":" + port + "/");
+// // app.listen(app.get('port'), () => {
+// app.listen(port, () => {
+//   console.log("http://"+ IP +":" + port + "/");
+// });
+// ****************************** */
+// Server is listen
+app.listen(app.get('port'), () => {
+  console.log ('Server on Port', app.get('port'));
 });
 
 
