@@ -1,0 +1,40 @@
+2022-11-16 10:32:49: == Sinc. comenzada por User Command
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.github
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.github/ISSUE_TEMPLATE
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.github/workflows
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/dist
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/src
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/static
+2022-11-16 10:32:49: Crear Carpeta //WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/tests
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/.eslintrc.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.eslintrc.js' (710)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/.babelrc' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.babelrc' (1,245)
+2022-11-16 10:32:49: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/node_modules/.package-lock.json' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/.package-lock.json' (116,334)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/.github/ISSUE_TEMPLATE/feature_request.md' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.github/ISSUE_TEMPLATE/feature_request.md' (577)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/.github/ISSUE_TEMPLATE/bug_report.md' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.github/ISSUE_TEMPLATE/bug_report.md' (834)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/.github/workflows/npm-publish.yml' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.github/workflows/npm-publish.yml' (1,232)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/.prettierrc' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.prettierrc' (47)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/.travis.yml' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/.travis.yml' (109)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/_config.yml' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/_config.yml' (26)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/CHANGELOG.md' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/CHANGELOG.md' (2,148)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/CODE_OF_CONDUCT.md' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/CODE_OF_CONDUCT.md' (3,220)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/dist/pagination-parameters.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/dist/pagination-parameters.js' (7,036)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/dist/pagination-subdocs.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/dist/pagination-subdocs.js' (6,644)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/dist/index.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/dist/index.js' (10,962)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/index.d.ts' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/index.d.ts' (3,605)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/package.json' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/package.json' (3,110)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/LICENSE' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/LICENSE' (1,088)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/src/index.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/src/index.js' (8,342)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/src/pagination-parameters.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/src/pagination-parameters.js' (4,667)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/README.md' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/README.md' (15,146)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/static/banner.jpg' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/static/banner.jpg' (229,713)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/tests/index.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/tests/index.js' (19,973)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/src/pagination-subdocs.js' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/src/pagination-subdocs.js' (5,041)
+2022-11-16 10:32:49: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/node_modules/mongoose-paginate-v2/tsconfig.json' -> '//WALTERSOTELO-PC/SistemaObras/node_modules/mongoose-paginate-v2/tsconfig.json' (272)
+2022-11-16 10:32:49: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/package.json' -> '//WALTERSOTELO-PC/SistemaObras/package.json' (672)
+2022-11-16 10:32:49: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/package-lock.json' -> '//WALTERSOTELO-PC/SistemaObras/package-lock.json' (213,921)
+2022-11-16 10:32:49: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/expediente.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/expediente.js' (3,024)
+2022-11-16 10:32:49: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/routes/notes.js' -> '//WALTERSOTELO-PC/SistemaObras/src/routes/notes.js' (23,491)
+2022-11-16 10:32:49: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/allexpedientes.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/allexpedientes.hbs' (5,179)
+2022-11-16 10:32:49: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/findexpediente.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/findexpediente.hbs' (3,232)
+2022-11-16 10:32:50: == Sinc. Completa. Tiempo: 00:00:01, Velocidad: 0.00/s, OK: 38, Errores: 0

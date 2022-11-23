@@ -1,0 +1,15 @@
+2022-11-18 08:59:32: == Sinc. comenzada por User Command
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/routes/notes.js' -> '//WALTERSOTELO-PC/SistemaObras/src/routes/notes.js' (29,836)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/infraccion.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/infraccion.js' (3,907)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/allexpedientes.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/allexpedientes.hbs' (5,173)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/allinfracc.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/allinfracc.hbs' (5,635)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/allintim.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/allintim.hbs' (4,431)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/allnotes.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/allnotes.hbs' (5,410)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editinfraccion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editinfraccion.hbs' (7,519)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/findexpediente.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/findexpediente.hbs' (3,666)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editnote.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editnote.hbs' (6,279)
+2022-11-18 08:59:32: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/findinfraccion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/findinfraccion.hbs' (3,648)
+2022-11-18 08:59:32: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/findinspeccion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/findinspeccion.hbs' (3,222)
+2022-11-18 08:59:32: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/findintimacion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/findintimacion.hbs' (2,259)
+2022-11-18 08:59:32: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listnote.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listnote.hbs' (8,013)
+2022-11-18 08:59:33: == Sinc. Completa. Tiempo: 00:00:01, Velocidad: 0.00/s, OK: 13, Errores: 0

@@ -89,7 +89,9 @@ const IntimacionSchema = new Schema({
         name: {
                 type: String,
                 require: false
-        }
+        },
+        dateint: {type: Date, 
+                default: Date.now}
 
 })
 

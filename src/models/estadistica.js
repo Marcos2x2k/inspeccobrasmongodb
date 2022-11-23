@@ -26,7 +26,9 @@ const EstadisticaSchema = new Schema({
                 type: String,
                 require: false,
                 default: "0000"
-        }
+        },
+        dateest: {type: Date, 
+                default: Date.now}
 
 })
 

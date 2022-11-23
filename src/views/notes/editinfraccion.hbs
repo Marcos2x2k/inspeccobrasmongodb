@@ -3,41 +3,41 @@
         <div class="card-header">
             <h3>Editar Infracción</h3>
         </div>
-        <div class="card-body">
+        {{!-- <div class="card-body">
             <form action="/notes/editinfraccion/{{infraccion._id}}?_method=PUT" method="POST">
-                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="_method" value="PUT"> --}}
         <div class="card-body">
             <form action="/notes/editinfraccion/{{infraccion._id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group">
                     Acta Infraccion Nº:
-                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num.Inspección"
+                    <input type="text" name="actainfnum" class="form-control" placeholder="Nº Acta Infracción"
                         value="{{infraccion.actainfnum}}" >
                 </div>
                 <div class="form-group">
                     Fecha de Infraccion:
-                    <input type="text" name="expediente" class="form-control" placeholder="Expediente"
+                    <input type="date" name="fechainfraccion" class="form-control" placeholder="Fecha Infracción"
                         value="{{infraccion.fechainfraccion}}" >
                 </div>
                 <div class="form-group">
                     Hora de Infracción:
-                    <textarea name="horainfraccion" class="form-control"
-                        >{{infraccion.horainfraccion}}</textarea>
+                    <input type="time" name="horainfraccion" class="form-control"
+                        value="{{infraccion.horainfraccion}}">
                 </div>
                 <div class="form-group">
                     Nº de Expediente:
-                    <input type="text" name="numexpedienteinf" class="form-control" placeholder="señor/señora"
+                    <input type="text" name="numexpedienteinf" class="form-control" placeholder="Nº Expediente"
                         value="{{infraccion.numexpedienteinf}}" >
                 </div>
                 <div class="form-group">
                     Adrema:
-                    <input type="text" name="adremainf" class="form-control" placeholder="Domicilio Particular"
+                    <input type="text" name="adremainf" class="form-control" placeholder="Nº Adrema"
                         value="{{infraccion.adremainf}}" >
                 </div>
                 <div class="form-group">
                     Propietario (AyN):
                     <input type="text" name="apellidonombrepropietarioinf" class="form-control"
-                        placeholder="Lugar de Actuación" value="{{infraccion.apellidonombrepropietarioinf}}" >
+                        placeholder="AyN Propietario" value="{{infraccion.apellidonombrepropietarioinf}}" >
                 </div>
                 <div class="form-group">
                     Domicilio Propietario:
@@ -69,7 +69,7 @@
                 <div class="form-group">
                     Ordenanza Número:
                     <input type="text" name="ordenanzanum" class="form-control" placeholder="Ordenanza Número"
-                        value="{{infraccion.vencimientoint}}" >
+                        value="{{infraccion.ordenanzanum}}" >
                 </div>
                 <div class="form-group">
                     Notificado Infracción:
@@ -113,16 +113,16 @@
                 </div>
                 <div class="form-group">
                     Informe de Inspección - Observaciones:
-                    <input type="text" name="inforinspecobsevaciones" class="form-control" placeholder="Observaciones"
+                    <input type="text" name="inforinspecobsevaciones" class="form-control" placeholder="Informe/Observaciones"
                         value="{{infraccion.inforinspecobsevaciones}}" >
                 </div>
 
                 {{!-- <img src="{{infraccion.fotoinf}}" width="200" /> <br /><br /> --}}
 
                 <div class="form-group">
-                    ID Usuario. Cargó Infracción
-                    <input type="text" name="fechapasea" class="form-control" placeholder="Fecha Pase A"
-                        value="{{infraccion.user}}" disabled>
+                    Usuario. Cargó Infracción
+                    <input type="text" name="user" class="form-control" placeholder="Fecha Pase A"
+                        value="{{infraccion.name}}" disabled>
                 </div>
 
                 <div class="form-group">

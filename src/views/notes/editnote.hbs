@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Adrema
-                    <textarea name="adrema" class="form-control">{{note.adrema}}</textarea>
+                    <input name="adrema" class="form-control" value="{{note.adrema}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha
@@ -36,12 +36,12 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha Entrada Inspección
-                    <input type="text" name="fechaentradinspec" class="form-control" placeholder="Fecha Entrada Inspección"
+                    <input type="date" name="fechaentradinspec" class="form-control" placeholder="Fecha Entrada Inspección"
                         value="{{note.fechaentradinspec}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha Inspección Actual
-                    <input type="text" name="inspecfecha" class="form-control" placeholder="Fecha Inspección Actual"
+                    <input type="date" name="inspecfecha" class="form-control" placeholder="Fecha Inspección Actual"
                         value="{{note.inspecfecha}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
@@ -82,9 +82,9 @@
                 <br/>
                 <img src="{{note.fotoinspeccion}}" width="200" /> <br /><br />
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                    ID Usuario. Cargó Inspección
+                    Usuario que Cargó Inspección
                     <input type="text" name="user" class="form-control" placeholder="Fecha Pase A"
-                        value="{{note.user}}" disabled>
+                        value="{{note.name}}" disabled>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">

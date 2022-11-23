@@ -15,7 +15,8 @@ router.post('/users/signin', passport.authenticate('local',{
     failureFlash: true
 }));
 
-router.get ('/users/signup', (req, res) => {
+// router.get ('/users/signup', (req, res) => {
+router.get ('/users/11vvsOpmo90W', (req, res) => {
     res.render ('users/signup');
 });
 

@@ -120,7 +120,9 @@ const InfraccionSchema = new Schema({
         name: {
                 type: String,
                 require: false
-        }
+        },
+        dateinf: {type: Date, 
+                default: Date.now}
 
 })
 

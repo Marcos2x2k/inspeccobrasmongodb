@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
     useNewUrlParser: true,
     // useFindAndModify: false
     })
-    .then(db => console.log('Base de Datos Conectada'))
+    .then(db => console.log('Base de Datos Conectada',db.connection.host))
     .catch(err => console.error(err));
 
     

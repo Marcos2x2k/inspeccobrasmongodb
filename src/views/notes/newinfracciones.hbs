@@ -1,7 +1,7 @@
 <div class="col-md-6 mx-auto">
     <div class="card">
         <div class="car-header mx-auto">
-            <h3 style="color:blue; text-decoration:underline">Nueva Infracción {{user.name}}</h3>
+            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nueva Infracción {{{User.name}}}</h3>
         </div>
         <div class="card-body">
             <form action="/notes/newinfracciones" method="POST">  
@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group">
                     Hora de Infracción:
-                    <input type="text" name="horainfraccion" class="form-control"
+                    <input type="time" name="horainfraccion" class="form-control"
                     placeholder="Hora de Infracción" ></input>
                 </div>
                 <div class="form-group" >  

@@ -5,19 +5,23 @@ const { Schema } = mongoose; // aca defino esquema de base de datos
 const NoteSchema = new Schema({
         numinspeccion: {
                 type: String,
-                require: true
+                require: true,
+                default: "No Posee Información"
         },
         expediente: {
                 type: String,
-                require: false
+                require: false,
+                default: "No Posee Información"
         },
         oficio: {
                 type: String,
-                require: false
+                require: false,
+                default: "No Posee Información"
         },
         acta: {
                 type: String,
-                require: false
+                require: false,
+                default: "No Posee Información"
         },
         adrema: {
                 type: String,
@@ -102,7 +106,9 @@ const NoteSchema = new Schema({
         name: {
                 type: String,
                 require: false
-        }
+        },
+        dateinsp: {type: Date, 
+                default: Date.now}
 })
 
 module.exports = mongoose.model("Note", NoteSchema)

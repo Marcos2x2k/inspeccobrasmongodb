@@ -27,11 +27,12 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Adrema
-                    <textarea name="adrema" class="form-control" style="color: #3d0ee7; font-weight: bold;" disabled>{{note.adrema}} </textarea>
+                    <input name="adrema" class="form-control" style="color: #3d0ee7; font-weight: bold;" 
+                    value="{{note.adrema}}" disabled> </input>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha
-                    <input type="text" name="date" class="form-control" placeholder="Sin Información" value="{{note.date}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                    <input type="date" name="date" class="form-control" placeholder="Sin Información" value="{{note.date}}" style="color: #3d0ee7; font-weight: bold;" disabled>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Cargó la Inspección
@@ -45,7 +46,7 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha Entrada Inspección
-                    <input type="text" name="fechaentradinspec" class="form-control" placeholder="Sin Información"
+                    <input type="date" name="fechaentradinspec" class="form-control" placeholder="Sin Información"
                         value="{{note.fechaentradinspec}}" style="color: #3d0ee7; font-weight: bold;" disabled>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
@@ -92,6 +93,11 @@
                     ID Usuario. Cargó Inspección
                     <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
                         value="{{note.user}}" style="color: #e90e0e" disabled>
+                </div>
+                <div class="form-group">
+                    Fecha y Hora de Carga
+                    <input type="datetime" name="fechapasea" class="form-control" placeholder="Sin Información"
+                    value="{{note.dateinsp}}" style="color: red;" disabled>
                 </div>
                         <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/notes/edit/{{note._id}}"><i class="fas fa-edit" style='font-size:24px;color:rgb(98, 98, 100)' ></i></a> Editar </p>
                 <div class="form-group">

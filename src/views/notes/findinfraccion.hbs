@@ -1,50 +1,5 @@
 <div class="row">
-    <div class="form-group btn-center mx-auto">
-        <form action="/notes/findinfraccion" method="POST">
-            <input type="search" class="form-control" name="actainfnum" placeholder="Buscar x acta Infracción..."
-                autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar x Acta
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/notes/findexpedienteinf" method="POST">
-            <input type="search" class="form-control" name="numexpedienteinf" placeholder="Buscar x Nº Expediente..."
-                autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar Expediente
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/notes/findadremainf" method="POST">
-            <input type="search" class="form-control" name="adremainf" placeholder="Buscar x Nº Adrema..."
-                autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar Adrema
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/notes/findpropietainf" method="POST">
-            <input type="search" class="form-control" name="apellidonombrepropietarioinf" placeholder="Buscar x Propietario..."
-                autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar Propietario
-                </button>
-            </div>
-        </form>
-    </div>
-    <br /><br />
-    <a href="/infracciones/add" class="btn btn-success btn-block">Cargar Infracciones/Multas!</a>
+    <a href="/infracciones/" class="btn btn-success btn-block">Volver a Infracciones/Multas!</a>
     <br /><br />
     {{#each infraccions}}
     <div class="text-dark col-md-3">
@@ -71,8 +26,8 @@
                 <p>{{ horainfraccion }}</p>
                 {{!-- <p>{{ date }}</p>--}}
                 <p style="color:brown; font-style:oblique; font-weight: bold;"
-                    class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Propietario:</p>
-                <p>{{ apellidonombrepropietarioinf }}</p>
+                    class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Adrema:</p>
+                <p>{{ adremainf }}</p>
                 <p style="color:brown; font-style:oblique; font-weight: bold;"
                     class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Inspector a
                     Cargo:</p>
@@ -101,7 +56,7 @@
         <br /> <br />
         <div class="card mx-auto">
             <div class="card-body">
-                <p class"lead" style="color:red; font-weight: bold;"> No existen Infracciones Aun...</p>
+                <p class"lead" style="color:red; font-weight: bold;"> No existe el Dato Buscado...</p>
                 {{!-- <a href="/notes/add" class="btn btn-success btn-block">Cargar Inspección!</a> --}}
             </div>
         </div>
