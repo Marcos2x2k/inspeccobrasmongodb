@@ -36,20 +36,20 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha Entrada Inspección
-                    <input type="date" name="fechaentradinspec" class="form-control" placeholder="Fecha Entrada Inspección"
-                        value="{{note.fechaentradinspec}}">
+                    <input type="date" name="fechaentradinspec" class="form-control"
+                        placeholder="Fecha Entrada Inspección" value="{{note.fechaentradinspec}}">
                 </div>
-                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                {{!-- <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha Inspección Actual
                     <input type="date" name="inspecfecha" class="form-control" placeholder="Fecha Inspección Actual"
                         value="{{note.inspecfecha}}">
-                </div>
+                </div> --}}
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Inspector (N y A)
                     <input type="text" name="inspector" class="form-control" placeholder="Inspector (N y A)"
                         value="{{note.inspector}}">
                 </div>
-                
+
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Número de Intimaciones
                     <input type="text" name="intimacion" class="form-control" placeholder="Número de Intimaciones"
@@ -62,8 +62,8 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Observaciones
-                    <textarea type="text" name="observacion" class="form-control" placeholder="Observaciones"
-                        value="{{note.observacion}}"></textarea>
+                    <textarea type="text" name="observacion" class="form-control"
+                        placeholder="Observaciones">{{note.observacion}}</textarea>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Pase a Num.Destino
@@ -79,12 +79,22 @@
                     <input type="date" name="fechapasea" class="form-control" placeholder="Fecha Pase A"
                         value="{{note.fechapasea}}">
                 </div>
-                <br/>
-                <img src="{{note.fotoinspeccion}}" width="200" /> <br /><br />
+                {{!-- <label style="color:brown; font-weight:bold">Fotos Inspección::</label> --}}
+                {{!-- <br />
+                <img style="border-radius:30px;" src="{{note.path}}" width="300" /> <br /><br /> --}}
+
+                Foto 1:
+                <br />
+                <img style="border-radius:20px;" src="{{note.path}}" alt="_Imagen no Disponible" width="150" />
+                <br />
+                Foto 2:
+                <br />
+                <img style="border-radius:20px;" src="{{note.pathdos}}" alt="_Imagen no Disponible" width="150" />
+                <br /><br />
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Usuario que Cargó Inspección
-                    <input type="text" name="user" class="form-control" placeholder="Fecha Pase A"
-                        value="{{note.name}}" disabled>
+                    <input type="text" name="user" class="form-control" placeholder="Fecha Pase A" value="{{note.name}}"
+                        disabled>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">
@@ -92,7 +102,8 @@
                     </button>
                 </div>
                 <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/notes"><i class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p> 
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/notes"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
                     {{!-- <button class="btn btn-primary btn-block" href="/notes">
                         Volver
                     </button> --}}

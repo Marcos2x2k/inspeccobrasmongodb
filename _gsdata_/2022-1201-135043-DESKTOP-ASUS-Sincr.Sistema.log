@@ -1,0 +1,20 @@
+2022-12-01 13:50:53: == Sinc. comenzada por User Command
+2022-12-01 13:50:53: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/4328ac0b-3eb0-4aa3-bc26-253bab855e26.jpg
+2022-12-01 13:50:53: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/inspecobrasMdb back pc 30-11 12-09.rar' -> '//WALTERSOTELO-PC/SistemaObras/inspecobrasMdb back pc 30-11 12-09.rar' (1,366,399)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/estadistica.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/estadistica.js' (1,499)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/Intimacion.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/Intimacion.js' (3,236)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/Note.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/Note.js' (3,817)
+2022-12-01 13:50:53: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/38240c55-055c-4bde-be79-132a9c2cc2fd.jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/38240c55-055c-4bde-be79-132a9c2cc2fd.jpg' (797,242)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/routes/notes.js' -> '//WALTERSOTELO-PC/SistemaObras/src/routes/notes.js' (35,102)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editintimacion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editintimacion.hbs' (5,396)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editnote.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editnote.hbs' (6,379)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listestadistica.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listestadistica.hbs' (2,535)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listintimacion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listintimacion.hbs' (6,283)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listnote.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listnote.hbs' (8,147)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newestadisticas.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newestadisticas.hbs' (3,075)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newintimaciones.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newintimaciones.hbs' (5,889)
+2022-12-01 13:50:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newnotes.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newnotes.hbs' (7,220)
+2022-12-01 13:50:53: Deleted Recycled: //WALTERSOTELO-PC/SistemaObras/_gsdata_/_saved_/INSPECOBRAS APP.lnk
+2022-12-01 13:50:53: Deleted Recycled: //WALTERSOTELO-PC/SistemaObras/_gsdata_/_saved_/Sistema.bat
+2022-12-01 13:50:53: Deleted Recycled: //WALTERSOTELO-PC/SistemaObras/_gsdata_/_saved_/iniciar bat invisible.VBS
+2022-12-01 13:50:54: == Sinc. Completa. Tiempo: 00:00:01, Velocidad: 0.00/s, OK: 15, Errores: 0

@@ -1,7 +1,0 @@
-2022-11-11 12:10:06: == Sinc. comenzada por User Command
-2022-11-11 12:10:07: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/index.js' -> '//WALTERSOTELO-PC/SistemaObras/src/index.js' (2,224)
-2022-11-11 12:10:07: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/routes/notes.js' -> '//WALTERSOTELO-PC/SistemaObras/src/routes/notes.js' (21,774)
-2022-11-11 12:10:07: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/expediente.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/expediente.js' (2,917)
-2022-11-11 12:10:07: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/findexpediente.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/findexpediente.hbs' (2,891)
-2022-11-11 12:10:07: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/allexpedientes.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/allexpedientes.hbs' (4,001)
-2022-11-11 12:10:07: == Sinc. Completa. Tiempo: 00:00:01, Velocidad: 0.00/s, OK: 5, Errores: 0

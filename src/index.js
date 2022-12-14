@@ -1,10 +1,14 @@
 const express = require ('express');
+const morgan = require('morgan');
+const multer = require('multer');
+const uuid = require('uuid/v4');
 const path = require('path');
 const exphbs = require("express-handlebars");
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require ('connect-flash'); // modulo para enviar mensajes de advertencia
 const passport = require('passport');
+// const { format } = require('timeago.js');
 
 
 // Inicilializaciones
@@ -15,6 +19,7 @@ require('./config/passport');
 //setting
 app.set("port", process.env.PORT || 3001);
 app.set("views", path.join(__dirname, "views"));
+
 
 const hbs = exphbs.create({
   defaultLayout: "main",
@@ -33,6 +38,45 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(morgan('dev'));
+app.use(express.urlencoded({extended: false}));
+
+// ** original andando 29-11-22
+// const storage = multer.diskStorage({
+//     destination: path.join(__dirname, 'public/img/uploads'),
+//     filename: (req, file, cb, filename) => {
+//         // console.log(file);
+//         cb(null, uuid() + path.extname(file.originalname));
+//     }
+// }) 
+
+// nuevo prueba de varios archivos
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'src/public/img/uploads')
+  },
+  filename: function (req, file, cb) {
+      cb(null,Date.now()+path.basename(file.originalname))//path.extname(file.originalname)) //Appending extension
+  }
+})
+
+//** viejo anda */
+app.use(multer({storage:storage}).any('image'));
+
+// ** nuevo
+// app.use(multer({
+//   storage: storage,
+//   fileFilter: (req, file, cb) => {
+//       if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+//           cb(null, true);
+//       } else {
+//           cb(null, false);
+//           return cb(new Error('Only .png, .jpg and .jpeg Formatos Incorrectos!'));
+//       }
+//   }
+// }).array('image',8))
+
+
 //aca definimos inicio de sesion
 app.use(passport.initialize())
 app.use(passport.session());

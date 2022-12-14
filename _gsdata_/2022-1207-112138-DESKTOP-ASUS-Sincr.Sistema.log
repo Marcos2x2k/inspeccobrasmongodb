@@ -1,0 +1,43 @@
+2022-12-07 11:21:56: == Sinc. comenzada por User Command
+2022-12-07 11:21:56: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254437826.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616298.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616330.png
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616379.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616397.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616414.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616428.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616469.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254616527.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254876805.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254876825.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254876878.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254876974.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670254958854.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255009987.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255010004.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255010054.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255010130.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255010142.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255010175.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255010185.jpg
+2022-12-07 11:21:57: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670255010199.jpg
+2022-12-07 11:21:57: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/Note.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/Note.js' (5,186)
+2022-12-07 11:21:57: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/Intimacion.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/Intimacion.js' (4,818)
+2022-12-07 11:21:57: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/estadistica.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/estadistica.js' (2,930)
+2022-12-07 11:22:01: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/1670422513504 - (1).jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670422513504 - (1).jpg' (1,384,569)
+2022-12-07 11:22:01: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/1670422513602 - (10).jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670422513602 - (10).jpg' (517,593)
+2022-12-07 11:22:01: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/1670422513565 - (1).png' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670422513565 - (1).png' (1,753,195)
+2022-12-07 11:22:04: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/1670422774946 - (1).jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670422774946 - (1).jpg' (1,384,569)
+2022-12-07 11:22:04: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/1670422513609 - (11).jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670422513609 - (11).jpg' (683,712)
+2022-12-07 11:22:04: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/1670422774975 - (1).png' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/1670422774975 - (1).png' (1,753,195)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editintimacion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editintimacion.hbs' (5,933)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editestadistica.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editestadistica.hbs' (2,788)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/routes/notes.js' -> '//WALTERSOTELO-PC/SistemaObras/src/routes/notes.js' (40,666)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listintimacion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listintimacion.hbs' (9,161)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editnote.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editnote.hbs' (6,811)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listestadistica.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listestadistica.hbs' (5,155)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newintimaciones.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newintimaciones.hbs' (5,910)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newestadisticas.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newestadisticas.hbs' (3,158)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listnote.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listnote.hbs' (11,056)
+2022-12-07 11:22:04: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newnotes.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newnotes.hbs' (6,252)
+2022-12-07 11:22:05: == Sinc. Completa. Tiempo: 00:00:09, Velocidad: 1.22 MB/s, OK: 41, Errores: 0

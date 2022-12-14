@@ -18,24 +18,73 @@
                 </div>
                 <div class="form-group">
                     Hora estadistica:
-                    <textarea name="horainfraccion" class="form-control"
-                        style="color: #3d0ee7; font-weight: bold;" disabled>{{estadistica.horaestadistica}}</textarea>
-                </div>
-                <div class="form-group">
-                    ID Usuario Cargó Estadistica
-                    <input type="text" name="name" class="form-control" placeholder="Sin Información"
-                        value="{{estadistica.user}}" style="color: red;"  disabled>
-                </div>
-                <div class="form-group">
-                    Fecha y Hora de Carga
-                    <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
-                    value="{{estadistica.dateest}}" style="color: red;" disabled>
-                </div>
-                
+                    <input type="time" name="horaestadistica" class="form-control"
+                        style="color: #3d0ee7; font-weight: bold;" value="{{estadistica.horaestadistica}}" disabled>
+                    <div class="form-group">
+                        ID Usuario Cargó Estadistica
+                        <input type="text" name="name" class="form-control" placeholder="Sin Información"
+                            value="{{estadistica.user}}" style="color: red;" disabled>
+                    </div>
+                    <div class="form-group">
+                        Fecha
+                        <input type="date" name="fechapasea" class="form-control" placeholder="Sin Información"
+                            value="{{estadistica.dateest}}" style="color: red;" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold">Fotos 1:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.path}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
 
-                <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/estadisticas"><i class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
-                </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold">Foto 2:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.pathdos}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-weight:bold">Foto 3:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.pathtres}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold">Foto 4:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.pathcuatro}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold">Foto 5:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.pathcinco}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold">Foto 6:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.pathseis}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold">Foto 7:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.pathsiete}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold">Foto 8:</label>
+                        <br />
+                        <img style="border-radius:30px;" src="{{estadistica.pathocho}}" alt="_Imagen No Cargada"
+                            width="400" /> <br /><br />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/estadisticas"><i
+                                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
+                        </div>
             </form>
         </div>
     </div>

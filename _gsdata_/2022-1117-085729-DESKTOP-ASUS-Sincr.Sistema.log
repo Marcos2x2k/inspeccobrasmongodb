@@ -1,5 +1,0 @@
-2022-11-17 08:57:53: == Sinc. comenzada por User Command
-2022-11-17 08:57:53: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/expedientes 16-11-22.csv' -> '//WALTERSOTELO-PC/SistemaObras/expedientes 16-11-22.csv' (1,172,906)
-2022-11-17 08:57:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/routes/notes.js' -> '//WALTERSOTELO-PC/SistemaObras/src/routes/notes.js' (23,453)
-2022-11-17 08:57:53: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/findexpediente.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/findexpediente.hbs' (3,330)
-2022-11-17 08:57:54: == Sinc. Completa. Tiempo: 00:00:01, Velocidad: 0.00/s, OK: 3, Errores: 0

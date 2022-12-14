@@ -1,0 +1,21 @@
+2022-12-02 12:18:33: == Sinc. comenzada por User Command
+2022-12-02 12:18:33: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/inspecobrasMdb back pc 30-11 12-09.rar
+2022-12-02 12:18:33: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/PLANILLA DE EXPEDIENTES -CHAPARRO-1 11-11-22-para MONGO.csv
+2022-12-02 12:18:33: Borrar Archivo //WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/38240c55-055c-4bde-be79-132a9c2cc2fd.jpg
+2022-12-02 12:18:33: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/a1e6cbe3-2923-4585-839b-e8fa2326aabb.png' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/a1e6cbe3-2923-4585-839b-e8fa2326aabb.png' (243,562)
+2022-12-02 12:18:33: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/57ffc542-e31d-487f-960f-59a1f83f8157.jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/57ffc542-e31d-487f-960f-59a1f83f8157.jpg' (8,425)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/models/infraccion.js' -> '//WALTERSOTELO-PC/SistemaObras/src/models/infraccion.js' (4,246)
+2022-12-02 12:18:33: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/f8ea4562-78a7-4fc8-a12e-164f6b9142bb.jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/f8ea4562-78a7-4fc8-a12e-164f6b9142bb.jpg' (8,425)
+2022-12-02 12:18:33: Copiar Nueva 'D:/Marcos Muni/inspecobrasMdb/src/public/img/uploads/f8ee63c8-5fe9-4c0d-a3cd-f123ad35befe.jpg' -> '//WALTERSOTELO-PC/SistemaObras/src/public/img/uploads/f8ee63c8-5fe9-4c0d-a3cd-f123ad35befe.jpg' (797,242)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/routes/notes.js' -> '//WALTERSOTELO-PC/SistemaObras/src/routes/notes.js' (36,182)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editestadistica.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editestadistica.hbs' (2,175)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editinfraccion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editinfraccion.hbs' (8,757)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/editintimacion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/editintimacion.hbs' (5,471)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listestadistica.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listestadistica.hbs' (2,520)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listexpediente.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listexpediente.hbs' (7,687)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listinfraccion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listinfraccion.hbs' (8,919)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listintimacion.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listintimacion.hbs' (6,434)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/listnote.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/listnote.hbs' (8,194)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newintimaciones.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newintimaciones.hbs' (5,889)
+2022-12-02 12:18:33: Copiar Sobre 'D:/Marcos Muni/inspecobrasMdb/src/views/notes/newinfracciones.hbs' -> '//WALTERSOTELO-PC/SistemaObras/src/views/notes/newinfracciones.hbs' (7,177)
+2022-12-02 12:18:34: == Sinc. Completa. Tiempo: 00:00:01, Velocidad: 0.00/s, OK: 19, Errores: 0

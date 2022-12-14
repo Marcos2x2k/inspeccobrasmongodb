@@ -4,7 +4,7 @@
             <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nueva Intimación {{user.name}}</h3>
         </div>
         <div class="card-body">
-            <form action="/notes/newintimaciones" method="POST">  
+            <form action="/notes/newintimaciones" method="POST"  enctype="multipart/form-data">  
             <div class="form-group">  
                     Nº Intimación:                 
                     <input type="text" name="boletaintnum" class="form-control" 
@@ -52,7 +52,7 @@
                 </div> 
                 <div class="form-group">
                     Hora de Intimación:
-                    <input name="horaintimacion" class="form-control"
+                    <input type="time" name="horaintimacion" class="form-control"
                     placeholder="Hora de Intimación"></input>
                 </div>                 
                 <div class="form-group">
@@ -80,12 +80,21 @@
                     <input name="numcodigoint" class="form-control"
                     placeholder="Num. Codigo" ></input>
                 </div>
-                <div class="form-group">
+                <label style="font-weight:bold">Seleccione Fotos Intimación (Máximo 8):</label>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile02"
+                            accept=".jpg,.png" multiple>
+                        <label class="custom-file-label" for="inputGroupFile02"
+                            aria-describedby="inputGroupFileAddon02">Selecciones Foto</label>
+                    </div>
+                </div>
+                {{!-- <div class="form-group">
                     foto Intimación:
                     <input type="file" src="" 
                     name="fotoint"
                     width="40" height="40" disabled></input>
-                </div>   
+                </div>    --}}
                 {{!-- <div class="form-group">
                     Usuario Actual:
                     <input type="text" src="{{users.name}}" 
