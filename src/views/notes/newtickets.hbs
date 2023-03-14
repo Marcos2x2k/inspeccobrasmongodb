@@ -1,0 +1,141 @@
+<div class="col-md-8 mx-auto">
+    <div class="card">
+        <div class="car-header mx-auto">
+            <br />
+            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Ticket</h3>
+        </div>
+        <div class="card-body">
+            <form action="/notes/newtickets" method="POST">
+                <div class="form-group">
+                    N° Ticket:
+                    <input style="font-weight: bold; color:green" minlength="0" maxlength="11" type="text"
+                        name="numticket" class="form-control" placeholder="0000-0-0000" required autofocus>
+                </div>
+                <div class="form-group">
+                    Iniciador (Nombre y Apellido):
+                    <input style="font-weight: bold; color:green" type="text" name="iniciador" class="form-control"
+                        placeholder="Nombre y Apellido">
+                </div>
+                <div class="form-group">
+                    Ubicación:
+                    <input style="font-weight: bold; color:green" name="ubicacion" type="text" class="form-control"
+                        placeholder="Ubicación" autofocus></input>
+                </div>
+                <div class="form-group">
+                    contacto Celular:
+                    <input style="font-weight: bold; color:green" name="celular" type="text" class="form-control"
+                        placeholder="Celular"></input>
+                </div>
+                <div class="form-group">
+                    contacto E-mail:
+                    <input style="font-weight: bold; color:green" name="email" class="form-control" type="email"
+                        placeholder="E-mail"></input>
+                </div>
+                <div class="form-group">
+                    Adrema:
+                    <input style="font-weight: bold; color:green" name="adrema" class="form-control" type="text"
+                        placeholder="Adrema"></input>
+                </div>
+                <div class="form-group">
+                    Director de Obra:
+                    <input style="font-weight: bold; color:green" name="directordeobra" class="form-control"
+                        placeholder="Director de Obra"></input>
+                </div>
+                <div class="form-group">
+                    Destino de Obra:
+                    <input style="font-weight: bold; color:green" name="destinodeobra" class="form-control"
+                        placeholder="Destino de Obra"></input>
+                </div>
+                <div class="form-group">
+                    Superficie de Terreno:
+                    <input style="font-weight: bold; color:green" name="superficieterreno" class="form-control"
+                        placeholder="Superficie de Terreno"></input>
+                </div>
+                <div class="form-group">
+                    Superficie a Construir:
+                    <input style="font-weight: bold; color:green" name="superficieaconstruir" class="form-control"
+                        placeholder="Superficie a Construir"></input>
+                </div>
+                <div class="form-group">
+                    Superficie Planta Baja:
+                    <input style="font-weight: bold; color:green" name="supsubptabja" class="form-control"
+                        placeholder="Superficie Planta Baja"></input>
+                </div>
+                <div class="form-group">
+                    Superficie Planta Alta y Más:
+                    <input style="font-weight: bold; color:green" name="supsubptaaltaymas" class="form-control"
+                        placeholder="Superficie Planta Alta y Más"></input>
+                </div>
+                <div class="form-group">
+                    Zona (opcional):
+                    <input style="font-weight: bold; color:green" name="zona" class="form-control"
+                        placeholder="Zona"></input>
+                </div>
+                <div class="form-group">
+                    Observación:
+                    <textarea style="resize:none; font-weight: bold; color:green" name="observacion" rows="2" cols="40"
+                        class="form-control" placeholder="Observación"></textarea>
+                </div>
+                <div class="form-group">
+                    Permiso de Obra:
+                    <input style="font-weight: bold; color:green" name="permisoobra" class="form-control"
+                        placeholder="Permiso de Obra"></input>
+                </div>
+                <div class="form-group">
+                    Acta de Infracción:
+                    <input style="font-weight: bold; color:green" name="actainfraccion" class="form-control"
+                        placeholder="Acta de Infracción"></input>
+                </div>
+                <div class="form-group">
+                    Fecha entrada a inspecciones:
+                    <input style="font-weight: bold; color:green" name="fechaentradainspecciones" type="date"
+                        class="form-control" placeholder="Fecha entrada a inspecciones"></input>
+                </div>
+                <div class="form-group">
+                    Inspector:
+                    <input style="font-weight: bold; color:green" name="inspeccioninspector" class="form-control"
+                        placeholder="Inspector"></input>
+                </div>
+                <div class="form-group">
+                    Fecha de Inspector:
+                    <input style="font-weight: bold; color:green" name="inspeccionfecha" type="date"
+                        class="form-control" placeholder="Fecha de Inspector"></input>
+                </div>
+                <div class="form-group">
+                    Posee Intimaciones (si/no):
+                    <input style="font-weight: bold; color:green" name="intimaciones" class="form-control"
+                        placeholder="intimaciones"></input>
+                </div>
+                <div class="form-group">
+                    Posee Infracciones (si/no):
+                    <input style="font-weight: bold; color:green" name="infracciones" class="form-control"
+                        placeholder="Infracciones"></input>
+                </div>
+                <div class="form-group">
+                    Pase a:
+                    <input style="font-weight: bold; color:green" name="pasea" class="form-control"
+                        placeholder="Pase a"></input>
+                </div>
+                <div class="form-group">
+                    Fecha de Pase a:
+                    <input type="date" style="font-weight: bold; color:green" name="fechapasea" class="form-control"
+                        placeholder="Fecha de Pase a"></input>
+                </div>
+                <div class="form-group">
+                    Usuario Actual:
+                    <input style="color:rgb(128, 131, 128)" value="{{user}}" name="user" class="form-control"
+                        placeholder="No Definido" disabled></input>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Grabar
+                    </button>
+                </div>
+                <div>
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/ticket/listado"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

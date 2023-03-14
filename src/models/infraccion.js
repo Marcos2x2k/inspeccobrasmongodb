@@ -24,7 +24,7 @@ const InfraccionSchema = new Schema({
         adremainf: {
                 type: String,
                 require: false,
-                default: "Visitante"
+                default: "No Posee Información"
         },
         apellidonombrepropietarioinf: {
                 type: String,
@@ -106,21 +106,95 @@ const InfraccionSchema = new Schema({
                 require: false,
                 default: "No Posee Información"
         },
-        fotoinf: {
+        // fotoinf: {
+        //         type: String,
+        //         require: false,
+        //         default: "No Posee Información"
+        // },
+        // filename: {
+        //         type: String
+        // },
+        // path: {
+        //         type: String
+        // },
+        // originalname: {
+        //         type: String
+        // },
+        // mimetype: {
+        //         type: String
+        // },
+        // size: { 
+        //         type: Number
+        // },
+        filename: {
+                type: String
+        },
+        path: {
                 type: String,
-                require: false,
-                default: "No Posee Información"
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamedos: {
+                type: String
+        },
+        pathdos: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenametres: {
+                type: String
+        },
+        pathtres: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamecuatro: {
+                type: String,
+        },
+        pathcuatro: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamecinco: {
+                type: String,
+        },
+        pathcinco: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenameseis: {
+                type: String,
+        },
+        pathseis: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamesiete: {
+                type: String
+        },
+        pathsiete: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenameocho: {
+                type: String
+        },
+        pathocho: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
         },
         // este user sirve para vincular las cuentas
         user: {
                 type: String,
                 require: false,
-                default: "0000"
-        },
-        name: {
+                default: "Administrador"
+            },
+            name: {
                 type: String,
-                require: false
-        }
+                require: false,
+                default: "Administrador"
+            },
+            date: {type: Date, 
+                default: Date.now},
 
 })
 

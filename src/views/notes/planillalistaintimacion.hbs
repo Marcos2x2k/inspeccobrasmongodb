@@ -1,0 +1,93 @@
+<div class="row">
+    {{!-- <br /><br /> --}}
+    <div class="form-group btn-center mx-auto">
+        <form action="/intimacion/findlistainiciador" method="POST">
+            <input type="search" class="form-control" name="nomyape" placeholder="Buscar x NyApellido..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Iniciador
+                </button>
+
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/intimacion/findlistadni" method="POST">
+            <input type="search" class="form-control" name="dni" placeholder="Buscar x DNI..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar DNI
+                </button>
+
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/intimacion/findlistafechaentrada" method="POST">
+            <input type="search" class="form-control" name="fechaingreso" placeholder="Buscar x Fecha..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Fecha
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <a href="/intimaciones/add" class="btn btn-success btn-block">Agregar Intimación!</a>
+    <a href="/intimaciones/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+    {{!-- <br /> --}}
+    <div class="form-group btn-center mx-auto">
+        {{!-- <br /> --}}
+        {{!-- <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
+            LISTADO DE MESA DE ENTRADA</h5> --}}
+        <br />
+        <div class="form-group btn-center mx-auto">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr style="background-color: rgb(172, 214, 22);font-weight: bold;; color:black;">
+                        {{!-- <td style="visibility:collapse;">ID</td> --}}
+                        <td>Nº Boleta Intimación</td>
+                        <td>señor/Señora</td>
+                        {{!-- <td>Domicilio Particular</td> --}}
+                        <td>lugar de Actuación</td>
+                        <td>Fecha Intimación</td>
+                        <td>Hora Intimación</td>
+                        <td>Nº Expediente</td>
+                        <td>Plazo de</td>
+                        <td>Inspector</td>
+                        <td>Opciones</td>
+                        <td>Suplementario</td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each intimacions}}
+                    <tr>
+                        {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}}
+                        <td>{{ boletaintnum }}</td>
+                        <td>{{ senorsenora }}</td>
+                        <td>{{ lugaractuacion }}</td>
+                        <td>{{ fechaintimacion }}</td>
+                        <td>{{ horaintimacion }}</td>
+                        <td>{{ numexpedienteint }}</td>
+                        <td>{{ otorgaplazode }}</td>
+                        <td>{{ inspectorint }}</td>
+                        <td>
+                            <a class="dropdown-item" href="/intimaciones/add/{{_id}}"
+                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Intimación</a>
+                            <a class="dropdown-item" href="/intimaciones/edit/{{_id}}"
+                                style="color:rgb(165, 196, 28)">Editar</a>
+                        </td>
+                        <td>
+                            <a class="dropdown-item" href="/intimaciones/list/{{_id}}"
+                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+             <a class="dropdown-item" href="/intimaciones/delete/{{_id}}"
+                                style="color:rgb(17, 231, 10);font-weight: bold;text-shadow: 1px 1px 2px rgb(235, 11, 11)">Borrar</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{!-- {{else}} --}}

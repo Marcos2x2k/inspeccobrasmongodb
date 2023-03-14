@@ -3,138 +3,170 @@
         <div class="card-header">
             <h3>Editar Infracción</h3>
         </div>
-        <div class="card-body">
+        {{!-- <div class="card-body">
             <form action="/notes/editinfraccion/{{infraccion._id}}?_method=PUT" method="POST">
-                <input type="hidden" name="_method" value="PUT">
-        <div class="card-body">
-            <form action="/notes/editinfraccion/{{infraccion._id}}?_method=PUT" method="POST">
-                <input type="hidden" name="_method" value="PUT">
-                <div class="form-group">
-                    Acta Infraccion Nº:
-                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num.Inspección"
-                        value="{{infraccion.actainfnum}}" >
-                </div>
-                <div class="form-group">
-                    Fecha de Infraccion:
-                    <input type="text" name="expediente" class="form-control" placeholder="Expediente"
-                        value="{{infraccion.fechainfraccion}}" >
-                </div>
-                <div class="form-group">
-                    Hora de Infracción:
-                    <textarea name="horainfraccion" class="form-control"
-                        >{{infraccion.horainfraccion}}</textarea>
-                </div>
-                <div class="form-group">
-                    Nº de Expediente:
-                    <input type="text" name="numexpedienteinf" class="form-control" placeholder="señor/señora"
-                        value="{{infraccion.numexpedienteinf}}" >
-                </div>
-                <div class="form-group">
-                    Adrema:
-                    <input type="text" name="adremainf" class="form-control" placeholder="Domicilio Particular"
-                        value="{{infraccion.adremainf}}" >
-                </div>
-                <div class="form-group">
-                    Propietario (AyN):
-                    <input type="text" name="apellidonombrepropietarioinf" class="form-control"
-                        placeholder="Lugar de Actuación" value="{{infraccion.apellidonombrepropietarioinf}}" >
-                </div>
-                <div class="form-group">
-                    Domicilio Propietario:
-                    <input type="text" name="domiciliopropietarioinf" class="form-control"
-                        placeholder="Domicilio Propietario" value="{{infraccion.domiciliopropietarioinf}}"></input>
-                </div>
-                <div class="form-group">
-                    D.N.I. Propietario:
-                    <input type="text" name="dnipropietarioinf" class="form-control" placeholder="DNI Propietario"
-                        value="{{infraccion.dnipropietarioinf}}" >
-                </div>
+                <input type="hidden" name="_method" value="PUT"> --}}
+                <div class="card-body">
+                    <form action="/notes/editinfraccion/{{infraccion._id}}?_method=PUT" method="POST">
+                        <input type="hidden" name="_method" value="PUT">
+                        <div class="form-group">
+                            Acta Infraccion Nº:
+                            <input type="text" name="actainfnum" class="form-control" placeholder="Nº Acta Infracción"
+                                value="{{infraccion.actainfnum}}">
+                        </div>
+                        <div class="form-group">
+                            Fecha de Infraccion:
+                            <input type="date" name="fechainfraccion" class="form-control"
+                                placeholder="Fecha Infracción" value="{{infraccion.fechainfraccion}}">
+                        </div>
+                        <div class="form-group">
+                            Hora de Infracción:
+                            <input type="time" name="horainfraccion" class="form-control"
+                                value="{{infraccion.horainfraccion}}">
+                        </div>
+                        <div class="form-group">
+                            Nº de Expediente:
+                            <input type="text" name="numexpedienteinf" class="form-control" placeholder="Nº Expediente"
+                                value="{{infraccion.numexpedienteinf}}">
+                        </div>
+                        <div class="form-group">
+                            Adrema:
+                            <input type="text" name="adremainf" class="form-control" placeholder="Nº Adrema"
+                                value="{{infraccion.adremainf}}">
+                        </div>
+                        <div class="form-group">
+                            Propietario (AyN):
+                            <input type="text" name="apellidonombrepropietarioinf" class="form-control"
+                                placeholder="AyN Propietario" value="{{infraccion.apellidonombrepropietarioinf}}">
+                        </div>
+                        <div class="form-group">
+                            Domicilio Propietario:
+                            <input type="text" name="domiciliopropietarioinf" class="form-control"
+                                placeholder="Domicilio Propietario"
+                                value="{{infraccion.domiciliopropietarioinf}}"></input>
+                        </div>
+                        <div class="form-group">
+                            D.N.I. Propietario:
+                            <input type="text" name="dnipropietarioinf" class="form-control"
+                                placeholder="DNI Propietario" value="{{infraccion.dnipropietarioinf}}">
+                        </div>
 
-                <div class="form-group">
-                    Cuil/Cuit Propietario:
-                    <input type="text" name="cuilpropietarioinf" class="form-control"
-                        placeholder="Cuil/Cuit Propietario" value="{{infraccion.cuilpropietarioinf}}" >
-                </div>
-                <div class="form-group">
-                    Lugar de Constitución:
-                    <input type="text" name="lugardeconstitucioninf" class="form-control"
-                        placeholder="Lugar de Constitución" value="{{infraccion.lugardeconstitucioninf}}" >
-                </div>
-                
-                <div class="form-group">
-                    Causas:
-                    <input type="text" name="causasinf" class="form-control" placeholder="Causas"
-                        value="{{infraccion.causasinf}}" >
-                </div>
-                <div class="form-group">
-                    Ordenanza Número:
-                    <input type="text" name="ordenanzanum" class="form-control" placeholder="Ordenanza Número"
-                        value="{{infraccion.vencimientoint}}" >
-                </div>
-                <div class="form-group">
-                    Notificado Infracción:
-                    <textarea type="text" name="notificadoinf" class="form-control" placeholder="Notificado Infracción"
-                        value="{{infraccion.notificadoinf}}" ></textarea>
-                </div>
-                <div class="form-group">
-                    Inciso Número:
-                    <input type="text" name="incisonum" class="form-control" placeholder="Inciso Número"
-                        value="{{infraccion.incisonum}}" >
-                </div>
-                <div class="form-group">
-                    Observación:
-                    <input type="text" name="observacion" class="form-control" placeholder="Observación"
-                        value="{{infraccion.observacion}}" >
-                </div>
-                <div class="form-group">
-                    Testigo (AyN):
-                    <input type="text" name="apellidonombretestigoinf" class="form-control" placeholder="Testigo (AyN)"
-                        value="{{infraccion.apellidonombretestigoinf}}" >
-                </div>
-                <div class="form-group">
-                    Inspector (AyN):
-                    <input type="text" name="inspectorinf" class="form-control" placeholder="Inspector (AyN)"
-                        value="{{infraccion.inspectorinf}}" >
-                </div>
-                <div class="form-group">
-                    Código Inspector:
-                    <input type="text" name="inspectorcod" class="form-control" placeholder="Código Inspector"
-                        value="{{infraccion.inspectorcod}}" >
-                </div>
-                <div class="form-group">
-                    Detalle General:
-                    <input type="text" name="detallegeneral" class="form-control" placeholder="Detalle General"
-                        value="{{infraccion.detallegeneral}}" >
-                </div>
-                <div class="form-group">
-                    Informe de inspeccion Nº:
-                    <input type="text" name="informeinspecnum" class="form-control" placeholder="Informe de inspeccion Nº"
-                        value="{{infraccion.informeinspecnum}}" >
-                </div>
-                <div class="form-group">
-                    Informe de Inspección - Observaciones:
-                    <input type="text" name="inforinspecobsevaciones" class="form-control" placeholder="Observaciones"
-                        value="{{infraccion.inforinspecobsevaciones}}" >
-                </div>
+                        <div class="form-group">
+                            Cuil/Cuit Propietario:
+                            <input type="text" name="cuilpropietarioinf" class="form-control"
+                                placeholder="Cuil/Cuit Propietario" value="{{infraccion.cuilpropietarioinf}}">
+                        </div>
+                        <div class="form-group">
+                            Lugar de Constitución:
+                            <input type="text" name="lugardeconstitucioninf" class="form-control"
+                                placeholder="Lugar de Constitución" value="{{infraccion.lugardeconstitucioninf}}">
+                        </div>
 
-                {{!-- <img src="{{infraccion.fotoinf}}" width="200" /> <br /><br /> --}}
+                        <div class="form-group">
+                            Causas:
+                            <input type="text" name="causasinf" class="form-control" placeholder="Causas"
+                                value="{{infraccion.causasinf}}">
+                        </div>
+                        <div class="form-group">
+                            Ordenanza Número:
+                            <input type="text" name="ordenanzanum" class="form-control" placeholder="Ordenanza Número"
+                                value="{{infraccion.ordenanzanum}}">
+                        </div>
+                        <div class="form-group">
+                            Notificado Infracción:
+                            <input type="text" name="notificadoinf" class="form-control"
+                                placeholder="Notificado Infracción" value="{{infraccion.notificadoinf}}"></input>
+                        </div>
+                        <div class="form-group">
+                            Inciso Número:
+                            <input type="text" name="incisonum" class="form-control" placeholder="Inciso Número"
+                                value="{{infraccion.incisonum}}">
+                        </div>
+                        <div class="form-group">
+                            Observación:
+                            <textarea type="text" name="observacion" class="form-control"
+                                placeholder="Observación">{{infraccion.observacion}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            Testigo (AyN):
+                            <input type="text" name="apellidonombretestigoinf" class="form-control"
+                                placeholder="Testigo (AyN)" value="{{infraccion.apellidonombretestigoinf}}">
+                        </div>
+                        <div class="form-group">
+                            Inspector (AyN):
+                            <input type="text" name="inspectorinf" class="form-control" placeholder="Inspector (AyN)"
+                                value="{{infraccion.inspectorinf}}">
+                        </div>
+                        <div class="form-group">
+                            Código Inspector:
+                            <input type="text" name="inspectorcod" class="form-control" placeholder="Código Inspector"
+                                value="{{infraccion.inspectorcod}}">
+                        </div>
+                        <div class="form-group">
+                            Detalle General:
+                            <input type="text" name="detallegeneral" class="form-control" placeholder="Detalle General"
+                                value="{{infraccion.detallegeneral}}">
+                        </div>
+                        <div class="form-group">
+                            Informe de inspeccion Nº:
+                            <input type="text" name="informeinspecnum" class="form-control"
+                                placeholder="Informe de inspeccion Nº" value="{{infraccion.informeinspecnum}}">
+                        </div>
+                        <div class="form-group">
+                            Informe de Inspección - Observaciones:
+                            <input type="text" name="inforinspecobsevaciones" class="form-control"
+                                placeholder="Informe/Observaciones" value="{{infraccion.inforinspecobsevaciones}}">
+                        </div>
+                        {{!-- <div class="form-group">
+                            Fotos Infracción:
+                            </br>
+                            <img src="{{infraccion.path}}" width="300" style="border-radius:50px;" />
+                        </div> --}}
+                        <br />
+                        <label style="font-weight:bold">Las Fotos no son Editables!</label>
+                        <div>
+                            Foto 1:
+                            <br />
+                            <img style="border-radius:20px;" src="{{infraccion.path}}" alt="_Imagen no Disponible"
+                                width="220" height="200" />
+                            <br />
+                            <br />
+                            Foto 2:
+                            <br />
+                            <img style="border-radius:20px;" src="{{infraccion.pathdos}}" alt="_Imagen no Disponible"
+                                width="220" height="200" />                            
+                            <br />
+                            <br />
+                            Foto 3:
+                            <br />
+                            <img style="border-radius:20px;" src="{{infraccion.pathtres}}" alt="_Imagen no Disponible"
+                                width="220" height="200" />
+                            <br />
+                            <br />
+                            Foto 4:
+                            <br />
+                            <img style="border-radius:20px;" src="{{infraccion.pathcuatro}}"
+                                alt="_Imagen no Disponible" width="220" height="200" />
+                            <br />
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            Usuario. Cargó Infracción
+                            <input type="text" name="user" class="form-control" placeholder="Fecha Pase A"
+                                value="{{infraccion.name}}" disabled>
+                        </div>
 
-                <div class="form-group">
-                    ID Usuario. Cargó Infracción
-                    <input type="text" name="fechapasea" class="form-control" placeholder="Fecha Pase A"
-                        value="{{infraccion.user}}" disabled>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit">
+                                Grabar
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones"><i
+                                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">
-                        Grabar
-                    </button>
-                </div>
-                <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones"><i class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p> 
-                </div>
-            </form>
         </div>
-    </div>
 
-</div>
+    </div>

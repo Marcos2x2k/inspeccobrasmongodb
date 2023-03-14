@@ -1,0 +1,115 @@
+<div class="row">
+  {{!-- <br /><br /> --}}
+  <div class="form-group btn-center mx-auto">
+    <form action="/ticket/findlistaticket" method="POST">
+      <input type="search" class="form-control" name="numticket" placeholder="Buscar x Ticket..." autofocus />
+      <div class="form-group">
+        <button class="btn btn-warning btn-block btn-sm" type="submit">
+          Buscar Num.Ticket
+        </button>
+
+      </div>
+    </form>
+  </div>
+  <div class="form-group btn-center mx-auto">
+    <form action="/ticket/findlistainiciador" method="POST">
+      <input type="search" class="form-control" name="iniciador" placeholder="Buscar x NyApellido..." autofocus />
+      <div class="form-group">
+        <button class="btn btn-warning btn-block btn-sm" type="submit">
+          Buscar Iniciador
+        </button>
+
+      </div>
+    </form>
+  </div>
+  <div class="form-group btn-center mx-auto">
+    <form action="/ticket/findlistaadrema" method="POST">
+      <input type="search" class="form-control" name="adrema" placeholder="Buscar x Adrema..." autofocus />
+      <div class="form-group">
+        <button class="btn btn-warning btn-block btn-sm" type="submit">
+          Buscar Adrema
+        </button>
+
+      </div>
+    </form>
+  </div>
+  <div class="form-group btn-center mx-auto">
+    <form action="/ticket/findlistadireccion" method="POST">
+      <input type="search" class="form-control" name="ubicacion" placeholder="Buscar x Dirección..."
+        autofocus />
+      <div class="form-group">
+        <button class="btn btn-warning btn-block btn-sm" type="submit">
+          Buscar Dirección
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="form-group btn-center mx-auto">
+    <form action="/ticket/findlistafechainsp" method="POST">
+      <input type="search" class="form-control" name="inspeccionfecha" placeholder="Buscar x Fecha Inspec..."
+        autofocus />
+      <div class="form-group">
+        <button class="btn btn-warning btn-block btn-sm" type="submit">
+          Buscar Fecha
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+  <a href="/tickets/add" class="btn btn-success btn-block">Agregar Ticket!</a>
+  <a href="/ticket/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+
+  <div class="form-group btn-center mx-auto">
+    {{!-- </br> --}}
+    <div class="form-group btn-center mx-auto">
+      <table class="table table-dark table-hover">
+        <thead>
+          <tr style="background-color: rgb(61, 120, 153);text-shadow: 1px 1px 2px black">
+            {{!-- <td style="visibility:collapse;">ID</td> --}}
+            <td>N° Ticket</td>
+            <td>Iniciador</td>
+            <td>Ubicación</td>
+            <td>fecha inspeccion</td>
+            {{!-- <td>Email</td> --}}
+            <td>Adrema</td>
+            {{!-- <td>Direc-Obra</td> --}}
+            <td>Destino-Obra</td>
+            <td>Opciones</td>
+            <td>Suplementario</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ticket}}
+          <tr style = "color: red; font-size: small"></tr>
+            {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}}
+            <td>{{ numticket }}</td>
+            <td>{{ iniciador }}</td>
+            <td>{{ ubicacion }}</td>
+            <td>{{ inspeccionfecha }}</td>
+            {{!-- <td>{{ email }}</td> --}}
+            <td>{{ adrema }}</td>
+            {{!-- <td>{{ directordeobra }}</td> --}}
+            <td>{{ destinodeobra }}</td>
+            <td>
+              {{!-- <a class="dropdown-item" href="/ticket/add/{{_id}}"
+                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a> --}}
+              <a class="dropdown-item" href="/ticket/list/{{_id}}"
+                style="color:rgb(56, 219, 56);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+            </td>
+            <td>
+              <a class="dropdown-item" href="/tickets/edit/{{_id}}" style="color:yellow">Editar</a>
+              <form style="" action="/tickets/delete/{{_id}}?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                  Borrar
+                </button>
+              </form>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {{!-- {{else}} --}}

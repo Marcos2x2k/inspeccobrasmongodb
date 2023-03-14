@@ -8,22 +8,23 @@
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group">
                     Boleta Intimación
-                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num.Inspección"
+                    <input type="text" name="boletaintnum" class="form-control" placeholder="Num.Inspección"
                         value="{{intimacion.boletaintnum}}">
                 </div>
                 <div class="form-group">
                     Expediente
-                    <input type="text" name="expediente" class="form-control" placeholder="Expediente"
+                    <input type="text" name="numexpedienteint" class="form-control" placeholder="Expediente"
                         value="{{intimacion.numexpedienteint}}">
                 </div>
                 <div class="form-group">
                     Adrema
-                    <textarea name="adrema" class="form-control">{{intimacion.adremaint}}</textarea>
+                    <input type="text" name="adremaint" class="form-control" placeholder="Adrema"
+                        value="{{intimacion.adremaint}}">
                 </div>
                 <div class="form-group">
                     Señor / Señora
-                    <input type="text" name="señorseñora" class="form-control" placeholder="señor/señora" 
-                    value="{{intimacion.señorseñora}}">
+                    <input type="text" name="senorsenora" class="form-control" placeholder="señor/señora"
+                        value="{{intimacion.senorsenora}}">
                 </div>
                 <div class="form-group">
                     Domicilio Particular
@@ -32,39 +33,39 @@
                 </div>
                 <div class="form-group">
                     Lugar de Actuación
-                    <input type="text" name="informeinspnum" class="form-control" placeholder="Lugar de Actuación"
+                    <input type="text" name="lugaractuacion" class="form-control" placeholder="Lugar de Actuación"
                         value="{{intimacion.lugaractuacion}}">
                 </div>
                 <div class="form-group">
                     Se Otorgo el Plazo de
                     <input type="text" name="otorgaplazode" class="form-control" placeholder="Se Otorgo el Plazo de"
-                        value="{{intimacion.otorgaplazode}}">
+                        value="{{intimacion.otorgaplazode}}" disabled>
                 </div>
                 <div class="form-group">
                     Para el Cumplimiento a
-                    <input type="text" name="paracumplimientoa" class="form-control" placeholder="Para el Cumplimiento a"
-                        value="{{intimacion.paracumplimientoa}}">
+                    <input type="text" name="paracumplimientoa" class="form-control"
+                        placeholder="Para el Cumplimiento a" value="{{intimacion.paracumplimientoa}}">
                 </div>
                 <div class="form-group">
                     Fecha de Intimación
-                    <input type="text" name="fechaintimacion" class="form-control" placeholder="Inspector (N y A)"
+                    <input type="date" name="fechaintimacion" class="form-control" placeholder="Inspector (N y A)"
                         value="{{intimacion.fechaintimacion}}">
                 </div>
-                <img src="{{intimacion.fotoinspeccion}}" width="200" /> <br /><br />
+
                 <div class="form-group">
                     Hora de Intimación
-                    <input type="text" name="horaintimacion" class="form-control" placeholder="Número de Intimaciones"
+                    <input type="time" name="horaintimacion" class="form-control" placeholder="Hora de Intimación"
                         value="{{intimacion.horaintimacion}}">
                 </div>
                 <div class="form-group">
                     Vencimiento de Intimación
-                    <input type="text" name="vencimientoint" class="form-control" placeholder="Vencimiento de Intimación"
-                        value="{{intimacion.vencimientoint}}">
+                    <input type="date" name="vencimientoint" class="form-control"
+                        placeholder="Vencimiento de Intimación" value="{{intimacion.vencimientoint}}" disabled>
                 </div>
                 <div class="form-group">
                     Noticicado Intimación
-                    <textarea type="text" name="notificadoint" class="form-control" placeholder="Noticicado Intimación"
-                        value="{{intimacion.notificadoint}}"></textarea>
+                    <input type="text" name="notificadoint" class="form-control" placeholder="Noticicado Intimación"
+                        value="{{intimacion.notificadoint}}"></input>
                 </div>
                 <div class="form-group">
                     Aclaración
@@ -73,17 +74,32 @@
                 </div>
                 <div class="form-group">
                     Número Código Interno
-                    <input type="text" name="numcodigoint" class="form-control" placeholder="Pase A" value="{{intimacion.numcodigoint}}">
+                    <input type="text" name="numcodigoint" class="form-control" placeholder="Pase A"
+                        value="{{intimacion.numcodigoint}}">
                 </div>
                 <div class="form-group">
                     Inspector
                     <input type="text" name="inspectorint" class="form-control" placeholder="Inspector"
                         value="{{intimacion.inspectorint}}">
                 </div>
+                {{!-- <img style="border-radius:30px;" src="{{intimacion.path}}" width="300" /> <br /><br /> --}}
+                Foto 1:
+                <br />
+                <img style="border-radius:20px;" src="{{intimacion.path}}" alt="_Imagen no Disponible" width="150" />
+                <br />
+                Foto 2:
+                <br />
+                <img style="border-radius:20px;" src="{{intimacion.pathdos}}" alt="_Imagen no Disponible" width="150" />
+                <br /><br />
                 <div class="form-group">
-                    ID Usuario. Cargó Intimación
-                    <input type="text" name="fechapasea" class="form-control" placeholder="Fecha Pase A"
-                        value="{{intimacion.user}}" disabled>
+                    Usuario que Cargó Intimación
+                    <input type="text" name="name" class="form-control" placeholder="Usuario que Cargó Intimación"
+                        value="{{intimacion.name}}" disabled>
+                </div>
+                <div class="form-group">
+                    Fecha Real Cargó Intimación
+                    <input type="text" name="date" class="form-control" placeholder="Fecha Real Cargó Intimación"
+                        value="{{intimacion.date}}" disabled>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">
@@ -91,7 +107,8 @@
                     </button>
                 </div>
                 <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/intimaciones"><i class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p> 
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/intimaciones"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
                 </div>
             </form>
         </div>

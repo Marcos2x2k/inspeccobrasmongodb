@@ -1,0 +1,112 @@
+<div class="col-md-6 mx-auto">
+    <div class="card">
+        <div class="car-header mx-auto">
+            <br/>
+            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Expediente</h3>
+        </div>
+        <div class="card-body">
+            <p style="color:red">(*) Obligatorio</p>
+            <form action="/notes/newexpedientes" method="POST">  
+            <div class="form-group">  
+                    (*) Expediente Nº:                 
+                    <input type="text" name="numexpediente" class="form-control" 
+                    placeholder="Expediente Nº" required autofocus>                    
+                </div>              
+                <div class="form-group">  
+                    (*) Estado:                 
+                    <input type="text" name="estado" class="form-control" 
+                    placeholder="Estado" required autofocus>                    
+                </div>
+                <div class="form-group">
+                    (*) Iniciador (NyA):
+                    <input type="text" name="iniciadornomyape" class="form-control"
+                    placeholder="Iniciador (NyA)" required autofocus></input>
+                </div>
+                <div class="form-group" >  
+                    (*) Domicilio:                  
+                    <input type="text" name="domicilio" class="form-control"
+                    placeholder="Domicilio" required autofocus></input>
+                </div>
+                <div class="form-group">
+                    Adrema Nº:
+                    <input name="adremaexp" class="form-control"
+                    placeholder="Nº Adrema" ></input>
+                </div>
+                <div class="form-group">
+                    fiduciariopropsocio (AyN):
+                    <input name="fiduciariopropsocio" class="form-control"
+                    placeholder="fiduciariopropsocio (AyN)" ></input>
+                </div>
+                <div class="form-group">
+                    Domicilio Fiduciario o Socio:
+                    <input name="direcfiduciariopropsocio" class="form-control"
+                    placeholder="Domicilio Fiduciario o Socio" ></input>
+                </div>
+                <div class="form-group">
+                    Correo Fiduciario o Socio:
+                    <input name="correofiduciariopropsocio" class="form-control"
+                    placeholder="Correo Fiduciario o Socio" ></input>
+                </div>
+                <div class="form-group">
+                    Director de obra o Perito Visor:
+                    <input name="directorobraoperitovisor" class="form-control"
+                    placeholder="Director de obra o Perito Visor" type="text"></input>
+                </div> 
+                <div class="form-group">
+                    Destino de obra:
+                    <input name="destinodeobra" class="form-control"
+                    placeholder="Destino de obra" type="text"></input>
+                </div> 
+                <div class="form-group">
+                    (*) Superficie de terreno:
+                    <input name="superficieterreno" class="form-control"
+                    placeholder="Superficie de terreno" required autofocus></input>
+                </div>                 
+                <div class="form-group">
+                    (*) Superficie a construir:
+                    <input name="superficieaconstruir" class="form-control"
+                    placeholder="superficie a construir" required autofocus></input>
+                </div>  
+                <div class="form-group">
+                    (*) Superficie subsuelo planta baja:
+                    <input name="superficiesubsueloplantabaja" class="form-control"
+                    placeholder="Superficie subsuelo planta baja" required autofocus></input>
+                </div>
+                <div class="form-group">
+                    Superficie primer piso y mas pisos:
+                    <input name="superficieprimerpisoymaspisos" class="form-control"
+                    placeholder="Superficie primer piso y mas pisos"></input>
+                </div>                                 
+                <div class="form-group">
+                    (*) Observaciones:
+                    <input name="observaciones" class="form-control"
+                    placeholder="Observaciones" ></input>
+                </div>
+                <div class="form-group">
+                    Permiso obra o acta infracción:
+                    <input name="permisobraoactainfrac" class="form-control"
+                    placeholder="Permiso obra o acta infracción"></input>
+                </div>
+                <div class="form-group">
+                    Foto de expediente:
+                    <input type="text" name="fotoexpediente" class="form-control"
+                    placeholder="Foto de Expediente"></input>
+                </div>   
+                <div class="form-group">
+                    (*) Fecha inicio entrada:
+                    <input type="date" name="fechainicioentrada" class="form-control"
+                    placeholder="Fecha inicio entrada" required autofocus></input>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Save
+                    </button>                    
+                </div>
+                <div class="form-group">
+                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver</p> 
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

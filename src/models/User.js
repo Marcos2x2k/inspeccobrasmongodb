@@ -12,7 +12,10 @@ const UserSchema = new Schema ({
     confirm_password: {type: String, 
         require: true},
     date: {type: Date, 
-        default: Date.now}
+        default: Date.now},
+    rolusuario: {type: String, 
+        require: true
+        }
 });
 
 // encriptar las contraseñas con los sig metodos

@@ -1,0 +1,151 @@
+<script>
+    function ffechaactual() {
+        var tipo = document.getElementById('fechaingreso');
+        var eye = document.getElementById('botonfecha');
+        if (tipo.type == "date") {
+            //tipo.disabled = true;
+            tipo.type = "text";
+            eye.class = "btn btn-primary"
+            const fecha = new Date();
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            const ano = fecha.getFullYear() + "-"
+            //const fullyear = fecha.toLocaleDateString();
+
+
+            const fullyear = ano + mes + dia
+            //const fullyear = fecha.toLocaleDateString();
+            fechaingreso.value = fullyear;
+        } else {
+            //tipo.disabled = false;
+            tipo.type = "date";
+            eye.class = "btn btn-secondary"
+        }
+    }
+
+    function fhoraactual() {
+        var tipohora = document.getElementById('horaingreso');
+        var eyehora = document.getElementById('botonhora');
+        if (tipohora.type == "time") {
+            //tipohora.disabled = true;
+            tipohora.type = "text";
+            eyehora.class = "btn btn-primary"
+            const fecha = new Date();
+            const h = fecha.getHours()+":";
+			if (m<10){
+				const m = "0"+fecha.getMinutes();
+			} else{
+				const m = fecha.getMinutes();
+			}
+            //s = today.getSeconds();
+            const fullhora = h+m // + s
+            //const fullyear = fecha.toLocaleDateString();
+            horaingreso.value = fullhora;
+        } else {
+            //tipohora.disabled = false;
+            tipohora.type = "time";
+            horaingreso.value = "--:--"
+            eyehora.class = "btn btn-secondary"
+        }
+    }
+</script>
+
+<div class="col-md-8 mx-auto">
+    <div class="card">
+        <div class="car-header mx-auto">
+            <br />
+            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Turno</h3>
+        </div>
+        <div class="card-body">
+            {{!-- <form action="/notes/newmesaentradas/{{mesaentrada._id}}?_method=POST" method="POST"></form> --}}
+            <form action="/notes/newmesaentradas" method="POST"> {{!-- enctype="multipart/form-data"> --}}
+                <div class="form-group">
+                    Turno Número:
+                    <input type="number" name="numturno" value"" placeholder="Turno" minlength="0" maxlength="99" step="1" pattern="^[0-9]+" required autofocus>
+                </div>
+                <div class="form-group">
+                    <p>Elige un Sector:
+                        <select name="sector">
+                            <option>Sub Secretaría</option>
+                            <option>Obras Particulares</option>
+                            <option>Visado</option>
+                        </select>
+                    </p>
+                </div>
+                <div class="form-group">
+                    Fecha (Actual):
+                </div>
+                <div class="input-group-append">
+                    <input style="font-weight: bold; color:black" type="date" id="fechaingreso" name="fechaingreso"
+                        class="form-control">
+                    {{!--
+                </div>
+                <div class="input-group-append"> --}}
+                    <button id="botonfecha" class='btn btn-primary' name="botonfecha" type="button"
+                        onclick="ffechaactual()">
+                        <span class="fa fa-calendar icon"></span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    Hora (Actual):
+                </div>
+                <div class="input-group-append">
+                    <input id= "horaingreso" style="font-weight: bold; color:black" type="time" name="horaingreso" class="form-control"
+                        >
+                    <button id="botonhora" class='btn btn-primary' name="botonhora" type="button"
+                        onclick="fhoraactual()">
+                        <span class="fa fa-hourglass-half" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    numexpediente:
+                    <input style="font-weight: bold; color:green" minlength="0" maxlength="11" value="{{mesaentrada.numexpediente}}" type="text"
+                        name="numexpediente" class="form-control" placeholder="0000-0-0000">
+                </div>
+                <div class="form-group">
+                    Nombre y Apellido:
+                    <input style="font-weight: bold; color:green" minlength="10" maxlength="40" value="{{mesaentrada.nomyape}}" type="text"
+                        name="nomyape" class="form-control" placeholder="Nombre y Apellido" required autofocus>
+                </div>
+                <div class="form-group">
+                    Documento Nacional Identidad:
+                    <input style="font-weight: bold; color:green" maxlength="8" value="{{mesaentrada.dni}}" name="dni"
+                        class="form-control" placeholder="Colocar DNI sin puntos" required autofocus></input>
+                </div>
+                <div class="form-group">
+                    contacto E-mail/Celular:
+                    <input style="font-weight: bold; color:green" minlength="0" maxlength="30" value="{{mesaentrada.contacto}}" name="contacto"
+                        class="form-control" placeholder="E-mail/Celular"></input>
+                </div>
+                <div class="form-group">
+                    Observaciones:
+                    <input type="text" style="font-weight: bold; color:green" minlength="0" maxlength="50" value="{{mesaentrada.observaciones}}"
+                        name="observaciones" class="form-control" placeholder="Observaciones"></input>
+                </div>
+                {{!-- <div class="form-group">
+                    Usuario Actual:
+                    <input style="color:rgb(128, 131, 128)" value="{{user}}" name="user"
+                        class="form-control" placeholder="No Definido" disabled></input>
+                </div> --}}
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Grabar
+                    </button>
+                </div>
+                {{!-- <div class="form-group"> --}}
+                <div>
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/mesaentrada"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Tarjetas</p>
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/mesaentrada/listado"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

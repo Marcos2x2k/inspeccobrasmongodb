@@ -3,21 +3,30 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const NoteSchema = new Schema({
+        origeninspeccion:{
+                type: String,
+                require: true,
+                default: "Anónimo"
+        },
         numinspeccion: {
                 type: String,
-                require: true
+                require: true,
+                default: "No Posee Información"
         },
         expediente: {
                 type: String,
-                require: false
+                require: false,
+                default: "No Posee Información"
         },
         oficio: {
                 type: String,
-                require: false
+                require: false,
+                default: "No Posee Información"
         },
         acta: {
                 type: String,
-                require: false
+                require: false,
+                default: "No Posee Información"
         },
         adrema: {
                 type: String,
@@ -59,11 +68,77 @@ const NoteSchema = new Schema({
                 require: false,
                 default: "No Posee Información"
         },
-        fotoinspeccion: {    // pidio doc en macro para excel y coloco aca tambien
-                type: String,
-                require: false,
-                default: "https://muchosnegociosrentables.com/wp-content/uploads/2020/11/negocios-exitosos-de-construccion-8-ideas.jpg"
+        filename: {    // pidio doc en macro para excel y coloco aca tambien
+                type: String
         },
+        path: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamedos: {
+                type: String
+        },
+        pathdos: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenametres: {
+                type: String
+        },
+        pathtres: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamecuatro: {
+                type: String,
+        },
+        pathcuatro: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamecinco: {
+                type: String,
+        },
+        pathcinco: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenameseis: {
+                type: String,
+        },
+        pathseis: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenamesiete: {
+                type: String
+        },
+        pathsiete: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        filenameocho: {
+                type: String
+        },
+        pathocho: {
+                type: String,
+                // default: "/img/Imagen-no-disponible.png"
+        },
+        // filename: {
+        //         type: String
+        // },
+        // path: {
+        //         type: String
+        // },
+        // originalname: {
+        //         type: String
+        // },
+        // mimetype: {
+        //         type: String
+        // },
+        // size: { 
+        //         type: Number
+        // },
         intimacion: {
                 type: String,
                 require: false,
@@ -102,6 +177,10 @@ const NoteSchema = new Schema({
         name: {
                 type: String,
                 require: false
+        },
+        dateinsp: {
+                type: Date,
+                default: Date.now
         }
 })
 
