@@ -806,10 +806,18 @@ router.get('/estadisticas/edit/:id', isAuthenticated, async (req, res) => {
     res.render('notes/editestadistica', { estadistica })
 });
 
+// ***** informacion de cada dato ******
+
 router.get('/mesaentrada/list/:id', isAuthenticated, async (req, res) => {
     const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
     // console.log(note.date);
     res.render('notes/listmesaentrada', { mesaentrada })
+});
+
+router.get('/multas/list/:id', isAuthenticated, async (req, res) => {
+    const multas = await Multas.findById(req.params.id).lean()
+    // console.log(note.date);
+    res.render('notes/listmultas', { multas })
 });
 
 router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {

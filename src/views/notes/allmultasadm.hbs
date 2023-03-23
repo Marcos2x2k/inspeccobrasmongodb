@@ -57,6 +57,8 @@
                         <td>Formula</td>
                         <td>N° Acta</td>
                         <td>Monto Total</td>
+                        <td>+Datos</td>
+                        <td>Opciones</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,12 +71,12 @@
                         <td>{{ formulamulta }}</td>
                         <td>{{ numacta }}</td>
                         <td>{{ montototal }}</td>
-                        {{!-- <td>
-                            <a class="dropdown-item" href="/tasas/add/{{_id}}"
-                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a>
-                            <a class="dropdown-item" href="/tasas/list/{{_id}}"
+                        <td>
+                            {{!-- <a class="dropdown-item" href="/tasas/add/{{_id}}"
+                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a> --}}
+                            <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
-                        </td> --}}
+                        </td>
                         <td>
                             {{!-- <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}"
                                 style="color:rgb(165, 196, 28)">Editar</a> --}}
