@@ -36,6 +36,11 @@ const MultasSchema = new Schema({
         type: String,
         require: false,
         default: "No Informó"
+    },   
+    tcactual: {
+        type: String,
+        require: false,
+        default: "No Informó"
     },
     montototal: {
         type: String,

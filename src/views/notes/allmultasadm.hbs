@@ -21,7 +21,7 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/notes/findubicacion" method="POST">
+        <form action="/multa/findubicacion" method="POST">
             <input type="search" class="form-control" name="adrema" placeholder="Buscar x Ubicación..." autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -31,7 +31,7 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/notes/findinciso" method="POST">
+        <form action="/multa/findinciso" method="POST">
             <input type="search" class="form-control" name="inspector" placeholder="Buscar x Inciso..." autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -42,57 +42,53 @@
     </div>
     <br /><br />
     <a href="/multas/add" class="btn btn-success btn-block">Cargar Nueva multa!</a>
+    <a href="/multas" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
     <br /><br />
-    {{#each multas}}
-
-</div>
-
-<div class="text-dark col-md-3">
-    <br />
-    <div class="card">
-
-        <div class="card-body">
-            <h5 class="text-dark display-5 card-title d-flex justify-content-between align-items-center"
-                style="color:rgb(15, 15, 15); font-style:oblique; font-weight: bold;">Acta:</h5>
-            <p class="text-secondary display-5 card-title d-flex justify-content-between align-items-center">
-            <p style="color:brown; font-style:oblique; font-weight: bold;">{{ acta }}
-            </p>
-
-            <h5 class="text-dark display-5 card-title d-flex justify-content-between align-items-center"
-                style="color:rgb(15, 15, 15); font-style:oblique; font-weight: bold;">Nº Acta:</h5>
-            <p class="text-secondary display-5 card-title d-flex justify-content-between align-items-center">
-            <p style="color:brown; font-style:oblique; font-weight: bold;">{{ numacta }}
-            </p>
-            <p style="color:brown; font-style:oblique; font-weight: bold;"
-                class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Fecha Creación:</p>
-            <input type="date" value="{{ date }}" style="color: #29292b" disabled></input>
-            <p style="color:brown; font-style:oblique; font-weight: bold;"
-                class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Propietario:
-            </p>
-            <p>{{ propietario }}</p>
-            {{!-- <p>{{ date }}</p>--}}
-            <p style="color:brown; font-style:oblique; font-weight: bold;"
-                class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Ubicación:</p>
-            <p>{{ ubicacion }}</p>
-            <p style="color:brown; font-style:oblique; font-weight: bold;"
-                class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Inciso:</p>
-            <p>{{ inciso }}</p>
-            <br />
-            {{!-- <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/notes/list/{{_id}}"><i
-                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Info Completa
-            </p> --}}
+    <div class="form-group btn-center mx-auto">
+        <br />
+        <div class="form-group btn-center mx-auto">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
+                        <td>Expediente</td>
+                        <td>Adrema</td>
+                        <td>Propietario</td>
+                        <td>Ubicación</td>
+                        <td>Formula</td>
+                        <td>N° Acta</td>
+                        <td>Monto Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each multas}}
+                    <tr>
+                        <td>{{ expediente }}</td>
+                        <td>{{ adrema }}</td>
+                        <td>{{ propietario }}</td>
+                        <td>{{ ubicacion }}</td>
+                        <td>{{ formulamulta }}</td>
+                        <td>{{ numacta }}</td>
+                        <td>{{ montototal }}</td>
+                        {{!-- <td>
+                            <a class="dropdown-item" href="/tasas/add/{{_id}}"
+                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a>
+                            <a class="dropdown-item" href="/tasas/list/{{_id}}"
+                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+                        </td> --}}
+                        <td>
+                            {{!-- <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}"
+                                style="color:rgb(165, 196, 28)">Editar</a> --}}
+                            <form style="" action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                                    Borrar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
-{{else}}
-<div class="mx-auto">
-    <br /> <br />
-    <div class="card mx-auto">
-        <div class="card-body">
-            <p class"lead" style="color:red; font-weight: bold;"> No existen Multas Aun...</p>
-            {{!-- <a href="/notes/add" class="btn btn-success btn-block">Cargar Inspección!</a> --}}
-        </div>
-    </div>
-</div>
-{{/each}}
 </div>

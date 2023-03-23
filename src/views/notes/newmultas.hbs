@@ -5,13 +5,10 @@
         //getElementById('a1inciso').focus()
         if (seleccion.selectedIndex == 1) {
             var x = document.getElementById("cardincisoa1");
-            //var g = document.getElementById("grabar");
             if (x.style.display === "none") {
                 x.style.display = "block";
-                //g.style.display = "block";
             } else {
                 x.style.display = "none";
-                //g.style.display = "none";
             }
         } else if ((seleccion.selectedIndex == 2)) {
             var x = document.getElementById("cardincisoa2");
@@ -29,430 +26,236 @@
             }
         }
     }
-    function myFunction() {
-        var x = document.getElementById("myDIV");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
+
     function fmontototal() {
-        var valor1 = document.getElementById("valor1");
-        var valor2 = document.getElementById("valor2");
-        var valor3 = document.getElementById("valor3");
+        var valor1 = document.getElementById("valor1").value;
+        var valor2 = document.getElementById("valor2").value;
+        var valor3 = document.getElementById("valor3").value;
         var MontoTotal = parseFloat(valor1) * parseFloat(valor2) * parseFloat(valor3)
         //document.getElementByName("verificar").value = saldo;        co
-        document.getElementById("montototal").innerHTML = MontoTotal
-        //montototal.innerHTML = input.value;
-        var g = document.getElementById("grabar");
-        if (x.style.display === "none") {            
-            g.style.display = "block";
-        } else {            
-            g.style.display = "none";
+        document.getElementById("resultado").value = MontoTotal.toFixed(2)
+        var observacionesmas = valor1+"*"+valor2+"*"+valor3
+        document.getElementById("observaciones").value = observacionesmas
+        var disabgrabar = MontoTotal.toFixed(2)
+        //montototal.innerHTML = input.value;         
+        if (disabgrabar > 0) {
+            document.getElementById("grabar").style.display = "block";
+        } else {
+            document.getElementById("grabar").style.display = "none";
         }
     }  
 </script>
 
 <div style="max-width: 95%" class="col-md-8 mx-auto">
-    <form action="/notes/newmultas" method="POST">
-        <div class="form-group">
-            <div class="car-header mx-auto">
-                <br />
-                <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                    border: 4px dotted  #510ecc; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;
-                    text-shadow: 2px 2px 5px rgb(90, 88, 88)" {{!--
-                    style="color:rgb(2, 2, 2); text-decoration:underline; font-weight: bold;" --}}>ACTA DE LIQUIDACIÓN
-                </h3>
-                {{!--
-                <h4 style="color:rgb(65, 65, 124); text-decoration:underline; font-weight: bold;">Se aplicarán multas
-                </h4> --}}
-            </div>
-            <br />
-            <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-                {{!-- adrema, expediente, propietario, ubicacion --}}
-                <div>
-                    <p style="font-weight: bold; width: 22%; padding: 2px 20px; margin: 0px 0; box-sizing: border-box; 
+    <div class="card">
+        <div class="card-body">
+            <form action="/notes/newmultas" method="POST">
+                <div class="form-group">
+                    <div class="car-header mx-auto">
+                        <br />
+                        <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
+                    ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
+                    text-shadow: 2px 2px 5px rgb(90, 88, 88)">
+                            ACTA DE LIQUIDACIÓN
+                        </h3>
+                        {{!--
+                        <h4 style="color:rgb(65, 65, 124); text-decoration:underline; font-weight: bold;">Se aplicarán
+                            multas
+                        </h4> --}}
+                    </div>
+                    <br />
+                    <div class="car-header mx-auto"
+                        style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
+                        {{!-- adrema, expediente, propietario, ubicacion --}}
+                        <div>
+                            <p style="font-weight: bold; width: 22%; padding: 2px 20px; margin: 0px 0; box-sizing: border-box; 
                     border: 2px solid #1ecc0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;">
-                        DATOS INFRACTOR:
-                    </p>
-                </div>
-                <div class="row my-3">
-                    <div class="col-md-3">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Expediente:</label>
-                            <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
+                                DATOS INFRACTOR:
+                            </p>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="font-weight: bold; color:black" class="form-label"
+                                        for="typeText">Expediente:</label>
+                                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
                             box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                                name="expediente" id="expediente" class="form-control" autocomplete="off" required
-                                autofocus />
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Adrema:</label>
-                            <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                        name="expediente" id="expediente" class="form-control" autocomplete="off"
+                                        required autofocus />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="font-weight: bold; color:black" class="form-label"
+                                        for="typeText">Adrema:</label>
+                                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                             border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" name="adrema" type="text"
-                                id="adrema" class="form-control" autocomplete="off" required />
+                                        id="adrema" class="form-control" autocomplete="off" required />
 
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Propietario:</label>
-                            <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-outline">
+                                    <label style="font-weight: bold; color:black" class="form-label"
+                                        for="typeText">Propietario:</label>
+                                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Propietario"
-                                name="propietario" type="text" id="propietario" class="form-control" autocomplete="off"
-                                required />
+                                        name="propietario" type="text" id="propietario" class="form-control"
+                                        autocomplete="off" required />
 
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Ubicación:</label>
-                            <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-outline">
+                                    <label style="font-weight: bold; color:black" class="form-label"
+                                        for="typeText">Ubicación:</label>
+                                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Ubicación"
-                                name="ubicacion" type="text" id="ubicacion" class="form-control" autocomplete="off"
-                                required />
+                                        name="ubicacion" type="text" id="ubicacion" class="form-control"
+                                        autocomplete="off" required />
+
+                                </div>
+                            </div>
 
                         </div>
+                        <label style="font-weight: bold; color:black" for="incisos">Selecciones un Inciso:</label>
+                        <select name="inciso" id="incisos" onclick="seleccionarinciso()">
+                            <option value="">Elija Inciso</option>
+                            <option value="a1">a)1) SCPp*0,15*TC</option>
+                            <option value="a2">a)2) SCPp*0,15*TC</option>
+                            <option value="a3">a)3) SCPp*0,3*TC</option>
+                            <option value="b121">b)1.2.1) MULTA=SE*0,2*TC</option>
+                            <option value="b122">b)1.2.2) MULTA=SIDEAP*1,5*TC o MULTA=SIDEAP Pu*2*TC</option>
+                            <option value="b123">b)1.2.3) MULTA=SI*1.5*TC</option>
+                            <option value="b13131">b)1.3)1,3,1) MULTA=SE*2*TC</option>
+                            <option value="b132">b)1.3.2) MULTA = SIDEAP x 3 x TC o SIDEAP Pu. x 4 x TC</option>
+                            <option value="b133">b)1.3.3) MULTA=SI*4*TC</option>
+                            <option value="b134">b)1.3.4) MULTA=NCF*25*TC</option>
+                            <option value="c">c) MULTA=1*TC</option>
+                            <option value="d">d) MULTA=1*TC</option>
+                            <option value="e">e) MULTA=1*TC</option>
+                            <option value="f">f) MULTA=3*TC</option>
+                            <option value="g">g) MULTA=S.C.*0,002*TC</option>
+                            <option value="h">h) MULTA=0,4*TC</option>
+                            <option value="i">i) MULTA=0,5*TC</option>
+                            <option value="j">j) MULTA = 1 * TC</option>
+                            <option value="k">k) MULTA = 1 * TC/MULTA =5 * TC/MULTA =5 * TC/MULTA = S.C. * TC</option>
+                            <option value="l">l) MULTA= 1* TC</option>
+                            <option value="ll">ll) MULTA = 1* TC</option>
+                            <option value="m">m) MULTA = 2* TC</option>
+                            <option value="n">n) MULTA = 0,4 * TC</option>
+                            <option value="ene">ñ) MULTA = 0,3 * TC</option>
+                            <option value="o">o) MULTA = 0,25 * TC</option>
+                            <option value="p">p) MULTA = 0,2 * TC</option>
+                            <option value="q">q) MULTA = 1 * TC</option>
+                            <option value="r">r) MULTA = 0,5 a 1,3 * TC</option>
+                            <option value="s">s) MULTA = 0,4 * TC</option>
+                            <option value="t">t) MULTA = 1 * TC</option>
+                            <option value="u">u) MULTA = 0,5 a 2 * TC</option>
+                            <option value="v">v) MULTA = 0,4 * TC</option>
+                            <option value="w">w) MULTA = 0,4 * TC</option>
+                        </select>
                     </div>
+                    <br />
 
-                </div>
-                <label style="font-weight: bold; color:black" for="incisos">Selecciones un Inciso:</label>
-                <select name="inciso" id="incisos" onclick="seleccionarinciso()">
-                    <option value="">Elija Inciso</option>
-                    <option value="a1">a)1) SCPp*0,15*TC</option>
-                    <option value="a2">a)2) SCPp*0,15*TC</option>
-                    <option value="a3">a)3) SCPp*0,3*TC</option>
-                    <option value="b121">b)1.2.1) MULTA=SE*0,2*TC</option>
-                    <option value="b122">b)1.2.2) MULTA=SIDEAP*1,5*TC o MULTA=SIDEAP Pu*2*TC</option>
-                    <option value="b123">b)1.2.3) MULTA=SI*1.5*TC</option>
-                    <option value="b13131">b)1.3)1,3,1) MULTA=SE*2*TC</option>
-                    <option value="b132">b)1.3.2) MULTA = SIDEAP x 3 x TC o SIDEAP Pu. x 4 x TC</option>
-                    <option value="b133">b)1.3.3) MULTA=SI*4*TC</option>
-                    <option value="b134">b)1.3.4) MULTA=NCF*25*TC</option>
-                    <option value="c">c) MULTA=1*TC</option>
-                    <option value="d">d) MULTA=1*TC</option>
-                    <option value="e">e) MULTA=1*TC</option>
-                    <option value="f">f) MULTA=3*TC</option>
-                    <option value="g">g) MULTA=S.C.*0,002*TC</option>
-                    <option value="h">h) MULTA=0,4*TC</option>
-                    <option value="i">i) MULTA=0,5*TC</option>
-                    <option value="j">j) MULTA = 1 * TC</option>
-                    <option value="k">k) MULTA = 1 * TC/MULTA =5 * TC/MULTA =5 * TC/MULTA = S.C. * TC</option>
-                    <option value="l">l) MULTA= 1* TC</option>
-                    <option value="ll">ll) MULTA = 1* TC</option>
-                    <option value="m">m) MULTA = 2* TC</option>
-                    <option value="n">n) MULTA = 0,4 * TC</option>
-                    <option value="ene">ñ) MULTA = 0,3 * TC</option>
-                    <option value="o">o) MULTA = 0,25 * TC</option>
-                    <option value="p">p) MULTA = 0,2 * TC</option>
-                    <option value="q">q) MULTA = 1 * TC</option>
-                    <option value="r">r) MULTA = 0,5 a 1,3 * TC</option>
-                    <option value="s">s) MULTA = 0,4 * TC</option>
-                    <option value="t">t) MULTA = 1 * TC</option>
-                    <option value="u">u) MULTA = 0,5 a 2 * TC</option>
-                    <option value="v">v) MULTA = 0,4 * TC</option>
-                    <option value="w">w) MULTA = 0,4 * TC</option>
-                </select>
-            </div>
-            <br />
-
-            {{!-- INCISO A) 1) ************************ --}}
-            <div id="cardincisoa1" class="card-body mx-auto"
-                style="display:none; max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-                <div>
-                    <p style="font-weight: bold; width: 17%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                    border: 2px solid #cc0e0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;">
-                        INCISO A) 1)
-                    </p>
-                    <p style="color:blue;font-weight: bold;">
-                        MULTA = SCSp x 0,15 x TC
-                    </p>
-                </div>
-                <div class="row my-3">
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Acta:</label>
-                            <input name="numactaincisoa1" style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
+                    {{!-- INCISO A) 1) ************************ --}}
+                    <div id="cardincisoa1" class="card-body mx-auto"
+                        style="display:none; max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
+                        {{!-- <div> --}}
+                            <p
+                                style="font-weight: bold; width: 17%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
+                                border: 2px solid #cc0e0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;">
+                                INCISO A) 1)
+                            </p>
+                            <input name="formulamulta" id="formulamulta" style="color:blue;font-weight: bold;"
+                                value="SCSp x 0,15 x TC" readonly>
+                            {{!--
+                        </div> --}}
+                        <div class="row my-3">
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="font-weight: bold; color:black" class="form-label"
+                                        for="typeText">Acta:</label>
+                                    <input name="numactaincisoa1" style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
                             box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                                name="acta" id="acta" class="form-control" autocomplete="off" />
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label" for="typeText">Num°
-                                Acta:</label>
-                            <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                        name="acta" id="acta" class="form-control" autocomplete="off" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Num°
+                                        Acta:</label>
+                                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                             border-box; border: 3px solid #0e0d0d;" placeholder="numacta" type="text" id="numacta"
-                                name="numacta" class="form-control" autocomplete="off" />
+                                        name="numacta" class="form-control" autocomplete="off" required>
 
+                                </div>
+                            </div>
                         </div>
+                        <div class="row my-3">
+                            <div class="col-md-1">
+                                <div class="form-outline">
+                                    <label style="color:blue;font-weight: bold;" class="" for="typeText">SCSp</label>
+                                    <input name="scsp" onkeyup="fmontototal()" style="font-weight: bold; color:black"
+                                        type="number" min="0" id="valor1" value="0" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor
+                                        0.15</label>
+                                    <input onkeyup="fmontototal()" style="font-weight: bold; color:black" type="number"
+                                        value="0.15" step="0.01" min="0" id="valor2">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-outline">
+                                    <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="color:blue; font-weight: bold;" class="form-label"
+                                        for="typeText">T.C.</label>
+                                    <input name="tcactual" onkeyup="fmontototal()"
+                                        style="font-weight: bold; color:black" type="number" step="52000" min="0"
+                                        id="valor3" value="52000" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-outline">
+                                    <label style="color:blue; font-weight: bold;" class="">=</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <label style="color:blue; font-weight: bold;" class="form-label">Monto
+                                        Total</label>
+                                    <input type="text" name="montototal" id="resultado" style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
+                                border-box; border: 1px solid #000000;" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-outline">
+                                    <input type="text" name="observaciones" id="observaciones" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="grabar" class="mx-auto" style="display:none">
+                        <button class="btn btn-success btn-block" type="submit">
+                            Grabar
+                        </button>
                     </div>
                 </div>
-                {{!-- <form
-                    oninput="montototal.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-                    --}}
-
-                    <div class="row my-3">
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue;font-weight: bold;" class="" for="typeText">SCSp</label>
-                                <input style="font-weight: bold; color:black" type="number" min="0" id="valor1"
-                                    value="1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor
-                                    0.15</label>
-                                <input style="font-weight: bold; color:black" type="number" value="0.15" step="0.01"
-                                    min="0" id="valor2">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="form-label"
-                                    for="typeText">T.C.</label>
-                                <input style="font-weight: bold; color:black" type="number" step="52000" min="0"
-                                    id="valor3" value="52000">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="">=</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="form-label">Monto
-                                    Total</label>                                
-                                {{!-- <input type="text" name="montototal" id="montototal" style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 1px solid #000000;" disabled /> --}}
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
+            </form>
         </div>
-        {{!-- INCISO A) 2) ************************ --}}
-        <div class="card" id="cardincisoa2" style="display:none;">
-            <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-                <div>
-                    <p style="font-weight: bold; width: 17%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                    border: 2px solid #cc0e0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;">
-                        INCISO A) 2)
-                    </p>
-                    <p style="color:blue;font-weight: bold;">
-                        MULTA = SCSp x 0,15x TC; o 2 TC
-                    </p>
-                </div>
-                <div class="row my-3">
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Acta:</label>
-                            <input id="a2inciso" style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                            box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                                id="acta" class="form-control" autocomplete="off" />
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Adrema:</label>
-                            <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                            border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                                class="form-control" autocomplete="off" />
-
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Expediente:</label>
-                            <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                            border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                                id="expediente" class="form-control" autocomplete="off" />
-                        </div>
-                    </div>
-                </div>
-                <form method="POST"
-                    oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-                    <div class="row my-3">
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue;font-weight: bold;" class="" for="typeText">SCSp</label>
-                                <input style="font-weight: bold; color:black" type="number" min="0" id="valor1"
-                                    value="1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor
-                                    0.15</label>
-                                <input style="font-weight: bold; color:black" type="number" value="0.15" step="0.01"
-                                    min="0" id="valor2">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">T.C.
-                                    /
-                                    2T.C.</label>
-                                <input style="font-weight: bold; color:black" type="number" step="52000" min="0"
-                                    id="valor3" value="52000">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                                    Pagar</label><br />
-                                <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 1px solid #000000;" name="resultado"
-                                    for="valor1 valor2 valor3">7800.00</output>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        {{!-- INCISO A) 3) ************************ --}}
-        <div class="card" id="cardincisoa3" style="display:none;">
-            <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-                <div>
-                    <p style="font-weight: bold; width: 17%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                    border: 2px solid #cc0e0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;">
-                        INCISO A) 3)
-                    </p>
-                    <p style="color:blue;font-weight: bold;">
-                        MULTA = SCSp x 0,3 x T.C o 1,5 x TC
-                    </p>
-                </div>
-                <div class="row my-3">
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Acta:</label>
-                            <input id="a3inciso" style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                            box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                                id="acta" class="form-control" autocomplete="off" />
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Adrema:</label>
-                            <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                            border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                                class="form-control" autocomplete="off" />
-
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-outline">
-                            <label style="font-weight: bold; color:black" class="form-label"
-                                for="typeText">Expediente:</label>
-                            <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                            border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                                id="expediente" class="form-control" autocomplete="off" />
-                        </div>
-                    </div>
-                </div>
-                <div
-                    oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-                    <div class="row my-3">
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue;font-weight: bold;" class="" for="typeText">SCSp</label>
-                                <input style="font-weight: bold; color:black" type="number" min="0" id="valor1"
-                                    value="1">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor
-                                    0.15 o
-                                    3</label>
-                                <input style="font-weight: bold; color:black" type="number" value="0.15" step="0.01"
-                                    min="0" id="valor2">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">T.C.
-                                    /
-                                    2T.C.</label>
-                                <input style="font-weight: bold; color:black" type="number" step="52000" min="0"
-                                    id="valor3" value="52000">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-outline">
-                                <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                                    Pagar</label><br />
-                                <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                                    type="number" step=".01">7800.00</output>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="grabar" class="mx-auto" style="display:none">
-            <button class="btn btn-success btn-block" type="submit" disabled>
-                Grabar
-            </button>
-        </div>
-    </form>
+    </div>
 </div>
 
 {{!-- INCISO B 1 2 1

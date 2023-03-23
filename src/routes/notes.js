@@ -85,21 +85,22 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
     // }
 })
 
-router.post('/notes/newmultas', isAuthenticated, async (req, res) => {
+router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     // const expediente = getElementById("expediente").value;   
     // const adrema = getElementById("adrema").value;
     // const propietario = getElementById("propietario").value;
-    const { acta,numacta, expediente, adrema, inciso, propietario, ubicacion,
-        formulamulta, montototal, observaciones,user,name,date} = req.body;         
-    const newMultas = new Multas({
-        acta, numacta, expediente, adrema, propietario, ubicacion, inciso,
-        formulamulta, montototal, observaciones,user,name,date
+    const { acta,numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
+        formulamulta, montototal, observaciones,user,name,date} = req.body;        
+    
+        const newMultas = new Multas({
+             acta,numacta, expediente, adrema, inciso, propietario, ubicacion,
+             tcactual,formulamulta, montototal, observaciones,user,name,date
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
     await newMultas.save();
     req.flash('success_msg', 'Multa Agregada Exitosamente');
-    // res.redirect('/multas');
+    res.redirect('/multas');
 })
 
 router.post('/notes/newtasas', isAuthenticated, async (req, res) => {
@@ -577,17 +578,16 @@ router.get('/mesaentrada', isAuthenticated, async (req, res) => {
 
 router.get('/multas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Sector-Suelo") {
-        // res.send('Notes from data base');
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Inspector") {
+     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find().lean().sort({ date: 'desc' });
-        res.render('notes/allmultas', { multas });
+        res.render('notes/allmultasadm', { multas });
     } else if (rolusuario == "Administrador") {
-        const multas = await Mesaentrada.find().lean().sort({ date: 'desc' });
+        const multas = await Multas.find().lean().sort({ date: 'desc' });
         res.render('notes/allmultasadm', { multas });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
     }
 });
@@ -623,6 +623,7 @@ router.get('/mesaentrada/listado', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
 
 router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -1488,6 +1489,12 @@ router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
     // res.send('ok')
 });
 
+router.delete('/multas/delete/:id', isAuthenticated, async (req, res) => {
+    await Multas.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Multa Eliminada')
+    res.redirect('/multas')
+});
+
 router.delete('/tickets/delete/:id', isAuthenticated, async (req, res) => {
     await Ticket.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Ticket Eliminado')
@@ -1504,6 +1511,7 @@ router.delete('/expedientes/delete/:id', isAuthenticated, async (req, res) => {
     // res.send('ok')
 });
 
+//notes es inspecciones
 router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
     await Note.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Inspección Eliminada')
