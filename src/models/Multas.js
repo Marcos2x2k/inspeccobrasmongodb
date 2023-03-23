@@ -32,7 +32,7 @@ const MultasSchema = new Schema({
         require: false,
         default: "No Informó"
     },
-    formulaMulta: {
+    formulamulta: {
         type: String,
         require: false,
         default: "No Informó"
