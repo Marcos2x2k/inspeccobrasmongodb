@@ -87,7 +87,7 @@
 
                 <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones/list/{{_id}}"><i
                             class="fas fa-list" style='font-size:24px;color:blue'></i></a> Info Completa</p>
-                <form style="box-shadow: 3px 4px;" action="/infracciones/delete/{{_id}}?_method=DELETE" method="POST">
+                <form onSubmit="return confirm('Desea Borrar?')" style="box-shadow: 3px 4px;" action="/infracciones/delete/{{_id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
                     <button class="btn btn-danger btn-block btn-sm" type="submit"> {{!--disabled --}}
                         Borrar

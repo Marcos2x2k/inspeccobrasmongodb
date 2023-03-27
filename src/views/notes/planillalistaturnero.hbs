@@ -97,7 +97,7 @@
             <td>
 
               <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}" style="color:rgb(165, 196, 28)">Editar</a>
-              <form style="" action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
+              <form onSubmit="return confirm('Desea Borrar?')" style="" action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar

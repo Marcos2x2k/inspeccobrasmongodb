@@ -162,29 +162,29 @@
                     <div id="cardincisoa1" class="card-body mx-auto"
                         style="display:none; max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
                         {{!-- <div> --}}
-                            <p
+                            <input name="acta"
                                 style="font-weight: bold; width: 17%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                                border: 2px solid #cc0e0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;">
-                                INCISO A) 1)
-                            </p>
+                                border: 2px solid #cc0e0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;"
+                                value="INCISO A) 1)" readonly>
                             <input name="formulamulta" id="formulamulta" style="color:blue;font-weight: bold;"
                                 value="SCSp x 0,15 x TC" readonly>
                             {{!--
                         </div> --}}
                         <div class="row my-3">
-                            <div class="col-md-2">
+                            {{!-- <div class="col-md-2">
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Acta:</label>
                                     <input name="acta" style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                            box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="Acta" type="text"
+                                        box-sizing: border-box; border: 3px solid #0e0d0d;" 
+                                        placeholder="Acta" type="text"
                                         name="acta" id="acta" class="form-control" autocomplete="off" required>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-2">
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label" for="typeText">Num°
-                                        Acta:</label>
+                                        N° Acta:</label>
                                     <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                             border-box; border: 3px solid #0e0d0d;" placeholder="numacta" type="text" id="numacta"
                                         name="numacta" class="form-control" autocomplete="off" required>
@@ -236,8 +236,10 @@
                                 <div class="form-outline">
                                     <label style="color:blue; font-weight: bold;" class="form-label">Monto
                                         Total</label>
-                                    <input type="text" name="montototal" id="resultado" style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 1px solid #000000;" placeholder="0.00">
+                                    <input type="text" name="montototal" id="resultado" style="color:red; font-weight: bold; 
+                                    width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
+                                    border-box; border: 1px solid #000000;" placeholder="0.00"
+                                    >
                                 </div>
                             </div>
                             <div class="col-md-2">

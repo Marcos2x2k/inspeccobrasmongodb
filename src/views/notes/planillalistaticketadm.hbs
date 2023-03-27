@@ -99,7 +99,7 @@
             </td>
             <td>
               <a class="dropdown-item" href="/tickets/edit/{{_id}}" style="color:yellow">Editar</a>
-              <form style="" action="/tickets/delete/{{_id}}?_method=DELETE" method="POST">
+              <form onSubmit="return confirm('Desea Borrar?')"  style="" action="/tickets/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar
