@@ -1,9 +1,17 @@
 <script>
     function seleccionarinciso() {
         var seleccion = document.getElementById('incisos');
-        //document.getElementById('a1inciso').value=seleccion.selectedIndex
-        //getElementById('a1inciso').focus()
+        
         if (seleccion.selectedIndex == 1) {
+            var acta = "acta";
+            var numacta = "numacta";
+            var scsp = "scsp";
+            var montototal = "montototal";
+            var observaciones = "observaciones";
+            var tcactual = "tcactual";
+            var tc = "52000"
+            var formulamulta = "SCSp x 0,15 x TC"
+            document.getElementById("valor3").value = tc;
             var x = document.getElementById("cardincisoa1");
             if (x.style.display === "none") {
                 x.style.display = "block";
@@ -28,17 +36,15 @@
     }
 
     function fmontototal() {
-        var valor1 = document.getElementById("valor1").value;
-        var valor2 = document.getElementById("valor2").value;
-        var valor3 = document.getElementById("valor3").value;
-        var MontoTotal = parseFloat(valor1) * parseFloat(valor2) * parseFloat(valor3)
-        //document.getElementByName("verificar").value = saldo;        co
-        document.getElementById("resultado").value = MontoTotal.toFixed(2)
-        var observacionesmas = valor1+"*"+valor2+"*"+valor3
-        document.getElementById("observaciones").value = observacionesmas
-        var disabgrabar = MontoTotal.toFixed(2)
-        //montototal.innerHTML = input.value;         
-        if (disabgrabar > 0) {
+        var idvalor1 = document.getElementById("valor1").value;
+        var idvalor2 = document.getElementById("valor2").value;
+        var idvalor3 = document.getElementById("valor3").value;
+        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor1) * parseFloat(idvalor1)
+        var montototaldosdecimales = MontoTotal.toFixed(2) 
+        document.getElementById("resultado").value = montototaldosdecimales
+        var observacionesmas = idvalor1 + "*" + idvalor1 + "*" + idvalor1
+        document.getElementById("observacionesmas").value = observacionesmas
+        if (montototaldosdecimales > 0) {
             document.getElementById("grabar").style.display = "block";
         } else {
             document.getElementById("grabar").style.display = "none";
@@ -161,35 +167,27 @@
                     {{!-- INCISO A) 1) ************************ --}}
                     <div id="cardincisoa1" class="card-body mx-auto"
                         style="display:none; max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-                        {{!-- <div> --}}
-                            <label style="font-weight: bold;text-shadow: 2px 2px 5px rgb(134, 133, 133)">INFRACCIÓN Y PARALIZACIÓN</label>
-                            <br/>
-                            <input name="acta"
-                                style="font-weight: bold; width: 17%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
+
+                        <label style="font-weight: bold;text-shadow: 2px 2px 5px rgb(134, 133, 133)">INFRACCIÓN Y
+                            PARALIZACIÓN</label>
+                        <br />
+                        <input name={{acta}}
+                            style="font-weight: bold; width: 17%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                                 border: 2px solid #cc0e0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;"
-                                value="INCISO A) 1)" readonly>
-                            <input name="formulamulta" id="formulamulta" style="color:blue;font-weight: bold;"
-                                value="SCSp x 0,15 x TC" readonly>
-                            {{!--
-                        </div> --}}
+                            value="INCISO A) 1)" readonly>
+                        <input name={{formulamulta}} id="formulamulta" style="color:blue;font-weight: bold;"
+                            value="SCSp x 0,15 x TC" readonly>
+
                         <div class="row my-3">
-                            {{!-- <div class="col-md-2">
-                                <div class="form-outline">
-                                    <label style="font-weight: bold; color:black" class="form-label"
-                                        for="typeText">Acta:</label>
-                                    <input name="acta" style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                                        box-sizing: border-box; border: 3px solid #0e0d0d;" 
-                                        placeholder="Acta" type="text"
-                                        name="acta" id="acta" class="form-control" autocomplete="off" required>
-                                </div>
-                            </div> --}}
+
                             <div class="col-md-3">
                                 <div class="form-outline">
-                                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Num°
-                                        N° Acta:</label>
+                                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">
+                                        N° Acta:
+                                    </label>
                                     <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                            border-box; border: 3px solid #0e0d0d;" placeholder="numacta" type="text" id="numacta"
-                                        name="numacta" class="form-control" autocomplete="off" required>
+                            border-box; border: 3px solid #0e0d0d;" placeholder="numacta" type="text" id="idnumacta"
+                                        name={{numacta}} class="form-control" autocomplete="off" required>
 
                                 </div>
                             </div>
@@ -198,7 +196,7 @@
                             <div class="col-md-1">
                                 <div class="form-outline">
                                     <label style="color:blue;font-weight: bold;" class="" for="typeText">SCSp</label>
-                                    <input name="scsp" onkeyup="fmontototal()" style="font-weight: bold; color:black"
+                                    <input name={{scsp}} onkeyup="fmontototal()" style="font-weight: bold; color:black"
                                         type="number" min="0" id="valor1" value="0" required>
                                 </div>
                             </div>
@@ -224,9 +222,9 @@
                                 <div class="form-outline">
                                     <label style="color:blue; font-weight: bold;" class="form-label"
                                         for="typeText">T.C.</label>
-                                    <input name="tcactual" onkeyup="fmontototal()"
-                                        style="font-weight: bold; color:black" type="number" step="52000" min="0"
-                                        id="valor3" value="52000" readonly>
+                                    <input name={{tcactual}} onkeyup="fmontototal()"
+                                        style="font-weight: bold; color:black" type="number" step="1" min="0"
+                                        id="valor3">
                                 </div>
                             </div>
                             <div class="col-md-1">
@@ -238,19 +236,19 @@
                                 <div class="form-outline">
                                     <label style="color:blue; font-weight: bold;" class="form-label">Monto
                                         Total</label>
-                                    <input type="text" name="montototal" id="resultado" style="color:red; font-weight: bold; 
+                                    <input type="text" name={{montototal}} id="resultado" style="color:red; font-weight: bold; 
                                     width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" placeholder="0.00"
-                                    >
+                                    border-box; border: 1px solid #000000;" placeholder="0.00">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-outline">
-                                    <input type="text" name="observaciones" id="observaciones" style="display: none;">
+                                    <input type="text" value="observaciones" name={{observaciones}}
+                                        id="observacionesmas" style="display: none;">
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     {{!-- ACÁ SE GRABA EL FORMULARIO --}}
                     <div id="grabar" class="mx-auto" style="display:none">
                         <button class="btn btn-success btn-block" type="submit">
