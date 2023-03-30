@@ -89,11 +89,11 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     // const expediente = getElementById("expediente").value;   
     // const adrema = getElementById("adrema").value;
     // const propietario = getElementById("propietario").value;
-    const { acta,numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
+    const { fecha, acta,numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
         formulamulta, montototal, observaciones,user,name,date} = req.body;        
     
         const newMultas = new Multas({
-             acta,numacta, expediente, adrema, inciso, propietario, ubicacion,
+             fecha, acta,numacta, expediente, adrema, inciso, propietario, ubicacion,
              tcactual,formulamulta, montototal, observaciones,user,name,date
     })
     newMultas.user = req.user.id;

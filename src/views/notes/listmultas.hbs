@@ -10,42 +10,62 @@
             <div class="card-body">
                 <form>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Acta:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{multas.acta}}" style="color: black; font-weight: bold;" disabled>
+                        Fecha:
+                        <input type="date" name="fecha" class="form-control" placeholder="Sin Información"
+                            value="{{multas.fecha}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Numº Acta:
-                        <input type="text" name="user" class="form-control" placeholder="No Especificado"
+                        <input type="text" name="numacta" class="form-control" placeholder="No Especificado"
                             value="{{ multas.numacta }}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Acta:
+                        <input type="text" name="acta" class="form-control" placeholder="Sin Información"
+                            value="{{multas.acta}}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Formula Utilizada:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="formulamulta" class="form-control" placeholder="Sin Información"
                             value="{{multas.formulamulta}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Observaciones:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        Observaciones/Posible variación fórmula:
+                        <input type="text" name="observaciones" class="form-control" placeholder="Sin Información"
                             value="{{ multas.observaciones }}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Tasa Utilizada:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="tcactual" class="form-control" placeholder="Sin Información"
                             value="{{ multas.tcactual }}" style="color: black; font-weight: bold;" disabled>
                     </div>
-                    
+
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Monto Total Cobrado:
-                        <input type="text" name="name" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="montototal" class="form-control" placeholder="Sin Información"
                             value="{{multas.montototal}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Expediente:
+                        <input type="text" name="expediente" class="form-control" placeholder="Sin Información"
+                            value="{{multas.expediente}}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Adrema:
+                        <input type="text" name="expediente" class="form-control" placeholder="Sin Información"
+                            value="{{multas.adrema}}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Cargo Multa:
+                        <input type="text" name="date" class="form-control" placeholder="Sin Información"
+                            value="{{multas.name}}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Datos Exactos Creación Multa:
-                        <input type="text" name="dateturno" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="date" class="form-control" placeholder="Sin Información"
                             value="{{multas.date}}" style="color: black; font-weight: bold;" disabled>
                     </div>
-                    <br/>
+                    <br />
                     <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/multas"><i
                                 class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado Multas</p>
             </div>

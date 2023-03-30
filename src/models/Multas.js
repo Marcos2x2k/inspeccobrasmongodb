@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const MultasSchema = new Schema({
+    fecha: {
+        type: String,
+        require: false
+    },
     acta: {
         type: String,
         require: false
@@ -13,11 +17,13 @@ const MultasSchema = new Schema({
     },
     adrema: {
         type: String,
-        require: false
+        require: false,
+        default: "No Informó"
     },
     expediente: {
         type: String,
-        require: false
+        require: false,
+        default: "No Informó"
     },
     propietario: {
         type: String,
@@ -35,7 +41,7 @@ const MultasSchema = new Schema({
     formulamulta: {
         type: String,
         require: false,
-        default: "No Informó"
+        default: "No Posee"
     },   
     tcactual: {
         type: String,
