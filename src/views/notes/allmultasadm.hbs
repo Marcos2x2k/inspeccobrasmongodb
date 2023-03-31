@@ -12,19 +12,22 @@
 
     function agregarimpresion() {
         //alert('Imprimiendo Seleccionados');
-        
-        var agregarimpresioncheck = document.getElementById('checkbox');   
-        var valorid =  document.getElementById('valueid').value;
 
-        alert('El valor del checkbox es ' + valorid);
+        var agregarimpresioncheck = document.getElementById('_id');
+        console.log(agregarimpresioncheck)
+        var valorid = agregarimpresioncheck.value;
+        alert('Seleccionado ' + valorid);
 
-    agregarimpresioncheck.addEventListener('click', function () {
-        if (agregarimpresioncheck.checked) {            
-                alert('Imprimiendo Seleccionados');      
-        }
-    });
-
-}
+        agregarimpresioncheck.addEventListener('click', function () {
+            if (agregarimpresioncheck.checked) {
+                //alert('Multa Marcada');
+                //msg.innerText = 'El elemento está marcado';
+            } else {
+                //alert('Multa Des-Marcada');
+                //msg.innerText = 'Ahora está desmarcado';
+            }
+        });
+    }
 
 </script>
 
@@ -81,7 +84,7 @@
             <table class="table table-striped table-dark table-bordered">
                 <thead>
                     <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
-                        <td></td>
+                        <td>_ID</td>
                         <td>Fecha</td>
                         <td>Propietario</td>
                         <td>Ubicación</td>
@@ -96,8 +99,8 @@
                     {{#each multas}}
                     <tr>
                         <td>
-                            <input onclick="agregarimpresion()" type="checkbox" id="checkbox"
-                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">
+                            <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id' value=''
+                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
                         </td>
                         <td>{{ fecha }}</td>
                         <td>{{ propietario }}</td>
@@ -106,11 +109,8 @@
                         <td>{{ numacta }}</td>
                         <td>{{ montototal }}</td>
                         <td>
-                            {{!-- <a class="dropdown-item" href="/tasas/add/{{_id}}"
-                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a>
-                            --}}
-                            <a class="dropdown-item" href="/multas/list/{{_id}}" value="/multas/list/{{_id}}" id="valueid"
-                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+                            <a class="dropdown-item" href="/multas/list/{{_id}}"
+                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
                         </td>
                         <td>
                             {{!-- <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}"
@@ -128,7 +128,7 @@
                 </tbody>
                 <div id="msg"></div>
             </table>
-            
+
             <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Seleccionados</button>
         </div>
     </div>
