@@ -57,6 +57,11 @@ const MultasSchema = new Schema({
         type: String,
         require: false,
         default: "No Posee"
+    },    
+    impreso: {
+        type: String,
+        require: false,
+        default: "No"
     },
     user: {
         type: String,

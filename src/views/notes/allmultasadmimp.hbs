@@ -9,73 +9,10 @@
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
     }
-
-    function agregarimpresion() {
-        //alert('Imprimiendo Seleccionados');
-
-        var agregarimpresioncheck = document.getElementById('_id');
-        console.log(agregarimpresioncheck)
-        var valorid = agregarimpresioncheck.value;
-        //alert('Seleccionado ' + valorid);
-
-        agregarimpresioncheck.addEventListener('click', function () {
-            if (agregarimpresioncheck.checked) {
-                //alert('Multa Marcada');
-                //msg.innerText = 'El elemento está marcado';
-            } else {
-                alert('Multa Des-Marcada');
-                //msg.innerText = 'Ahora está desmarcado';
-            }
-        });
-    }
-
 </script>
 
 <div class="row">
-    <div class="form-group btn-center mx-auto">
-        <form action="/multa/findnumacta" method="POST">
-            <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar N° Acta
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/multa/findpropietario" method="POST">
-            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..."
-                autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar x Propietario
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/multa/findubicacion" method="POST">
-            <input type="search" class="form-control" name="adrema" placeholder="Buscar x Ubicación..." autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar x Ubicación
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/multa/findinciso" method="POST">
-            <input type="search" class="form-control" name="inspector" placeholder="Buscar x Expediente..." autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar x Expediente
-                </button>
-            </div>
-        </form>
-    </div>
-    <br /><br />
-    <a href="/multas/add" class="btn btn-success btn-block">Cargar Nueva multa!</a>
-    <a href="/multas" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+    <a href="/multas/imprimir" class="btn btn-outline-danger btn-block btn-sm">Imprimir Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
         <br />
@@ -98,7 +35,8 @@
                     {{#each multas}}
                     <tr>
                         <td>
-                            <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id' value=''
+                            <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id'
+                                value=''
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
                         </td>
                         <td>{{ fecha }}</td>
