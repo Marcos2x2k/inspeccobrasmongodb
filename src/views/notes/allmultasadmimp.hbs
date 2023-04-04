@@ -8,11 +8,55 @@
             mensaje = "Cancelado";
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
-    }
+    }    
+
 </script>
 
 <div class="row">
-    <a href="/multas/imprimir" class="btn btn-outline-danger btn-block btn-sm">Imprimir Listado</a>
+    <div class="form-group btn-center mx-auto">
+        <form action="/multa/findnumacta" method="POST">
+            <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar N° Acta
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/multa/findpropietario" method="POST">
+            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..."
+                autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar x Propietario
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/multa/findubicacion" method="POST">
+            <input type="search" class="form-control" name="adrema" placeholder="Buscar x Ubicación..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar x Ubicación
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/multa/findinciso" method="POST">
+            <input type="search" class="form-control" name="inspector" placeholder="Buscar x Expediente..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar x Expediente
+                </button>
+            </div>
+        </form>
+    </div>
+    <br /><br />
+    <a href="/multas/add" class="btn btn-success btn-block">Cargar Nueva multa!</a>
+    <a href="/multas" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
         <br />
@@ -20,31 +64,34 @@
             <table class="table table-striped table-dark table-bordered">
                 <thead>
                     <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
-                        <td>_ID</td>
+                        {{!-- <td>_ID</td> --}}
                         <td>Fecha</td>
                         <td>Propietario</td>
                         <td>Ubicación</td>
                         <td>Formula</td>
                         <td>N° Acta</td>
                         <td>Monto Total</td>
+                        <td>Impreso</td>
                         <td>+Datos</td>
                         <td>Opciones</td>
+
                     </tr>
                 </thead>
                 <tbody>
                     {{#each multas}}
                     <tr>
-                        <td>
+                        {{!-- <td>
                             <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id'
                                 value=''
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
-                        </td>
+                        </td> --}}
                         <td>{{ fecha }}</td>
                         <td>{{ propietario }}</td>
                         <td>{{ ubicacion }}</td>
                         <td>{{ formulamulta }}</td>
                         <td>{{ numacta }}</td>
                         <td>{{ montototal }}</td>
+                        <td>{{ impreso}}</td>
                         <td>
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
@@ -65,8 +112,15 @@
                 </tbody>
                 <div id="msg"></div>
             </table>
+            <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir?_method=GET"
+                method="GET">
+                <input type="hidden" name="_method" value="GET">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Imprimir Agregados
+                </button>
+            </form>
 
-            <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Seleccionados</button>
+            {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
         </div>
     </div>
 </div>

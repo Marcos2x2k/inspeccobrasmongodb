@@ -63,6 +63,11 @@ const MultasSchema = new Schema({
         require: false,
         default: "No"
     },
+    fechaimpreso: {
+        type: String,
+        require: false,
+        default: "No"
+    },
     user: {
         type: String,
         require: false,

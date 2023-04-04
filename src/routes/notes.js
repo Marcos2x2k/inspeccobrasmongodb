@@ -9,7 +9,7 @@ const Note = require('../models/Note')
 const Intimacion = require('../models/Intimacion')
 const Infraccion = require('../models/Infraccion')
 const Estadistica = require('../models/Estadistica')
-const Mesaentrada = require('../models/Mesaentrada')
+const Mesaentrada = require('../models/mesaentrada')
 const Ticket = require('../models/Ticket')
 const Cicloinspeccion = require('../models/cicloinspeccion')
 const Multas =  require('../models/Multas')
@@ -66,6 +66,7 @@ router.get('/infracciones/add', isAuthenticated, (req, res) => {
 router.get('/estadisticas/add', isAuthenticated, (req, res) => {
     res.render('notes/newestadisticas');
 })
+
 
 
 router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
@@ -590,6 +591,29 @@ router.get('/multas', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
     }
+});
+
+router.get('/multas/impresas', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Inspector") {
+     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        const multas = await Multas.find({ impreso: "No"}).lean().sort({ date: 'desc' });
+        res.render('notes/allmultasadmimp', { multas });
+    } else if (rolusuario == "Administrador") {
+        const multas = await Multas.find({ impreso: "No"}).lean().sort({ date: 'desc' });
+        res.render('notes/allmultasadmimp', { multas });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
+router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
+    const multas = await Multas.find({ impreso: "No"}).lean().sort({ date: 'desc' });
+    await Multas.updateMany({impreso:"No"},{ impreso: "Si"});
+    req.flash('success_msg', 'Multas Impresas')
+    res.render('notes/allmultasadmimp', { multas });
 });
 
 router.get('/tasas', isAuthenticated, async (req, res) => {
