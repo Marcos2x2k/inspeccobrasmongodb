@@ -609,11 +609,11 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
-    const multas = await Multas.find({ impreso: "No"}).lean().sort({ date: 'desc' });
-    await Multas.updateMany({impreso:"No"},{ impreso: "Si"});
-    req.flash('success_msg', 'Multas Impresas')
-    res.render('notes/allmultasadmimp', { multas });
+router.get('/multas/imprimir', isAuthenticated, async (req, res) => {    
+    await Multas.updateMany({impreso:"No"},{ impreso: "Si", fechaimpreso:new Date()});
+    const multas = await Multas.find().lean().sort({ date: 'desc' });
+    //req.flash('success_msg', 'Multas Impresas')
+    res.render('notes/allmultasadm', { multas });
 });
 
 router.get('/tasas', isAuthenticated, async (req, res) => {
