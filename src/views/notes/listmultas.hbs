@@ -1,4 +1,4 @@
-<div class="col-md-7 mx-auto">
+<div class="col-md-7 mx-auto">    
     {{!-- <div id=»reloj» style=»font-family: ‘DS-Digital’; width: 450px; background-color: black;font-size:100px;color:
         green ; text-align: center «></div> --}}
     <div class="card" style="font-style: italic;font-weight: bold;">
@@ -52,22 +52,22 @@
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Adrema:
-                        <input type="text" name="expediente" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="adrema" class="form-control" placeholder="Sin Información"
                             value="{{multas.adrema}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Cargo Tasas/Multa:
-                        <input type="text" name="date" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="name" class="form-control" placeholder="Sin Información"
                             value="{{multas.name}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Impreso:
-                        <input type="text" name="date" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="impreso" class="form-control" placeholder="Sin Información"
                             value="{{multas.impreso}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Fecha Impresion:
-                        <input type="text" name="date" class="form-control" placeholder="Sin Información"
+                        <input type="text" name="dateimpreso" id="iddateimpreso" class="form-control" placeholder="Sin Información" value=""
                             value="{{multas.fechaimpreso}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
@@ -75,6 +75,7 @@
                         <input type="text" name="date" class="form-control" placeholder="Sin Información"
                             value="{{multas.date}}" style="color: black; font-weight: bold;" disabled>
                     </div>
+                    <button onclick="fechaimpresion()">Prueba</button>
                     <br />
                     <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/multas"><i
                                 class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado Multas</p>
@@ -83,3 +84,15 @@
         </div>
     </div>
 </div>
+
+<script>  
+      
+    const arr = document.getElementById("iddateimpreso").value;
+    let fecha = arr.split(' ');
+    const year = fecha[0];
+    const month = fecha[1]
+    const day = fecha[2]
+    const hours = fecha[3]
+    document.getElementById("iddateimpreso").value = month + "/" + day + "/" + year + " " + hours;      
+    
+</script>

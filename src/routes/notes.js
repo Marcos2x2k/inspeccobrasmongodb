@@ -15,6 +15,7 @@ const Cicloinspeccion = require('../models/cicloinspeccion')
 const Multas =  require('../models/Multas')
 const Tasas =  require('../models/Tasas')
 
+const pdfMaster = require('pdf-master');
 
 const { multipleUpload } = require('../index')
 const fs = require('fs').promises
@@ -91,9 +92,9 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     // const adrema = getElementById("adrema").value;
     // const propietario = getElementById("propietario").value;
     const { fecha, acta,numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
-        formulamulta, montototal, observaciones,user,name,date} = req.body;        
+        formulamulta, montototal, observaciones,user,name,date} = req.body;   
     
-        const newMultas = new Multas({
+    const newMultas = new Multas({
              fecha, acta,numacta, expediente, adrema, inciso, propietario, ubicacion,
              tcactual,formulamulta, montototal, observaciones,user,name,date
     })
@@ -609,10 +610,22 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/multas/imprimir', isAuthenticated, async (req, res) => {    
+router.get('/multas/imprimir', isAuthenticated, async (req, res) => {   
+    
+    let options = {
+        displayHeaderFooter: true,
+        format: "A4",
+        headerTemplate: `<h3> Header </h3>`,
+        footerTemplate: `<h3> Copyright 2023 </h3>`,
+        margin: { top: "80px", bottom: "100px" },
+    };
+    let students = Multas.find({impreso:"No"});
+    let PDF = pdfMaster.generatePdf("allmultasadmimp.hbs", students, options);
     await Multas.updateMany({impreso:"No"},{ impreso: "Si", fechaimpreso:new Date()});
-    const multas = await Multas.find().lean().sort({ date: 'desc' });
-    //req.flash('success_msg', 'Multas Impresas')
+    const multas = Multas.find().lean().sort({ date: 'desc' });
+    req.flash('success_msg', 'Multas Impresas')
+    res.contentType("application/pdf");
+    res.status(200).send(PDF);
     res.render('notes/allmultasadm', { multas });
 });
 
