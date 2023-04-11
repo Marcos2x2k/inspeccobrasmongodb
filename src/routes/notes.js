@@ -12,17 +12,25 @@ const Estadistica = require('../models/Estadistica')
 const Mesaentrada = require('../models/mesaentrada')
 const Ticket = require('../models/Ticket')
 const Cicloinspeccion = require('../models/cicloinspeccion')
-const Multas =  require('../models/Multas')
-const Tasas =  require('../models/Tasas')
+const Multas = require('../models/Multas')
+const Tasas = require('../models/Tasas')
 
-const pdfMaster = require('pdf-master');
-
-const { multipleUpload } = require('../index')
+// *ZONA PDF* //
+//const pdfMaster = require('pdf-master');
+const pdfMake = require("pdfmake");
+const fontspdf = require("../views/css/fonts.js");
+const stylespdf = require("../views/css/styles.js");
+const { contentpdf } = require("../views/css/pdfContent.js");
 const fs = require('fs').promises
 
+const doc = new pdfMake({
+    Roboto: { normal: require('pdfmake/build/vfs_fonts.js').pdfMake.vfs['Roboto-Regular.ttf'], 'base64'.createPdfKitDocument({ content: 'test' })}
+  doc.pipe(fs.writeFile('/myFile.pdf'))
+  doc.end()
+
+const { multipleUpload } = require('../index')
 
 const { isAuthenticated } = require('../helpers/auth')
-
 
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {
     res.render('notes/newmesaentradas');
@@ -91,12 +99,12 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     // const expediente = getElementById("expediente").value;   
     // const adrema = getElementById("adrema").value;
     // const propietario = getElementById("propietario").value;
-    const { fecha, acta,numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
-        formulamulta, montototal, observaciones,user,name,date} = req.body;   
-    
+    const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
+        formulamulta, montototal, observaciones, user, name, date } = req.body;
+
     const newMultas = new Multas({
-             fecha, acta,numacta, expediente, adrema, inciso, propietario, ubicacion,
-             tcactual,formulamulta, montototal, observaciones,user,name,date
+        fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion,
+        tcactual, formulamulta, montototal, observaciones, user, name, date
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
@@ -125,14 +133,15 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
         zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
         inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
         user, name
-    } = req.body;  
+    } = req.body;
 
-    const newTicket = new Ticket({ plataforma, numticket, ubicacion, celular, email,
-         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir, 
-         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion, 
-         fechaentradainspecciones, inspeccionfecha, inspeccioninspector, intimaciones, 
-         infracciones, pasea, fechapasea,
-         user, name
+    const newTicket = new Ticket({
+        plataforma, numticket, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, pasea, fechapasea,
+        user, name
     })
     const mayu = iniciador.replace(/\b\w/g, l => l.toUpperCase())
     newTicket.iniciador = mayu
@@ -582,7 +591,7 @@ router.get('/multas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Inspector") {
-     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         res.render('notes/allmultasadm', { multas });
     } else if (rolusuario == "Administrador") {
@@ -598,11 +607,11 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Inspector") {
-     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({ impreso: "No"}).lean().sort({ date: 'desc' });
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadmimp', { multas });
     } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find({ impreso: "No"}).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadmimp', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
@@ -610,8 +619,8 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/multas/imprimir', isAuthenticated, async (req, res) => {   
-    
+router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
+
     let options = {
         displayHeaderFooter: true,
         format: "A4",
@@ -619,13 +628,13 @@ router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
         footerTemplate: `<h3> Copyright 2023 </h3>`,
         margin: { top: "80px", bottom: "100px" },
     };
-    let students = Multas.find({impreso:"No"});
-    let PDF = pdfMaster.generatePdf("allmultasadmimp.hbs", students, options);
-    await Multas.updateMany({impreso:"No"},{ impreso: "Si", fechaimpreso:new Date()});
+    //let students = Multas.find({impreso:"No"});
+    //let PDF = pdfMaster.generatePdf("allmultasadmimp.hbs", students, options);
+    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
     const multas = Multas.find().lean().sort({ date: 'desc' });
+    // pdfDoc.pipe(fs.createWriteStream("../public/pdfs/pdfTest.pdf"));
+    // pdfDoc.end();
     req.flash('success_msg', 'Multas Impresas')
-    res.contentType("application/pdf");
-    res.status(200).send(PDF);
     res.render('notes/allmultasadm', { multas });
 });
 
@@ -666,10 +675,10 @@ router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Inspector") {
-        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });        ;
-        res.render('notes/planillalistaticket', { ticket});
+        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });;
+        res.render('notes/planillalistaticket', { ticket });
     } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });   
+        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });
         res.render('notes/planillalistaticketadm', { ticket });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
@@ -680,10 +689,10 @@ router.get('/ticket/listado', isAuthenticated, async (req, res) => {
 router.get('/tasas/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador") {
-        const tasas = await Tasas.find().limit(500).lean().sort({ date: 'desc' });        ;
-        res.render('notes/planillalistaticket', { tasas});
+        const tasas = await Tasas.find().limit(500).lean().sort({ date: 'desc' });;
+        res.render('notes/planillalistaticket', { tasas });
     } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const tasas = await Tasas.find().limit(500).lean().sort({ date: 'desc' });   
+        const tasas = await Tasas.find().limit(500).lean().sort({ date: 'desc' });
         res.render('notes/planillalistaticketadm', { tasas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
