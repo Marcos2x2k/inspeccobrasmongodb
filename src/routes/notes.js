@@ -15,22 +15,14 @@ const Cicloinspeccion = require('../models/cicloinspeccion')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 
-// *ZONA PDF* //
-//const pdfMaster = require('pdf-master');
-const pdfMake = require("pdfmake");
-const fontspdf = require("../views/css/fonts.js");
-const stylespdf = require("../views/css/styles.js");
-const { contentpdf } = require("../views/css/pdfContent.js");
 const fs = require('fs').promises
 
-const doc = new pdfMake({
-    Roboto: { normal: require('pdfmake/build/vfs_fonts.js').pdfMake.vfs['Roboto-Regular.ttf'], 'base64'.createPdfKitDocument({ content: 'test' })}
-  doc.pipe(fs.writeFile('/myFile.pdf'))
-  doc.end()
-
-const { multipleUpload } = require('../index')
-
+// *ZONA PDF* //
 const { isAuthenticated } = require('../helpers/auth')
+
+router.get('/factura', isAuthenticated, (req, res) => {
+    res.render('notes/factura', { layouts: "pdf"});
+})
 
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {
     res.render('notes/newmesaentradas');
@@ -91,14 +83,10 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
     await newMesaentrada.save();
     req.flash('success_msg', 'Turno Agregado Exitosamente');
     res.redirect('/mesaentrada/listado');
-    // res.send('ok');
-    // }
+
 })
 
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
-    // const expediente = getElementById("expediente").value;   
-    // const adrema = getElementById("adrema").value;
-    // const propietario = getElementById("propietario").value;
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
         formulamulta, montototal, observaciones, user, name, date } = req.body;
 
@@ -156,16 +144,6 @@ router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
 
     const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
         contacto, hora, observaciones, user, name } = req.body;
-    // const newMesaentrada = new Mesaentrada();
-    // newMesaentrada.sector = req.body.sector;
-    // newMesaentrada.numturno = req.body.numturno;
-    // newMesaentrada.fechaingreso = req.body.fechaingreso;
-    // newMesaentrada.horaingreso = req.body.horaingreso;
-    // newMesaentrada.numexpediente = req.body.numexpediente;
-    // newMesaentrada.nomyape = req.body.nomyape;
-    // newMesaentrada.dni = req.body.dni;
-    // newMesaentrada.contacto = req.body.contacto;
-    // newMesaentrada.hora = req.body.hora;
     const newMesaentrada = new Mesaentrada({
         sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
         contacto, hora, observaciones, user, name
@@ -175,18 +153,7 @@ router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
     await newMesaentrada.save();
     req.flash('success_msg', 'Turno Agregado Exitosamente');
     res.redirect('/mesaentrada');
-    // }
-    //     const newMesaentrada = new Mesaentrada({
-    //         sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-    //         contacto, hora, user, name
-    //     })
-    //     newMesaentrada.user = req.user.id;
-    //     newMesaentrada.name = req.user.name;
-    //     await newMesaentrada.save();
-    //     req.flash('success_msg', 'Turno Agregado Exitosamente');
-    //     res.redirect('/mesaentrada');
-    //     // res.send('ok');
-    // // }
+
 })
 
 router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
@@ -204,9 +171,7 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
     if (!estado) {
         errors.push({ text: "Ingrese Estado" })
     }
-    // if (!inspector){
-    //     errors.push({text: "Ingrese Nombre Inspector/Usuario"})
-    // }
+
     console.log(errors)
     if (errors.length > 0) {
         res.render('notes/newexpediente', {
@@ -225,19 +190,11 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         newExpediente.name = req.user.name;
         await newExpediente.save();
         req.flash('success_msg', 'Expediente Agregado Exitosamente');
-        // console.log (newNote)
         res.redirect('/expedientes');
-        // res.send('ok');
     }
 })
 
 router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
-    //console.log(req.body)
-    // const { numinspeccion, expediente, oficio, acta, adrema, date, inspuser,
-    //     informeinspnum, fechaentradinspec, inspecfecha,
-    //     inspector, fotoinspeccion, intimacion, infraccion, observacion,
-    //     paseanumdestino, pasea, fechapasea, user ,name
-    // } = req.body;
     const newNote = new Note();
     newNote.origeninspeccion = req.body.origeninspeccion;
     newNote.numinspeccion = req.body.numinspeccion;
@@ -254,34 +211,6 @@ router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
     newNote.paseanumdestino = req.body.paseanumdestino;
     newNote.pasea = req.body.pasea;
     newNote.fechapasea = req.body.fechapasea
-    // const errors = [];
-    // if (!numinspeccion) {
-    //     errors.push({ text: "Ingrese Nº Inspección" })
-    // }
-    // if (!date) {
-    //     errors.push({ text: "Ingrese Fecha Actual" })
-    // }
-    // if (!inspector){
-    //     errors.push({text: "Ingrese Nombre Inspector/Usuario"})
-    // }
-    // console.log(errors)
-    // if (errors.length > 0) {
-    //     res.render('notes/newnotes', {
-    //         errors,
-    //         numinspeccion, expediente, adrema
-    //     })
-    // } else {
-    //     const newNote = new Note({
-    //         numinspeccion, expediente,  oficio, acta, adrema, date, inspuser,
-    //         informeinspnum, fechaentradinspec, inspecfecha,
-    //         inspector, fotoinspeccion, intimacion, infraccion, observacion,
-    //         paseanumdestino, pasea, fechapasea, user ,name
-    //     })
-    // newEstadistica.filename = req.file.filename;
-    // newEstadistica.path = '/img/uploads/' + req.file.filename;
-    // newEstadistica.originalname= req.file.originalname;
-    // newEstadistica.mimetype = req.file.mimetype;
-    // newEstadistica.size = req.file.size;
     if (req.files[0]) {
         newNote.filename = req.files[0].filename;
         newNote.path = '/img/uploads/' + req.files[0].filename;
@@ -620,22 +549,10 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
 });
 
 router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
-
-    let options = {
-        displayHeaderFooter: true,
-        format: "A4",
-        headerTemplate: `<h3> Header </h3>`,
-        footerTemplate: `<h3> Copyright 2023 </h3>`,
-        margin: { top: "80px", bottom: "100px" },
-    };
-    //let students = Multas.find({impreso:"No"});
-    //let PDF = pdfMaster.generatePdf("allmultasadmimp.hbs", students, options);
     await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
-    const multas = Multas.find().lean().sort({ date: 'desc' });
-    // pdfDoc.pipe(fs.createWriteStream("../public/pdfs/pdfTest.pdf"));
-    // pdfDoc.end();
+    const multasimprimir = Multas.find().lean().sort({ date: 'desc' });
     req.flash('success_msg', 'Multas Impresas')
-    res.render('notes/allmultasadm', { multas });
+    res.render('notes/multas', { multas });
 });
 
 router.get('/tasas', isAuthenticated, async (req, res) => {
@@ -1188,8 +1105,6 @@ router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
 
 // *** BUSCAR INSPECCIONES (NOTES) ***
 router.post('/expedientes/find', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { numexpediente } = req.body;
     const expedientes = await Expediente.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ fechainicioentrada: 'desc' });;
     if (!expedientes) {
@@ -1200,8 +1115,6 @@ router.post('/expedientes/find', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { adremaexp } = req.body;
     const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
     if (!expedientes) {
@@ -1212,8 +1125,6 @@ router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { iniciadornomyape } = req.body;
     const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
     if (!expedientes) {
@@ -1226,8 +1137,6 @@ router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
 
 // *** BUSCAR INSPECCIONES ***
 router.post('/notes/findinspeccion', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { numinspeccion } = req.body;
     const notes = await Note.find({ numinspeccion: { $regex: numinspeccion, $options: "i" } }).lean().sort({ numinspeccion: 'desc' });;
     if (!notes) {
@@ -1238,8 +1147,6 @@ router.post('/notes/findinspeccion', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findexpediente', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { expediente } = req.body;
     const notes = await Note.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ expediente: 'desc' });;
     if (!notes) {
@@ -1250,8 +1157,6 @@ router.post('/notes/findexpediente', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { adrema } = req.body;
     const notes = await Note.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ adrema: 'desc' });;
     if (!notes) {
@@ -1262,8 +1167,6 @@ router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findinspector', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { inspector } = req.body;
     const notes = await Note.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ inspector: 'desc' });;
     if (!notes) {
@@ -1276,8 +1179,6 @@ router.post('/notes/findinspector', isAuthenticated, async (req, res) => {
 
 // *** BUSCAR INTIMACIONES ***
 router.post('/notes/findintimacion', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { boletaintnum } = req.body;
     const intimacions = await Intimacion.find({ boletaintnum: { $regex: boletaintnum, $options: "i" } }).lean().sort({ numinspeccion: 'desc' });;
     if (!intimacions) {
@@ -1288,8 +1189,6 @@ router.post('/notes/findintimacion', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findexpedienteintimacion', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { numexpedienteint } = req.body;
     const intimacions = await Intimacion.find({ numexpedienteint: { $regex: numexpedienteint, $options: "i" } }).lean().sort({ numexpedienteint: 'desc' });;
     if (!intimacions) {
@@ -1300,8 +1199,6 @@ router.post('/notes/findexpedienteintimacion', isAuthenticated, async (req, res)
     }
 });
 router.post('/notes/findadremaintim', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { adrema } = req.body;
     const intimacions = await Intimacion.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ adrema: 'desc' });;
     if (!intimacions) {
@@ -1312,8 +1209,6 @@ router.post('/notes/findadremaintim', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findinspectorintim', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { inspectorint } = req.body;
     const intimacions = await Intimacion.find({ inspectorint: { $regex: inspectorint, $options: "i" } }).lean().sort({ inspectorint: 'desc' });;
     if (!intimacions) {
@@ -1326,8 +1221,7 @@ router.post('/notes/findinspectorintim', isAuthenticated, async (req, res) => {
 
 // *** BUSCAR INFRACCIONES ***
 router.post('/notes/findinfraccion', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
+
     const { actainfnum } = req.body;
     const infraccions = await Infraccion.find({ actainfnum: { $regex: actainfnum, $options: "i" } }).lean().sort({ actainfnum: 'desc' });;
     if (!infraccions) {
@@ -1338,8 +1232,6 @@ router.post('/notes/findinfraccion', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findexpedienteinf', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { numexpedienteinf } = req.body;
     const infraccions = await Infraccion.find({ numexpedienteinf: { $regex: numexpedienteinf, $options: "i" } }).lean().sort({ numexpedienteinf: 'desc' });;
     if (!infraccions) {
@@ -1350,8 +1242,6 @@ router.post('/notes/findexpedienteinf', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findadremainf', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { adremainf } = req.body;
     const infraccions = await Infraccion.find({ adremainf: { $regex: adremainf, $options: "i" } }).lean().sort({ adremainf: 'desc' });;
     if (!infraccions) {
@@ -1362,8 +1252,6 @@ router.post('/notes/findadremainf', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/notes/findpropietainf', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { apellidonombrepropietarioinf } = req.body;
     const infraccions = await Infraccion.find({ apellidonombrepropietarioinf: { $regex: apellidonombrepropietarioinf, $options: "i" } }).lean().sort({ apellidonombrepropietarioinf: 'desc' });;
     if (!infraccions) {
@@ -1375,8 +1263,6 @@ router.post('/notes/findpropietainf', isAuthenticated, async (req, res) => {
 });
 // *** BUSCAR ESTADISTICAS ***
 router.post('/notes/findnumestadistica', isAuthenticated, async (req, res) => {
-    // const numexpediente = req.query.id;
-    // ({"name": /desarrolladores/i})
     const { estadisticanum } = req.body;
     const estadisticas = await Estadistica.find({ estadisticanum: { $regex: estadisticanum, $options: "i" } }).lean().sort({ estadisticanum: 'desc' });;
     if (!estadisticas) {
@@ -1539,8 +1425,6 @@ router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
     await Mesaentrada.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Turno Eliminado')
     res.redirect('/mesaentrada')
-    // console.log(req.params.id)
-    // res.send('ok')
 });
 
 router.delete('/multas/delete/:id', isAuthenticated, async (req, res) => {
@@ -1553,16 +1437,12 @@ router.delete('/tickets/delete/:id', isAuthenticated, async (req, res) => {
     await Ticket.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Ticket Eliminado')
     res.redirect('/ticket/listado')
-    // console.log(req.params.id)
-    // res.send('ok')
 });
 
 router.delete('/expedientes/delete/:id', isAuthenticated, async (req, res) => {
     await Expediente.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'expediente Eliminado')
     res.redirect('/expedientes')
-    // console.log(req.params.id)
-    // res.send('ok')
 });
 
 //notes es inspecciones
@@ -1570,25 +1450,18 @@ router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
     await Note.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Inspección Eliminada')
     res.redirect('/notes')
-    // console.log(req.params.id)
-    // res.send('ok')
 });
 
 router.delete('/intimaciones/delete/:id', isAuthenticated, async (req, res) => {
     await Intimacion.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Intimación Eliminada')
     res.redirect('/intimaciones')
-    // console.log(req.params.id)
-    // res.send('ok')
-
 });
 
 router.delete('/infracciones/delete/:id', isAuthenticated, async (req, res) => {
     await Infraccion.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Infracción Eliminada')
     res.redirect('/infracciones')
-    // console.log(req.params.id)
-    // res.send('ok')
 });
 
 router.delete('/estadisticas/delete/:id', isAuthenticated, async (req, res) => {
@@ -1699,7 +1572,6 @@ router.post('/notes/newestadisticas', isAuthenticated, async (req, res) => {
 // router.get('/image/:id/delete', isAuthenticated, async (req, res) => {
 
 // })
-
 
 
 module.exports = router;

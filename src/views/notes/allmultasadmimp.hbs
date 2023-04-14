@@ -112,11 +112,14 @@
                 </tbody>
                 <div id="msg"></div>
             </table>
+            <form>
+                <a href="/factura" class="btn btn-primary">Ver Factura</a>
+            </form>
             <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir?_method=GET"
                 method="GET">
                 <input type="hidden" name="_method" value="GET">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Imprimir Agregados
+                    Deacargar Factura
                 </button>
             </form>
 
