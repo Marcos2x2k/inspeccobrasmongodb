@@ -17,11 +17,17 @@ const Tasas = require('../models/Tasas')
 
 const fs = require('fs').promises
 
-// *ZONA PDF* //
+
 const { isAuthenticated } = require('../helpers/auth')
 
-router.get('/factura', isAuthenticated, (req, res) => {
-    res.render('notes/factura', { layouts: "pdf"});
+// *ZONA PDF* //
+//const PDFController = require('./PDFcontroller')
+
+router.get('/factura', isAuthenticated, async (req, res) => {
+    //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
+    const multas = await Multas.find().lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
+    res.render('notes/factura', { multas });
+    //res.render('notes/factura', { layouts: "pdf"});
 })
 
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {

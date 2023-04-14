@@ -1,24 +1,44 @@
-<h1>FACTURACIÓN</h1>
-
-<table class="table table-striped">
-    <tr>
-        <td>Hola</td>
-        <td>Mundo</td>
-    </tr>
-    <tr>
-        <td>Hola</td>
-        <td>Mundo</td>
-    </tr>
-    <tr>
-        <td>Hola</td>
-        <td>Mundo</td>
-    </tr>
-    <tr>
-        <td>Hola</td>
-        <td>Mundo</td>
-    </tr>
-    <tr>
-        <td>Hola</td>
-        <td>Mundo</td>
-    </tr>
-</table>
+<div class="row">
+    <div class="form-group btn-center mx-auto">
+        <div class="card">
+            <div style="color:blueviolet" class="form-group"> 
+                <img style="" width="400"src="https://ciudaddecorrientes.gov.ar/sites/default/themes/ciudaddecorrientes/logo.png"/>
+                <img style="" width="100"src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png"/>
+                <h4>FACTURACIÓN</h4>
+            </div>         
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">                        
+                        <td>Fecha</td>
+                        <td>Acta</td>
+                        <td>Propietario</td>
+                        <td>Ubicación</td>
+                        <td>Formula</td>
+                        <td>Formula Multa</td>
+                        <td>Monto Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each multas}}
+                    <tr>
+                        <td>{{ fecha }}</td>
+                        <td>{{ numacta }}</td>
+                        <td>{{ propietario }}</td>
+                        <td>{{ ubicacion }}</td>
+                        <td>{{ formula }}</td>
+                        <td>{{ formulamulta }}</td>
+                        <td>{{ montototal }}</td>                        
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <form onSubmit="return confirm('Desea Imprimir?')" action="/" method="GET">
+                <input type="hidden" name="_method" value="GET">
+                <button class="btn btn-success btn-block btn-sm" type="submit">
+                    Descargar Factura
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

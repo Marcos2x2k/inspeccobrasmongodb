@@ -8,7 +8,7 @@
             mensaje = "Cancelado";
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
-    }    
+    }
 
 </script>
 
@@ -112,16 +112,28 @@
                 </tbody>
                 <div id="msg"></div>
             </table>
-            <form>
-                <a href="/factura" class="btn btn-primary">Ver Factura</a>
+            {{!-- <form>
+                <a href="/factura" class="btn btn-danger">Ver Factura</a>
             </form>
-            <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir?_method=GET"
-                method="GET">
+            </br> --}}
+
+            <form onSubmit="return confirm('Previsualizar Factura?')" action="/factura?_method=GET" method="GET">
                 <input type="hidden" name="_method" value="GET">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Deacargar Factura
+                <button class="btn btn-danger btn-sm" type="submit">
+                    Ver Factura
                 </button>
             </form>
+            <form onSubmit="return confirm('Descargar Archivo PDF?')" action="/multas/imprimir?_method=GET"
+                method="GET">
+                <input type="hidden" name="_method" value="GET">
+                <button class="btn btn-warning btn-sm" type="submit">
+                    Descargar Factura
+                </button>
+            </form>
+
+            <br />
+            <p style="color:rgb(229, 233, 11); font-style:oblique; font-weight: bold;"><a href="/multas"><i
+                        class="fas fa-list" style='font-size:24px;color:rgb(255, 30, 0)'></i></a> Volver Listado Multas</p>
 
             {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
         </div>
