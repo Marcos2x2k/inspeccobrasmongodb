@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="form-group btn-center mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div style="color:black" class="form-group">
+                    <div style="display: flex; justify-content: center">
+                        <img style="align=center;" width="250" height="95"
+                            src="https://ciudaddecorrientes.gov.ar/sites/default/themes/ciudaddecorrientes/logo.png" />
+                        <img style="align: right" width="100"
+                            src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />
+                    </div>
+                    <div style="display: grid; justify-content: center; font-family: Garamond">
+                        <h5>MUNICIPALIDAD DE LA CUIDAD DE CORRIENTES</h5>
+                    </div>
+                    <div style="display: grid; justify-content: center;font-family: Garamond">
+                        <h5>SECRETARIA DE DESARROLLO URBANO</h5>
+                    </div>
+                    <div style="display: grid; justify-content: center;font-family: Garamond">
+                        <h5>SUBSECRETARIA DE FISCALIZACIÓN</h5>
+                    </div>
+                    <div style="display: grid; justify-content: center;font-family: Garamond">
+                        <h5>DIRECCIÓN GENERAL DE OBRAS PARTICULARES</h5>
+                    </div>
+                    <h5>==================================== ====================================</h5>
+                </div>
+                <div class="card" style="">
+                    <h5>214/2022</h5>
+                    <h3 style="font-family: "Times New Roman", Times, serif;">INFRACCIONES</h3>
+                    <h5>Administración del tribunal de faltas</h5>
+                    <h5>S_______/________D:</h5>
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Se remiten las actas de infracción, las cuales fueron la bradas por la Dirección Gral. de
+                        Inspeccion
+                        de Obras.</p>
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Corresponde la Aplicación de la Ordenanza 5689/12</p>
+                    <h5 style="font-family: Arial, Helvetica, sans-serif;">Art.1.6.5. MULTAS AL PROPIETARIO</h5>
+                </div>
+
+                <table class="table table-striped" style="font-family: Serif;">
+                    <thead>
+                        <tr style="background-color: rgb(117, 114, 117)">
+                            <td>Fecha</td>
+                            <td>Acta</td>
+                            <td>Propietario</td>
+                            <td>Ubicación</td>
+                            <td>Inciso</td>
+                            <td>Formula Multa</td>
+                            <td>Monto Total</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each multas}}
+                        <tr>
+                            <td>{{ fecha }}</td>
+                            <td>{{ numacta }}</td>
+                            <td>{{ propietario }}</td>
+                            <td>{{ ubicacion }}</td>
+                            <td>{{ inciso }}</td>
+                            <td>{{ formulamulta }}</td>
+                            <td>{{ montototal }}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <form onSubmit="return confirm('Desea Imprimir?')" action="/descargarfactura" method="GET">
+                    <input type="hidden" name="_method" value="GET">
+                    <button class="btn btn-success btn-block btn-sm" type="submit">
+                        Descargar Factura
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -123,7 +123,7 @@
                     Ver Factura
                 </button>
             </form>
-            <form onSubmit="return confirm('Descargar Archivo PDF?')" action="/multas/imprimir?_method=GET"
+            <form onSubmit="return confirm('Descargar Archivo PDF?')" action="/multas/descargarfactura?_method=GET"
                 method="GET">
                 <input type="hidden" name="_method" value="GET">
                 <button class="btn btn-warning btn-sm" type="submit">
