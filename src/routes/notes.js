@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 //const mongopagi = require('mongoose-paginate-v2')
 
-// tengo que requerir los modelos para que 
-// mongoose me cree las tablas
+// tengo que requerir los modelos para que mongoose me cree las tablas
 const Expediente = require('../models/Expediente')
 const Note = require('../models/Note')
 const Intimacion = require('../models/Intimacion')
@@ -17,12 +16,10 @@ const Tasas = require('../models/Tasas')
 
 const fs = require('fs').promises
 
-
 const { isAuthenticated } = require('../helpers/auth')
 
 // *ZONA PDF* //
-//const PDFController = require('./PDFcontroller')
-const puppeteer = require('puppeteer');
+const pdf = require("html-pdf")
 
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
@@ -31,26 +28,21 @@ router.get('/factura', isAuthenticated, async (req, res) => {
     //res.render('notes/factura', { layouts: "pdf"});
 })
 
-async function crearFactura(url) {
-    // Abrir el navegador
-    let navegador = await puppeteer.launch();
-    // Creamos una nueva pestaña o pagina
-    let pagina = await navegador.newPage();
-    // Abrir la url dentro de esta pagina
-    await pagina.goto(url);
-    // Vamos a crear nuestro PDF
-    let pdf = await pagina.pdf();
-    // Cerrar el navegador
-    navegador.close();
-    return pdf;
-}
-
-router.get('/descargarfactura',isAuthenticated, async (req, res) => { 
-     // Crear nuestra factura    
-    let pdf = await crearFactura('http://172.25.2.215:8080/factura');
-    // Devolver el response como PDF
-    res.contentType('application/pdf');
-    res.send(pdf);
+router.get('/descargarfactura', isAuthenticated, async (req, res) => {
+    const ubicacionPlantilla = require.resolve("../views/notes/factura.hbs")
+    const puerto = "172.25.2.215";   
+    var fstemp = require('fs');    
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    const valorPasadoPorNode = "Soy un valor pasado desde JavaScript";
+    contenidoHtml = contenidoHtml.replace("{{valor}}", valorPasadoPorNode);
+    pdf.create(contenidoHtml).toStream((error, stream) => {
+        if (error) {
+            res.end("Error creando PDF: " + error)
+        } else {
+            res.setHeader("Content-Type", "application/pdf");
+            stream.pipe(res);
+        }
+    });
 })
 
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {

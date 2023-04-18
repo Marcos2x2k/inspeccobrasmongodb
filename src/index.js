@@ -129,7 +129,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const port = 8080;
 //aquí va tu ip de mi pc o servidor q tenga el sistema
 //const IP = "172.25.2.119";
-const IP = "172.25.2.215" // PC DOC
+const IP = "172.25.2.215" // PC MIA
 
 //app.listen(app.get('port'), () => {
 app.listen(port, () => {
