@@ -25,19 +25,21 @@
                 </div>
                 <div class="card" style="">
                     <h5>214/2022</h5>
-                    <h3 style="font-family: "Times New Roman", Times, serif;">INFRACCIONES</h3>
+                    <h3 style="font-family: " Times New Roman", Times, serif;">INFRACCIONES</h3>
                     <h5>Administración del tribunal de faltas</h5>
                     <h5>S_______/________D:</h5>
-                    <p style="font-family: Arial, Helvetica, sans-serif;">Se remiten las actas de infracción, las cuales fueron la bradas por la Dirección Gral. de
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Se remiten las actas de infracción, las cuales
+                        fueron la bradas por la Dirección Gral. de
                         Inspeccion
                         de Obras.</p>
-                    <p style="font-family: Arial, Helvetica, sans-serif;">Corresponde la Aplicación de la Ordenanza 5689/12</p>
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Corresponde la Aplicación de la Ordenanza
+                        5689/12</p>
                     <h5 style="font-family: Arial, Helvetica, sans-serif;">Art.1.6.5. MULTAS AL PROPIETARIO</h5>
                 </div>
 
-                <table class="table table-striped" style="font-family: Serif;">
+                <table class="table table-condensed table-bordered table-striped" style="font-family: Serif; font-size: smaller">
                     <thead>
-                        <tr style="background-color: rgb(117, 114, 117)">
+                        <tr style="background-color: rgb(226, 222, 226)">
                             <td>Fecha</td>
                             <td>Acta</td>
                             <td>Propietario</td>
@@ -48,7 +50,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each multas}}
+                        {{multas}}
+                    </tbody>
+                    <tfoot>
                         <tr>
                             <td>{{ fecha }}</td>
                             <td>{{ numacta }}</td>
@@ -58,15 +62,9 @@
                             <td>{{ formulamulta }}</td>
                             <td>{{ montototal }}</td>
                         </tr>
-                        {{/each}}
-                    </tbody>
+                    </tfoot>
+                    <h4> ============================== o ============================== </h4>
                 </table>
-                <form onSubmit="return confirm('Desea Imprimir?')" action="/descargarfactura" method="GET"  target="_blank">
-                    <input type="hidden" name="_method" value="GET">
-                    <button class="btn btn-success btn-block btn-sm" type="submit">
-                        Descargar Factura
-                    </button>
-                </form>
             </div>
         </div>
     </div>

@@ -23,26 +23,50 @@ const pdf = require("html-pdf")
 
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find().lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
+    const multas = await Multas.find({impreso:'No'}).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
     res.render('notes/factura', { multas });
     //res.render('notes/factura', { layouts: "pdf"});
 })
 
 router.get('/descargarfactura', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/factura.hbs")
-    const puerto = "172.25.2.215";   
-    var fstemp = require('fs');    
+    const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
+    const puerto = "172.25.2.215";
+    var fstemp = require('fs');
+    //const formateador = new Intl.NumberFormat()//("sp", { style: "currency", "currency": "MXN" });
+    let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const valorPasadoPorNode = "Soy un valor pasado desde JavaScript";
-    contenidoHtml = contenidoHtml.replace("{{valor}}", valorPasadoPorNode);
+    //const valorPasadoPorNode = "Soy un valor pasado desde JavaScript";
+    const multa = await Multas.find({impreso:'No'}).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
+    for (const multas of multa) {
+        // Y concatenar las multas
+        tabla += `<tr>
+    <td>${multas.fecha}</td>
+    <td>${multas.numacta}</td>
+    <td>${multas.propietario}</td>
+    <td>${multas.ubicacion}</td>
+    <td>${multas.inciso}</td>
+    <td>${multas.formulamulta}</td>
+    <td>${multas.montototal}</td>    
+    </tr>`;
+    }
+    //<td>${formateador.format(multa.montototal)}</td>
+    //contenidoHtml = contenidoHtml.replace("{{valor}}", valorPasadoPorNode);
+    contenidoHtml = contenidoHtml.replace("{{multas}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{fecha}}");
+    contenidoHtml = contenidoHtml.replace("{{numacta}}");
+    contenidoHtml = contenidoHtml.replace("{{propietario}}");
+    contenidoHtml = contenidoHtml.replace("{{ubicacion}}");
+    contenidoHtml = contenidoHtml.replace("{{inciso}}");
+    contenidoHtml = contenidoHtml.replace("{{formulamulta}}");    
     pdf.create(contenidoHtml).toStream((error, stream) => {
+        
         if (error) {
             res.end("Error creando PDF: " + error)
         } else {
             res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);
+            stream.pipe(res);            
         }
-    });
+    });    
 })
 
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {

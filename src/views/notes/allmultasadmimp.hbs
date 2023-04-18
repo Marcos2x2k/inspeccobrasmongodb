@@ -117,14 +117,20 @@
             </form>
             </br> --}}
 
-            <form onSubmit="return confirm('Previsualizar Factura?')" action="/factura?_method=GET" method="GET">
+            <form action="/factura?_method=GET" method="GET"  target="_blank">
                 <input type="hidden" name="_method" value="GET">
-                <button class="btn btn-danger btn-sm" type="submit">
+                <button class="btn btn-danger" type="submit">
                     Ver Factura
                 </button>
             </form>
-            <form onSubmit="return confirm('Descargar Archivo PDF?')" action="/multas/descargarfactura?_method=GET"
+            {{!-- <form onSubmit="return confirm('Descargar Archivo PDF?')" action="/multas/descargarfactura?_method=GET"
                 method="GET">
+                <input type="hidden" name="_method" value="GET">
+                <button class="btn btn-warning btn-sm" type="submit">
+                    Descargar Factura
+                </button>
+            </form> --}}
+            <form onSubmit="return confirm('Desea Crear Factura?')" action="/descargarfactura" method="GET" target="_blank">
                 <input type="hidden" name="_method" value="GET">
                 <button class="btn btn-warning btn-sm" type="submit">
                     Descargar Factura
@@ -133,7 +139,8 @@
 
             <br />
             <p style="color:rgb(229, 233, 11); font-style:oblique; font-weight: bold;"><a href="/multas"><i
-                        class="fas fa-list" style='font-size:24px;color:rgb(255, 30, 0)'></i></a> Volver Listado Multas</p>
+                        class="fas fa-list" style='font-size:24px;color:rgb(255, 30, 0)'></i></a> Volver Listado Multas
+            </p>
 
             {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
         </div>
