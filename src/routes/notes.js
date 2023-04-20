@@ -44,13 +44,12 @@ router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) =>
 
 router.get('/descargarfactura', isAuthenticated, async (req, res) => {    
     const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
-    const puerto = "172.25.2.215";
+    //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const fechaimpresohoy = new Date();
-    const multa = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
-    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: fechaimpresohoy });
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');    
+    const multa = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues    
+    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
     for (const multas of multa) {
         // Y concatenar las multas
         tabla += `<tr>

@@ -64,22 +64,32 @@
                             action="/descargarfactura" method="GET" target="_blank">
                             <input type="hidden" name="_method" value="GET">
                             <button class="btn btn-success btn-block btn-sm" type="submit">
-                                Descargar/Imprimir Factura
+                                Descargar Factura
                             </button>
                         </form>
+
                         {{else}}
                         <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
                             action="/descargarfactura" method="GET" target="_blank">
                             <input type="hidden" name="_method" value="GET">
                             <button class="btn btn-success btn-block btn-sm" type="submit" disabled>
-                                Descargar/Imprimir Factura
+                                Descargar Factura
                             </button>
                         </form>
+                        <div class="mx-auto">
+                            <br /> <br />
+                            <div class="card mx-auto">
+                                <div class="card-body">
+                                    <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por
+                                        Imprimir...
+                                        Aun...</p>
+                                </div>
+                            </div>
+                        </div>
                         {{/each}}
                     </tbody>
                 </table>
-                <form onSubmit="return confirm('Desea Volver a Multas?'), setTimeout('document.forms[0].reset()', 2000)"
-                    action="/multas" method="GET">
+                <form onSubmit="return confirm('Desea Volver a Multas?')" action="/multas" method="GET" target="_blank">
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-warning btn-block btn-sm" type="submit">
                         Volver a Multas

@@ -81,6 +81,7 @@
                         <td>Opciones</td>
                     </tr>
                 </thead>
+                
                 <tbody>
                     {{#each multas}}
                     <tr>
@@ -143,16 +144,18 @@
                             Descargar/Imprimir Factura
                         </button>
                     </form>
-                    <div class="mx-auto">
+                    {{!-- <div class="mx-auto">
                         <br /> <br />
                         <div class="card mx-auto">
                             <div class="card-body">
-                                <p class"lead" style="color:red; font-weight: bold;"> No hay Multas para Imprimir...</p>
+                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar
+                                    Aun...</p>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     {{/each}}
                 </tbody>
+                
                 <div id="msg"></div>
             </table>
             <br />
