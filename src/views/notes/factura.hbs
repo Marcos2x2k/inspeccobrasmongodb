@@ -25,13 +25,15 @@
                 </div>
                 <div class="card" style="">
                     <h5>214/2022</h5>
-                    <h3 style="font-family: "Times New Roman", Times, serif;">INFRACCIONES</h3>
+                    <h3 style="font-family: " Times New Roman", Times, serif;">INFRACCIONES</h3>
                     <h5>Administración del tribunal de faltas</h5>
                     <h5>S_______/________D:</h5>
-                    <p style="font-family: Arial, Helvetica, sans-serif;">Se remiten las actas de infracción, las cuales fueron la bradas por la Dirección Gral. de
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Se remiten las actas de infracción, las cuales
+                        fueron la bradas por la Dirección Gral. de
                         Inspeccion
                         de Obras.</p>
-                    <p style="font-family: Arial, Helvetica, sans-serif;">Corresponde la Aplicación de la Ordenanza 5689/12</p>
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Corresponde la Aplicación de la Ordenanza
+                        5689/12</p>
                     <h5 style="font-family: Arial, Helvetica, sans-serif;">Art.1.6.5. MULTAS AL PROPIETARIO</h5>
                 </div>
 
@@ -58,13 +60,29 @@
                             <td>{{ formulamulta }}</td>
                             <td>{{ montototal }}</td>
                         </tr>
+                        <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
+                            action="/descargarfactura" method="GET" target="_blank">
+                            <input type="hidden" name="_method" value="GET">
+                            <button class="btn btn-success btn-block btn-sm" type="submit">
+                                Descargar/Imprimir Factura
+                            </button>
+                        </form>
+                        {{else}}
+                        <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
+                            action="/descargarfactura" method="GET" target="_blank">
+                            <input type="hidden" name="_method" value="GET">
+                            <button class="btn btn-success btn-block btn-sm" type="submit" disabled>
+                                Descargar/Imprimir Factura
+                            </button>
+                        </form>
                         {{/each}}
                     </tbody>
                 </table>
-                <form onSubmit="return confirm('Desea Imprimir?')" action="/descargarfactura" method="GET"  target="_blank">
+                <form onSubmit="return confirm('Desea Volver a Multas?'), setTimeout('document.forms[0].reset()', 2000)"
+                    action="/multas" method="GET">
                     <input type="hidden" name="_method" value="GET">
-                    <button class="btn btn-success btn-block btn-sm" type="submit">
-                        Descargar Factura
+                    <button class="btn btn-warning btn-block btn-sm" type="submit">
+                        Volver a Multas
                     </button>
                 </form>
             </div>

@@ -8,7 +8,7 @@
             mensaje = "Cancelado";
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
-    }    
+    }
 
 </script>
 
@@ -75,7 +75,7 @@
                         <td>Impreso</td>
                         <td>+Datos</td>
                         <td>Opciones</td>
-
+                        <td>Impresión</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,8 +98,6 @@
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
                         </td>
                         <td>
-                            {{!-- <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}"
-                                style="color:rgb(165, 196, 28)">Editar</a> --}}
                             <form onSubmit="return confirm('Desea Borrar?')"
                                 action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -108,7 +106,22 @@
                                 </button>
                             </form>
                         </td>
+                        <td>
+                            <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
+                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">ReImprimir</a>
+                        </td>
+
                     </tr>
+                    {{else}}
+                    <div class="mx-auto">
+                        <br /> <br />
+                        <div class="card mx-auto">
+                            <div class="card-body">
+                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar
+                                    Aun...</p>
+                            </div>
+                        </div>
+                    </div>
                     {{/each}}
                 </tbody>
                 <div id="msg"></div>

@@ -118,7 +118,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ******************************* //
 
 
-// Server is listen en 3001
+// Server is listen en 3001 - desde Casa
 // app.listen(app.get('port'), () => {
 //   console.log ('Server on Port', app.get('port'));
 // });
@@ -129,7 +129,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const port = 8080;
 //aquí va tu ip de mi pc o servidor q tenga el sistema
 //const IP = "172.25.2.119";
-const IP = "172.25.2.215" // PC MIA
+const IP = "172.25.2.215" // PC DOC
 
 //app.listen(app.get('port'), () => {
 app.listen(port, () => {

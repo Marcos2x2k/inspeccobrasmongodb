@@ -23,20 +23,34 @@ const pdf = require("html-pdf")
 
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({impreso:'No'}).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
+    const multas = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
     res.render('notes/factura', { multas });
     //res.render('notes/factura', { layouts: "pdf"});
 })
 
-router.get('/descargarfactura', isAuthenticated, async (req, res) => {
+router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {    
+    //const fechaimpresohoy = new Date();
+    await Multas.updateMany({ impreso: "No" });
+    const impreso = "No"
+    const fechaimpreso = new Date();
+    const reimpreso = "Si"
+    const fechareimpreso = new Date();
+    await Multas.findByIdAndUpdate(req.params.id, {
+        impreso, fechaimpreso, reimpreso, fechareimpreso
+    });
+    req.flash('success_msg', 'Impresión actualizada')
+    res.redirect('/multas');
+});
+
+router.get('/descargarfactura', isAuthenticated, async (req, res) => {    
     const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
     const puerto = "172.25.2.215";
     var fstemp = require('fs');
-    //const formateador = new Intl.NumberFormat()//("sp", { style: "currency", "currency": "MXN" });
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    //const valorPasadoPorNode = "Soy un valor pasado desde JavaScript";
-    const multa = await Multas.find({impreso:'No'}).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
+    const fechaimpresohoy = new Date();
+    const multa = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
+    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: fechaimpresohoy });
     for (const multas of multa) {
         // Y concatenar las multas
         tabla += `<tr>
@@ -49,24 +63,22 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.montototal}</td>    
     </tr>`;
     }
-    //<td>${formateador.format(multa.montototal)}</td>
-    //contenidoHtml = contenidoHtml.replace("{{valor}}", valorPasadoPorNode);
     contenidoHtml = contenidoHtml.replace("{{multas}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{fecha}}");
     contenidoHtml = contenidoHtml.replace("{{numacta}}");
     contenidoHtml = contenidoHtml.replace("{{propietario}}");
     contenidoHtml = contenidoHtml.replace("{{ubicacion}}");
     contenidoHtml = contenidoHtml.replace("{{inciso}}");
-    contenidoHtml = contenidoHtml.replace("{{formulamulta}}");    
+    contenidoHtml = contenidoHtml.replace("{{formulamulta}}");
     pdf.create(contenidoHtml).toStream((error, stream) => {
-        
         if (error) {
             res.end("Error creando PDF: " + error)
         } else {
+            req.flash('success_msg', 'Multas Impresas')
             res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);            
+            stream.pipe(res);
         }
-    });    
+    });
 })
 
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {
@@ -430,40 +442,7 @@ router.post('/notes/newinfracciones', isAuthenticated, async (req, res) => {
     newInfraccion.detallegeneral = req.body.detallegeneral;
     newInfraccion.informeinspecnum = req.body.informeinspecnum;
     newInfraccion.inforinspecobsevaciones = req.body.inforinspecobsevaciones;
-    // newInfraccion.filename = req.body.filename;
-    // newInfraccion.path = '/img/uploads/' + req.file.filename;
-    // newInfraccion.originalname = req.file.originalname;
-    // newInfraccion.mimetype = req.file.mimetype;
-    // newInfraccion.size = req.file.size;
-    // const errors = [];
-    // if (!actainfnum) {
-    //     errors.push({ text: "Ingrese Nº Acta Infracción" })
-    // }
-    // if (!fechainfraccion) {
-    //     errors.push({ text: "Ingrese Fecha Infracción" })
-    // }
-    // if (!inspectorinf) {
-    //     errors.push({ text: "Ingrese NyA Inspector" })
-    // }
 
-    // console.log(errors)
-    // if (errors.length > 0) {
-    //     res.render('notes/newinfracciones', {
-    //         errors,
-    //         actainfnum, fechainfraccion, horainfraccion, numexpedienteinf, adremainf,
-    //         apellidonombrepropietarioinf, domiciliopropietarioinf, dnipropietarioinf, cuilpropietarioinf,
-    //         lugardeconstitucioninf, causasinf, ordenanzanum, notificadoinf, incisonum,
-    //         observacion, apellidonombretestigoinf, inspectorinf, inspectorcod, detallegeneral,
-    //         informeinspecnum, inforinspecobsevaciones, fotoinf, user ,name
-    //     })
-    // } else {
-    //     const newInfraccion = new Infraccion({
-    //         actainfnum, fechainfraccion, horainfraccion, numexpedienteinf, adremainf,
-    //         apellidonombrepropietarioinf, domiciliopropietarioinf, dnipropietarioinf, cuilpropietarioinf,
-    //         lugardeconstitucioninf, causasinf, ordenanzanum, notificadoinf, incisonum,
-    //         observacion, apellidonombretestigoinf, inspectorinf, inspectorcod, detallegeneral,
-    //         informeinspecnum, inforinspecobsevaciones, fotoinf, user ,name
-    //     })
     if (req.files[0]) {
         newInfraccion.filename = req.files[0].filename;
         newInfraccion.path = '/img/uploads/' + req.files[0].filename;
@@ -597,7 +576,7 @@ router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
     await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
     const multasimprimir = Multas.find().lean().sort({ date: 'desc' });
     req.flash('success_msg', 'Multas Impresas')
-    res.render('notes/multas', { multas });
+    res.render('notes/multas', { multasimprimir });
 });
 
 router.get('/tasas', isAuthenticated, async (req, res) => {

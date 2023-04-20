@@ -66,7 +66,17 @@ const MultasSchema = new Schema({
     fechaimpreso: {
         type: String,
         require: false,
+        default: "No Posee informacion"
+    },
+    reimpreso: {
+        type: String,
+        require: false,
         default: "No"
+    },
+    fechareimpreso: {
+        type: String,
+        require: false,
+        default: "No Posee informacion"
     },
     user: {
         type: String,
