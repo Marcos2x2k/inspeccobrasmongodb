@@ -28,11 +28,11 @@ router.get('/factura', isAuthenticated, async (req, res) => {
     //res.render('notes/factura', { layouts: "pdf"});
 })
 
-router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {    
+router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();
     await Multas.updateMany({ impreso: "No" });
     const impreso = "No"
-    const fechaimpreso = new Date();
+    const fechaimpreso = "Esperando Re-Impresion";
     const reimpreso = "Si"
     const fechareimpreso = new Date();
     await Multas.findByIdAndUpdate(req.params.id, {
@@ -42,17 +42,17 @@ router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) =>
     res.redirect('/multas');
 });
 
-router.get('/descargarfactura', isAuthenticated, async (req, res) => {    
+router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');    
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const multa = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues    
-    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
+    
     for (const multas of multa) {
-        // Y concatenar las multas
-        tabla += `<tr>
+        // Y concatenar las multas        
+            tabla += `<tr>
     <td>${multas.fecha}</td>
     <td>${multas.numacta}</td>
     <td>${multas.propietario}</td>
@@ -63,12 +63,15 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     </tr>`;
     }
     contenidoHtml = contenidoHtml.replace("{{multas}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{fecha}}");
-    contenidoHtml = contenidoHtml.replace("{{numacta}}");
-    contenidoHtml = contenidoHtml.replace("{{propietario}}");
-    contenidoHtml = contenidoHtml.replace("{{ubicacion}}");
-    contenidoHtml = contenidoHtml.replace("{{inciso}}");
-    contenidoHtml = contenidoHtml.replace("{{formulamulta}}");
+    contenidoHtml = contenidoHtml.replace("{{fecha}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{numacta}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{propietario}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{ubicacion}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{inciso}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{formulamulta}}", tabla);
+
+    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
+
     pdf.create(contenidoHtml).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
