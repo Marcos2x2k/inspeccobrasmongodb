@@ -57,7 +57,7 @@
     <br /><br />
     <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva multa!</a>
     <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listado No Impresas</a>
-    <a href="/multas" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+    <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
         <br />
@@ -75,7 +75,7 @@
                         <td>Impreso</td>
                         <td>+Datos</td>
                         <td>Opciones</td>
-                        <td>Impresión</td>
+                        {{!-- <td>Impresión</td> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -106,10 +106,10 @@
                                 </button>
                             </form>
                         </td>
-                        <td>
+                        {{!-- <td>
                             <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">ReImprimir</a>
-                        </td>
+                        </td> --}}
 
                     </tr>
                     {{else}}
