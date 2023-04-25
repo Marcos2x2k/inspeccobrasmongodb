@@ -46,13 +46,13 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
-    let tabla = "";
+    let tabla = "-";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const multa = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues    
     
     for (const multas of multa) {
-        // Y concatenar las multas        
-            tabla += `<tr>
+        // Y concatenar las multas                    
+        tabla += `<tr>
     <td>${multas.fecha}</td>
     <td>${multas.numacta}</td>
     <td>${multas.propietario}</td>
@@ -62,16 +62,19 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.montototal}</td>    
     </tr>`;
     }
-    contenidoHtml = contenidoHtml.replace("{{multas}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{fecha}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{numacta}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{propietario}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{ubicacion}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{inciso}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{formulamulta}}", tabla);
+    console.log("MULTAS", "{{multas}}");
+    contenidoHtml = contenidoHtml.replace("{{multas}}" , tabla);
+    //contenidoHtml = contenidoHtml.replace("{{multas}}");
+    // contenidoHtml = contenidoHtml.replace("{{fecha}}", tabla );
+    // contenidoHtml = contenidoHtml.replace("{{numacta}}");
+    // contenidoHtml = contenidoHtml.replace("{{propietario}}");
+    // contenidoHtml = contenidoHtml.replace("{{ubicacion}}");
+    // contenidoHtml = contenidoHtml.replace("{{inciso}}");
+    // contenidoHtml = contenidoHtml.replace("{{formulamulta}}");    
 
     await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
 
+    console.log("contenido HTML", contenidoHtml)
     pdf.create(contenidoHtml).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)

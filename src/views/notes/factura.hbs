@@ -89,9 +89,16 @@
                         {{/each}}
                     </tbody>
                 </table>
-                <form onSubmit="return confirm('Desea Volver a Multas?')" action="/multas" method="GET" target="_blank">
+                <form onSubmit="return confirm('Volver a Multas No-Impresas?')" action="/multas/impresas" method="GET" target="_blank">
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-warning btn-block btn-sm" type="submit">
+                        Volver a Multas No-Impresas
+                    </button>
+                </form>
+                <p></p>
+                <form onSubmit="return confirm('Volver a Todas las Multas?')" action="/multas" method="GET" target="_blank">
+                    <input type="hidden" name="_method" value="GET">
+                    <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Volver a Multas
                     </button>
                 </form>
