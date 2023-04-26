@@ -78,6 +78,11 @@ const MultasSchema = new Schema({
         require: false,
         default: "No Posee informacion"
     },
+    vecesreimpreso:{
+        type: Number,
+        require: false,
+        default: 0
+    },
     user: {
         type: String,
         require: false,

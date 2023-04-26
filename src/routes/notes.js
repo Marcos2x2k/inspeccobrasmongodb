@@ -30,23 +30,24 @@ router.get('/factura', isAuthenticated, async (req, res) => {
 
 router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();
-    await Multas.updateMany({ impreso: "No" });
-    const impreso = "No"
+    await Multas.updateMany({ impreso: "No" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const impreso = "No";
     const fechaimpreso = "Esperando Re-Impresion";
-    const reimpreso = "Si"
-    const fechareimpreso = new Date();
+    const reimpreso = "Si";    
+    const fechareimpreso = new Date();    
     await Multas.findByIdAndUpdate(req.params.id, {
-        impreso, fechaimpreso, reimpreso, fechareimpreso
-    });
+        impreso, fechaimpreso, reimpreso, 
+        fechareimpreso, vecesreimpreso:{$sum:1}});
     req.flash('success_msg', 'Impresión actualizada')
-    res.redirect('/multas');
+    res.redirect('/multas');    
 });
 
 router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
-    let tabla = "-";
+    let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const multa = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues    
     
@@ -61,24 +62,22 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.formulamulta}</td>
     <td>${multas.montototal}</td>    
     </tr>`;
-    }
-    console.log("MULTAS", "{{multas}}");
-    contenidoHtml = contenidoHtml.replace("{{multas}}" , tabla);
+    }    
+
+    console.log("TABLA", tabla)
+    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
     // contenidoHtml = contenidoHtml.replace("{{fecha}}", tabla );
     // contenidoHtml = contenidoHtml.replace("{{numacta}}");
     // contenidoHtml = contenidoHtml.replace("{{propietario}}");
     // contenidoHtml = contenidoHtml.replace("{{ubicacion}}");
     // contenidoHtml = contenidoHtml.replace("{{inciso}}");
-    // contenidoHtml = contenidoHtml.replace("{{formulamulta}}");    
-
-    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
-
-    console.log("contenido HTML", contenidoHtml)
+    // contenidoHtml = contenidoHtml.replace("{{formulamulta}}"); 
     pdf.create(contenidoHtml).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
         } else {
+            Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
             req.flash('success_msg', 'Multas Impresas')
             res.setHeader("Content-Type", "application/pdf");
             stream.pipe(res);
@@ -129,8 +128,6 @@ router.get('/infracciones/add', isAuthenticated, (req, res) => {
 router.get('/estadisticas/add', isAuthenticated, (req, res) => {
     res.render('notes/newestadisticas');
 })
-
-
 
 router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
     const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
@@ -215,7 +212,6 @@ router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
     await newMesaentrada.save();
     req.flash('success_msg', 'Turno Agregado Exitosamente');
     res.redirect('/mesaentrada');
-
 })
 
 router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
