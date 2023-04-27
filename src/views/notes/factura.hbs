@@ -9,32 +9,32 @@
                         <img style="align: right" width="100"
                             src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />
                     </div>
-                    <div style="display: grid; justify-content: center; font-family: Garamond">
-                        <h5>MUNICIPALIDAD DE LA CUIDAD DE CORRIENTES</h5>
+                    <div style="display: grid; justify-content: center; font-family: Garamond; text-align: center;">
+                        <h5 style="">MUNICIPALIDAD DE LA CUIDAD DE CORRIENTES</h5>
                     </div>
-                    <div style="display: grid; justify-content: center;font-family: Garamond">
+                    <div style=" text-align: center;display: grid; justify-content: center;font-family: Garamond">
                         <h5>SECRETARIA DE DESARROLLO URBANO</h5>
                     </div>
-                    <div style="display: grid; justify-content: center;font-family: Garamond">
+                    <div style=" text-align: center;display: grid; justify-content: center;font-family: Garamond">
                         <h5>SUBSECRETARIA DE FISCALIZACIÓN</h5>
                     </div>
-                    <div style="display: grid; justify-content: center;font-family: Garamond">
+                    <div style=" text-align: center;display: grid; justify-content: center;font-family: Garamond">
                         <h5>DIRECCIÓN GENERAL DE OBRAS PARTICULARES</h5>
                     </div>
                     <h5>==================================== ====================================</h5>
                 </div>
                 <div class="card" style="">
                     <h5>214/2022</h5>
-                    <h3 style="font-family: " Times New Roman", Times, serif;">INFRACCIONES</h3>
-                    <h5>Administración del tribunal de faltas</h5>
+                    <h3 style="font-family: " Times New Roman", Times, serif; text-align: center;">INFRACCIONES</h3>
+                    <h5 style=" text-align: center;">Administración del tribunal de faltas</h5>
                     <h5>S_______/________D:</h5>
-                    <p style="font-family: Arial, Helvetica, sans-serif;">Se remiten las actas de infracción, las cuales
+                    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Se remiten las actas de infracción, las cuales
                         fueron la bradas por la Dirección Gral. de
                         Inspeccion
                         de Obras.</p>
-                    <p style="font-family: Arial, Helvetica, sans-serif;">Corresponde la Aplicación de la Ordenanza
+                    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Corresponde la Aplicación de la Ordenanza
                         5689/12</p>
-                    <h5 style="font-family: Arial, Helvetica, sans-serif;">Art.1.6.5. MULTAS AL PROPIETARIO</h5>
+                    <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.5. MULTAS AL PROPIETARIO</h5>
                 </div>
 
                 <table class="table table-striped" style="font-family: Serif;">
@@ -89,14 +89,14 @@
                         {{/each}}
                     </tbody>
                 </table>
-                <form onSubmit="return confirm('Volver a Multas No-Impresas?')" action="/multas/impresas" method="GET" target="_blank">
+                <form onSubmit="return confirm('Volver a Multas No-Impresas?')" action="/multas/impresas" method="GET">
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-warning btn-block btn-sm" type="submit">
                         Volver a Multas No-Impresas
                     </button>
                 </form>
                 <p></p>
-                <form onSubmit="return confirm('Volver a Todas las Multas?')" action="/multas" method="GET" target="_blank">
+                <form onSubmit="return confirm('Volver a Todas las Multas?')" action="/multas" method="GET">
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Volver a Multas

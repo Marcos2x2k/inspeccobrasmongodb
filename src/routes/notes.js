@@ -34,24 +34,25 @@ router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) =>
     //Busco el id y le sumo 1 a veces impreso
     const impreso = "No";
     const fechaimpreso = "Esperando Re-Impresion";
-    const reimpreso = "Si";    
+    const reimpreso = "Si"; 
+    const vecesreimpreso = "1 o Más";   
     const fechareimpreso = new Date();    
     await Multas.findByIdAndUpdate(req.params.id, {
         impreso, fechaimpreso, reimpreso, 
-        fechareimpreso, vecesreimpreso:{$sum:1}});
+        fechareimpreso, vecesreimpreso});
     req.flash('success_msg', 'Impresión actualizada')
     res.redirect('/multas');    
 });
 
 router.get('/descargarfactura', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
+    const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.html")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const multa = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues    
+    const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues    
     
-    for (const multas of multa) {
+    for (const multas of tablamultas) {
         // Y concatenar las multas                    
         tabla += `<tr>
     <td>${multas.fecha}</td>
@@ -62,22 +63,23 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.formulamulta}</td>
     <td>${multas.montototal}</td>    
     </tr>`;
-    }    
+    } 
 
+    console.log("MULTAS", tablamultas)
     console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    // contenidoHtml = contenidoHtml.replace("{{fecha}}", tabla );
+    // contenidoHtml = contenidoHtml.replace("{{fecha}}");
     // contenidoHtml = contenidoHtml.replace("{{numacta}}");
     // contenidoHtml = contenidoHtml.replace("{{propietario}}");
     // contenidoHtml = contenidoHtml.replace("{{ubicacion}}");
     // contenidoHtml = contenidoHtml.replace("{{inciso}}");
     // contenidoHtml = contenidoHtml.replace("{{formulamulta}}"); 
+    await Multas.updateMany({ impreso: "No"}, { impreso : "Si", fechaimpreso: new Date()});
     pdf.create(contenidoHtml).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
-        } else {
-            Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
+        } else {            
             req.flash('success_msg', 'Multas Impresas')
             res.setHeader("Content-Type", "application/pdf");
             stream.pipe(res);
@@ -200,7 +202,6 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
 })
 
 router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
-
     const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
         contacto, hora, observaciones, user, name } = req.body;
     const newMesaentrada = new Mesaentrada({
@@ -757,25 +758,21 @@ router.get('/mesaentrada/add/:id', isAuthenticated, async (req, res) => {
 
 router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
-    // console.log(note.date);
-    res.render('notes/editticket', { ticket })
+        res.render('notes/editticket', { ticket })
 });
 
 router.get('/mesaentrada/edit/:id', isAuthenticated, async (req, res) => {
     const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
-    // console.log(note.date);
-    res.render('notes/editmesaentrada', { mesaentrada })
+       res.render('notes/editmesaentrada', { mesaentrada })
 });
 
 router.get('/expedientes/edit/:id', isAuthenticated, async (req, res) => {
     const expediente = await Expediente.findById(req.params.id).lean()
-    // console.log(note.date);
     res.render('notes/editexpediente', { expediente })
 });
 
 router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
-    // console.log(note.date);
     res.render('notes/editnote', { note })
 });
 
@@ -804,25 +801,21 @@ router.get('/mesaentrada/list/:id', isAuthenticated, async (req, res) => {
 
 router.get('/multas/list/:id', isAuthenticated, async (req, res) => {
     const multas = await Multas.findById(req.params.id).lean()
-    // console.log(note.date);
     res.render('notes/listmultas', { multas })
 });
 
 router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
-    // console.log(note.date);
     res.render('notes/listticket', { ticket })
 });
 
 router.get('/expedientes/list/:id', isAuthenticated, async (req, res) => {
     const expediente = await Expediente.findById(req.params.id).lean()
-    // console.log(note.date);
     res.render('notes/listexpediente', { expediente })
 });
 
 router.get('/notes/list/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
-    // console.log(note.date);
     res.render('notes/listnote', { note })
 });
 
