@@ -1,9 +1,14 @@
 <script>
+    const arr = document.getElementById("iddateimpreso").value;
+    let fecha = arr.split(' ');
+    const year = fecha[0];
+    const month = fecha[1]
+    const day = fecha[2]
+    const hours = fecha[3]
+    document.getElementById("iddateimpreso").value = month + "/" + day + "/" + year + " " + hours;
 </script>
 
 <div class="col-md-7 mx-auto">
-    {{!-- <div id=»reloj» style=»font-family: ‘DS-Digital’; width: 450px; background-color: black;font-size:100px;color:
-        green ; text-align: center «></div> --}}
     <div class="card" style="font-style: italic;font-weight: bold;">
         <div class="card-header mx-auto">
             <h4 style="color: #3d0ee7; font-weight: bold;"
@@ -95,9 +100,7 @@
                         <input type="text" id="date" name="date" class="form-control"
                             placeholder="Sin Información" value="{{multas.date}}" style="color: black; font-weight: bold;" disabled>
                     </div>
-                    {{!-- <button onclick="fechaimpresion()">Prueba</button> --}}
                     <br />
-                    {{!-- <td>Impresión</td> --}}
                     <p style="color:green; font-style:oblique; font-weight: bold;"><a
                             href="/multas/reimprimirfactura/{{multas._id}}"><i class="fa fa-print"
                                 style='font-size:24px;color:blue'></i></a> Re-Imprimir</p>
@@ -108,15 +111,3 @@
         </div>
     </div>
 </div>
-
-<script>
-
-    const arr = document.getElementById("iddateimpreso").value;
-    let fecha = arr.split(' ');
-    const year = fecha[0];
-    const month = fecha[1]
-    const day = fecha[2]
-    const hours = fecha[3]
-    document.getElementById("iddateimpreso").value = month + "/" + day + "/" + year + " " + hours;
-
-</script>

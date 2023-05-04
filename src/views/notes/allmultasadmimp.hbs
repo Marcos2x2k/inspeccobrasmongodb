@@ -9,6 +9,11 @@
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
     }
+    function desabilitar() {
+        document.getElementById("verfactura").hidden = true;
+        document.getElementById("descargarfactura").hidden = true;
+        document.getElementById("tablafacturas").hidden = true;
+    }
 
     function recargar() {
         javascript: location.reload()
@@ -17,7 +22,7 @@
         location.reload(true)
     }
     // Función para actualizar cada 4 segundos(4000 milisegundos)
-    setInterval("actualizar()", 3000);
+    //setInterval("actualizar()", 3000);
 
 </script>
 
@@ -69,7 +74,20 @@
     <div class="form-group btn-center mx-auto">
         <br />
         <div class="form-group btn-center mx-auto">
-            <table class="table table-striped table-dark table-bordered">
+            <table id="tablafacturas" class="table table-striped table-dark table-bordered">
+                <form action="/factura?_method=GET" method="GET">
+                    <input type="hidden" name="_method" value="GET">
+                    <button id="verfactura" class="btn btn-warning btn-block btn-sm" type="submit">
+                        Ver Factura
+                    </button>
+                </form>
+                <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/descargarfactura" method="GET"
+                    target="_blank">
+                    <input type="hidden" name="_method" value="GET">
+                    <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
+                        Descargar/Imprimir Factura
+                    </button>
+                </form>
                 <thead>
                     <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
                         {{!-- <td>_ID</td> --}}
@@ -84,7 +102,6 @@
                         <td>Opciones</td>
                     </tr>
                 </thead>
-
                 <tbody>
                     {{#each multas}}
                     <tr>
@@ -109,51 +126,21 @@
                             </form>
                         </td>
                     </tr>
-                    <form action="/factura?_method=GET" method="GET">
-                        <input type="hidden" name="_method" value="GET">
-                        <button class="btn btn-warning btn-block btn-sm" type="submit">
-                            Ver Factura
-                        </button>
-                    </form>
-                    <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/descargarfactura"
-                        method="GET" target="_blank">
-                        <input type="hidden" name="_method" value="GET">
-                        <button class="btn btn-success btn-block btn-sm" type="submit">
-                            Descargar/Imprimir Factura
-                        </button>
-                    </form>
-                    </br>
+
+                    {{!-- </br> --}}
                     {{else}}
                     <div class="mx-auto">
                         <br /> <br />
                         <div class="card mx-auto">
                             <div class="card-body">
-                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar...</p>
+                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar...
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <form action="/factura?_method=GET" method="GET">
-                        <input type="hidden" name="_method" value="GET">
-                        <button class="btn btn-warning btn-block btn-sm" type="submit" disabled>
-                            Ver Factura
-                        </button>
-                    </form>
-                    <form onSubmit="return confirm('Desea Crear Factura?'); location.reload(true)" action="/descargarfactura" method="GET"
-                        >
-                        <input type="hidden" name="_method" value="GET" >
-                        <button class="btn btn-success btn-block btn-sm" type="submit" disabled>
-                            Descargar/Imprimir Factura
-                        </button>
-                    </form>
-                    {{!-- <div class="mx-auto">
-                        <br /> <br />
-                        <div class="card mx-auto">
-                            <div class="card-body">
-                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar
-                                    Aun...</p>
-                            </div>
-                        </div>
-                    </div> --}}
+                    <script>
+                        desabilitar()
+                    </script>
                     {{/each}}
                 </tbody>
                 <div id="msg"></div>

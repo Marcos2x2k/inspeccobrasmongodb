@@ -29,8 +29,8 @@ router.get('/factura', isAuthenticated, async (req, res) => {
 })
 
 router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();
-    await Multas.updateMany({ impreso: "No" });  
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
     //Busco el id y le sumo 1 a veces impreso
     const impreso = "No";
     const fechaimpreso = "Esperando Re-Impresion";

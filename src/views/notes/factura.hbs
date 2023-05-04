@@ -1,3 +1,11 @@
+<script>
+    function desabilitar() {
+        //document.getElementById("verfactura").hidden = true;
+        document.getElementById("descargarfactura").hidden = true;
+        document.getElementById("tablafacturas").hidden = true;
+    }
+</script>
+
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <div class="card">
@@ -21,25 +29,36 @@
                     <div style=" text-align: center;display: grid; justify-content: center;font-family: Garamond">
                         <h5>DIRECCIÓN GENERAL DE OBRAS PARTICULARES</h5>
                     </div>
-                    {{!-- <h5>==================================== ====================================</h5> --}}
+                    {{!-- <h5>==================================== ; text-align: center; justify-content: center
+                        ====================================</h5> --}}
                 </div>
                 <div class="card" style="">
-                    <h5>214/2022</h5>
-                    <h3 style="font-family: " Times New Roman", Times, serif; text-align: center;">LIQUIDACIONES DE INFRACCIONES</h3>
+                    <h5 style=" text-align: center;">214/2022</h5>
+                    <h3 style=" text-align: center;border: 1px solid; margin: 20px">LIQUIDACIONES DE INFRACCIONES</h3>
                     </br></br>
                     <h5 style=" text-align: center;">Administración del tribunal de faltas</h5>
                     <h5>S_______/________D:</h5>
                     </br></br>
-                    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Se remiten las actas de infracción, las cuales
+                    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Se remiten las actas de
+                        infracción, las cuales
                         fueron la bradas por la Dirección Gral. de
                         Inspeccion
                         de Obras.</p>
-                    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Corresponde la Aplicación de la Ordenanza
+                    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Corresponde la Aplicación
+                        de la Ordenanza
                         5689/12</p>
-                    <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.5. MULTAS AL PROPIETARIO</h5>
+                    <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.5. MULTAS AL
+                        PROPIETARIO</h5>
                 </div>
 
-                <table class="table table-striped" style="font-family: Serif;">
+                <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">
+                    <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
+                        action="/descargarfactura" method="GET" target="_blank">
+                        <input type="hidden" name="_method" value="GET">
+                        <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
+                            Descargar/Imprimir Factura
+                        </button>
+                    </form>
                     <thead>
                         <tr style="background-color: rgb(117, 114, 117)">
                             <td>Fecha</td>
@@ -62,28 +81,17 @@
                             <td>{{ formulamulta }}</td>
                             <td>{{ montototal }}</td>
                         </tr>
-                        <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
-                            action="/descargarfactura" method="GET" target="_blank">
-                            <input type="hidden" name="_method" value="GET">
-                            <button class="btn btn-success btn-block btn-sm" type="submit">
-                                Descargar Factura
-                            </button>
-                        </form>
                         {{else}}
-                        <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
-                            action="/descargarfactura" method="GET" target="_blank">
-                            <input type="hidden" name="_method" value="GET">
-                            <button class="btn btn-success btn-block btn-sm" type="submit" disabled>
-                                Descargar Factura
-                            </button>
-                        </form>
+                        <script>
+                            desabilitar()
+                        </script>
                         <div class="mx-auto">
                             <br /> <br />
                             <div class="card mx-auto">
                                 <div class="card-body">
-                                    <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por
+                                    <p class"lead" style="color:red; font-weight: bold;"> No existen Multas para
                                         Imprimir...
-                                        Aun...</p>
+                                        Cargue y Regrese...</p>
                                 </div>
                             </div>
                         </div>
