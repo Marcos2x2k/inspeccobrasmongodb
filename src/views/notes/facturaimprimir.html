@@ -1,3 +1,26 @@
+<script>
+
+    window.onload = function () {
+        document.getElementById('botonfecha').click();
+    }
+
+    function fecha(){
+        var meses = [
+            "Enero", "Febrero", "Marzo",
+            "Abril", "Mayo", "Junio", "Julio",
+            "Agosto", "Septiembre", "Octubre",
+            "Noviembre", "Diciembre"
+        ]
+        var date = new Date();
+        var dia = date.getDate();
+        var mes = date.getMonth();
+        var yyy = date.getFullYear();
+        var fecha = 'Corrientes, '+dia + ' de ' + meses[mes] + ' de ' + yyy;        
+        document.getElementById("fechahoy").value = fecha;
+        document.getElementById("botonfecha").hidden =  true;
+    }
+</script>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -12,7 +35,9 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row" style="background:#706f6e; color:rgb(0, 0, 0); font-weight:bold; padding:1px; margin-top:10px; margin-bottom:1px; text-align:center; font-size:16px;"> <!-- border:1px solid #121213 -->
+        <div class="row"
+            style="background:#706f6e; color:rgb(0, 0, 0); font-weight:bold; padding:1px; margin-top:10px; margin-bottom:1px; text-align:center; font-size:16px;">
+            <!-- border:1px solid #121213 -->
             <div class="form-group btn-center mx-auto">
                 <div class="card">
                     <div class="card-body">
@@ -42,22 +67,29 @@
                                 style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
                                 <h5>DIRECCIÓN GENERAL DE OBRAS PARTICULARES</h5>
                             </div>
-                            <!-- <h5
-                                style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
-                                ==================================== ==========================================</h5> -->
+                            <h5
+                                style="display: grid; justify-content: center;font-family: Garamond; text-align: center; font-weight:bold;">
+                                ”1983/2023 40 Años de Democracia”</h5>
                         </div>
-                        <div class="card">
-
+                        <div style="font-family: Arial, Helvetica, sans-serif; text-align: center; margin:20px"
+                            class="card-body">
                             <p
                                 style="background:#706f6e; color:rgb(0, 0, 0); font-weight:bold; border:2px solid #121213; margin: 20px; margin-bottom:1px; text-align:center; font-size:16px;">
                                 LIQUIDACIONES DE INFRACCIONES</p>
                             <!-- <h5 style="font-family: Times New Roman, Times, serif; text-align: center;">LIQUIDACIONES DE INFRACCIONES</h5> -->
                             </br>
-                            <h5>214/2022</h5>
-                            <h5>Administración del tribunal de faltas</h5>
-                            </br>
-                            <h5>S_______/________D:</h5>
-                            <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Se remiten las
+                            <button id="botonfecha" onclick="fecha()">poner fecha</button>
+                            <div style="font-family: Arial, Helvetica, sans-serif; text-align: right; margin:20px">
+                                <input size=27 id="fechahoy" style="text-align: right;" disabled/>
+                            </div>
+                            <div style="font-family: Arial, Helvetica, sans-serif; text-align:left;">
+                                
+                                <h4>214/2022</h4>
+                                <h4> A la Administración del tribunal de faltas:</h4>
+                                </br>
+                                <h5> S_______/________D:</h5>
+                            </div>
+                            <p style="font-family: Arial, Helvetica, sans-serif; text-align: left;">Se remiten las
                                 actas de infracción,
                                 las
                                 cuales

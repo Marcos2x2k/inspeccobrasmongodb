@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-//const mongopagi = require('mongoose-paginate-v2')
+//const mongopagi = require('mongoose-paginate-v2') Paginacion de mongodb
 
 // tengo que requerir los modelos para que mongoose me cree las tablas
 const Expediente = require('../models/Expediente')
@@ -40,7 +40,7 @@ router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) =>
     await Multas.findByIdAndUpdate(req.params.id, {
         impreso, fechaimpreso, reimpreso, 
         fechareimpreso, vecesreimpreso});
-    req.flash('success_msg', 'Impresión actualizada')
+    req.flash('success_msg', 'Re-Impresión actualizada')
     res.redirect('/multas');    
 });
 

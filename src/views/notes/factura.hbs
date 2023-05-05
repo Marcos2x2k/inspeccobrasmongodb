@@ -1,9 +1,38 @@
 <script>
+
+    window.onload = function () {
+        document.getElementById('botonfecha').click();
+    }
+    function fecha() {
+        var meses = [
+            "Enero", "Febrero", "Marzo",
+            "Abril", "Mayo", "Junio", "Julio",
+            "Agosto", "Septiembre", "Octubre",
+            "Noviembre", "Diciembre"
+        ]
+        var date = new Date();
+        var dia = date.getDate();
+        var mes = date.getMonth();
+        var yyy = date.getFullYear();
+        var fecha = 'Corrientes, ' + dia + ' de ' + meses[mes] + ' de ' + yyy;
+        document.getElementById("fechahoy").value = fecha;
+        document.getElementById("botonfecha").hidden = true;
+    }
     function desabilitar() {
         //document.getElementById("verfactura").hidden = true;
         document.getElementById("descargarfactura").hidden = true;
         document.getElementById("tablafacturas").hidden = true;
     }
+
+    function recargar() {
+        javascript: location.reload()
+    }
+    function actualizar() {
+        location.reload(true)
+    }
+    // Función para actualizar cada 4 segundos(4000 milisegundos)
+    //setInterval("actualizar()", 3000);
+
 </script>
 
 <div class="row">
@@ -29,21 +58,25 @@
                     <div style=" text-align: center;display: grid; justify-content: center;font-family: Garamond">
                         <h5>DIRECCIÓN GENERAL DE OBRAS PARTICULARES</h5>
                     </div>
-                    {{!-- <h5>==================================== ; text-align: center; justify-content: center
-                        ====================================</h5> --}}
+                    <h5 style="display: grid; justify-content: center;font-family: Garamond; text-align: center; font-weight:bold;">
+                                ”1983/2023 40 Años de Democracia”</h5>
                 </div>
                 <div class="card" style="">
+                    <button id="botonfecha" onclick="fecha()">poner fecha</button>
+                    <input id="fechahoy" style=" text-align: right" disabled></input>
                     <h5 style=" text-align: center;">214/2022</h5>
                     <h3 style=" text-align: center;border: 1px solid; margin: 20px">LIQUIDACIONES DE INFRACCIONES</h3>
                     </br></br>
-                    <h5 style=" text-align: center;">Administración del tribunal de faltas</h5>
-                    <h5>S_______/________D:</h5>
-                    </br></br>
-                    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Se remiten las actas de
-                        infracción, las cuales
-                        fueron la bradas por la Dirección Gral. de
-                        Inspeccion
-                        de Obras.</p>
+                    <div style="font-family: Arial, Helvetica, sans-serif; text-align:left;">
+                        <h4 style=" text-align:left;">A la Administración del tribunal de faltas:</h4>
+                        <h5>S_______/________D:</h5>
+                        <p style="font-family: Arial, Helvetica, sans-serif; font-weight:bold; text-align: center;">Se remiten las actas
+                            de
+                            infracción, las cuales
+                            fueron la bradas por la Dirección Gral. de
+                            Inspeccion
+                            de Obras.</p>
+                    </div>
                     <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Corresponde la Aplicación
                         de la Ordenanza
                         5689/12</p>
