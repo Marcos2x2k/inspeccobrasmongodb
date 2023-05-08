@@ -33,6 +33,11 @@ const MultasSchema = new Schema({
         type: String,
         require: false
     },
+    infraccionoparalizacion: {
+        type: String,
+        require: false,
+        default: "No Posee"
+    }, 
     inciso: {
         type: String,
         require: false,

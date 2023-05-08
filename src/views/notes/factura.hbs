@@ -36,6 +36,7 @@
 </script>
 
 <div class="row">
+    
     <div class="form-group btn-center mx-auto">
         <div class="card">
             <div class="card-body">
@@ -58,8 +59,9 @@
                     <div style=" text-align: center;display: grid; justify-content: center;font-family: Garamond">
                         <h5>DIRECCIÓN GENERAL DE OBRAS PARTICULARES</h5>
                     </div>
-                    <h5 style="display: grid; justify-content: center;font-family: Garamond; text-align: center; font-weight:bold;">
-                                ”1983/2023 40 Años de Democracia”</h5>
+                    <h5
+                        style="display: grid; justify-content: center;font-family: Garamond; text-align: center; font-weight:bold;">
+                        ”1983/2023 40 Años de Democracia”</h5>
                 </div>
                 <div class="card" style="">
                     <button id="botonfecha" onclick="fecha()">poner fecha</button>
@@ -70,7 +72,8 @@
                     <div style="font-family: Arial, Helvetica, sans-serif; text-align:left;">
                         <h4 style=" text-align:left;">A la Administración del tribunal de faltas:</h4>
                         <h5>S_______/________D:</h5>
-                        <p style="font-family: Arial, Helvetica, sans-serif; font-weight:bold; text-align: center;">Se remiten las actas
+                        <p style="font-family: Arial, Helvetica, sans-serif; font-weight:bold; text-align: center;">Se
+                            remiten las actas
                             de
                             infracción, las cuales
                             fueron la bradas por la Dirección Gral. de
@@ -83,6 +86,8 @@
                     <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.5. MULTAS AL
                         PROPIETARIO</h5>
                 </div>
+               
+                
 
                 <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">
                     <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
@@ -101,10 +106,12 @@
                             <td>Inciso</td>
                             <td>Formula Multa</td>
                             <td>Monto Total</td>
+                            <td>Infracción/Paralización</td>
                         </tr>
                     </thead>
+                    {{#each multas}}
                     <tbody>
-                        {{#each multas}}
+                        {{!-- {{#each multas}} --}}
                         <tr>
                             <td>{{ fecha }}</td>
                             <td>{{ numacta }}</td>
@@ -113,6 +120,7 @@
                             <td>{{ inciso }}</td>
                             <td>{{ formulamulta }}</td>
                             <td>{{ montototal }}</td>
+                            <td>{{infraccionoparalizacion}}</td>
                         </tr>
                         {{else}}
                         <script>

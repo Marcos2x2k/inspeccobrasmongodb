@@ -192,7 +192,7 @@
             document.getElementById("valor1").value = 1;
             document.getElementById("valor1").disabled = 1;
             document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = 1*tc;
+            document.getElementById("resultado").value = 1 * tc;
             document.getElementById("acta").value = "INCISO C)";
             document.getElementById("formulamulta").value = "1*TC";
             document.getElementById('labelvalor1').innerHTML = "Valor";
@@ -224,7 +224,7 @@
             document.getElementById("valor1").value = 1;
             document.getElementById("valor1").disabled = 1;
             document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = 1*tc;
+            document.getElementById("resultado").value = 1 * tc;
             document.getElementById("acta").value = "INCISO E)";
             document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
             document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
@@ -242,7 +242,7 @@
             document.getElementById("valor1").style.display = 'none'
             document.getElementById("valor1").disabled = 1;
             document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = 3*tc;
+            document.getElementById("resultado").value = 3 * tc;
             document.getElementById("acta").value = "INCISO F)";
             document.getElementById("formulamulta").value = "3*TC";
             document.getElementById('labelvalor1').innerHTML = "Valor";
@@ -608,6 +608,12 @@
                             </div>
 
                         </div>
+                        <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo infración:</label>
+                        <select name="infraccionoparalizacion" id="infraccionoparalizacion">
+                            <option value="Infracción">Infracción</option>
+                            <option value="Infracción/Paralización">Infracción/Paralización</option>
+                        </select>
+                        <br />
                         <label style="font-weight: bold; color:black" for="incisos">Selecciones un Inciso:</label>
                         <select name="inciso" id="incisos" onclick="seleccionarinciso()">
                             <option value="">Elija Inciso</option>
@@ -701,7 +707,8 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-outline">
-                                    <label id="labelvalor1a"style="color:blue; font-weight: bold;" class="" for="typeText">
+                                    <label id="labelvalor1a" style="color:blue; font-weight: bold;" class=""
+                                        for="typeText">
                                         *
                                     </label>
                                 </div>

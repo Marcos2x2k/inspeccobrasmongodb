@@ -45,7 +45,7 @@ router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) =>
 });
 
 router.get('/descargarfactura', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.html")
+    const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
@@ -61,12 +61,12 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.ubicacion}</td>
     <td>${multas.inciso}</td>
     <td>${multas.formulamulta}</td>
-    <td>${multas.montototal}</td>    
+    <td>${multas.montototal}</td>
+    <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
     } 
-
-    console.log("MULTAS", tablamultas)
-    console.log("TABLA", tabla)
+    // console.log("MULTAS", tablamultas)
+    // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
     // contenidoHtml = contenidoHtml.replace("{{fecha}}");
@@ -148,11 +148,11 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
 })
 
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
-    const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, tcactual,
-        formulamulta, montototal, observaciones, user, name, date } = req.body;
+    const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
+        tcactual, formulamulta, montototal, observaciones, user, name, date } = req.body;
 
     const newMultas = new Multas({
-        fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion,
+        fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
         tcactual, formulamulta, montototal, observaciones, user, name, date
     })
     newMultas.user = req.user.id;
