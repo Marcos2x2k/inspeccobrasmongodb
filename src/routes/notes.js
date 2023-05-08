@@ -23,7 +23,7 @@ const pdf = require("html-pdf")
 
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues
+    const multas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
     res.render('notes/factura', { multas });
     //res.render('notes/factura', { layouts: "pdf"});
 })
@@ -50,7 +50,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     var fstemp = require('fs');
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ date: 'desc' }); // temporal poner el d arriba despues    
+    const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
     
     for (const multas of tablamultas) {
         // Y concatenar las multas                    
@@ -577,7 +577,7 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
 
 router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
     await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
-    const multasimprimir = Multas.find().lean().sort({ date: 'desc' });
+    const multasimprimir = Multas.find().lean().sort({ propietario: 'desc' });
     req.flash('success_msg', 'Multas Impresas')
     res.render('notes/multas', { multasimprimir });
 });
