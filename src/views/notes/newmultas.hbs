@@ -1,4 +1,58 @@
 <script>
+    function ffechaactual() {
+        var tipo = document.getElementById('fechaingreso');
+        var eye = document.getElementById('botonfecha');
+        if (tipo.type == "date") {
+            //tipo.disabled = true;
+            tipo.type = "text";
+            eye.class = "btn btn-primary"
+            const fecha = new Date();
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            const ano = fecha.getFullYear() + "-"
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = ano + mes + dia
+            //const fullyear = fecha.toLocaleDateString();
+            fechaingreso.value = fullyear;
+        } else {
+            //tipo.disabled = false;
+            tipo.type = "date";
+            eye.class = "btn btn-secondary"
+        }
+    }
+
+    function fhoraactual() {
+        var tipohora = document.getElementById('horaingreso');
+        var eyehora = document.getElementById('botonhora');
+        if (tipohora.type == "time") {
+            //tipohora.disabled = true;
+            tipohora.type = "text";
+            eyehora.class = "btn btn-primary"
+            const fecha = new Date();
+            const h = fecha.getHours() + ":";
+            if (m < 10) {
+                const m = "0" + fecha.getMinutes();
+            } else {
+                const m = fecha.getMinutes();
+            }
+            //s = today.getSeconds();
+            const fullhora = h + m // + s
+            //const fullyear = fecha.toLocaleDateString();
+            horaingreso.value = fullhora;
+        } else {
+            //tipohora.disabled = false;
+            tipohora.type = "time";
+            horaingreso.value = "--:--"
+            eyehora.class = "btn btn-secondary"
+        }
+    }
+
     function seleccionarinciso() {
         //const Tasas = require('../models/Tasas')
         var seleccion = document.getElementById('incisos');
@@ -6,7 +60,7 @@
         //var tc = await Task.forEach(tcfind.tasaconstruccion);
         //var tc = tcfind.tasaconstruccion;
         var tc = "52000"
-
+        document.getElementById("volverlistado").style.visibility = "hidden";
         if ((seleccion.selectedIndex == 1)) {
             document.getElementById("acta").value = "INCISO A) 1)";
             document.getElementById("formulamulta").value = "SCSp x 0,15 x TC";
@@ -570,18 +624,18 @@
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Expediente:</label>
                                     <input onkeyup="ponermayuscula()" style="width: 90%;padding: 12px 20px; margin: 0px 0; 
-                            box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="Exped." type="text"
-                                        name="expediente" id="expediente" class="form-control" autocomplete="off" />
+                            box-sizing: border-box; border: 3px solid #0e0d0d;" value="{{multas.expediente}}"
+                                        placeholder="Exped." type="text" name="expediente" id="expediente"
+                                        class="form-control" autocomplete="off" autofocus minlength="10" maxlength="40"/>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class=" col-md-2">
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Adrema:</label>
                                     <input onkeyup="ponermayuscula()" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                             border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" name="adrema" type="text"
-                                        id="adrema" class="form-control" autocomplete="off" />
-
+                                        id="adrema" class="form-control" autocomplete="off" value="{{multas.adrema}}" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -591,8 +645,8 @@
                                     <input onkeyup="ponermayuscula()" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Propietario"
                                         name="propietario" type="text" id="propietario" class="form-control"
-                                        autocomplete="off" required />
-
+                                        autocomplete="off" required
+                                        value="{{multas.propietario}}" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -602,13 +656,13 @@
                                     <input onkeyup="ponermayuscula()" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Ubicación"
                                         name="ubicacion" type="text" id="ubicacion" class="form-control"
-                                        autocomplete="off" required />
+                                        autocomplete="off" required maxlength="40" value="{{multas.ubicacion}}"/>
 
                                 </div>
                             </div>
-
                         </div>
-                        <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo infración:</label>
+                        <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
+                            infración:</label>
                         <select name="infraccionoparalizacion" id="infraccionoparalizacion">
                             <option value="Infracción">Infracción</option>
                             <option value="Infracción/Paralización">Infracción/Paralización</option>
@@ -637,7 +691,8 @@
                             <option value="h">h) MULTA=0,4*TC</option>
                             <option value="i">i) MULTA=0,5*TC</option>
                             <option value="j">j) MULTA = 1 * TC</option>
-                            <option value="k">k) MULTA = 1 * TC/MULTA =5 * TC/MULTA =5 * TC/MULTA = S.C. * TC</option>
+                            <option value="k">k) MULTA = 1 * TC/MULTA =5 * TC/MULTA =5 * TC/MULTA = S.C. * TC
+                            </option>
                             <option value="l">l) MULTA= 1* TC</option>
                             <option value="ll">ll) MULTA = 1* TC</option>
                             <option value="m">m) MULTA = 2* TC</option>
@@ -653,10 +708,10 @@
                             <option value="v">v) MULTA = 0,4 * TC</option>
                             <option value="w">w) MULTA = 0,4 * TC</option>
                         </select>
-                        <a href="/multas/impresas" class="btn btn-outline-warning btn-block btn-sm">Volver Listado</a>
+                        <a id="volverlistado" href="/multas/impresas"
+                            class="btn btn-outline-warning btn-block btn-sm">Volver Listado</a>
                     </div>
                     <br />
-
                     {{!-- INCISOS --}}
                     <div id="cardinciso" class="card-body mx-auto"
                         style="display:none; max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
@@ -681,7 +736,6 @@
 
                             </div>
                         </div>
-
                         <div class="col-md-3">
                             <div class="form-outline">
                                 <label style="font-weight: bold; color:black" class="form-label" for="typeText">
@@ -692,10 +746,6 @@
                                     name="numacta" class="form-control" autocomplete="off" required>
                             </div>
                         </div>
-
-
-
-
                         <div class="row my-2">
                             <div class="col-md-1">
                                 <div class="form-outline">
@@ -768,6 +818,8 @@
                                 Grabar
                             </button>
                         </div>
+                        <p></p>
+                        <a href="/multas/impresas" class="btn btn-danger btn-block btn-sm">Volver Listado</a>
                     </div>
                 </div>
             </form>

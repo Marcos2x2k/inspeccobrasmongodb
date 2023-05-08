@@ -55,7 +55,8 @@
     </div>
     <br /><br />
     <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva multa!</a>
-    <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listar No-Impresas para Ver/Descargar/Imprimir</a>
+    <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listar No-Impresas para
+        Ver/Descargar/Imprimir</a>
     <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
@@ -96,7 +97,9 @@
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
                         </td>
-                        <td>
+                        <td>                            
+                            <a class="dropdown-item" href="/multas/add/{{_id}}"
+                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a>
                             <form onSubmit="return confirm('Desea Borrar?')"
                                 action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -116,11 +119,12 @@
                         <br /> <br />
                         <div class="card mx-auto">
                             <div class="card-body">
-                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar...</p>
+                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar...
+                                </p>
                             </div>
                         </div>
                     </div>
-                    
+
                     {{/each}}
                 </tbody>
                 <div id="msg"></div>

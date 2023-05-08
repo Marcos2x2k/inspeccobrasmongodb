@@ -90,21 +90,22 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {
     res.render('notes/newmesaentradas');
 })
+router.get('/mesaentradas/add/:id', isAuthenticated, (req, res) => {
+    res.render('notes/newmesaentradas');
+})
+router.get('/multas/add', isAuthenticated, (req, res) => {
+    res.render('notes/newmultas');
+})
+// router.get('/multas/add/:id', isAuthenticated, (req, res) => {
+//     res.render('notes/newmultas');
+// })
 
 router.get('/multas/addtasas', isAuthenticated, (req, res) => {
     res.render('notes/newtasas');
 })
 
-router.get('/multas/add', isAuthenticated, (req, res) => {
-    res.render('notes/newmultas');
-})
-
 router.get('/tickets/add', isAuthenticated, (req, res) => {
     res.render('notes/newtickets');
-})
-
-router.get('/mesaentradas/add/:id', isAuthenticated, (req, res) => {
-    res.render('notes/newmesaentradas');
 })
 
 router.get('/expedientes/add', isAuthenticated, (req, res) => {
@@ -752,9 +753,14 @@ router.get('/estadisticas', isAuthenticated, async (req, res) => {
 
 router.get('/mesaentrada/add/:id', isAuthenticated, async (req, res) => {
     const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
-    // console.log(note.date);
     res.render('notes/newmesaentradas', { mesaentrada })
 });
+
+router.get('/multas/add/:id', isAuthenticated, async (req, res) => {
+    const multas = await Multas.findById(req.params.id).lean()
+    res.render('notes/newmultas', { multas })
+});
+
 
 router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
