@@ -553,6 +553,22 @@ router.get('/multas', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Liquidaciones") {
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        const multas = await Multas.find().lean().sort({ date: 'desc' });
+        res.render('notes/multaestadistica', { multas });
+    } else if (rolusuario == "Administrador") {
+        const multas = await Multas.find().lean().sort({ date: 'desc' });
+        res.render('notes/multaestadisticaadm', { multas });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
 router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector

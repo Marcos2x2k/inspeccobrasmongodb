@@ -11,7 +11,7 @@
     }
 </script>
 
-<div class="row">
+<div class="row">    
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findnumacta" method="POST">
             <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." autofocus />
@@ -53,15 +53,12 @@
         </form>
     </div>
     <br /><br />
-    <div style="color: rgb(214, 67, 22);text-shadow: 1px 1px 2px black">
-        <h5>Sección de Liquidaciones</h5>
+    <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
+        <h5>Sección de Liquidaciones - ESTADISTICAS - ADMINISTRADOR</h5>
     </div>
     <br /><br />
-    <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva multa!</a>
-    <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listar No-Impresas para
-        Ver/Descargar/Imprimir</a>
     <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
-    <br /><br />
+    <br /><br />    
     <div class="form-group btn-center mx-auto">
         <br />
         <div class="form-group btn-center mx-auto">
@@ -77,8 +74,6 @@
                         <td>Monto Total</td>
                         <td>Impreso</td>
                         <td>+Datos</td>
-                        <td>Opciones</td>
-                        {{!-- <td>Impresión</td> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -99,17 +94,6 @@
                         <td>
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
-                        </td>
-                        <td>
-                            <a class="dropdown-item" href="/multas/add/{{_id}}"
-                                style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">Liquidación</a>
-                            {{!-- <form onSubmit="return confirm('Desea Borrar?')"
-                                action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button class="btn btn-danger btn-block btn-sm" type="submit">
-                                    Borrar ADM
-                                </button>
-                            </form> --}}
                         </td>
                         {{!-- <td>
                             <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
