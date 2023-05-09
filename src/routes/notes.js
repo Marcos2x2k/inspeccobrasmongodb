@@ -69,12 +69,6 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    // contenidoHtml = contenidoHtml.replace("{{fecha}}");
-    // contenidoHtml = contenidoHtml.replace("{{numacta}}");
-    // contenidoHtml = contenidoHtml.replace("{{propietario}}");
-    // contenidoHtml = contenidoHtml.replace("{{ubicacion}}");
-    // contenidoHtml = contenidoHtml.replace("{{inciso}}");
-    // contenidoHtml = contenidoHtml.replace("{{formulamulta}}"); 
     await Multas.updateMany({ impreso: "No"}, { impreso : "Si", fechaimpreso: new Date()});
     pdf.create(contenidoHtml).toStream((error, stream) => {
         if (error) {
@@ -546,10 +540,10 @@ router.get('/mesaentrada', isAuthenticated, async (req, res) => {
 router.get('/multas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Inspector") {
+    if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find().lean().sort({ date: 'desc' });
-        res.render('notes/allmultasadm', { multas });
+        res.render('notes/allmultas', { multas });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         res.render('notes/allmultasadm', { multas });
@@ -562,7 +556,7 @@ router.get('/multas', isAuthenticated, async (req, res) => {
 router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Inspector") {
+    if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadmimp', { multas });
@@ -584,7 +578,7 @@ router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
 
 router.get('/tasas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    if (rolusuario == "Administrador") {
+    if (rolusuario == "Liquidaciones") {
         // res.send('Notes from data base');
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const tasas = await Tasas.find().lean().sort({ date: 'desc' });
@@ -842,6 +836,96 @@ router.get('/estadisticas/list/:id', isAuthenticated, async (req, res) => {
 
 //  ***** SECTOR BUSQUEDA *****
 
+// *** BUSCAR LIQUIDACIONES O MULTAS ***
+router.post('/multa/findpropietario', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { propietario } = req.body;
+    const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones") {
+        if (!multas) {
+            req.flash('success_msg', 'cargue Nombre y/o Apellido')
+            return res.render("notes/allmultas");
+        } else {
+            res.render('notes/allmultas', { multas })
+        }
+    } else if (rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/allmultasadm");
+        } else {
+            res.render('notes/allmultasadm', { multas })
+        }
+    } else {
+        res.render('notes/allmultasadm', { multas })
+    }
+});
+router.post('/multa/findnumacta', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { numacta } = req.body;
+    const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/allmultas");
+        } else {
+            res.render('notes/allmultas', { multas })
+        }
+    } else if (rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/allmultasadm");
+        } else {
+            res.render('notes/allmultasadm', { multas })
+        }
+    } else {
+        res.render('notes/allmultasadm', { multas })
+    }
+});
+router.post('/multa/findubicacion', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { ubicacion } = req.body;
+    const multas = await Multas.find({ ubicacion: { $regex: ubicacion, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/allmultas");
+        } else {
+            res.render('notes/allmultas', { multas })
+        }
+    } else if (rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/allmultasadm");
+        } else {
+            res.render('notes/allmultasadm', { multas })
+        }
+    } else {
+        res.render('notes/allmultas', { multas })
+    }
+});
+router.post('/multa/findexpediente', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { expediente } = req.body;
+    const multas = await Multas.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones") {
+        if (!multas) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/allmultas");
+        } else {
+            res.render('notes/allmultas', { multas })
+        }
+    } else if (rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/allmultasadm");
+        } else {
+            res.render('notes/allmultasadm', { multas })
+        }
+    } else {
+        res.render('notes/allmultasadm', { multas })
+    }
+});
+
 // *** BUSCAR TURNOS ***
 router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -887,7 +971,6 @@ router.post('/mesaentrada/findiniciador', isAuthenticated, async (req, res) => {
         res.render('notes/findmesaentrada', { mesaentradas })
     }
 });
-
 router.post('/mesaentrada/findlistasector', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { sector } = req.body;
@@ -910,7 +993,6 @@ router.post('/mesaentrada/findlistasector', isAuthenticated, async (req, res) =>
         res.render('notes/planillalistaturnero', { mesaentradas })
     }
 });
-
 router.post('/mesaentrada/findlistainiciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { nomyape } = req.body;
@@ -933,7 +1015,6 @@ router.post('/mesaentrada/findlistainiciador', isAuthenticated, async (req, res)
         res.render('notes/planillalistaturnero', { mesaentradas })
     }
 });
-
 router.post('/mesaentrada/finddni', isAuthenticated, async (req, res) => {
     const { dni } = req.body;
     const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
@@ -944,7 +1025,6 @@ router.post('/mesaentrada/finddni', isAuthenticated, async (req, res) => {
         res.render('notes/findmesaentrada', { mesaentradas })
     }
 });
-
 router.post('/mesaentrada/findlistadni', isAuthenticated, async (req, res) => {
     const { dni } = req.body;
     const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
@@ -955,7 +1035,6 @@ router.post('/mesaentrada/findlistadni', isAuthenticated, async (req, res) => {
         res.render('notes/planillalistaturnero', { mesaentradas })
     }
 });
-
 router.post('/mesaentrada/findexpediente', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
     const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
@@ -988,7 +1067,6 @@ router.post('/mesaentrada/findlistaexpediente', isAuthenticated, async (req, res
         res.render('notes/planillalistaturnero', { mesaentradas })
     }
 });
-
 router.post('/mesaentrada/findfechaentrada', isAuthenticated, async (req, res) => {
     const { fechaingreso } = req.body;
     const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
@@ -999,7 +1077,6 @@ router.post('/mesaentrada/findfechaentrada', isAuthenticated, async (req, res) =
         res.render('notes/findmesaentrada', { mesaentradas })
     }
 });
-
 router.post('/mesaentrada/findlistafechaentrada', isAuthenticated, async (req, res) => {
     const { fechaingreso } = req.body;
     const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })

@@ -9,30 +9,16 @@
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
     }
-    function desabilitar() {
-        document.getElementById("verfactura").hidden = true;
-        document.getElementById("descargarfactura").hidden = true;
-        document.getElementById("tablafacturas").hidden = true;
-    }
-
-    function recargar() {
-        javascript: location.reload()
-    }
-    function actualizar() {
-        location.reload(true)
-    }
-    // Función para actualizar cada 4 segundos(4000 milisegundos)
-    setInterval("actualizar()", 3000);
-
 </script>
 
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findnumacta" method="POST">
-            <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." autofocus />
+            <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." 
+                autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar N° Acta ADM
+                    Buscar N° Acta
                 </button>
             </div>
         </form>
@@ -40,7 +26,7 @@
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findpropietario" method="POST">
             <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..."
-                autofocus />
+                />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Propietario
@@ -50,7 +36,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findubicacion" method="POST">
-            <input type="search" class="form-control" name="adrema" placeholder="Buscar x Ubicación..." autofocus />
+            <input type="search" class="form-control" name="ubicacion" placeholder="Buscar x Ubicación..." />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Ubicación
@@ -59,8 +45,8 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/multa/findinciso" method="POST">
-            <input type="search" class="form-control" name="inspector" placeholder="Buscar x Expediente..." autofocus />
+        <form action="/multa/findexpediente" method="POST">
+            <input type="search" class="form-control" name="expediente" placeholder="Buscar x Expediente..." />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Expediente
@@ -69,27 +55,17 @@
         </form>
     </div>
     <br /><br />
-    <a href="/multas/add" class="btn btn-success btn-block btn-sm">Cargar Nueva multa!</a>
-
+    <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva multa!</a>
+    <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listar No-Impresas para
+        Ver/Descargar/Imprimir</a>
+    <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
+    <br /><br />
     <div class="form-group btn-center mx-auto">
         <br />
         <div class="form-group btn-center mx-auto">
-            <table id="tablafacturas" class="table table-striped table-dark table-bordered">
-                <form action="/factura?_method=GET" method="GET">
-                    <input type="hidden" name="_method" value="GET">
-                    <button id="verfactura" class="btn btn-warning btn-block btn-sm" type="submit">
-                        Ver Factura
-                    </button>
-                </form>
-                <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/descargarfactura" method="GET"
-                    target="_blank">
-                    <input type="hidden" name="_method" value="GET">
-                    <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
-                        Descargar/Imprimir Factura
-                    </button>
-                </form>
+            <table class="table table-striped table-dark table-bordered">
                 <thead>
-                    <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
+                    <tr id="tdtable" style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
                         {{!-- <td>_ID</td> --}}
                         <td>Fecha</td>
                         <td>Propietario</td>
@@ -100,11 +76,17 @@
                         <td>Impreso</td>
                         <td>+Datos</td>
                         <td>Opciones</td>
+                        {{!-- <td>Impresión</td> --}}
                     </tr>
                 </thead>
                 <tbody>
                     {{#each multas}}
                     <tr>
+                        {{!-- <td>
+                            <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id'
+                                value=''
+                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
+                        </td> --}}
                         <td>{{ fecha }}</td>
                         <td>{{ propietario }}</td>
                         <td>{{ ubicacion }}</td>
@@ -116,40 +98,46 @@
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
                         </td>
-                        <td>
-                            <form onSubmit="return confirm('Desea Borrar?')"
+                        <td>                            
+                            <a class="dropdown-item" href="/multas/add/{{_id}}"
+                                style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">Liquidación</a>
+                            {{!-- <form onSubmit="return confirm('Desea Borrar?')"
                                 action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button class="btn btn-danger btn-block btn-sm" type="submit">
-                                    Borrar
+                                    Borrar ADM
                                 </button>
-                            </form>
+                            </form> --}}
                         </td>
-                    </tr>
+                        {{!-- <td>
+                            <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
+                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">ReImprimir</a>
+                        </td> --}}
 
-                    {{!-- </br> --}}
+                    </tr>
                     {{else}}
                     <div class="mx-auto">
                         <br /> <br />
                         <div class="card mx-auto">
                             <div class="card-body">
-                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar...
+                                <p class"lead" style="color:red; font-weight: bold;"> No existen Datos por Mostrar...
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <script>
-                        desabilitar()
-                    </script>
+
                     {{/each}}
                 </tbody>
                 <div id="msg"></div>
             </table>
-            <br />
-            <a href="/multas" class="btn btn-danger btn-block btn-sm">Volver al Listado de Multas</a>
-            {{!-- <p style="color:rgb(229, 233, 11); font-style:oblique; font-weight: bold;"><a href="/multas"><i
-                        class="fas fa-list" style='font-size:24px;color:rgb(255, 30, 0)'></i></a> Volver Listado Multas
-            </p> --}}
+            {{!-- <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir/{{_id}}?_method=POST"
+                method="POST">
+                <input type="hidden" name="_method" value="POST">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Imprimir Agregados
+                </button>
+            </form> --}}
+            {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
         </div>
     </div>
 </div>

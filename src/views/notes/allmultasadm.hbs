@@ -14,7 +14,8 @@
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findnumacta" method="POST">
-            <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." autofocus />
+            <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." 
+                autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar N° Acta
@@ -25,7 +26,7 @@
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findpropietario" method="POST">
             <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..."
-                autofocus />
+                />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Propietario
@@ -35,7 +36,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findubicacion" method="POST">
-            <input type="search" class="form-control" name="adrema" placeholder="Buscar x Ubicación..." autofocus />
+            <input type="search" class="form-control" name="ubicacion" placeholder="Buscar x Ubicación..." />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Ubicación
@@ -44,8 +45,8 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/multa/findinciso" method="POST">
-            <input type="search" class="form-control" name="inspector" placeholder="Buscar x Expediente..." autofocus />
+        <form action="/multa/findexpediente" method="POST">
+            <input type="search" class="form-control" name="expediente" placeholder="Buscar x Expediente..." />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Expediente
@@ -57,7 +58,7 @@
     <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva multa!</a>
     <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listar No-Impresas para
         Ver/Descargar/Imprimir</a>
-    <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Listado</a>
+    <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
         <br />
@@ -104,7 +105,7 @@
                                 action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button class="btn btn-danger btn-block btn-sm" type="submit">
-                                    Borrar
+                                    Borrar ADM
                                 </button>
                             </form>
                         </td>
@@ -119,7 +120,7 @@
                         <br /> <br />
                         <div class="card mx-auto">
                             <div class="card-body">
-                                <p class"lead" style="color:red; font-weight: bold;"> No existen Multas por cobrar...
+                                <p class"lead" style="color:red; font-weight: bold;"> No existen Datos por Mostrar...
                                 </p>
                             </div>
                         </div>
