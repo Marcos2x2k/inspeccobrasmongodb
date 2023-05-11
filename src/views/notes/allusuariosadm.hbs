@@ -11,28 +11,37 @@
     }
 </script>
 
-<div class="row">
+<div class="row"> 
     <div class="form-group btn-center mx-auto">
-        <form action="/multas/sacarestadistica" method="POST">
-            <input class="pl-3" type="search" class="form-control" name="propietario" placeholder="Propietario..." />
-            <input class="pl-3" type="search" class="form-control" name="adrema" placeholder="Adrema..." />
-            <input class="pl-3" type="search" class="form-control" name="numacta" placeholder="Acta..." />
-            <input class="pl-3" type="date" class="form-control" name="desde" />
-            <input class="pl-3" type="date" class="form-control" name="hasta" />
-            <p></p>
+        <form action="/multa/findpropietario" method="POST">
+            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..." />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Armar Estadistica...
+                    Buscar x Usuario
                 </button>
             </div>
         </form>
-        <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
-            <h5>Sección de Liquidaciones - ESTADISTICAS - ADMINISTRADOR</h5>
-        </div>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/multa/findexpediente" method="POST">
+            <input type="search" class="form-control" name="expediente" placeholder="Buscar x Expediente..." />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar x Cargo
+                </button>
+            </div>
+        </form>
     </div>
     <br /><br />
-    <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
+    <div style="color: rgb(214, 67, 22);text-shadow: 1px 1px 2px black">
+        <h5>Sección de Usuarios - ADMINISTRADOR</h5>
+    </div>
     <br /><br />
+    <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva multa!</a>
+    <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listar No-Impresas para
+        Ver/Descargar/Imprimir</a>
+    <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
+    <br /><br />    
     <div class="form-group btn-center mx-auto">
         <br />
         <div class="form-group btn-center mx-auto">
@@ -48,10 +57,12 @@
                         <td>Monto Total</td>
                         <td>Impreso</td>
                         <td>+Datos</td>
+                        <td>Opciones</td>
+                        {{!-- <td>Impresión</td> --}}
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each multas}}
+                    {{#each usuarios}}
                     <tr>
                         {{!-- <td>
                             <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id'
@@ -68,6 +79,17 @@
                         <td>
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+                        </td>
+                        <td>
+                            <a class="dropdown-item" href="/multas/add/{{_id}}"
+                                style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">Liquidación</a>
+                            <form onSubmit="return confirm('Desea Borrar?')"
+                                action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                                    Borrar ADM
+                                </button>
+                            </form>
                         </td>
                         {{!-- <td>
                             <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
@@ -90,23 +112,14 @@
                 </tbody>
                 <div id="msg"></div>
             </table>
-            <h4 style="color:rgb(55, 22, 202); font-weight: bold; text-decoration: underline wavy rgb(193, 235, 8);">
-                Monto Total Cobrado:
-                <h4 />
-                <h4
-                    style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
-                    $ {{montofinal}}
-                    <h4 />
-                    {{!-- <form onSubmit="return confirm('Desea Imprimir?')"
-                        action="/multas/imprimir/{{_id}}?_method=POST" method="POST">
-                        <input type="hidden" name="_method" value="POST">
-                        <button class="btn btn-warning btn-block btn-sm" type="submit">
-                            Imprimir Agregados
-                        </button>
-                    </form> --}}
-                    {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
-                    <br /><br />
-                    <a style="background-color: #1324dd;" href="/multas" class="btn btn-dark btn-block btn-sm">Imprimir</a>
+            {{!-- <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir/{{_id}}?_method=POST"
+                method="POST">
+                <input type="hidden" name="_method" value="POST">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Imprimir Agregados
+                </button>
+            </form> --}}
+            {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
         </div>
     </div>
 </div>

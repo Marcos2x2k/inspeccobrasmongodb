@@ -13,6 +13,7 @@ const Ticket = require('../models/Ticket')
 const Cicloinspeccion = require('../models/cicloinspeccion')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
+const Users = require('../models/User')
 
 const fs = require('fs').promises
 
@@ -34,14 +35,15 @@ router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) =>
     //Busco el id y le sumo 1 a veces impreso
     const impreso = "No";
     const fechaimpreso = "Esperando Re-Impresion";
-    const reimpreso = "Si"; 
-    const vecesreimpreso = "1 o Más";   
-    const fechareimpreso = new Date();    
+    const reimpreso = "Si";
+    const vecesreimpreso = "1 o Más";
+    const fechareimpreso = new Date();
     await Multas.findByIdAndUpdate(req.params.id, {
-        impreso, fechaimpreso, reimpreso, 
-        fechareimpreso, vecesreimpreso});
+        impreso, fechaimpreso, reimpreso,
+        fechareimpreso, vecesreimpreso
+    });
     req.flash('success_msg', 'Re-Impresión actualizada')
-    res.redirect('/multas');    
+    res.redirect('/multas');
 });
 
 router.get('/descargarfactura', isAuthenticated, async (req, res) => {
@@ -51,7 +53,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
-    
+
     for (const multas of tablamultas) {
         // Y concatenar las multas                    
         tabla += `<tr>
@@ -64,16 +66,16 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
-    } 
+    }
     // console.log("MULTAS", tablamultas)
     // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    await Multas.updateMany({ impreso: "No"}, { impreso : "Si", fechaimpreso: new Date()});
+    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
     pdf.create(contenidoHtml).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
-        } else {            
+        } else {
             req.flash('success_msg', 'Multas Impresas')
             res.setHeader("Content-Type", "application/pdf");
             stream.pipe(res);
@@ -520,6 +522,18 @@ router.post('/notes/newinfracciones', isAuthenticated, async (req, res) => {
 
 // aca llama los expedientes de la bd, pero si necesito que llame solo de usuarios especificos debo especificar en find
 //
+router.get('/usuarios', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
 router.get('/mesaentrada', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     console.log("ROL USUARIO", rolusuario) //Inspector
@@ -568,6 +582,62 @@ router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { propietario, adrema, numacta, desde, hasta } = req.body;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador") {
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        var montofinal = 0;
+        if (propietario) {
+            const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
+            console.log ("Multas Estadistica",multas)
+            for (let i = 0; i < multas.length; i++) {
+                montofinal =  montofinal + parseInt(multas[i].montototal)
+            }
+            res.render('notes/multaestadisticaadm', { multas, montofinal });
+        } else if (adrema) {
+            const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (let i = 0; i < multas.length; i++) {
+                montofinal =  montofinal + parseInt(multas[i].montototal)
+            }
+            res.render('notes/multaestadisticaadm', { multas, montofinal });
+        } else if (numacta) {
+            const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (let i = 0; i < multas.length; i++) {
+                montofinal =  montofinal + parseInt(multas[i].montototal)
+            }
+            res.render('notes/multaestadisticaadm', { multas, montofinal });
+        } else if (desde == true && hasta == true) {
+            const desde = desde.substring(0,8).concat(Number(desde.substring(8)) + 1);
+            const hasta = hasta.substring(0,8).concat(Number(hasta.substring(8)) + 1);
+            const multas = await Multas.find({$and: [{desde: {$gte: new Date(date)}},{hasta: {$lt: new Date(date)}}]});
+            //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
+            for (let i = 0; i < multas.length; i++) {
+                montofinal =  montofinal + parseInt(multas[i].montototal)
+            }
+            res.render('notes/multaestadisticaadm', { multas, montofinal });
+        } else if (desde) {
+            const multas = await Multas.find({ hasta: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });
+            res.render('notes/multaestadisticaadm', { multas });
+        }
+    } else if (rolusuario == "Liquidaciones") {
+        if (propietario) {
+            const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
+            res.render('notes/multaestadisticaadm', { multas });
+        } else if (adrema) {
+            const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
+            res.render('notes/multaestadisticaadm', { multas });
+        } else if (numacta) {
+            const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
+            res.render('notes/multaestadisticaadm', { multas });
+        }
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
 
 router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -774,12 +844,12 @@ router.get('/multas/add/:id', isAuthenticated, async (req, res) => {
 
 router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
-        res.render('notes/editticket', { ticket })
+    res.render('notes/editticket', { ticket })
 });
 
 router.get('/mesaentrada/edit/:id', isAuthenticated, async (req, res) => {
     const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
-       res.render('notes/editmesaentrada', { mesaentrada })
+    res.render('notes/editmesaentrada', { mesaentrada })
 });
 
 router.get('/expedientes/edit/:id', isAuthenticated, async (req, res) => {
