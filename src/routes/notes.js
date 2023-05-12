@@ -154,6 +154,7 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
+    newMultas.date = new Date();
     await newMultas.save();
     req.flash('success_msg', 'Multa Agregada Exitosamente');
     res.redirect('/multas');
@@ -591,33 +592,38 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
         var montofinal = 0;
         if (propietario) {
             const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
-            console.log ("Multas Estadistica",multas)
+            console.log("Multas Estadistica", multas)
             for (let i = 0; i < multas.length; i++) {
-                montofinal =  montofinal + parseInt(multas[i].montototal)
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/multaestadisticaadm', { multas, montofinal });
         } else if (adrema) {
             const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < multas.length; i++) {
-                montofinal =  montofinal + parseInt(multas[i].montototal)
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/multaestadisticaadm', { multas, montofinal });
         } else if (numacta) {
             const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < multas.length; i++) {
-                montofinal =  montofinal + parseInt(multas[i].montototal)
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/multaestadisticaadm', { multas, montofinal });
-        } else if (desde == true && hasta == true) {
-            const desde = desde.substring(0,8).concat(Number(desde.substring(8)) + 1);
-            const hasta = hasta.substring(0,8).concat(Number(hasta.substring(8)) + 1);
-            const multas = await Multas.find({$and: [{desde: {$gte: new Date(date)}},{hasta: {$lt: new Date(date)}}]});
+        } else if (desde && hasta) { 
+            console.log("DESDE",desde)           
+            console.log("HASTA",hasta)   
+            var d = new Date(hasta); 
+            const hastad = d.setDate(d.getDate() + 1);         
+                  
+            const multas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
+            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
             for (let i = 0; i < multas.length; i++) {
-                montofinal =  montofinal + parseInt(multas[i].montototal)
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/multaestadisticaadm', { multas, montofinal });
         } else if (desde) {
+            const hastacondiamenos = "";
             const multas = await Multas.find({ hasta: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });
             res.render('notes/multaestadisticaadm', { multas });
         }
