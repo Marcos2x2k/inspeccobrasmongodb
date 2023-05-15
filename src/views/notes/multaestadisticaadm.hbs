@@ -9,21 +9,80 @@
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
     }
+
+    function selecdatoestadistico() {
+        var seleccion = document.getElementById('datoestadistico');
+        var x = document.getElementById("armarestadistica")
+        var p = document.getElementById("propietario")
+        var a = document.getElementById("adrema") 
+        var na = document.getElementById("numacta")
+        var fd = document.getElementById("desde")     
+        var fa = document.getElementById("hasta") 
+        if (seleccion.selectedIndex == 0) {
+            x.disabled = true;
+            p.disabled = true;
+            a.disabled = true;
+            na.disabled = true;
+            fd.disabled = true;
+            fa.disabled = true;
+        }   
+        if (seleccion.selectedIndex == 1) {
+            x.disabled = false;
+            p.disabled = false;
+            a.disabled = true;
+            na.disabled = true;
+            fd.disabled = true;
+            fa.disabled = true;
+        } else if (seleccion.selectedIndex == 2) {
+            x.disabled = false;
+            p.disabled = true;
+            a.disabled = false;
+            na.disabled = true;
+            fd.disabled = true;
+            fa.disabled = true;
+        } else if (seleccion.selectedIndex == 3) {
+            x.disabled = false;
+            p.disabled = true;
+            a.disabled = true;
+            na.disabled = false;
+            fd.disabled = true;
+            fa.disabled = true;
+        } else if (seleccion.selectedIndex == 4) {
+            x.disabled = true;
+            p.disabled = true;
+            a.disabled = true;
+            na.disabled = true;
+            fd.disabled = false;
+            fa.disabled = false;
+        }
+    }
 </script>
 
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <form action="/multas/sacarestadistica" method="POST">
-            <input class="pl-3" type="search" class="form-control" name="propietario" placeholder="Propietario..." />
-            <input class="pl-3" type="search" class="form-control" name="adrema" placeholder="Adrema..." />
-            <input class="pl-3" type="search" class="form-control" name="numacta" placeholder="Acta..." />
-            <input class="pl-3" type="date" class="form-control" name="desde" />
-            <input class="pl-3" type="date" class="form-control" name="hasta" />
+            <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadistico">Selección:</label>
+            <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()">
+                <option value=0>Elija Estadistica</option>
+                <option value=1>por Propietario</option>
+                <option value=2>por Adrema</option>
+                <option value=3>por Acta</option>
+                <option value=4>por Fechas</option>
+            </select>
+            <br />
+            <input class="pl-3" type="search" id="propietario" placeholder="Propietario..." disabled/>
+            <input class="pl-3" type="search" id="adrema" placeholder="Adrema..." disabled/>
+            <input class="pl-3" type="search" id="numacta" placeholder="Acta..." disabled/>
+            <input class="pl-3" type="date" id="desde" disabled/>
+            <input class="pl-3" type="date" id="hasta" disabled>
             <p></p>
             <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
                     Armar Estadistica...
                 </button>
+
+                <a id="volverlistado" href="/multas/impresas" class="btn btn-outline-warning btn-block btn-sm">Volver
+                    Listado</a>
             </div>
         </form>
         <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
@@ -106,7 +165,8 @@
                     </form> --}}
                     {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
                     <br /><br />
-                    <a style="background-color: #1324dd;" href="/multas" class="btn btn-dark btn-block btn-sm">Imprimir</a>
+                    <a style="background-color: #1324dd;" href="/multas"
+                        class="btn btn-dark btn-block btn-sm">Imprimir</a>
         </div>
     </div>
 </div>

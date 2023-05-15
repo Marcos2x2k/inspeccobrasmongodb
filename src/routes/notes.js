@@ -622,10 +622,10 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/multaestadisticaadm', { multas, montofinal });
-        } else if (desde) {
-            const hastacondiamenos = "";
-            const multas = await Multas.find({ hasta: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });
-            res.render('notes/multaestadisticaadm', { multas });
+        // } else if (desde) {
+        //     const hastacondiamenos = "";
+        //     const multas = await Multas.find({ hasta: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });
+        //     res.render('notes/multaestadisticaadm', { multas });
         }
     } else if (rolusuario == "Liquidaciones") {
         if (propietario) {
