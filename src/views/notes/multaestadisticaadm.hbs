@@ -25,21 +25,36 @@
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
+            p.type = "text";
+            a.type = "text";
+            na.type = "text";
+            fd.type = "text";
+            fa.type = "text";
         }   
         if (seleccion.selectedIndex == 1) {
-            x.disabled = false;
+            x.disabled = false;            
             p.disabled = false;
             a.disabled = true;
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
+            p.type = "search";
+            a.type = "text";
+            na.type = "text";
+            fd.type = "text";
+            fa.type = "text";
         } else if (seleccion.selectedIndex == 2) {
             x.disabled = false;
-            p.disabled = true;
+            p.disabled = true;            
             a.disabled = false;
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
+            p.type = "text";
+            a.type = "search";
+            na.type = "text";
+            fd.type = "text";
+            fa.type = "text";
         } else if (seleccion.selectedIndex == 3) {
             x.disabled = false;
             p.disabled = true;
@@ -47,19 +62,35 @@
             na.disabled = false;
             fd.disabled = true;
             fa.disabled = true;
+            p.type = "text";
+            a.type = "text";
+            na.type = "search";
+            fd.type = "text";
+            fa.type = "text";
         } else if (seleccion.selectedIndex == 4) {
-            x.disabled = true;
+            x.disabled = false;
             p.disabled = true;
             a.disabled = true;
             na.disabled = true;
             fd.disabled = false;
             fa.disabled = false;
+            p.type = "text";
+            a.type = "text";
+            na.type = "text";
+            fd.type = "date";
+            fa.type = "date";
+
+            
         }
+
     }
 </script>
 
 <div class="row">
     <div class="form-group btn-center mx-auto">
+        <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
+            <h5>Sección de Liquidaciones - ESTADISTICAS - ADMINISTRADOR</h5>
+        </div>
         <form action="/multas/sacarestadistica" method="POST">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadistico">Selección:</label>
             <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()">
@@ -70,24 +101,21 @@
                 <option value=4>por Fechas</option>
             </select>
             <br />
-            <input class="pl-3" type="search" id="propietario" placeholder="Propietario..." disabled/>
-            <input class="pl-3" type="search" id="adrema" placeholder="Adrema..." disabled/>
-            <input class="pl-3" type="search" id="numacta" placeholder="Acta..." disabled/>
-            <input class="pl-3" type="date" id="desde" disabled/>
-            <input class="pl-3" type="date" id="hasta" disabled>
+            <input class="pl-3"  type="text" id="propietario" name="propietario" placeholder="Propietario..." disabled/>
+            <input class="pl-3"  type="text" id="adrema" name="adrema" placeholder="Adrema..." disabled/>
+            <input class="pl-3"  type="text" id="numacta" name="numacta" placeholder="Acta..." disabled/>
+            <input class="pl-3"  type="text" id="desde" name="desde" placeholder="Desde..." disabled/>
+            <input class="pl-3"  type="text" id="hasta" name="hasta"  placeholder="Hasta..." disabled>            
             <p></p>
             <div class="form-group">
                 <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
                     Armar Estadistica...
                 </button>
-
                 <a id="volverlistado" href="/multas/impresas" class="btn btn-outline-warning btn-block btn-sm">Volver
                     Listado</a>
             </div>
         </form>
-        <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
-            <h5>Sección de Liquidaciones - ESTADISTICAS - ADMINISTRADOR</h5>
-        </div>
+        
     </div>
     <br /><br />
     <a href="/multas/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
@@ -126,7 +154,7 @@
                         <td>{{ impreso}}</td>
                         <td>
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
-                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black" target="_blank">Info</a>
                         </td>
                         {{!-- <td>
                             <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
@@ -165,7 +193,7 @@
                     </form> --}}
                     {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
                     <br /><br />
-                    <a style="background-color: #1324dd;" href="/multas"
+                    <a style="background-color: grey; pointer-events: none" href="/multas"
                         class="btn btn-dark btn-block btn-sm">Imprimir</a>
         </div>
     </div>

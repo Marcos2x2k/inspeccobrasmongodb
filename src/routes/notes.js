@@ -621,11 +621,7 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             for (let i = 0; i < multas.length; i++) {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
-            res.render('notes/multaestadisticaadm', { multas, montofinal });
-        // } else if (desde) {
-        //     const hastacondiamenos = "";
-        //     const multas = await Multas.find({ hasta: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });
-        //     res.render('notes/multaestadisticaadm', { multas });
+            res.render('notes/multaestadisticaadm', { multas, montofinal });       
         }
     } else if (rolusuario == "Liquidaciones") {
         if (propietario) {
@@ -1618,6 +1614,12 @@ router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
     await Mesaentrada.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Turno Eliminado')
     res.redirect('/mesaentrada')
+});
+
+router.delete('/tasas/delete/:id', isAuthenticated, async (req, res) => {
+    await Tasas.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Tasa Eliminada')
+    res.redirect('/Tasas')
 });
 
 router.delete('/multas/delete/:id', isAuthenticated, async (req, res) => {
