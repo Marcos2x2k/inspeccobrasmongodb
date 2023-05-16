@@ -45,56 +45,59 @@
     <br /><br />
     {{#each tasas}}
 
-</div>
 
-<div class="text-dark col-md-3">
-    <br />
-    <div class="card">
+    <div class="text-dark col-md-3">
+        <br />
+        <div class="card">
+            <div class="card-body">
+                <h5 class="text-dark display-5 card-title d-flex justify-content-between align-items-center"
+                    style="color:rgb(15, 15, 15); font-style:oblique; font-weight: bold;">Tipo de Tasa:</h5>
+                <p class="text-secondary display-5 card-title d-flex justify-content-between align-items-center">
+                <p style="color:brown; font-style:oblique; font-weight: bold;">{{ tipotasa }}
+                </p>
+                <h5 class="text-dark display-5 card-title d-flex justify-content-between align-items-center"
+                    style="color:rgb(15, 15, 15); font-style:oblique; font-weight: bold;">Monto:</h5>
+                <p class="text-secondary display-5 card-title d-flex justify-content-between align-items-center">
+                <p style="color:brown; font-style:oblique; font-weight: bold; text-shadow: #050505 1px 0 15px;">$ {{
+                    tasaconstruccion }}
+                </p>
+                <p style="color:brown; font-style:oblique; font-weight: bold;"
+                    class="text-dark display-5 card-title d-flex justify-content-between align-items-center">
+                    Observaciones:
+                </p>
+                <p style="color:brown; font-style:oblique; font-weight: bold;">{{ observaciones }}</p>
+                <p style="color:brown; font-style:oblique; font-weight: bold;"
+                    class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Fecha
+                    Creación:
+                </p>
+                <input type="date" value="{{ fechaactual }}" style="color: #e75c0c; font-weight: bold;;"
+                    disabled></input>
+                {{!-- <p>{{ date }}</p>--}}
 
-        <div class="card-body">
-
-            <h5 class="text-dark display-5 card-title d-flex justify-content-between align-items-center"
-                style="color:rgb(15, 15, 15); font-style:oblique; font-weight: bold;">Tipo de Tasa:</h5>
-            <p class="text-secondary display-5 card-title d-flex justify-content-between align-items-center">
-            <p style="color:brown; font-style:oblique; font-weight: bold;">{{ tipotasa }}
-            </p>
-            <h5 class="text-dark display-5 card-title d-flex justify-content-between align-items-center"
-                style="color:rgb(15, 15, 15); font-style:oblique; font-weight: bold;">Monto:</h5>
-            <p class="text-secondary display-5 card-title d-flex justify-content-between align-items-center">
-            <p style="color:brown; font-style:oblique; font-weight: bold;">$ {{ tasaconstruccion }}
-            </p>
-            <p style="color:brown; font-style:oblique; font-weight: bold;"
-                class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Observaciones:
-            </p>
-            <p>{{ observaciones }}</p>
-            <p style="color:brown; font-style:oblique; font-weight: bold;"
-                class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Fecha Creación:
-            </p>
-            <input type="date" value="{{ fechaactual }}" style="color: #e75c0c; font-weight: bold;;" disabled></input>
-            {{!-- <p>{{ date }}</p>--}}
-
-            <p style="color:brown; font-style:oblique; font-weight: bold;"
-                class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Usuario Cargo:
-            </p>
-            <p>{{ name }}</p>
-            <form style="box-shadow: 3px 4px;" action="/tasas/delete/{{_id}}?_method=DELETE" method="POST">
-                <input type="hidden" name="_method" value="DELETE">
-                <button class="btn btn-danger btn-block btn-sm" type="submit">
-                    Borrar
-                </button>
-            </form>
+                <p style="color:brown; font-style:oblique; font-weight: bold;"
+                    class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Usuario
+                    Cargo:
+                </p>
+                <p>{{ name }}</p>
+                <form style="box-shadow: 3px 4px;" action="/tasas/delete/{{_id}}?_method=DELETE" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn btn-danger btn-block btn-sm" type="submit">
+                        Borrar
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-{{else}}
-<div class="mx-auto">
-    <br /> <br />
-    <div class="card mx-auto">
-        <div class="card-body">
-            <p class"lead" style="color:red; font-weight: bold;"> No existen Tasas Cargadas...</p>
-            {{!-- <a href="/notes/add" class="btn btn-success btn-block">Cargar Inspección!</a> --}}
+    {{else}}
+    <div class="mx-auto">
+        <br /> <br />
+        <div class="card mx-auto">
+            <div class="card-body">
+                <p class"lead" style="color:red; font-weight: bold;"> No existen Tasas Cargadas...</p>
+                {{!-- <a href="/notes/add" class="btn btn-success btn-block">Cargar Inspección!</a> --}}
+            </div>
         </div>
     </div>
+    {{/each}}
 </div>
-{{/each}}
 </div>

@@ -62,511 +62,511 @@
         //const tc = await Tasas.find.lean().sort({ date: 'desc' })
         //var tcpru = parseInt(tc.tasaconstruccion)
         //console.log("TASA PRUEBA",tcpru)
-        var tc = parseInt({{tasaactual.tasaconstruccion}})
-        //var tc = "52000"
-        document.getElementById("volverlistado").style.visibility = "hidden";
-        if ((seleccion.selectedIndex == 1)) {
-            document.getElementById("acta").value = "INCISO A) 1)";
-            document.getElementById("formulamulta").value = "SCSp x 0,15 x TC";
-            document.getElementById('labelvalor1').innerHTML = 'SCSp';
-            document.getElementById("valor1").value = 20;
-            document.getElementById("valor2").value = "0.15";
-            document.getElementById("valor3").value = tc;
+        var tc = parseInt({{ tasaactual.tasaconstruccion }})
+    //var tc = "52000"
+    document.getElementById("volverlistado").style.visibility = "hidden";
+    if ((seleccion.selectedIndex == 1)) {
+        document.getElementById("acta").value = "INCISO A) 1)";
+        document.getElementById("formulamulta").value = "SCSp x 0,15 x TC";
+        document.getElementById('labelvalor1').innerHTML = 'SCSp';
+        document.getElementById("valor1").value = 20;
+        document.getElementById("valor2").value = "0.15";
+        document.getElementById("valor3").value = tc;
 
-            var idvalor1 = document.getElementById("valor1").value;
-            var idvalor2 = document.getElementById("valor2").value;
-            var idvalor3 = document.getElementById("valor3").value;
-            var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
-            var montototaldosdecimales = MontoTotal.toFixed(2)
-            document.getElementById("resultado").value = montototaldosdecimales
-            var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
-            document.getElementById("observacionesmas").value = observacionesmas
-            if (montototaldosdecimales > 0) {
-                document.getElementById("grabar").style.display = "block";
-            } else {
-                document.getElementById("grabar").style.display = "none";
-            }
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 2)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO A) 2)";
-            document.getElementById("formulamulta").value = "SCSp x 0,15 x TC";
-            document.getElementById('labelvalor1').innerHTML = 'SCSp';
-            document.getElementById("valor2").value = "0.15";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 3)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO A) 3)";
-            document.getElementById("formulamulta").value = "SCPp*0,3*TC";
-            document.getElementById('labelvalor1').innerHTML = 'SCSp';
-            document.getElementById("valor2").value = "0.3";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 4)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.1)";
-            document.getElementById("formulamulta").value = "SE*0,2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SE";
-            document.getElementById("valor2").value = "0.2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 5)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP*1,5*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAP";
-            document.getElementById("valor2").value = "1.5";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 6)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)_2";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 7)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.3)";
-            document.getElementById("formulamulta").value = "SI*1.5*TC";
-            document.getElementById('labelvalor1').innerHTML = "SI";
-            document.getElementById("valor2").value = "1.5";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 8)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B)1.3)1.3.1)";
-            document.getElementById("formulamulta").value = "SE*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SE";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 9)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.3.2)";
-            document.getElementById("formulamulta").value = "SIDEAP*3*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAP";
-            document.getElementById("valor2").value = "3";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 10)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.3.2)_2";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*4*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "4";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 11)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.3.3)";
-            document.getElementById("formulamulta").value = "SI*4*TC";
-            document.getElementById('labelvalor1').innerHTML = "SI";
-            document.getElementById("valor2").value = "4";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 12)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.3.4)";
-            document.getElementById("formulamulta").value = "NCF*25*TC";
-            document.getElementById('labelvalor1').innerHTML = "NCF";
-            document.getElementById("valor2").value = "25";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 13)) {
-            document.getElementById("valor1").value = 1;
-            document.getElementById("valor1").disabled = 1;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = 1 * tc;
-            document.getElementById("acta").value = "INCISO C)";
-            document.getElementById("formulamulta").value = "1*TC";
-            document.getElementById('labelvalor1').innerHTML = "Valor";
-            document.getElementById("valor2").value = "1";
-            var x = document.getElementById("cardinciso");
+        var idvalor1 = document.getElementById("valor1").value;
+        var idvalor2 = document.getElementById("valor2").value;
+        var idvalor3 = document.getElementById("valor3").value;
+        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
+        var montototaldosdecimales = MontoTotal.toFixed(2)
+        document.getElementById("resultado").value = montototaldosdecimales
+        var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
+        document.getElementById("observacionesmas").value = observacionesmas
+        if (montototaldosdecimales > 0) {
             document.getElementById("grabar").style.display = "block";
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 14)) {
-            document.getElementById("valor1").value = 1;
-            document.getElementById("valor1").disabled = 1;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            document.getElementById("grabar").style.display = "block";
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 15)) {
-            document.getElementById("valor1").value = 1;
-            document.getElementById("valor1").disabled = 1;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = 1 * tc;
-            document.getElementById("acta").value = "INCISO E)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("labelvalor1a").style.display = 'none'
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            document.getElementById("grabar").style.display = "block";
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 16)) {
-            document.getElementById("valor1").value = 1;
-            document.getElementById("valor1").style.display = 'none'
-            document.getElementById("valor1").disabled = 1;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = 3 * tc;
-            document.getElementById("acta").value = "INCISO F)";
-            document.getElementById("formulamulta").value = "3*TC";
-            document.getElementById('labelvalor1').innerHTML = "Valor";
-            document.getElementById("labelvalor1").style.display = 'none'
-            document.getElementById("labelvalor1a").style.display = 'none'
-            document.getElementById("valor2").value = "3";
-            var x = document.getElementById("cardinciso");
-            document.getElementById("grabar").style.display = "block";
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 17)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 18)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 19)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 20)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 21)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 22)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 23)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 24)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 25)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 26)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 27)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 28)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 29)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 30)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 31)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 32)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 33)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        } else if ((seleccion.selectedIndex == 34)) {
-            document.getElementById("valor1").value = 0;
-            document.getElementById("valor3").value = tc;
-            document.getElementById("resultado").value = "0.00"
-            document.getElementById("acta").value = "INCISO B) 1.2.2)";
-            document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-            document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-            document.getElementById("valor2").value = "2";
-            var x = document.getElementById("cardinciso");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
+        } else {
+            document.getElementById("grabar").style.display = "none";
         }
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 2)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO A) 2)";
+        document.getElementById("formulamulta").value = "SCSp x 0,15 x TC";
+        document.getElementById('labelvalor1').innerHTML = 'SCSp';
+        document.getElementById("valor2").value = "0.15";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 3)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO A) 3)";
+        document.getElementById("formulamulta").value = "SCPp*0,3*TC";
+        document.getElementById('labelvalor1').innerHTML = 'SCSp';
+        document.getElementById("valor2").value = "0.3";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 4)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.1)";
+        document.getElementById("formulamulta").value = "SE*0,2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SE";
+        document.getElementById("valor2").value = "0.2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 5)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP*1,5*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAP";
+        document.getElementById("valor2").value = "1.5";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 6)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)_2";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 7)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.3)";
+        document.getElementById("formulamulta").value = "SI*1.5*TC";
+        document.getElementById('labelvalor1').innerHTML = "SI";
+        document.getElementById("valor2").value = "1.5";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 8)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B)1.3)1.3.1)";
+        document.getElementById("formulamulta").value = "SE*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SE";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 9)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.3.2)";
+        document.getElementById("formulamulta").value = "SIDEAP*3*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAP";
+        document.getElementById("valor2").value = "3";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 10)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.3.2)_2";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*4*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "4";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 11)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.3.3)";
+        document.getElementById("formulamulta").value = "SI*4*TC";
+        document.getElementById('labelvalor1').innerHTML = "SI";
+        document.getElementById("valor2").value = "4";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 12)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.3.4)";
+        document.getElementById("formulamulta").value = "NCF*25*TC";
+        document.getElementById('labelvalor1').innerHTML = "NCF";
+        document.getElementById("valor2").value = "25";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 13)) {
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").disabled = 1;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = 1 * tc;
+        document.getElementById("acta").value = "INCISO C)";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
+        var x = document.getElementById("cardinciso");
+        document.getElementById("grabar").style.display = "block";
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 14)) {
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").disabled = 1;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        document.getElementById("grabar").style.display = "block";
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 15)) {
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").disabled = 1;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = 1 * tc;
+        document.getElementById("acta").value = "INCISO E)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("labelvalor1a").style.display = 'none'
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        document.getElementById("grabar").style.display = "block";
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 16)) {
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").style.display = 'none'
+        document.getElementById("valor1").disabled = 1;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = 3 * tc;
+        document.getElementById("acta").value = "INCISO F)";
+        document.getElementById("formulamulta").value = "3*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("labelvalor1").style.display = 'none'
+        document.getElementById("labelvalor1a").style.display = 'none'
+        document.getElementById("valor2").value = "3";
+        var x = document.getElementById("cardinciso");
+        document.getElementById("grabar").style.display = "block";
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 17)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 18)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 19)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 20)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 21)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 22)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 23)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 24)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 25)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 26)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 27)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 28)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 29)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 30)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 31)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 32)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 33)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 34)) {
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = "0.00"
+        document.getElementById("acta").value = "INCISO B) 1.2.2)";
+        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
+        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("valor2").value = "2";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
     }
 
     function ponermayuscula() {
@@ -603,12 +603,12 @@
                         <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                     ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
                     text-shadow: 2px 2px 5px rgb(90, 88, 88)">
-                            ACTA DE LIQUIDACIÓN - Tasa Actual 
-                        </h3>                                         
-                        
+                            ACTA DE LIQUIDACIÓN
+                        </h3>
+
                         {{!--
-                        <h4 style="color:rgb(65, 65, 124); text-decoration:underline; font-weight: bold;">Se aplicarán
-                            multas
+                        <h4 style="color:rgb(65, 65, 124); text-decoration:underline; font-weight: bold;">
+                            Se aplicarán multas
                         </h4> --}}
                     </div>
                     <br />
@@ -629,7 +629,8 @@
                                     <input onkeyup="ponermayuscula()" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
                             box-sizing: border-box; border: 3px solid #0e0d0d;" value="{{multas.expediente}}"
                                         placeholder="Exped." type="text" name="expediente" id="expediente"
-                                        class="form-control" autocomplete="off" autofocus minlength="10" maxlength="40"/>
+                                        class="form-control" autocomplete="off" autofocus minlength="10"
+                                        maxlength="40" />
                                 </div>
                             </div>
                             <div class=" col-md-2">
@@ -637,9 +638,9 @@
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Adrema:</label>
                                     <input onkeyup="ponermayuscula()" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
-                                    box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" name="adrema" 
-                                    type="text" id="adrema" class="form-control" autocomplete="off" value="{{multas.adrema}}"
-                                    />
+                                    box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="Adrema"
+                                        name="adrema" type="text" id="adrema" class="form-control" autocomplete="off"
+                                        value="{{multas.adrema}}" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -649,8 +650,7 @@
                                     <input onkeyup="ponermayuscula()" style="color:rgb(0, 0, 0); font-weight: bold; width: 100%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Propietario"
                                         name="propietario" type="text" id="propietario" class="form-control"
-                                        autocomplete="off" required value="{{multas.propietario}}"
-                                    />
+                                        autocomplete="off" required value="{{multas.propietario}}" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -660,11 +660,12 @@
                                     <input onkeyup="ponermayuscula()" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Ubicación"
                                         name="ubicacion" type="text" id="ubicacion" class="form-control"
-                                        autocomplete="off" required maxlength="40" value="{{multas.ubicacion}}"/>
+                                        autocomplete="off" required maxlength="40" value="{{multas.ubicacion}}" />
 
                                 </div>
                             </div>
                         </div>
+                        <p style="color:rgb(18, 214, 50);text-shadow: #CCC 1px 0 10px;">Tasa de Construcción Actual: $ {{tasaactual.tasaconstruccion}}</p>                        
                         <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
                             infración:</label>
                         <select name="infraccionoparalizacion" id="infraccionoparalizacion">
@@ -788,7 +789,7 @@
                                     <label style="color:blue; font-weight: bold;" class="form-label"
                                         for="typeText">T.C.</label>
                                     <input name="tcactual" onkeyup="fmontototal()"
-                                        style="font-weight: bold; color:black" type="number" step="1" min="0"
+                                        placeholder="Cargue Valor" style="font-weight: bold; color:black" type="number" step="1" min="0"
                                         id="valor3">
                                 </div>
                             </div>
