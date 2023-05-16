@@ -31,7 +31,7 @@
             fd.type = "text";
             fa.type = "text";
         }   
-        if (seleccion.selectedIndex == 1) {
+        else if (seleccion.selectedIndex == 1) {
             x.disabled = false;            
             p.disabled = false;
             a.disabled = true;
@@ -78,26 +78,24 @@
             a.type = "text";
             na.type = "text";
             fd.type = "date";
-            fa.type = "date";
-
-            
+            fa.type = "date";            
         }
-
     }
 </script>
+
 
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
-            <h5>Sección de Liquidaciones - ESTADISTICAS - ADMINISTRADOR</h5>
+            <h5>Sección Liquidaciones - ESTADISTICAS (Liquidador/Administrador)</h5>
         </div>
         <form action="/multas/sacarestadistica" method="POST">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadistico">Selección:</label>
             <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()">
-                <option value=0>Elija Estadistica</option>
+                <option value=0>Elija Filtro de Estadistica</option>
                 <option value=1>por Propietario</option>
                 <option value=2>por Adrema</option>
-                <option value=3>por Acta</option>
+                <option value=3>por N° Acta</option>
                 <option value=4>por Fechas</option>
             </select>
             <br />
@@ -111,8 +109,8 @@
                 <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
                     Armar Estadistica...
                 </button>
-                <a id="volverlistado" href="/multas/impresas" class="btn btn-outline-warning btn-block btn-sm">Volver
-                    Listado</a>
+                <a id="volverlistado" href="/multas" class="btn btn-outline-warning btn-block btn-sm">Volver
+                    Listado Liquidaciones</a>
             </div>
         </form>
         

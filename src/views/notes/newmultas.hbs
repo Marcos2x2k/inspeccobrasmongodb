@@ -59,7 +59,11 @@
         //const tcfind = await Tasas.find().sort({_id:-1}).lean();
         //var tc = await Task.forEach(tcfind.tasaconstruccion);
         //var tc = tcfind.tasaconstruccion;
-        var tc = "52000"
+        //const tc = await Tasas.find.lean().sort({ date: 'desc' })
+        //var tcpru = parseInt(tc.tasaconstruccion)
+        //console.log("TASA PRUEBA",tcpru)
+        var tc = parseInt({{tasaactual.tasaconstruccion}})
+        //var tc = "52000"
         document.getElementById("volverlistado").style.visibility = "hidden";
         if ((seleccion.selectedIndex == 1)) {
             document.getElementById("acta").value = "INCISO A) 1)";
@@ -599,8 +603,9 @@
                         <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                     ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
                     text-shadow: 2px 2px 5px rgb(90, 88, 88)">
-                            ACTA DE LIQUIDACIÓN
-                        </h3>
+                            ACTA DE LIQUIDACIÓN - Tasa Actual 
+                        </h3>                                         
+                        
                         {{!--
                         <h4 style="color:rgb(65, 65, 124); text-decoration:underline; font-weight: bold;">Se aplicarán
                             multas
