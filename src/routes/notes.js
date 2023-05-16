@@ -90,7 +90,7 @@ router.get('/mesaentradas/add/:id', isAuthenticated, (req, res) => {
     res.render('notes/newmesaentradas');
 })
 router.get('/multas/add', isAuthenticated, async (req, res) => {
-    const tasaactual = await Tasas.findOne().lean().sort({ date: 'desc' });
+    const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
     res.render('notes/newmultas', { tasaactual });
 })
 // router.get('/multas/add/:id', isAuthenticated, (req, res) => {

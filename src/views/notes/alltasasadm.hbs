@@ -79,7 +79,8 @@
                     Cargo:
                 </p>
                 <p>{{ name }}</p>
-                <form style="box-shadow: 3px 4px;" action="/tasas/delete/{{_id}}?_method=DELETE" method="POST">
+                <form onSubmit="return confirm('Desea Borrar?')" style="box-shadow: 3px 4px;"
+                    action="/tasas/delete/{{_id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Borrar

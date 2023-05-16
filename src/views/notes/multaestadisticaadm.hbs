@@ -14,10 +14,11 @@
         var seleccion = document.getElementById('datoestadistico');
         var x = document.getElementById("armarestadistica")
         var p = document.getElementById("propietario")
-        var a = document.getElementById("adrema") 
+        var a = document.getElementById("adrema")
         var na = document.getElementById("numacta")
-        var fd = document.getElementById("desde")     
-        var fa = document.getElementById("hasta") 
+        var fd = document.getElementById("desde")
+        var fa = document.getElementById("hasta")
+        var fa = document.getElementById("montototalcobrado")        
         if (seleccion.selectedIndex == 0) {
             x.disabled = true;
             p.disabled = true;
@@ -30,9 +31,9 @@
             na.type = "text";
             fd.type = "text";
             fa.type = "text";
-        }   
+        }
         else if (seleccion.selectedIndex == 1) {
-            x.disabled = false;            
+            x.disabled = false;
             p.disabled = false;
             a.disabled = true;
             na.disabled = true;
@@ -43,9 +44,11 @@
             na.type = "text";
             fd.type = "text";
             fa.type = "text";
+            //fa.style.display = "none";
+            fa.style.display = "block";
         } else if (seleccion.selectedIndex == 2) {
             x.disabled = false;
-            p.disabled = true;            
+            p.disabled = true;
             a.disabled = false;
             na.disabled = true;
             fd.disabled = true;
@@ -78,7 +81,7 @@
             a.type = "text";
             na.type = "text";
             fd.type = "date";
-            fa.type = "date";            
+            fa.type = "date";
         }
     }
 </script>
@@ -99,11 +102,11 @@
                 <option value=4>por Fechas</option>
             </select>
             <br />
-            <input class="pl-3"  type="text" id="propietario" name="propietario" placeholder="Propietario..." disabled/>
-            <input class="pl-3"  type="text" id="adrema" name="adrema" placeholder="Adrema..." disabled/>
-            <input class="pl-3"  type="text" id="numacta" name="numacta" placeholder="Acta..." disabled/>
-            <input class="pl-3"  type="text" id="desde" name="desde" placeholder="Desde..." disabled/>
-            <input class="pl-3"  type="text" id="hasta" name="hasta"  placeholder="Hasta..." disabled>            
+            <input class="pl-3" type="text" id="propietario" name="propietario" placeholder="Propietario..." disabled />
+            <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Adrema..." disabled />
+            <input class="pl-3" type="text" id="numacta" name="numacta" placeholder="Acta..." disabled />
+            <input class="pl-3" type="text" id="desde" name="desde" placeholder="Desde..." disabled />
+            <input class="pl-3" type="text" id="hasta" name="hasta" placeholder="Hasta..." disabled>
             <p></p>
             <div class="form-group">
                 <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
@@ -113,7 +116,7 @@
                     Listado Liquidaciones</a>
             </div>
         </form>
-        
+
     </div>
     <br /><br />
     <a href="/multas/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
@@ -152,7 +155,8 @@
                         <td>{{ impreso}}</td>
                         <td>
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
-                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black" target="_blank">Info</a>
+                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black"
+                                target="_blank">Info</a>
                         </td>
                         {{!-- <td>
                             <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
@@ -175,24 +179,23 @@
                 </tbody>
                 <div id="msg"></div>
             </table>
-            <h4 style="color:rgb(55, 22, 202); font-weight: bold; text-decoration: underline wavy rgb(193, 235, 8);">
-                Monto Total Cobrado:
-                <h4 />
-                <h4
-                    style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
-                    $ {{montofinal}}
-                    <h4 />
-                    {{!-- <form onSubmit="return confirm('Desea Imprimir?')"
-                        action="/multas/imprimir/{{_id}}?_method=POST" method="POST">
-                        <input type="hidden" name="_method" value="POST">
-                        <button class="btn btn-warning btn-block btn-sm" type="submit">
-                            Imprimir Agregados
-                        </button>
-                    </form> --}}
-                    {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
-                    <br /><br />
-                    <a style="background-color: grey; pointer-events: none" href="/multas"
-                        class="btn btn-dark btn-block btn-sm">Imprimir</a>
+            <div id="montototalcobrado">
+                <h4 style="color:rgb(55, 22, 202); font-weight: bold;">
+                    Monto Total Cobrado:<h4 />
+                    <h4 style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
+                        $ {{montofinal}}<h4 />
+            </div>
+            {{!-- <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir/{{_id}}?_method=POST"
+                method="POST">
+                <input type="hidden" name="_method" value="POST">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Imprimir Agregados
+                </button>
+            </form> --}}
+            {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
+            <br />
+            <a style="background-color: grey; pointer-events: none" href="/multas"
+                class="btn btn-dark btn-block btn-sm">Imprimir</a>
         </div>
     </div>
 </div>
