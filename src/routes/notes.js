@@ -610,19 +610,19 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/multaestadisticaadm', { multas, montofinal });
-        } else if (desde && hasta) { 
-            console.log("DESDE",desde)           
-            console.log("HASTA",hasta)   
-            var d = new Date(hasta); 
-            const hastad = d.setDate(d.getDate() + 1);         
-                  
+        } else if (desde && hasta) {
+            console.log("DESDE", desde)
+            console.log("HASTA", hasta)
+            var d = new Date(hasta);
+            const hastad = d.setDate(d.getDate() + 1);
+
             const multas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
             for (let i = 0; i < multas.length; i++) {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
-            res.render('notes/multaestadisticaadm', { multas, montofinal });       
+            res.render('notes/multaestadisticaadm', { multas, montofinal });
         }
     } else if (rolusuario == "Liquidaciones") {
         if (propietario) {
@@ -641,6 +641,73 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/descargarmultaestadistica', isAuthenticated, async (req, res) => {
+    const ubicacionPlantilla = require.resolve("../views/notes/estadisticamultaimprimir.hbs")
+    //const puerto = "172.25.2.215";
+    var fstemp = require('fs');
+    let tabla = "";
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    //const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const { propietario, adrema, numacta, desde, hasta } = req.body;
+    var montofinal = 0;
+    const tablamultas = "";
+    if (propietario) {
+        tablamultas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
+        //console.log("Multas Estadistica", multas)
+        for (let i = 0; i < multas.length; i++) {
+            montofinal = montofinal + parseInt(multas[i].montototal)
+        }
+    } else if (adrema) {
+        tablamultas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
+        for (let i = 0; i < multas.length; i++) {
+            montofinal = montofinal + parseInt(multas[i].montototal)
+        }
+    } else if (numacta) {
+        tablamultas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
+        for (let i = 0; i < multas.length; i++) {
+            montofinal = montofinal + parseInt(multas[i].montototal)
+        }
+    } else if (desde && hasta) {
+        //console.log("DESDE", desde)
+        //console.log("HASTA", hasta)
+        var d = new Date(hasta);
+        const hastad = d.setDate(d.getDate() + 1);
+        tablamultas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
+        //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+        //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
+        for (let i = 0; i < multas.length; i++) {
+            montofinal = montofinal + parseInt(multas[i].montototal)
+        }
+    }    
+    for (const multas of tablamultas) {
+        // Y concatenar las multas                    
+        tabla += `<tr>
+    <td>${multas.fecha}</td>
+    <td>${multas.numacta}</td>
+    <td>${multas.propietario}</td>
+    <td>${multas.ubicacion}</td>
+    <td>${multas.inciso}</td>
+    <td>${multas.formulamulta}</td>
+    <td>${multas.montototal}</td>
+    <td>${multas.infraccionoparalizacion}</td>    
+    </tr>`;
+    }
+    // console.log("MULTAS", tablamultas)
+    // console.log("TABLA", tabla)
+    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla, montofinal);
+    //contenidoHtml = contenidoHtml.replace("{{multas}}");
+    //await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
+    pdf.create(contenidoHtml).toStream((error, stream) => {
+        if (error) {
+            res.end("Error creando PDF: " + error)
+        } else {
+            req.flash('success_msg', 'Multas Impresas')
+            res.setHeader("Content-Type", "application/pdf");
+            stream.pipe(res);
+        }
+    });
+})
 
 router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;

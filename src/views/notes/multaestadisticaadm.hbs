@@ -13,14 +13,16 @@
     function selecdatoestadistico() {
         var seleccion = document.getElementById('datoestadistico');
         var x = document.getElementById("armarestadistica")
+        var xy = document.getElementById("armareimprimirestadistica")
         var p = document.getElementById("propietario")
         var a = document.getElementById("adrema")
         var na = document.getElementById("numacta")
         var fd = document.getElementById("desde")
         var fa = document.getElementById("hasta")
-        var fa = document.getElementById("montototalcobrado")        
+        //var mtc = document.getElementById("montototalcobrado")        
         if (seleccion.selectedIndex == 0) {
             x.disabled = true;
+            xy.disabled = true;
             p.disabled = true;
             a.disabled = true;
             na.disabled = true;
@@ -34,7 +36,9 @@
         }
         else if (seleccion.selectedIndex == 1) {
             x.disabled = false;
+            xy.disabled = false;
             p.disabled = false;
+            p.style.color = "blue";
             a.disabled = true;
             na.disabled = true;
             fd.disabled = true;
@@ -45,11 +49,13 @@
             fd.type = "text";
             fa.type = "text";
             //fa.style.display = "none";
-            fa.style.display = "block";
+            //fa.style.display = "block";
         } else if (seleccion.selectedIndex == 2) {
             x.disabled = false;
+            xy.disabled = false;
             p.disabled = true;
             a.disabled = false;
+            a.style.color = "blue";
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
@@ -60,6 +66,7 @@
             fa.type = "text";
         } else if (seleccion.selectedIndex == 3) {
             x.disabled = false;
+            xy.disabled = false;
             p.disabled = true;
             a.disabled = true;
             na.disabled = false;
@@ -72,6 +79,7 @@
             fa.type = "text";
         } else if (seleccion.selectedIndex == 4) {
             x.disabled = false;
+            xy.disabled = false;
             p.disabled = true;
             a.disabled = true;
             na.disabled = true;
@@ -116,9 +124,15 @@
                     Listado Liquidaciones</a>
             </div>
         </form>
-
+        <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/descargarmultaestadistica" method="GET"
+            target="_blank">
+            <input type="hidden" name="_method" value="GET">
+            <button id="armareimprimirestadistica" class="btn btn-warning btn-block btn-sm" type="submit" disabled>
+                Armar e Imprimir Estadistica...
+            </button>
+        </form>        
     </div>
-    <br /><br />
+    <br />
     <a href="/multas/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
@@ -181,9 +195,12 @@
             </table>
             <div id="montototalcobrado">
                 <h4 style="color:rgb(55, 22, 202); font-weight: bold;">
-                    Monto Total Cobrado:<h4 />
-                    <h4 style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
-                        $ {{montofinal}}<h4 />
+                    Monto Total Cobrado:
+                    <h4 />
+                    <h4
+                        style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
+                        $ {{montofinal}}
+                        <h4 />
             </div>
             {{!-- <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir/{{_id}}?_method=POST"
                 method="POST">
