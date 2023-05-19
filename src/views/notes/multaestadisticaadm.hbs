@@ -124,13 +124,13 @@
                     Listado Liquidaciones</a>
             </div>
         </form>
-        <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/descargarmultaestadistica" method="GET"
+        <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/multas/descargarmultaestadistica" method="GET"
             target="_blank">
             <input type="hidden" name="_method" value="GET">
-            <button id="armareimprimirestadistica" class="btn btn-warning btn-block btn-sm" type="submit" disabled>
+            <button id="armareimprimirestadistica" class="btn btn-warning btn-block btn-sm" type="submit">
                 Armar e Imprimir Estadistica...
             </button>
-        </form>        
+        </form>
     </div>
     <br />
     <a href="/multas/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
@@ -202,6 +202,11 @@
                         $ {{montofinal}}
                         <h4 />
             </div>
+            {{!-- VER PDF DENTRO DE PAGINA --}}
+            {{!-- <iframe src="https://docs.google.com/gview?url=
+https://ciudaddecorrientes.gov.ar/sites/default/files/codigo-planeamientourbano_0.pdf
+&embedded=true" style="width:100%; height:700px;" frameborder="0">
+            </iframe> --}}
             {{!-- <form onSubmit="return confirm('Desea Imprimir?')" action="/multas/imprimir/{{_id}}?_method=POST"
                 method="POST">
                 <input type="hidden" name="_method" value="POST">

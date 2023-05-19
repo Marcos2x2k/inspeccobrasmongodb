@@ -81,7 +81,7 @@
                             <button id="botonfecha" onclick="fecha()">poner fecha</button>
                             <div style="font-family: Arial, Helvetica, sans-serif; text-align: right; margin:20px">
                                 <input size=27 id="fechahoy" style="text-align: right;" disabled />
-                            </div>                            
+                            </div>
                         </div>
                         <table class="table table-condensed table-bordered table-striped"
                             style="font-family: Serif; font-size: smaller">
@@ -100,30 +100,23 @@
                                 </thead>
                                 {{tablamultas}}
                             <tfoot>
-                                <!-- <tr>
-                                    <td>{{ fecha }}</td>
-                                    <td>{{ numacta }}</td>
-                                    <td>{{ propietario }}</td>
-                                    <td>{{ ubicacion }}</td>
-                                    <td>{{ inciso }}</td>
-                                    <td>{{ formulamulta }}</td>
-                                    <td>{{ montototal }}</td>
-                                </tr> -->
+
                             </tfoot>
                             </tbody>
-                            <div id="montototalcobrado">
-                                <h4 style="color:rgb(55, 22, 202); font-weight: bold;">
-                                    Monto Total Cobrado:
-                                    <h4 />
-                                    <h4
-                                        style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
-                                        $ {{montofinal}}
-                                        <h4 />
-                            </div>
                             <h5
                                 style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
                                 ============================== ============================== </h5>
                         </table>
+                        <div id="montototalcobrado">
+                            <h4 style="color:rgb(55, 22, 202); font-weight: bold;">
+                                Monto Total Cobrado:
+                                <h4 />
+                                <h4
+                                    style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
+                                    $ {{montofinal}}
+                                <h4 />                                
+                        </div>
+                        <p>Filtro realizado por: {{filtro}}</p>
                     </div>
                 </div>
             </div>

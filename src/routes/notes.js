@@ -593,7 +593,7 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
         var montofinal = 0;
         if (propietario) {
             const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
-            console.log("Multas Estadistica", multas)
+            //console.log("Multas Estadistica", multas)
             for (let i = 0; i < multas.length; i++) {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
@@ -611,8 +611,8 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             }
             res.render('notes/multaestadisticaadm', { multas, montofinal });
         } else if (desde && hasta) {
-            console.log("DESDE", desde)
-            console.log("HASTA", hasta)
+            //console.log("DESDE", desde)
+            //console.log("HASTA", hasta)
             var d = new Date(hasta);
             const hastad = d.setDate(d.getDate() + 1);
 
@@ -641,46 +641,48 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/descargarmultaestadistica', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/estadisticamultaimprimir.hbs")
-    //const puerto = "172.25.2.215";
+router.get('/multas/descargarmultaestadistica', isAuthenticated, async (req, res) => {
+    const ubicacionPlantilla = require.resolve("../views/notes/estadisticamultaimprimir.hbs")    
     var fstemp = require('fs');
-    let tabla = "";
+    var tabla = "";
+    var montofinal = 0;
+    var tablamultas = "";
+    var multas =  "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     //const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
-    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-    const { propietario, adrema, numacta, desde, hasta } = req.body;
-    var montofinal = 0;
-    const tablamultas = "";
-    if (propietario) {
-        tablamultas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
-        //console.log("Multas Estadistica", multas)
-        for (let i = 0; i < multas.length; i++) {
-            montofinal = montofinal + parseInt(multas[i].montototal)
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user       
+    //const {propietario, adrema, numacta, desde, hasta } = req.body;
+    const propietario = "Marcos"
+    console.log("PROPIETARIO", propietario)
+    if (propietario) {        
+        tablamultas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean();
+        console.log("Multas Estadistica", multas)
+        for (let i = 0; i < tablamultas.length; i++) {
+            montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
     } else if (adrema) {
-        tablamultas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
-        for (let i = 0; i < multas.length; i++) {
-            montofinal = montofinal + parseInt(multas[i].montototal)
+        tablamultas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean();
+        for (let i = 0; i < tablamultas.length; i++) {
+            montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
     } else if (numacta) {
-        tablamultas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
-        for (let i = 0; i < multas.length; i++) {
-            montofinal = montofinal + parseInt(multas[i].montototal)
+        tablamultas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean();
+        for (let i = 0; i < tablamultas.length; i++) {
+            montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
     } else if (desde && hasta) {
         //console.log("DESDE", desde)
         //console.log("HASTA", hasta)
         var d = new Date(hasta);
         const hastad = d.setDate(d.getDate() + 1);
-        tablamultas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
+        tablamultas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean();
         //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-        //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
-        for (let i = 0; i < multas.length; i++) {
-            montofinal = montofinal + parseInt(multas[i].montototal)
+        //.find({ desde: { $regex: date, $options: "i" } }).lean();            
+        for (let i = 0; i < tablamultas.length; i++) {
+            montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
     }    
-    for (const multas of tablamultas) {
+    for (multas of tablamultas) {
         // Y concatenar las multas                    
         tabla += `<tr>
     <td>${multas.fecha}</td>
@@ -693,9 +695,13 @@ router.get('/descargarmultaestadistica', isAuthenticated, async (req, res) => {
     <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
     }
-    // console.log("MULTAS", tablamultas)
-    // console.log("TABLA", tabla)
-    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla, montofinal);
+    const filtro = propietario;
+    console.log("MULTAS", multas)
+    console.log("TABLA", tabla)
+    console.log("TABLA MULTAS", tablamultas)
+    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{montofinal}}", montofinal);
+    contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
     //await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
     pdf.create(contenidoHtml).toStream((error, stream) => {
