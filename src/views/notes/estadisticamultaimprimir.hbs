@@ -1,8 +1,11 @@
 <script>
 
-    window.onload = function () {
-        document.getElementById('botonfecha').click();
+    // Función actualizar
+    function actualizar() {
+        location.reload(true)
     }
+    // Función para actualizar cada 4 segundos(4000 milisegundos)
+    setInterval("actualizar()", 4000);
 
     function fecha() {
         var meses = [
@@ -114,7 +117,7 @@
                                 <h4
                                     style="border-left-width: 3px; background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 24px; font-weight: bold;">
                                     $ {{montofinal}}
-                                <h4 />                                
+                                    <h4 />
                         </div>
                         <p>Filtro realizado por: {{tipofiltro}} </p>
                         <p>Dato Buscado: {{filtro}}</p>
