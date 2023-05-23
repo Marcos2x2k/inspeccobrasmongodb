@@ -569,16 +569,41 @@ router.get('/multas', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
+router.get('/multas/imprimirestadisticas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find().lean().sort({ date: 'desc' });
-        res.render('notes/multaestadistica', { multas });
+        res.render('notes/multaestadictarmar', { multas });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find().lean().sort({ date: 'desc' });
-        res.render('notes/multaestadisticaadm', { multas });
+        res.render('notes/multaestadictarmar', { multas });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+})
+
+
+
+router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    var montofinal = 0;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Liquidaciones") {
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        const multas = await Multas.find().lean().sort({ date: 'desc' });
+        for (let i = 0; i < multas.length; i++) {
+            montofinal = montofinal + parseInt(multas[i].montototal)
+        }        
+        res.render('notes/multaestadistica', { multas, montofinal });
+    } else if (rolusuario == "Administrador") {
+        const multas = await Multas.find().lean().sort({ date: 'desc' });
+        for (let i = 0; i < multas.length; i++) {
+            montofinal = montofinal + parseInt(multas[i].montototal)
+        }
+        res.render('notes/multaestadisticaadm', { multas, montofinal });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -641,7 +666,7 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/multas/descargarmultaestadistica', isAuthenticated, async (req, res) => {
+router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/estadisticamultaimprimir.hbs")    
     var fstemp = require('fs');
     var tabla = "";
@@ -649,33 +674,41 @@ router.get('/multas/descargarmultaestadistica', isAuthenticated, async (req, res
     var tablamultas = "";
     var multas =  "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    var filtro = "";
+    var tipofiltro = "";
     //const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user       
-    //const {propietario, adrema, numacta, desde, hasta } = req.body;
-    const propietario = "Marcos"
-    console.log("PROPIETARIO", propietario)
-    if (propietario) {        
-        tablamultas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean();
-        console.log("Multas Estadistica", multas)
+    const {propietarioo, adremao, numactao, desdeo, hastao} = req.body;
+    //const propietario = "Marcos"
+    //console.log("PROPIETARIO", propietario)
+    if (propietarioo) {        
+        tablamultas = await Multas.find({ propietario: { $regex: propietarioo, $options: "i" } }).lean();
+        filtro = propietarioo;
+        tipofiltro = "por Propietario"
+        //console.log("Multas Estadistica", multas)
         for (let i = 0; i < tablamultas.length; i++) {
             montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
-    } else if (adrema) {
-        tablamultas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean();
+    } else if (adremao) {
+        tablamultas = await Multas.find({ adrema: { $regex: adremao, $options: "i" } }).lean();
+        filtro = adremao;
+        tipofiltro = "por Adrema"
         for (let i = 0; i < tablamultas.length; i++) {
             montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
-    } else if (numacta) {
-        tablamultas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean();
+    } else if (numactao) {
+        tablamultas = await Multas.find({ numacta: { $regex: numactao, $options: "i" } }).lean();
+        filtro = numactao;
+        tipofiltro = "por Número Acta"
         for (let i = 0; i < tablamultas.length; i++) {
             montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
-    } else if (desde && hasta) {
-        //console.log("DESDE", desde)
-        //console.log("HASTA", hasta)
-        var d = new Date(hasta);
-        const hastad = d.setDate(d.getDate() + 1);
-        tablamultas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean();
+    } else if (desdeo && hastao) {
+        filtro = desdeo+"-"+hastao;
+        tipofiltro = "Fecha Desde y Fecha Hasta"
+        var d = new Date(hastao);
+        const hasta = d.setDate(d.getDate() + 1);
+        tablamultas = await Multas.find({ date: { $gte: desdeo, $lte: hastao } }).lean();
         //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
         //.find({ desde: { $regex: date, $options: "i" } }).lean();            
         for (let i = 0; i < tablamultas.length; i++) {
@@ -694,13 +727,13 @@ router.get('/multas/descargarmultaestadistica', isAuthenticated, async (req, res
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
-    }
-    const filtro = propietario;
-    console.log("MULTAS", multas)
-    console.log("TABLA", tabla)
-    console.log("TABLA MULTAS", tablamultas)
+    }    
+    //console.log("MULTAS", multas)
+    //console.log("TABLA", tabla)
+    //console.log("TABLA MULTAS", tablamultas)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{montofinal}}", montofinal);
+    contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
     //await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });

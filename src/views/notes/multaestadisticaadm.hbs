@@ -13,6 +13,7 @@
     function selecdatoestadistico() {
         var seleccion = document.getElementById('datoestadistico');
         var x = document.getElementById("armarestadistica")
+        var xx = document.getElementById("armareimprimirestadistica")
         var xy = document.getElementById("armareimprimirestadistica")
         var p = document.getElementById("propietario")
         var a = document.getElementById("adrema")
@@ -22,6 +23,7 @@
         //var mtc = document.getElementById("montototalcobrado")        
         if (seleccion.selectedIndex == 0) {
             x.disabled = true;
+            xx.disabled = true;
             xy.disabled = true;
             p.disabled = true;
             a.disabled = true;
@@ -36,6 +38,7 @@
         }
         else if (seleccion.selectedIndex == 1) {
             x.disabled = false;
+            xx.disabled = false;
             xy.disabled = false;
             p.disabled = false;
             p.style.color = "blue";
@@ -52,6 +55,7 @@
             //fa.style.display = "block";
         } else if (seleccion.selectedIndex == 2) {
             x.disabled = false;
+            xx.disabled = false;
             xy.disabled = false;
             p.disabled = true;
             a.disabled = false;
@@ -66,6 +70,7 @@
             fa.type = "text";
         } else if (seleccion.selectedIndex == 3) {
             x.disabled = false;
+            xx.disabled = false;
             xy.disabled = false;
             p.disabled = true;
             a.disabled = true;
@@ -79,6 +84,7 @@
             fa.type = "text";
         } else if (seleccion.selectedIndex == 4) {
             x.disabled = false;
+            xx.disabled = false;
             xy.disabled = false;
             p.disabled = true;
             a.disabled = true;
@@ -120,17 +126,15 @@
                 <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
                     Armar Estadistica...
                 </button>
-                <a id="volverlistado" href="/multas" class="btn btn-outline-warning btn-block btn-sm">Volver
-                    Listado Liquidaciones</a>
             </div>
         </form>
-        <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/multas/descargarmultaestadistica" method="GET"
-            target="_blank">
-            <input type="hidden" name="_method" value="GET">
-            <button id="armareimprimirestadistica" class="btn btn-warning btn-block btn-sm" type="submit">
-                Armar e Imprimir Estadistica...
-            </button>
-        </form>
+        <a id="volverlistado" href="/multas/imprimirestadisticas" class="btn btn-warning btn-block btn-sm">
+            Sección para Armar e Imprimir Estadistica...
+        </a>
+        <div class="form-group">
+            <a id="volverlistado" href="/multas" class="btn btn-outline-warning btn-block btn-sm">Volver
+                Listado Liquidaciones</a>
+        </div>
     </div>
     <br />
     <a href="/multas/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
@@ -215,9 +219,6 @@ https://ciudaddecorrientes.gov.ar/sites/default/files/codigo-planeamientourbano_
                 </button>
             </form> --}}
             {{!-- <button onclick="agregarimpresion()" class="btn btn-warning">Imprimir Agregados</button> --}}
-            <br />
-            <a style="background-color: grey; pointer-events: none" href="/multas"
-                class="btn btn-dark btn-block btn-sm">Imprimir</a>
         </div>
     </div>
 </div>
