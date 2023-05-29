@@ -1,13 +1,10 @@
-<script>
+<script>    
 
-    // Función actualizar
-    function actualizar() {
-        location.reload(true)
+    window.onload = function () {
+        document.getElementById('botonfecha').click();
     }
-    // Función para actualizar cada 4 segundos(4000 milisegundos)
-    setInterval("actualizar()", 4000);
-
-    function fecha() {
+    
+    function fechahoy() {
         var meses = [
             "Enero", "Febrero", "Marzo",
             "Abril", "Mayo", "Junio", "Julio",
@@ -81,7 +78,7 @@
                                 LIQUIDACIONES DE INFRACCIONES (ESTADISTICA)</p>
                             <!-- <h5 style="font-family: Times New Roman, Times, serif; text-align: center;">LIQUIDACIONES DE INFRACCIONES</h5> -->
                             </br>
-                            <button id="botonfecha" onclick="fecha()">poner fecha</button>
+                            <button id="botonfecha" onclick="fechahoy()">poner fecha</button>
                             <div style="font-family: Arial, Helvetica, sans-serif; text-align: right; margin:20px">
                                 <input size=27 id="fechahoy" style="text-align: right;" disabled />
                             </div>

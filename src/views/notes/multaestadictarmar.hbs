@@ -6,9 +6,7 @@
 
     function selecdatoestadisticoo() {
         var selecciono = document.getElementById('datoestadisticoo');
-        var xo = document.getElementById("armarestadisticao")
-        var xxo = document.getElementById("armareimprimirestadisticao")
-        var xyo = document.getElementById("armareimprimirestadisticao")
+        var xo = document.getElementById("armareimprimirestadisticao")
         var po = document.getElementById("propietarioo")
         var ao = document.getElementById("adremao")
         var nao = document.getElementById("numactao")
@@ -17,8 +15,6 @@
         //var mtc = document.getElementById("montototalcobrado")        
         if (selecciono.selectedIndex == 0) {
             xo.disabled = true;
-            xxo.disabled = true;
-            xyo.disabled = true;
             po.disabled = true;
             ao.disabled = true;
             nao.disabled = true;
@@ -32,8 +28,6 @@
         }
         else if (selecciono.selectedIndex == 1) {
             xo.disabled = false;
-            xxo.disabled = false;
-            xyo.disabled = false;
             po.disabled = false;
             ao.disabled = true;
             nao.disabled = true;
@@ -44,10 +38,13 @@
             nao.type = "text";
             fdo.type = "text";
             fao.type = "text";
+            po.required = true;
+            ao.required = false;
+            nao.required = false;
+            fdo.required = false;
+            fao.required = false;
         } else if (selecciono.selectedIndex == 2) {
             xo.disabled = false;
-            xxo.disabled = false;
-            xyo.disabled = false;
             po.disabled = true;
             ao.disabled = false;
             nao.disabled = true;
@@ -58,10 +55,13 @@
             nao.type = "text";
             fdo.type = "text";
             fao.type = "text";
+            po.required = false;
+            ao.required = true;
+            nao.required = false;
+            fdo.required = false;
+            fao.required = false;
         } else if (selecciono.selectedIndex == 3) {
             xo.disabled = false;
-            xxo.disabled = false;
-            xyo.disabled = false;
             po.disabled = true;
             ao.disabled = true;
             nao.disabled = false;
@@ -72,10 +72,13 @@
             nao.type = "search";
             fdo.type = "text";
             fao.type = "text";
+            po.required = false;
+            ao.required = false;
+            nao.required = true;
+            fdo.required = false;
+            fao.required = false;
         } else if (selecciono.selectedIndex == 4) {
             xo.disabled = false;
-            xxo.disabled = false;
-            xyo.disabled = false;
             po.disabled = true;
             ao.disabled = true;
             nao.disabled = true;
@@ -86,6 +89,11 @@
             nao.type = "text";
             fdo.type = "date";
             fao.type = "date";
+            po.required = false;
+            ao.required = false;
+            nao.required = false;
+            fdo.required = true;
+            fao.required = true;
         }
     }
 </script>
@@ -105,11 +113,11 @@
                 <option value=4>por Fechas</option>
             </select>
             <br />
-            <input class="pl-3" type="text" id="propietarioo" name="propietarioo" placeholder="Propietario..." />
-            <input class="pl-3" type="text" id="adremao" name="adremao" placeholder="Adrema..." />
-            <input class="pl-3" type="text" id="numactao" name="numactao" placeholder="Acta..." />
-            <input class="pl-3" type="text" id="desdeo" name="desdeo" placeholder="Desde..." />
-            <input class="pl-3" type="text" id="hastao" name="hastao" placeholder="Hasta..." />
+            <input class="pl-3" type="text" id="propietarioo" name="propietarioo" placeholder="Propietario..." disabled/>
+            <input class="pl-3" type="text" id="adremao" name="adremao" placeholder="Adrema..."  disabled/>
+            <input class="pl-3" type="text" id="numactao" name="numactao" placeholder="Acta..."  disabled/>
+            <input class="pl-3" type="text" id="desdeo" name="desdeo" placeholder="Desde..."  disabled/>
+            <input class="pl-3" type="text" id="hastao" name="hastao" placeholder="Hasta..."  disabled/>
             <p></p>
             <div class="form-group">
                 <button id="armareimprimirestadisticao" class="btn btn-warning btn-block btn-sm" type="submit">
@@ -118,8 +126,8 @@
             </div>
         </form>
         <div class="form-group">
-            <a id="volverlistadoo" href="/multas" class="btn btn-outline-warning btn-block btn-sm">Volver
-                Listado Liquidaciones</a>
+            <a id="volverlistadoo" href="/multas/estadisticas" class="btn btn-outline-warning btn-block btn-sm">Volver
+                Listado Estadisticas</a>
         </div>
     </div>
     <a href="/multas/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>

@@ -1,30 +1,16 @@
-<script>
-    function alertaborrar() {
-        var mensaje;
-        var opcion = confirm("Click en Borrar o Cancelar");
-        if (opcion == true) {
-            mensaje = "Elemento Borrado";
-        } else {
-            mensaje = "Cancelado";
-        }
-        document.getElementById("ejemplo").innerHTML = mensaje;
-    }
+<script>  
 
     function selecdatoestadistico() {
-        var seleccion = document.getElementById('datoestadistico');
-        var x = document.getElementById("armarestadistica")
-        var xx = document.getElementById("armareimprimirestadistica")
-        var xy = document.getElementById("armareimprimirestadistica")
-        var p = document.getElementById("propietario")
-        var a = document.getElementById("adrema")
-        var na = document.getElementById("numacta")
-        var fd = document.getElementById("desde")
-        var fa = document.getElementById("hasta")
+        const seleccion = document.getElementById('datoestadistico');
+        const x = document.getElementById("armarestadistica")        
+        const p = document.getElementById("propietario")
+        const a = document.getElementById("adrema")
+        const na = document.getElementById("numacta")
+        const fd = document.getElementById("desde")
+        const fa = document.getElementById("hasta")
         //var mtc = document.getElementById("montototalcobrado")        
         if (seleccion.selectedIndex == 0) {
             x.disabled = true;
-            xx.disabled = true;
-            xy.disabled = true;
             p.disabled = true;
             a.disabled = true;
             na.disabled = true;
@@ -34,14 +20,11 @@
             a.type = "text";
             na.type = "text";
             fd.type = "text";
-            fa.type = "text";
+            fa.type = "text";            
         }
         else if (seleccion.selectedIndex == 1) {
             x.disabled = false;
-            xx.disabled = false;
-            xy.disabled = false;
             p.disabled = false;
-            p.style.color = "blue";
             a.disabled = true;
             na.disabled = true;
             fd.disabled = true;
@@ -51,15 +34,15 @@
             na.type = "text";
             fd.type = "text";
             fa.type = "text";
-            //fa.style.display = "none";
-            //fa.style.display = "block";
+            p.required = true;
+            a.required = false;
+            na.required = false;
+            fd.required = false;
+            fa.required = false;
         } else if (seleccion.selectedIndex == 2) {
             x.disabled = false;
-            xx.disabled = false;
-            xy.disabled = false;
             p.disabled = true;
             a.disabled = false;
-            a.style.color = "blue";
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
@@ -68,10 +51,13 @@
             na.type = "text";
             fd.type = "text";
             fa.type = "text";
+            p.required = false;
+            a.required = true;
+            na.required = false;
+            fd.required = false;
+            fa.required = false;
         } else if (seleccion.selectedIndex == 3) {
             x.disabled = false;
-            xx.disabled = false;
-            xy.disabled = false;
             p.disabled = true;
             a.disabled = true;
             na.disabled = false;
@@ -82,10 +68,13 @@
             na.type = "search";
             fd.type = "text";
             fa.type = "text";
+            p.required = false;
+            a.required = false;
+            na.required = true;
+            fd.required = false;
+            fa.required = false;
         } else if (seleccion.selectedIndex == 4) {
             x.disabled = false;
-            xx.disabled = false;
-            xy.disabled = false;
             p.disabled = true;
             a.disabled = true;
             na.disabled = true;
@@ -96,6 +85,11 @@
             na.type = "text";
             fd.type = "date";
             fa.type = "date";
+            p.required = false;
+            a.required = false;
+            na.required = false;
+            fd.required = true;
+            fa.required = true;
         }
     }
 </script>
@@ -120,7 +114,7 @@
             <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Adrema..." disabled />
             <input class="pl-3" type="text" id="numacta" name="numacta" placeholder="Acta..." disabled />
             <input class="pl-3" type="text" id="desde" name="desde" placeholder="Desde..." disabled />
-            <input class="pl-3" type="text" id="hasta" name="hasta" placeholder="Hasta..." disabled>
+            <input class="pl-3" type="text" id="hasta" name="hasta" placeholder="Hasta..." disabled/>
             <p></p>
             <div class="form-group">
                 <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
@@ -128,7 +122,7 @@
                 </button>
             </div>
         </form>
-        <a id="volverlistado" href="/multas/imprimirestadisticas" class="btn btn-warning btn-block btn-sm">
+        <a href="/multas/imprimirestadisticas" class="btn btn-warning btn-block btn-sm">
             Sección para Armar e Imprimir Estadistica...
         </a>
         <br />
