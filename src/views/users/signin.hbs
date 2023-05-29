@@ -1,4 +1,22 @@
 <script>
+    function ShowName() {
+        var writtenName = document.getElementById('input_name').value;
+        document.getElementById('input_name').value = formatToString(writtenName);
+    }
+
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }
+
     function mostrarContrasena() {
         var tipo = document.getElementById('txtpassword');
         var eye = document.getElementById('eyepassword');
@@ -11,7 +29,7 @@
         }
     }
 
-        function ponerminuscula() {
+    function ponerminuscula() {
         let ex = document.getElementById("email");
         ex.value = ex.value.toLowerCase();
         //let y = document.getElementById("adrema");
@@ -19,6 +37,9 @@
     }
 </script>
 
+{{!-- <label for="input_name">Escribe nombres y apellidos:</label>
+<br>
+<input type="text" name="input_name" id="input_name" onchange="ShowName();"></input> --}}
 
 <div class="row">
     <div class="col-md-4 mx-auto">
@@ -30,7 +51,8 @@
             <div class="card-body">
                 <form action="/users/signin" method="POST">
                     <div class="form-group">
-                        <input onkeyup="ponerminuscula()" type="email" id="email" class="form-control" name="email" placeholder="E-mail" autofocus>
+                        <input onkeyup="ponerminuscula()" type="email" id="email" class="form-control" name="email"
+                            placeholder="E-mail" autofocus>
                     </div>
                     <div class="form-group">
                         <input type='password' class="form-control" name="password" placeholder="password"
