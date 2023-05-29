@@ -1,3 +1,12 @@
+<script>
+    function ponerminuscula() {
+        let ex = document.getElementById("email");
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+</script>
+
 {{!-- <h1> REGISTER </h1> --}}
 <div class="row">
     <div class="col-md-6 mx-auto">
@@ -21,8 +30,8 @@
                             <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}">
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" name="email" placeholder="Correo/Email"
-                                value="{{email}}">
+                            <input onkeyup="ponerminuscula()" id="email" type="email" class="form-control" name="email"
+                                placeholder="Correo/Email" value="{{email}}">
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control" name="password" placeholder="Contraseña"
@@ -37,12 +46,13 @@
                                 Registrar
                             </button>
                             <br />
-                            {{!-- <a class="btn btn-danger btn-sm" href="/users/signin" role="button">Volver al Login</a> --}}
+                            {{!-- <a class="btn btn-danger btn-sm" href="/users/signin" role="button">Volver al
+                                Login</a> --}}
                         </div>
-                                        <div>
-                    <p style="color:red; font-style:oblique; font-weight: bold;"><a href="/"><i
-                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Cancelar</p>
-                </div>
+                        <div>
+                            <p style="color:red; font-style:oblique; font-weight: bold;"><a href="/"><i
+                                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Cancelar</p>
+                        </div>
                     </form>
                 </div>
             </div>

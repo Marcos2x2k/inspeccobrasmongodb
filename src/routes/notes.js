@@ -21,6 +21,7 @@ const { isAuthenticated } = require('../helpers/auth')
 
 // *ZONA PDF* //
 const pdf = require("html-pdf")
+var pdfoptionsA4 = { format: 'A4' };
 
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
@@ -72,7 +73,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
     await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
-    pdf.create(contenidoHtml).toStream((error, stream) => {
+    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
         } else {
@@ -596,8 +597,8 @@ router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         for (let i = 0; i < multas.length; i++) {
             montofinal = montofinal + parseInt(multas[i].montototal)
-        }        
-        res.render('notes/multaestadistica', { multas, montofinal });
+        }
+        res.render('notes/multaestadisticaadm', { multas, montofinal });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         for (let i = 0; i < multas.length; i++) {
@@ -737,7 +738,7 @@ router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, re
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
     //await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
-    pdf.create(contenidoHtml).toStream((error, stream) => {
+    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
         } else {

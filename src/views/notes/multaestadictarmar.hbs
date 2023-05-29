@@ -103,7 +103,7 @@
         <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
             <h5>Sección Liquidaciones - IMPRESION DE ESTADISTICAS (Liquidador/Administrador)</h5>
         </div>
-        <form action="/multas/descargarmultaestadistica" method="POST">
+        <form action="/multas/descargarmultaestadistica" method="POST"  onsubmit="setTimeout('document[0].forms.reset()', 0)">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadisticoo">Selección:</label>
             <select name="datoestadisticoo" id="datoestadisticoo" onclick="selecdatoestadisticoo()">
                 <option value=0>Elija Filtro de Estadistica</option>
@@ -120,7 +120,7 @@
             <input class="pl-3" type="text" id="hastao" name="hastao" placeholder="Hasta..."  disabled/>
             <p></p>
             <div class="form-group">
-                <button id="armareimprimirestadisticao" class="btn btn-warning btn-block btn-sm" type="submit">
+                <button id="armareimprimirestadisticao" class="btn btn-warning btn-block btn-sm" type="submit" disabled>
                     Armar e Imprimir Estadistica...
                 </button>
             </div>

@@ -10,6 +10,13 @@
             eye.class = "btn btn-primary"
         }
     }
+
+        function ponerminuscula() {
+        let ex = document.getElementById("email");
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
 </script>
 
 
@@ -23,7 +30,7 @@
             <div class="card-body">
                 <form action="/users/signin" method="POST">
                     <div class="form-group">
-                        <input type="email" class="form-control" name="email" placeholder="E-mail" autofocus>
+                        <input onkeyup="ponerminuscula()" type="email" id="email" class="form-control" name="email" placeholder="E-mail" autofocus>
                     </div>
                     <div class="form-group">
                         <input type='password' class="form-control" name="password" placeholder="password"
