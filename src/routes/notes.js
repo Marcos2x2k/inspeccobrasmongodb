@@ -1415,9 +1415,40 @@ router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
     }
 });
 
-
-// *** BUSCAR INSPECCIONES (NOTES) ***
+// *** BUSCAR EXPEDIENTES (NOTES) - LISTADO ***
 router.post('/expedientes/find', isAuthenticated, async (req, res) => {
+    const { numexpediente } = req.body;
+    const expedientes = await Expediente.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ fechainicioentrada: 'desc' });;
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue un Nº de expediente')
+        return res.render("notes/planillalistaexpedientes");
+    } else {
+        res.render('notes/planillalistaexpedientes', { expedientes })
+    }
+});
+router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
+    const { adremaexp } = req.body;
+    const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/planillalistaexpedientes");
+    } else {
+        res.render('notes/planillalistaexpedientes', { expedientes })
+    }
+});
+router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
+    const { iniciadornomyape } = req.body;
+    const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue un Iniciador (N y A)')
+        return res.render("notes/planillalistaexpedientes");
+    } else {
+        res.render('notes/planillalistaexpedientes', { expedientes })
+    }
+});
+
+// *** BUSCAR EXPEDIENTES (NOTES) - CARTAS ***
+router.post('/notes/find', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
     const expedientes = await Expediente.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ fechainicioentrada: 'desc' });;
     if (!expedientes) {
@@ -1427,7 +1458,7 @@ router.post('/expedientes/find', isAuthenticated, async (req, res) => {
         res.render('notes/findexpediente', { expedientes })
     }
 });
-router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
+router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
     const { adremaexp } = req.body;
     const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
     if (!expedientes) {
@@ -1437,7 +1468,7 @@ router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
         res.render('notes/findexpediente', { expedientes })
     }
 });
-router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
+router.post('/notes/findiniciador', isAuthenticated, async (req, res) => {
     const { iniciadornomyape } = req.body;
     const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
     if (!expedientes) {
