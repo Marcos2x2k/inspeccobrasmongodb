@@ -187,14 +187,16 @@ const InfraccionSchema = new Schema({
                 type: String,
                 require: false,
                 default: "Administrador"
-            },
-            name: {
+        },
+        name: {
                 type: String,
                 require: false,
                 default: "Administrador"
-            },
-            date: {type: Date, 
-                default: Date.now},
+        },
+        date: {
+                type: Date,
+                default: Date.now
+        },
 
 })
 

@@ -930,6 +930,22 @@ router.get('/infracciones', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+router.get('/infracciones/listado', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const infracciones = await Infraccion.find().lean().sort({ date: 'desc' });
+        res.render('notes/planillalistainfraccion', { infracciones });
+    } else if (rolusuario == "Inspector") {
+        const infracciones = await Infraccion.find().lean().sort({ date: 'desc' });
+        res.render('notes/planillalistainfraccion', { infracciones });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INFRACCIONES')
+        return res.redirect('/');
+    }
+});
+
+
 
 router.get('/estadisticas', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
@@ -1516,7 +1532,7 @@ router.post('/notes/findinspectorintim', isAuthenticated, async (req, res) => {
     }
 });
 
-// *** BUSCAR INFRACCIONES ***
+// *** BUSCAR INFRACCIONES - CARTAS ***
 router.post('/notes/findinfraccion', isAuthenticated, async (req, res) => {
 
     const { actainfnum } = req.body;
@@ -1558,7 +1574,72 @@ router.post('/notes/findpropietainf', isAuthenticated, async (req, res) => {
         res.render('notes/findinfraccion', { infraccions })
     }
 });
-// *** BUSCAR ESTADISTICAS ***
+// *** BUSCAR INFRACCIONES - LISTADO ***
+router.post('/infracciones/findinfraccion', isAuthenticated, async (req, res) => {
+    const { actainfnum } = req.body;
+    const infracciones = await Infraccion.find({ actainfnum: { $regex: actainfnum, $options: "i" } }).lean().sort({ actainfnum: 'desc' });;
+    if (!infracciones) {
+        req.flash('success_msg', 'cargue una Boleta Intimación')
+        return res.render("notes/planillalistainfraccion");
+    } else {
+        res.render('notes/planillalistainfraccion', { infracciones })
+    }
+});
+router.post('/infracciones/findexpedienteinf', isAuthenticated, async (req, res) => {
+    const { numexpedienteinf } = req.body;
+    const infracciones = await Infraccion.find({ numexpedienteinf: { $regex: numexpedienteinf, $options: "i" } }).lean().sort({ numexpedienteinf: 'desc' });;
+    if (!infracciones) {
+        req.flash('success_msg', 'cargue un Nº Expediente')
+        return res.render("notes/planillalistainfraccion");
+    } else {
+        res.render('notes/planillalistainfraccion', { infracciones })
+    }
+});
+router.post('/infracciones/dniinf', isAuthenticated, async (req, res) => {
+    const { dnipropietarioinf } = req.body;
+    const infracciones = await Infraccion.find({ dnipropietarioinf: { $regex: dnipropietarioinf, $options: "i" } }).lean().sort({ dnipropietarioinf: 'desc' });;
+    if (!infracciones) {
+        req.flash('success_msg', 'cargue un Nº D.N.I.')
+        return res.render("notes/planillalistainfraccion");
+    } else {
+        res.render('notes/planillalistainfraccion', { infracciones })
+    }
+});
+router.post('/infracciones/findlistaadrema', isAuthenticated, async (req, res) => {
+    const { adremainf } = req.body;
+    const infracciones = await Infraccion.find({ adremainf: { $regex: adremainf, $options: "i" } }).lean().sort({ adremainf: 'desc' });;
+    if (!infracciones) {
+        req.flash('success_msg', 'cargue un Nº Expediente')
+        return res.render("notes/planillalistainfraccion");
+    } else {
+        res.render('notes/planillalistainfraccion', { infracciones })
+    }
+});
+router.post('/infracciones/findpropietainf', isAuthenticated, async (req, res) => {
+    const { apellidonombrepropietarioinf } = req.body;
+    const infracciones = await Infraccion.find({ apellidonombrepropietarioinf: { $regex: apellidonombrepropietarioinf, $options: "i" } }).lean().sort({ apellidonombrepropietarioinf: 'desc' });;
+    if (!infracciones) {
+        req.flash('success_msg', 'cargue un Nombre y Apellido')
+        return res.render("notes/planillalistainfraccion");
+    } else {
+        res.render('notes/planillalistainfraccion', { infracciones })
+    }
+});
+
+router.post('/infracciones/findlistafechaentrada', isAuthenticated, async (req, res) => {
+    const { fechainfraccion } = req.body;
+    const infracciones = await Infraccion.find({ fechainfraccion: { $regex: fechainfraccion, $options: "i" } }).lean().sort({ fechainfraccion: 'desc' });;
+    if (!infracciones) {
+        req.flash('success_msg', 'cargue una Fecha')
+        return res.render("notes/planillalistainfraccion");
+    } else {
+        res.render('notes/planillalistainfraccion', { infracciones })
+    }
+});
+
+
+
+// *** BUSCAR ESTADISTICAS - CARTAS ***
 router.post('/notes/findnumestadistica', isAuthenticated, async (req, res) => {
     const { estadisticanum } = req.body;
     const estadisticas = await Estadistica.find({ estadisticanum: { $regex: estadisticanum, $options: "i" } }).lean().sort({ estadisticanum: 'desc' });;
