@@ -870,7 +870,7 @@ router.get('/expedientes/listado', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/notes', isAuthenticated, async (req, res) => {
+router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
     const rolusuario = req.user.rolusuario;
@@ -882,6 +882,21 @@ router.get('/notes', isAuthenticated, async (req, res) => {
         res.render('notes/allnotes', { notes });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INSPECCIONES')
+        return res.redirect('/');
+    }
+});
+
+router.get('/notes/listado', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const inspeccions = await Note.find().lean().sort({ date: 'desc' });
+        res.render('notes/planillalistainspeccion', { inspeccions });
+    } else if (rolusuario == "Inspector") {
+        const inspeccions = await Note.find().lean().sort({ date: 'desc' });
+        res.render('notes/planillalistainspeccion', { inspeccions });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');
     }
 });

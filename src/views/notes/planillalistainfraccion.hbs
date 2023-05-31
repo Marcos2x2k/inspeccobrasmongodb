@@ -1,8 +1,17 @@
+<script>
+    function desabilitar() {
+        //document.getElementById("verfactura").hidden = true;
+        //document.getElementById("descargarfactura").hidden = true;
+        document.getElementById("tabla").hidden = true;
+    }
+</script>
+
 <div class="row">
     {{!-- <br /><br /> --}}
     <div class="form-group btn-center mx-auto">
         <form action="/infracciones/findpropietainf" method="POST">
-            <input type="search" class="form-control" name="apellidonombrepropietarioinf" placeholder="Buscar x NyApellido..." autofocus />
+            <input type="search" class="form-control" name="apellidonombrepropietarioinf"
+                placeholder="Buscar x NyApellido..." autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Iniciador
@@ -12,7 +21,8 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/infracciones/dniinf" method="POST">
-            <input type="search" class="form-control" name="dnipropietarioinf" placeholder="Buscar x DNI..." autofocus />
+            <input type="search" class="form-control" name="dnipropietarioinf" placeholder="Buscar x DNI..."
+                autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar DNI
@@ -34,7 +44,8 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/infracciones/findlistafechaentrada" method="POST">
-            <input type="search" class="form-control" name="fechainfraccion" placeholder="Buscar x Fecha..." autofocus />
+            <input type="search" class="form-control" name="fechainfraccion" placeholder="Buscar x Fecha..."
+                autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Fecha
@@ -52,7 +63,7 @@
             LISTADO DE MESA DE ENTRADA</h5> --}}
         <br />
         <div class="form-group btn-center mx-auto">
-            <table class="table table-dark table-hover">
+            <table id="tabla" class="table table-dark table-hover">
                 <thead>
                     <tr style="background-color: rgb(172, 214, 22);font-weight: bold;; color:black;">
                         {{!-- <td style="visibility:collapse;">ID</td> --}}
@@ -84,17 +95,30 @@
                         <td>{{ inspectorinf }}</td>
                         <td>
                             <a class="dropdown-item" href="/infracciones/add/{{_id}}"
-                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Infracción</a>
+                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar
+                                Infracción</a>
                             <a class="dropdown-item" href="/infracciones/edit/{{_id}}"
                                 style="color:rgb(165, 196, 28)">Editar</a>
                         </td>
                         <td>
                             <a class="dropdown-item" href="/infracciones/list/{{_id}}"
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
-             <a class="dropdown-item" href="/intimaciones/delete/{{_id}}"
+                            <a class="dropdown-item" href="/intimaciones/delete/{{_id}}"
                                 style="color:rgb(17, 231, 10);font-weight: bold;text-shadow: 1px 1px 2px rgb(235, 11, 11)">Borrar</a>
                         </td>
                     </tr>
+                    {{else}}
+                    <div class="mx-auto">
+                        <br /> <br />
+                        <div class="card mx-auto">
+                            <div class="card-body">
+                                <p class"lead" style="color:red; font-weight: bold;"> No existen Infracción Aun...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        desabilitar()
+                    </script>
                     {{/each}}
                 </tbody>
             </table>
