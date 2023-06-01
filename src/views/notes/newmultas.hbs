@@ -1,10 +1,9 @@
 <script>
     function ffechaactual() {
-        var tipo = document.getElementById('fechaingreso');
+        var tipo = document.getElementById('fecha');
         var eye = document.getElementById('botonfecha');
         if (tipo.type == "date") {
-            //tipo.disabled = true;
-            tipo.type = "text";
+            tipo.type = "date";
             eye.class = "btn btn-primary"
             const fecha = new Date();
             const dia = fecha.getDate()
@@ -15,11 +14,16 @@
             } else {
                 mes = calcmes + "-"
             }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0"+dia
+            } else {
+                var diastring = dia
+            }
             const ano = fecha.getFullYear() + "-"
             //const fullyear = fecha.toLocaleDateString();
-            const fullyear = ano + mes + dia
+            const fullyear = ano + mes + diastring
             //const fullyear = fecha.toLocaleDateString();
-            fechaingreso.value = fullyear;
+            tipo.value = fullyear;
         } else {
             //tipo.disabled = false;
             tipo.type = "date";
@@ -590,7 +594,7 @@
         } else {
             document.getElementById("grabar").style.display = "none";
         }
-    }  
+    }
     function ShowName() {
         var writtenName = document.getElementById('propietario').value;
         document.getElementById('propietario').value = formatToString(writtenName);
@@ -620,7 +624,7 @@
                         <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                     ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
                     text-shadow: 2px 2px 5px rgb(90, 88, 88)">
-                            ACTA DE LIQUIDACIÓN
+                            ACTA DE LIQUIDACIÓN 2
                         </h3>
 
                         {{!--
@@ -682,7 +686,8 @@
                                 </div>
                             </div>
                         </div>
-                        <p style="color:rgb(18, 214, 50);text-shadow: #CCC 1px 0 10px;">Tasa de Construcción Actual: $ {{tasaactual.tasaconstruccion}}</p>                        
+                        <p style="color:rgb(18, 214, 50);text-shadow: #CCC 1px 0 10px;">Tasa de Construcción Actual: $
+                            {{tasaactual.tasaconstruccion}}</p>
                         <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
                             infración:</label>
                         <select name="infraccionoparalizacion" id="infraccionoparalizacion">
@@ -752,10 +757,16 @@
                                 <label style="font-weight: bold; color:black" class="form-label" for="typeText">
                                     Fecha:
                                 </label>
-                                <input style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                <div class="input-group-append">
+                                    <input style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                             border-box; border: 3px solid #0e0d0d;" placeholder="fecha" type="date" id="fecha"
-                                    name="fecha" class="form-control" autocomplete="off" required>
-
+                                        name="fecha" class="form-control" autocomplete="off" required>
+                                    <label style="color:white">_</label>
+                                    <button id="botonfecha" class='btn btn-primary' name="botonfecha" type="button"
+                                        onclick="ffechaactual()">
+                                        <span class="fa fa-calendar icon"></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -805,8 +816,8 @@
                                 <div class="form-outline">
                                     <label style="color:blue; font-weight: bold;" class="form-label"
                                         for="typeText">T.C.</label>
-                                    <input name="tcactual" onkeyup="fmontototal()"
-                                        placeholder="Cargue Valor" style="font-weight: bold; color:black" type="number" step="1" min="0"
+                                    <input name="tcactual" onkeyup="fmontototal()" placeholder="Cargue Valor"
+                                        style="font-weight: bold; color:black" type="number" step="1" min="0"
                                         id="valor3">
                                 </div>
                             </div>

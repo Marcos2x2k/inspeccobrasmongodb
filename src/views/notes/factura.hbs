@@ -76,7 +76,7 @@
                             remiten las actas
                             de
                             infracción, las cuales
-                            fueron la bradas por la Dirección Gral. de
+                            fueron labradas por la Dirección Gral. de
                             Inspeccion
                             de Obras.</p>
                     </div>
@@ -85,18 +85,17 @@
                         5689/12</p>
                     <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.5. MULTAS AL
                         PROPIETARIO</h5>
-                </div>
-               
+                </div>         
                 
 
                 <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">
-                    <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
+                    {{!-- <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
                         action="/descargarfactura" method="GET" target="_blank">
                         <input type="hidden" name="_method" value="GET">
                         <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
                             Descargar/Imprimir Factura
                         </button>
-                    </form>
+                    </form> --}}
                     <thead>
                         <tr style="background-color: rgb(117, 114, 117)">
                             <td>Fecha</td>
@@ -139,7 +138,7 @@
                         {{/each}}
                     </tbody>
                 </table>
-                <form onSubmit="return confirm('Volver a Multas No-Impresas?')" action="/multas/impresas" method="GET">
+                <form  action="/multas/impresas" method="GET"> {{!-- onSubmit="return confirm('Volver a Multas No-Impresas?')" --}}
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-warning btn-block btn-sm" type="submit">
                         Volver a Multas No-Impresas
