@@ -6,6 +6,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const CicloinspeccionSchema = new Schema({
+    estado: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    },
     numexpediente: {
         type: String,
         require: false,
@@ -68,5 +73,8 @@ const CicloinspeccionSchema = new Schema({
         default: Date.now
     },
 });
+
+// FECHA ENTR INSP	INSPECCION	INTIMACION	INFRACCION	INFORME	DESTINO/PASE	FECHA SALIDA
+
 
 module.exports = mongoose.model("cicloinspeccion", CicloinspeccionSchema);

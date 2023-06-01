@@ -614,7 +614,7 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { propietario, adrema, numacta, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador") {
+    if (rolusuario == "Administrador" || rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var montofinal = 0;
         if (propietario) {
