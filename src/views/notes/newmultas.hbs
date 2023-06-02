@@ -6,7 +6,7 @@
             tipo.type = "date";
             eye.class = "btn btn-primary"
             const fecha = new Date();
-            const dia = fecha.getDate()
+            const dia = fecha.getDate();
             var mes = 0
             const calcmes = fecha.getMonth() + 1
             if (calcmes < 10) {
@@ -15,7 +15,7 @@
                 mes = calcmes + "-"
             }
             if (dia > 0 && dia < 10) {
-                var diastring = "0"+dia
+                var diastring = "0" + dia
             } else {
                 var diastring = dia
             }
@@ -57,6 +57,19 @@
         }
     }
 
+
+
+    function selectprofesional() {
+        var selectsancion = document.getElementById("profesional")
+        var procentajeprof = document.getElementById("porcentajeprofesional")
+        if (selectsancion.selectedIndex == 0) {
+            procentajeprof.enabled = false;
+            procentajeprof.value = "0%"
+        } else {
+            procentajeprof.enabled = true;
+            procentajeprof.value = "200%"
+        }
+    }
     function seleccionarinciso() {
         //const Tasas = require('../models/Tasas')
         var seleccion = document.getElementById('incisos');
@@ -624,7 +637,7 @@
                         <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                     ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
                     text-shadow: 2px 2px 5px rgb(90, 88, 88)">
-                            ACTA DE LIQUIDACIÓN 2
+                            ACTA DE LIQUIDACIÓN
                         </h3>
 
                         {{!--
@@ -779,6 +792,15 @@
                                     name="numacta" class="form-control" autocomplete="off" required>
                             </div>
                         </div>
+                        <label style="font-weight: bold; color:rgb(235, 11, 11)" for="incisos">1.6.4)Sanción a
+                            Profesionales:</label>
+                        <br>
+                        <select name="profesionals" id="profesional" onclick="selectprofesional()">
+                            <option value="sinsancion">Sin Sanción</option>
+                            <option value="consancion">Con Sanción</option>
+                        </select>
+                        <input style="color: red" id="porcentajeprofesional" value="0%" disabled />
+                        <br>
                         <div class="row my-2">
                             <div class="col-md-1">
                                 <div class="form-outline">
@@ -858,7 +880,6 @@
             </form>
         </div>
     </div>
-
 </div>
 
 {{!-- INCISO B 1 2 1
