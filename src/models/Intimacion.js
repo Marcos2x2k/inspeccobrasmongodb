@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
+
 const IntimacionSchema = new Schema({
         fechaintimacion: {
                 type: String,
@@ -24,7 +25,7 @@ const IntimacionSchema = new Schema({
                 default: "No Posee Información"
         },
         zona:{
-                type: String,
+                type: Number,
                 require: true,
                 default: "No Posee Información"
         },
@@ -34,7 +35,7 @@ const IntimacionSchema = new Schema({
                 default: "No Posee Información"
         },
         boletaintnum: {
-                type: String,
+                type: Number,
                 require: true,
                 default: "No Posee Información"
         },
@@ -44,7 +45,7 @@ const IntimacionSchema = new Schema({
                 default: "No Posee Información"
         },        
         otorgaplazode: {
-                type: String,
+                type: Number,
                 require: false,
                 default: "No Posee Información"
         },
