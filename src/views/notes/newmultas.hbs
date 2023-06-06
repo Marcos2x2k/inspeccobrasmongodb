@@ -80,6 +80,10 @@
         //var tcpru = parseInt(tc.tasaconstruccion)
         //console.log("TASA PRUEBA",tcpru)
         var tc = parseInt({{ tasaactual.tasaconstruccion }})
+    var selectsancion = document.getElementById("profesional")
+    if (selectsancion.selectedIndex == 1) {
+        tc = tc * 2
+    }
     //var tc = "52000"
     document.getElementById("volverlistado").style.visibility = "hidden";
     if ((seleccion.selectedIndex == 1)) {
@@ -701,6 +705,15 @@
                         </div>
                         <p style="color:rgb(18, 214, 50);text-shadow: #CCC 1px 0 10px;">Tasa de Construcción Actual: $
                             {{tasaactual.tasaconstruccion}}</p>
+                        <label style="font-weight: bold; color:rgb(235, 11, 11)" for="incisos">1.6.4)Sanción a
+                            Profesionales:</label>
+                        <br>
+                        <select name="profesionals" id="profesional" onclick="selectprofesional()">
+                            <option value="sinsancion">Sin Sanción</option>
+                            <option value="consancion">Con Sanción</option>
+                        </select>
+                        <input style="color: red" id="porcentajeprofesional" value="0%" disabled />
+                        <br>
                         <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
                             infración:</label>
                         <select name="infraccionoparalizacion" id="infraccionoparalizacion">
@@ -792,15 +805,6 @@
                                     name="numacta" class="form-control" autocomplete="off" required>
                             </div>
                         </div>
-                        <label style="font-weight: bold; color:rgb(235, 11, 11)" for="incisos">1.6.4)Sanción a
-                            Profesionales:</label>
-                        <br>
-                        <select name="profesionals" id="profesional" onclick="selectprofesional()">
-                            <option value="sinsancion">Sin Sanción</option>
-                            <option value="consancion">Con Sanción</option>
-                        </select>
-                        <input style="color: red" id="porcentajeprofesional" value="0%" disabled />
-                        <br>
                         <div class="row my-2">
                             <div class="col-md-1">
                                 <div class="form-outline">

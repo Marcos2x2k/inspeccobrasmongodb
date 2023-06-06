@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/inspecobras', {
     // mongoose.connect('mongodb://localhost/notes-db-app',{ // ANDA EN WIN7 8 Y 10
     mongoose.connect('mongodb://127.0.0.1:27017/Inspecobrasctes', {
+    enableUtf8Validation: false,
 // mongoose.connect(process.env.MONGODB_URI, { 
     // useCreateIndex: true,
     useNewUrlParser: true,

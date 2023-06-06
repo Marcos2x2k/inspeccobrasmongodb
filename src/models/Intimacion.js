@@ -3,17 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const IntimacionSchema = new Schema({
-        boletaintnum: {
-                type: String,
-                require: true,
-                default: "No Posee Información"
-        },
-        numexpedienteint: {
-                type: String,
-                require: false,
-                default: "No Posee Información"
-        },
-        adremaint: {
+        fechaintimacion: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
@@ -28,32 +18,57 @@ const IntimacionSchema = new Schema({
                 require: false,
                 default: "No Posee Información"
         },
-        lugaractuacion: {
+        inspectorint: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
         },
+        zona:{
+                type: String,
+                require: true,
+                default: "No Posee Información"
+        },
+        descripcion: {
+                type: String,
+                require: true,
+                default: "No Posee Información"
+        },
+        boletaintnum: {
+                type: String,
+                require: true,
+                default: "No Posee Información"
+        },
+        tipointimacion: {
+                type: String,
+                require: false,
+                default: "No Posee Información"
+        },        
         otorgaplazode: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
         },
-        paracumplimientoa: {
+        paracumplimientoaobservacion: {
+                type: String,
+                require: false,
+                default: "No Posee Información"
+        }, 
+        tipoacta: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
         },
-        fechaintimacion: {
+        fecharealcontrol: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
         },
-        horaintimacion: {
+        statuscontrolintimacion: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
         },
-        vencimientoint: {    // pidio doc en macro para excel y coloco aca tambien
+        codinspector: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
@@ -62,7 +77,33 @@ const IntimacionSchema = new Schema({
                 type: String,
                 require: false,
                 default: "No Posee Información"
+        },//
+        adremaint: {
+                type: String,
+                require: false,
+                default: "No Posee Información"
         },
+        numexpedienteint: {
+                type: String,
+                require: false,
+                default: "No Posee Información"
+        },  
+        vencimientoint: {    // pidio doc en macro para excel y coloco aca tambien
+                type: String,
+                require: false,
+                default: "No Posee Información"
+        },   
+        //hasta aca esta en el excel de Alejandro Garcia           
+        lugaractuacion: {
+                type: String,
+                require: false,
+                default: "No Posee Información"
+        },               
+        horaintimacion: {
+                type: String,
+                require: false,
+                default: "No Posee Información"
+        },        
         aclaracion: {
                 type: String,
                 require: false,
@@ -72,32 +113,7 @@ const IntimacionSchema = new Schema({
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },
-        inspectorint: {
-                type: String,
-                require: false,
-                default: "No Posee Información"
-        },
-        // fotoint: {
-        //         type: String,
-        //         require: false,
-        //         default: "No Posee Información"
-        // },
-        // filename: {
-        //         type: String
-        // },
-        // path: {
-        //         type: String
-        // },
-        // originalname: {
-        //         type: String
-        // },
-        // mimetype: {
-        //         type: String
-        // },
-        // size: { 
-        //         type: Number
-        // },
+        },        
         filename: {
                 type: String
         },
