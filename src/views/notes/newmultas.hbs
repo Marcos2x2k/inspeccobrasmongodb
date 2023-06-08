@@ -62,28 +62,54 @@
     function selectprofesional() {
         var selectsancion = document.getElementById("profesional")
         var procentajeprof = document.getElementById("porcentajeprofesional")
-        if (selectsancion.selectedIndex == 0) {
-            procentajeprof.enabled = false;
-            procentajeprof.value = "0%"
-        } else {
-            procentajeprof.enabled = true;
-            procentajeprof.value = "200%"
-        }
+        var tc = 0
+        tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
+    if (selectsancion.selectedIndex == 0) {
+        procentajeprof.enabled = false;
+        procentajeprof.value = "0%"
+        idvalor3 = tcprofesional
+        var idvalor1 = document.getElementById("valor1").value;
+        var idvalor2 = document.getElementById("valor2").value;
+        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
+        var montototaldosdecimales = MontoTotal.toFixed(2)
+
+        document.getElementById("valor1").value = idvalor1;
+        document.getElementById("valor2").value = idvalor2;
+        document.getElementById("valor3").value = idvalor3;
+        document.getElementById("resultado").value = montototaldosdecimales
+
+    } else if (selectsancion.selectedIndex == 1) {
+        procentajeprof.enabled = true;
+        procentajeprof.value = "200%"
+        idvalor3 = tcprofesional * 2;
+        var idvalor1 = document.getElementById("valor1").value;
+        var idvalor2 = document.getElementById("valor2").value;
+        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
+        var montototaldosdecimales = MontoTotal.toFixed(2)
+
+        document.getElementById("valor1").value = idvalor1;
+        document.getElementById("valor2").value = idvalor2;
+        document.getElementById("valor3").value = idvalor3;
+        document.getElementById("resultado").value = montototaldosdecimales
+    }
     }
     function seleccionarinciso() {
         //const Tasas = require('../models/Tasas')
         var seleccion = document.getElementById('incisos');
-        //const tcfind = await Tasas.find().sort({_id:-1}).lean();
-        //var tc = await Task.forEach(tcfind.tasaconstruccion);
-        //var tc = tcfind.tasaconstruccion;
-        //const tc = await Tasas.find.lean().sort({ date: 'desc' })
-        //var tcpru = parseInt(tc.tasaconstruccion)
-        //console.log("TASA PRUEBA",tcpru)
+        //con o sin sansion
         var tc = parseInt({{ tasaactual.tasaconstruccion }})
-    var selectsancion = document.getElementById("profesional")
-    if (selectsancion.selectedIndex == 1) {
-        tc = tc * 2
-    }
+    //const tcfind = await Tasas.find().sort({_id:-1}).lean();
+    //var tc = await Task.forEach(tcfind.tasaconstruccion);
+    //var tc = tcfind.tasaconstruccion;
+    //const tc = await Tasas.find.lean().sort({ date: 'desc' })
+    //var tcpru = parseInt(tc.tasaconstruccion)
+    //console.log("TASA PRUEBA",tcpru)
+
+
+    //var selectsancion = document.getElementById("profesional")
+    //if (selectsancion.selectedIndex == 1) {
+    //    tc = tc * 2
+    //}
     //var tc = "52000"
     document.getElementById("volverlistado").style.visibility = "hidden";
     if ((seleccion.selectedIndex == 1)) {
@@ -705,14 +731,6 @@
                         </div>
                         <p style="color:rgb(18, 214, 50);text-shadow: #CCC 1px 0 10px;">Tasa de Construcción Actual: $
                             {{tasaactual.tasaconstruccion}}</p>
-                        <label style="font-weight: bold; color:rgb(235, 11, 11)" for="incisos">1.6.4)Sanción a
-                            Profesionales:</label>
-                        <br>
-                        <select name="profesionals" id="profesional" onclick="selectprofesional()">
-                            <option value="sinsancion">Sin Sanción</option>
-                            <option value="consancion">Con Sanción</option>
-                        </select>
-                        <input style="color: red" id="porcentajeprofesional" value="0%" disabled />
                         <br>
                         <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
                             infración:</label>
@@ -805,6 +823,14 @@
                                     name="numacta" class="form-control" autocomplete="off" required>
                             </div>
                         </div>
+                        <label style="font-weight: bold; color:rgb(235, 11, 11)" for="incisos">1.6.4)Sanción a
+                            Profesionales:</label>
+                        <br>
+                        <select name="profesionals" id="profesional" onclick="selectprofesional()">
+                            <option value="sinsancion">Sin Sanción</option>
+                            <option value="consancion">Con Sanción</option>
+                        </select>
+                        <input style="color: red" id="porcentajeprofesional" value="0%" disabled />
                         <div class="row my-2">
                             <div class="col-md-1">
                                 <div class="form-outline">
