@@ -68,6 +68,11 @@ const MultasSchema = new Schema({
         require: false,
         default: "sinsancion"
     }, 
+    sancionprorc: {
+        type: String,
+        require: false,
+        default: "sinsancion"
+    }, 
     impreso: {
         type: String,
         require: false,

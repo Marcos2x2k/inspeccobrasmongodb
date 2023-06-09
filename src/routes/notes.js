@@ -64,6 +64,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.ubicacion}</td>
     <td>${multas.inciso}</td>
     <td>${multas.sancionprof}</td>
+    <td>${multas.sancionprorc}</td>
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
@@ -147,11 +148,11 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
 
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, sancionprof, user, name, date } = req.body;
+        tcactual, formulamulta, montototal, observaciones, sancionprof, sancionprorc, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones,sancionprof, user, name, date
+        tcactual, formulamulta, montototal, observaciones,sancionprof, sancionprorc, user, name, date
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
