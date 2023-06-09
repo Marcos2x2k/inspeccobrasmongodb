@@ -61,8 +61,7 @@
         tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
     if (selectsancion.selectedIndex == 0) {
         procentajeprof.disabled = true;
-        procentajeprof.value = "1"
-        procentajeprof.placeholder = "0%"
+        procentajeprof.value = "0"
         idvalor3 = tcprofesional
         var idvalor1 = document.getElementById("valor1").value;
         var idvalor2 = document.getElementById("valor2").value;
@@ -607,17 +606,17 @@
         var selectsancion = document.getElementById("profesional")        
         tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
         if (selectsancion.selectedIndex == 1) {  
-            var porcentaje = document.getElementById("porcentajeprofesional").value;          
-            porcentaje =  tcprofesional / 100
-            document.getElementById("valor3").value = tcprofesional * porcentaje;
+            var porcentaje = parseFloat(document.getElementById("porcentajeprofesional").value);            
+            var calculoporcentaje =  tcprofesional / 100 * porcentaje
+            console.log("porcentaje",porcentaje)
+            console.log("calculoporcentaje",calculoporcentaje)
+            document.getElementById("valor3").value = calculoporcentaje;
         }  else {
             document.getElementById("valor3").value = tcprofesional
         }
         var idvalor1 = document.getElementById("valor1").value;
         var idvalor2 = document.getElementById("valor2").value;
         var idvalor3 = document.getElementById("valor3").value;
-        
-
         var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
         var montototaldosdecimales = MontoTotal.toFixed(2)
         document.getElementById("resultado").value = montototaldosdecimales
@@ -822,7 +821,7 @@
                             <option value="sinsancion">Sin Sanción</option>
                             <option value="consancion">Con Sanción</option>
                         </select>
-                        <input onkeyup="fmontototal()" type="number" style="color: red" id="porcentajeprofesional" value="1" placeholder="0%" min="1" max="999" disabled>%</input>
+                        <input onkeyup="fmontototal()" type="number" style="color: red" id="porcentajeprofesional" value="0" min="1" max="999" disabled>%</input>
 
                         <div class="row my-2">
                             <div class="col-md-1">
