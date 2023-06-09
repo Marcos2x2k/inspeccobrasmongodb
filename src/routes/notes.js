@@ -63,7 +63,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.propietario}</td>
     <td>${multas.ubicacion}</td>
     <td>${multas.inciso}</td>
-    <td>${multas.formulamulta}</td>
+    <td>${multas.sancionprof}</td>
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
@@ -97,7 +97,6 @@ router.get('/multas/add', isAuthenticated, async (req, res) => {
 // router.get('/multas/add/:id', isAuthenticated, (req, res) => {
 //     res.render('notes/newmultas');
 // })
-
 router.get('/multas/addtasas', isAuthenticated, (req, res) => {
     res.render('notes/newtasas');
 })
@@ -148,11 +147,11 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
 
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, user, name, date } = req.body;
+        tcactual, formulamulta, montototal, observaciones, sancionprof, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, user, name, date
+        tcactual, formulamulta, montototal, observaciones,sancionprof, user, name, date
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
@@ -724,7 +723,7 @@ router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, re
     <td>${multas.propietario}</td>
     <td>${multas.ubicacion}</td>
     <td>${multas.inciso}</td>
-    <td>${multas.formulamulta}</td>
+    <td>${multas.sancionprof}</td>
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
