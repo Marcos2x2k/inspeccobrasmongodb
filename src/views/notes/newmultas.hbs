@@ -57,11 +57,12 @@
 
     function selectprofesional() {
         var selectsancion = document.getElementById("profesional")
-        var procentajeprof = document.getElementById("porcentajeprofesional")
+        var porcentajeprof = document.getElementById("porcentajeprofesional")
         tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
     if (selectsancion.selectedIndex == 0) {
-        procentajeprof.disabled = true;
-        procentajeprof.value = "0"
+        porcentajeprof.disabled = true;
+        porcentajeprof.value = "0"
+        porcentajeprof.color = "black"
         idvalor3 = tcprofesional
         var idvalor1 = document.getElementById("valor1").value;
         var idvalor2 = document.getElementById("valor2").value;
@@ -72,8 +73,9 @@
         document.getElementById("valor3").value = idvalor3;
         document.getElementById("resultado").value = montototaldosdecimales
     } else if (selectsancion.selectedIndex == 1) {
-        procentajeprof.disabled = false;
-        procentajeprof.value = "200"
+        porcentajeprof.disabled = false;
+        porcentajeprof.value = "200"
+        porcentajeprof.color = "green"
         idvalor3 = tcprofesional * 2;
         var idvalor1 = document.getElementById("valor1").value;
         var idvalor2 = document.getElementById("valor2").value;
@@ -84,6 +86,17 @@
         document.getElementById("valor3").value = idvalor3;
         document.getElementById("resultado").value = montototaldosdecimales
     }
+    }
+    function clickselectreiteracion() {
+        var selreiteracion = document.getElementById("selectreiteracion")
+        var reiteracion = document.getElementById("reiteracion")
+        if (selreiteracion.selectedIndex == 0) {
+            reiteracion.disabled = true;
+            reiteracion.value = ""
+        } else if (selreiteracion.selectedIndex == 1 || selreiteracion.selectedIndex == 2 || selreiteracion.selectedIndex == 3 || selreiteracion.selectedIndex == 4 || selreiteracion.selectedIndex == 5) {
+            reiteracion.disabled = true;
+            reiteracion.value = "Reiteración Agregada!";        
+        }
     }
     function seleccionarinciso() {
         var seleccion = document.getElementById('incisos');
@@ -602,32 +615,33 @@
         y.value = y.value.toUpperCase();
     }
 
-    function fmontototal() {        
-        var selectsancion = document.getElementById("profesional")        
+    function fmontototal() {
+        var selectsancion = document.getElementById("profesional")
         tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
-        if (selectsancion.selectedIndex == 1) {  
-            var porcentaje = parseFloat(document.getElementById("porcentajeprofesional").value);            
-            var calculoporcentaje =  tcprofesional / 100 * porcentaje
-            console.log("porcentaje",porcentaje)
-            console.log("calculoporcentaje",calculoporcentaje)
-            document.getElementById("valor3").value = calculoporcentaje;
-        }  else {
-            document.getElementById("valor3").value = tcprofesional
-        }
-        var idvalor1 = document.getElementById("valor1").value;
-        var idvalor2 = document.getElementById("valor2").value;
-        var idvalor3 = document.getElementById("valor3").value;
-        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
-        var montototaldosdecimales = MontoTotal.toFixed(2)
-        document.getElementById("resultado").value = montototaldosdecimales
-        var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
-        document.getElementById("observacionesmas").value = observacionesmas
-        if (MontoTotal > 0) {
-            document.getElementById("grabar").style.display = "block";
-        } else {
-            document.getElementById("grabar").style.display = "none";
-        }
+    if (selectsancion.selectedIndex == 1) {
+        var porcentaje = parseFloat(document.getElementById("porcentajeprofesional").value);
+        var calculoporcentaje = tcprofesional / 100 * porcentaje
+        console.log("porcentaje", porcentaje)
+        console.log("calculoporcentaje", calculoporcentaje)
+        document.getElementById("valor3").value = calculoporcentaje;
+    } else {
+        document.getElementById("valor3").value = tcprofesional
     }
+    var idvalor1 = document.getElementById("valor1").value;
+    var idvalor2 = document.getElementById("valor2").value;
+    var idvalor3 = document.getElementById("valor3").value;
+    var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
+    var montototaldosdecimales = MontoTotal.toFixed(2)
+    document.getElementById("resultado").value = montototaldosdecimales
+    var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
+    document.getElementById("observacionesmas").value = observacionesmas
+    if (MontoTotal > 0) {
+        document.getElementById("grabar").style.display = "block";
+    } else {
+        document.getElementById("grabar").style.display = "none";
+    }
+    }
+
     function ShowName() {
         var writtenName = document.getElementById('propietario').value;
         document.getElementById('propietario').value = formatToString(writtenName);
@@ -812,23 +826,37 @@
                             border-box; border: 3px solid #0e0d0d;" placeholder="numacta" type="text" id="idnumacta"
                                     name="numacta" class="form-control" autocomplete="off" required>
                             </div>
-                            <label style="font-weight: bold; color:rgb(235, 11, 11)" for="incisos">Sanción a
+                            {{!-- SANCION PROFRESIONALES --}}
+                            <label style="font-weight: bold; color:rgb(0, 0, 0)" for="incisos">- Sanción a
                                 Profesionales:</label>
-                            <br>
-
+                            <br/>
+                            <select name="sancionprof" id="profesional" onclick="selectprofesional()">
+                                <option value="sin Sancion">Sin Sanción</option>
+                                <option value="con Sancion">Con Sanción</option>
+                            </select>
+                            <br/>
+                            <input onkeyup="fmontototal()" type="number" style="color: rgb(0, 0, 0)" name="sancionprorc"
+                                id="porcentajeprofesional" value="0" min="1" max="999" disabled>%</input>
+                            {{!-- REITERACIONES --}}
+                            <label style="font-weight: bold; color:rgb(5, 5, 5)" for="incisos">- Reiteraciones:</label>
+                            <br/>
+                            <select name="reiteracion" id="selectreiteracion" onclick="clickselectreiteracion()">
+                                <option value="">Sin Reiteración</option>
+                                <option value="1° Reiteración">1°</option>
+                                <option value="2° Reiteración">2°</option>
+                                <option value="3° Reiteración">3°</option>
+                                <option value="4° Reiteración">4°</option>
+                                <option value="+4° Reiteración">5°/más</option>                                
+                            </select>
+                            <br/>
+                            <input type="text" style="color: green; width:200px" name="reiteracion" id="reiteracion"/>                                                           
                         </div>
-                        <select name="sancionprof" id="profesional" onclick="selectprofesional()">
-                            <option value="sin Sancion">Sin Sanción</option>
-                            <option value="con Sancion">Con Sanción</option>
-                        </select>
-                        <input onkeyup="fmontototal()" type="number" style="color: red" name="sancionprorc" id="porcentajeprofesional" value="0" min="1" max="999" disabled>%</input>
-
                         <div class="row my-2">
                             <div class="col-md-1">
                                 <div class="form-outline">
                                     <label id="labelvalor1" style="color:blue;font-weight: bold;" class=""
                                         for="typeText">SCSp</label>
-                                    <input name="scsp" onkeyup="fmontototal()" style="font-weight: bold; color:black"
+                                    <input name="scsp" onkeyup="fmontototal()" style="font-weight: bold; color:rgb(236, 10, 10)"
                                         type="number" min="0" id="valor1" value="0" required>
                                 </div>
                             </div>

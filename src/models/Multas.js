@@ -73,6 +73,11 @@ const MultasSchema = new Schema({
         require: false,
         default: "sinsancion"
     }, 
+    reiteracion: {
+        type: String,
+        require: false,
+        default: "No"
+    },
     impreso: {
         type: String,
         require: false,
