@@ -55,14 +55,15 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
 
+    //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
         // Y concatenar las multas                    
-        tabla += `<tr>
-    <td>${multas.fecha}</td>
+        tabla += `<tr>    
     <td>${multas.numacta}</td>
     <td>${multas.propietario}</td>
     <td>${multas.ubicacion}</td>
     <td>${multas.inciso}</td>
+    <td>${multas.formulamulta}</td>
     <td>${multas.sancionprof}</td>
     <td>${multas.sancionprorc}</td>
     <td>${multas.montototal}</td>
@@ -716,15 +717,15 @@ router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, re
             montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
     }    
+    //<td>${multas.fecha}</td> estaba en tablamultas
     for (multas of tablamultas) {
         // Y concatenar las multas                    
-        tabla += `<tr>
-    <td>${multas.fecha}</td>
+        tabla += `<tr>    
     <td>${multas.numacta}</td>
     <td>${multas.propietario}</td>
     <td>${multas.ubicacion}</td>
     <td>${multas.inciso}</td>
-    <td>${formulamulta}</td>
+    <td>${multas.formulamulta}</td>
     <td>${multas.sancionprof}</td>
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td>    
