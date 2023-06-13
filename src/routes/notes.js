@@ -30,6 +30,13 @@ router.get('/factura', isAuthenticated, async (req, res) => {
     //res.render('notes/factura', { layouts: "pdf"});
 })
 
+router.get('/facturaprofesional', isAuthenticated, async (req, res) => {
+    //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
+    const multas = await Multas.find({ impreso: 'No' },{ apercibimientoprofesional: 'Si' } ).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
+    res.render('notes/liquidaciones/facturaprofesional', { multas });
+    //res.render('notes/factura', { layouts: "pdf"});
+})
+
 router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();    
     //await Multas.updateMany({ _id: "id" });  
@@ -560,11 +567,27 @@ router.get('/multas', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find().lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ apercibimientoprofesional: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/allmultas', { multas });
     } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find().lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ apercibimientoprofesional: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadm', { multas });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
+router.get('/multasprofesionales', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Liquidaciones") {
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
+        res.render('notes/allmultas', { multas });
+    } else if (rolusuario == "Administrador") {
+        const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
+        res.render('notes/liquidaciones/allmultasprofadm', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -756,10 +779,26 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }]}).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadmimp', { multas });
     } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }]}).lean().sort({ date: 'desc' });
+        res.render('notes/allmultasadmimp', { multas });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
+router.get('/multas/impresasprofesional', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Liquidaciones") {
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]}).lean().sort({ date: 'desc' });
+        res.render('notes/allmultasadmimp', { multas });
+    } else if (rolusuario == "Administrador") {
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]}).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadmimp', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')

@@ -63,6 +63,11 @@ const MultasSchema = new Schema({
         require: false,
         default: "No Posee"
     },
+    apercibimientoprofesional: {
+        type: String,
+        require: false,
+        default: "No"
+    }, 
     sancionprof: {
         type: String,
         require: false,
