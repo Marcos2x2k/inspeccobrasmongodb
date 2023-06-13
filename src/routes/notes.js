@@ -32,7 +32,7 @@ router.get('/factura', isAuthenticated, async (req, res) => {
 
 router.get('/facturaprofesional', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({ impreso: 'No' },{ apercibimientoprofesional: 'Si' } ).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
+    const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]} ).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
     res.render('notes/liquidaciones/facturaprofesional', { multas });
     //res.render('notes/factura', { layouts: "pdf"});
 })
