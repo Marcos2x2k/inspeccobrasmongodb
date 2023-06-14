@@ -103,6 +103,11 @@ router.get('/multas/add', isAuthenticated, async (req, res) => {
     const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
     res.render('notes/newmultas', { tasaactual });
 })
+router.get('/multasprofesional/add', isAuthenticated, async (req, res) => {
+    const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
+    res.render('notes/newmultasprofesional', { tasaactual });
+})
+
 // router.get('/multas/add/:id', isAuthenticated, (req, res) => {
 //     res.render('notes/newmultas');
 // })
@@ -156,11 +161,11 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
 
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, sancionprof, sancionprorc, reiteracion, user, name, date } = req.body;
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones,sancionprof, sancionprorc, reiteracion, user, name, date
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
@@ -796,10 +801,10 @@ router.get('/multas/impresasprofesional', isAuthenticated, async (req, res) => {
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]}).lean().sort({ date: 'desc' });
-        res.render('notes/allmultasadmimp', { multas });
+        res.render('notes/liquidaciones/allmultasadmprofimp', { multas });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]}).lean().sort({ date: 'desc' });
-        res.render('notes/allmultasadmimp', { multas });
+        res.render('notes/liquidaciones/allmultasadmprofimp', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');

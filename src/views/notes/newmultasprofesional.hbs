@@ -58,33 +58,21 @@
     function selectprofesional() {
         var selectsancion = document.getElementById("profesional")
         var porcentajeprof = document.getElementById("porcentajeprofesional")
-        tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
+        var apercibimientoprofesional = document.getElementById("apercibimientoprof")
+        var grabar = document.getElementById("selectgrabar")
+        
     if (selectsancion.selectedIndex == 0) {
-        porcentajeprof.disabled = true;
-        porcentajeprof.value = "0"
-        porcentajeprof.color = "black"
-        idvalor3 = tcprofesional
-        var idvalor1 = document.getElementById("valor1").value;
-        var idvalor2 = document.getElementById("valor2").value;
-        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
-        var montototaldosdecimales = MontoTotal.toFixed(2)
-        document.getElementById("valor1").value = idvalor1;
-        document.getElementById("valor2").value = idvalor2;
-        document.getElementById("valor3").value = idvalor3;
-        document.getElementById("resultado").value = montototaldosdecimales
+        apercibimientoprofesional.disabled = true;
+        apercibimientoprofesional.value = "No"
+        apercibimientoprofesional.style.display = "none"
+        apercibimientoprofesional.style.color = "black" 
+        grabar.style.display = "none"   
     } else {
-        porcentajeprof.disabled = false;
-        porcentajeprof.value = "200"
-        porcentajeprof.color = "green"
-        idvalor3 = tcprofesional * 2;
-        var idvalor1 = document.getElementById("valor1").value;
-        var idvalor2 = document.getElementById("valor2").value;
-        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
-        var montototaldosdecimales = MontoTotal.toFixed(2)
-        document.getElementById("valor1").value = idvalor1;
-        document.getElementById("valor2").value = idvalor2;
-        document.getElementById("valor3").value = idvalor3;
-        document.getElementById("resultado").value = montototaldosdecimales
+        apercibimientoprofesional.disabled = true;
+        apercibimientoprofesional.value = "Si"
+        apercibimientoprofesional.style.display = "block"
+        apercibimientoprofesional.style.color = "red" 
+        grabar.style.display = "block"
     }
     }
     function clickselectreiteracion() {
@@ -93,9 +81,11 @@
         if (selreiteracion.selectedIndex == 0) {
             reiteracion.disabled = true;
             reiteracion.value = ""
+            reiteracion.style.display = "none"; 
         } else if (selreiteracion.selectedIndex == 1 || selreiteracion.selectedIndex == 2 || selreiteracion.selectedIndex == 3 || selreiteracion.selectedIndex == 4 || selreiteracion.selectedIndex == 5) {
             reiteracion.disabled = true;
-            reiteracion.value = "Reiteración Agregada!";        
+            reiteracion.value = "Reiteración Agregada!"; 
+            reiteracion.style.display = "block";       
         }
     }
     function seleccionarinciso() {
@@ -105,12 +95,12 @@
 
     document.getElementById("volverlistado").style.visibility = "hidden";
     if ((seleccion.selectedIndex == 1)) {
-        document.getElementById("acta").value = "INCISO A) 1)";
-        document.getElementById("formulamulta").value = "SCSp x 0,15 x TC";
-        document.getElementById('labelvalor1').innerHTML = 'SCSp';
-        document.getElementById("valor1").value = 20;
-        document.getElementById("valor2").value = "0.15";
-        document.getElementById("valor3").value = tc;
+        document.getElementById("acta").value = "INCISO A)";
+        document.getElementById("formulamulta").value = "Apercivido";
+        document.getElementById('labelvalor1').innerHTML = '';
+        document.getElementById("valor1").value = 0;
+        document.getElementById("valor2").value = "0";
+        document.getElementById("valor3").value = 0;
 
         var idvalor1 = document.getElementById("valor1").value;
         var idvalor2 = document.getElementById("valor2").value;
@@ -120,11 +110,7 @@
         document.getElementById("resultado").value = montototaldosdecimales
         var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
         document.getElementById("observacionesmas").value = observacionesmas
-        if (montototaldosdecimales > 0) {
-            document.getElementById("grabar").style.display = "block";
-        } else {
-            document.getElementById("grabar").style.display = "none";
-        }
+        document.getElementById("grabar").style.display = "block";        
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -684,9 +670,9 @@
                         style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
                         {{!-- adrema, expediente, propietario, ubicacion --}}
                         <div>
-                            <p style="font-weight: bold; width: 22%; padding: 2px 20px; margin: 0px 0; box-sizing: border-box; 
+                            <p style="font-weight: bold; width: 25%; padding: 2px 20px; margin: 0px 0; box-sizing: border-box; 
                     border: 2px solid #1ecc0e; color:rgb(24, 24, 26); font-weight: bold; border-radius: 4px;">
-                                DATOS INFRACTOR:
+                                DATOS PROFESIONAL:
                             </p>
                         </div>
                         <div class="row my-3">
@@ -714,9 +700,9 @@
                             <div class="col-md-4">
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
-                                        for="typeText">Propietario:</label>
+                                        for="typeText">Profesional:</label>
                                     <input onkeyup="ShowName();" style="color:rgb(0, 0, 0); font-weight: bold; width: 100%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                                                border-box; border: 3px solid #0e0d0d;" placeholder="Propietario"
+                                                border-box; border: 3px solid #0e0d0d;" placeholder="Nombre y Apellido"
                                         name="propietario" type="text" id="propietario" class="form-control"
                                         autocomplete="off" required value="{{multas.propietario}}" />
                                 </div>
@@ -733,9 +719,6 @@
                                 </div>
                             </div>
                         </div>
-                        <p style="color:rgb(18, 214, 50);text-shadow: #CCC 1px 0 10px;">Tasa de Construcción Actual: $
-                            {{tasaactual.tasaconstruccion}}</p>
-                        <br>
                         <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
                             infración:</label>
                         <select name="infraccionoparalizacion" id="infraccionoparalizacion">
@@ -745,43 +728,9 @@
                         <br />
                         <label style="font-weight: bold; color:black" for="incisos">Selecciones un Inciso:</label>
                         <select name="inciso" id="incisos" onclick="seleccionarinciso()">
-                            <option value="">Elija Inciso</option>
-                            <option value="a1">a)1) SCPp*0,15*TC</option>
-                            <option value="a2">a)2) SCPp*0,15*TC</option>
-                            <option value="a3">a)3) SCPp*0,3*TC</option>
-                            <option value="b121">b)1.2.1) MULTA=SE*0,2*TC</option>
-                            <option value="b122">b)1.2.2) MULTA=SIDEAP*1,5*TC</option>
-                            <option value="b122a">b)1.2.2) MULTA=SIDEAP Pu*2*TC</option>
-                            <option value="b123">b)1.2.3) MULTA=SI*1.5*TC</option>
-                            <option value="b13131">b)1.3)1,3,1) MULTA=SE*2*TC</option>
-                            <option value="b132">b)1.3.2) MULTA=SIDEAP x 3 x TC</option>
-                            <option value="b132">b)1.3.2)_2 MULTA=SIDEAP Pu. x 4 x TC</option>
-                            <option value="b133">b)1.3.3) MULTA=SI*4*TC</option>
-                            <option value="b134">b)1.3.4) MULTA=NCF*25*TC</option>
-                            <option value="c">c) MULTA=1*TC</option>
-                            <option value="d">d) MULTA=1*TC</option>
-                            <option value="e">e) MULTA=1*TC</option>
-                            <option value="f">f) MULTA=3*TC</option>
-                            <option value="g">g) MULTA=S.C.*0,002*TC</option>
-                            <option value="h">h) MULTA=0,4*TC</option>
-                            <option value="i">i) MULTA=0,5*TC</option>
-                            <option value="j">j) MULTA = 1 * TC</option>
-                            <option value="k">k) MULTA = 1 * TC/MULTA =5 * TC/MULTA =5 * TC/MULTA = S.C. * TC
-                            </option>
-                            <option value="l">l) MULTA= 1* TC</option>
-                            <option value="ll">ll) MULTA = 1* TC</option>
-                            <option value="m">m) MULTA = 2* TC</option>
-                            <option value="n">n) MULTA = 0,4 * TC</option>
-                            <option value="ene">ñ) MULTA = 0,3 * TC</option>
-                            <option value="o">o) MULTA = 0,25 * TC</option>
-                            <option value="p">p) MULTA = 0,2 * TC</option>
-                            <option value="q">q) MULTA = 1 * TC</option>
-                            <option value="r">r) MULTA = 0,5 a 1,3 * TC</option>
-                            <option value="s">s) MULTA = 0,4 * TC</option>
-                            <option value="t">t) MULTA = 1 * TC</option>
-                            <option value="u">u) MULTA = 0,5 a 2 * TC</option>
-                            <option value="v">v) MULTA = 0,4 * TC</option>
-                            <option value="w">w) MULTA = 0,4 * TC</option>
+                            <option value="">Selecciones Inciso</option>
+                            <option value="A">a) Apercibimiento</option>
+
                         </select>
                         <a id="volverlistado" href="/multas/impresas"
                             class="btn btn-outline-warning btn-block btn-sm">Volver Listado</a>
@@ -796,9 +745,9 @@
                         <br />
                         <input name="acta" id="acta" style="font-weight: bold; width: 21%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                                 border: 2px solid #cc0e0e; color:rgb(24, 24, 26); border-radius: 4px;"
-                            value="INCISO A) 1)" readonly>
-                        <input name="formulamulta" id="formulamulta" style="color:blue;font-weight: bold;"
-                            value="SCSp x 0,15 x TC" readonly>
+                            value="INCISO A)" readonly>
+                        <input name="formulamulta" id="formulamulta" style="color:blue;font-weight: bold; display:none;"
+                            value="" readonly>
 
                         <div class="col-md-3">
                             <div class="form-outline">
@@ -830,13 +779,11 @@
                             <label style="font-weight: bold; color:rgb(0, 0, 0)" for="incisos">- Tipo de Sanción:</label>
                             <br/>
                             <select name="sancionprof" id="profesional" onclick="selectprofesional()">
-                                <option value="sin Sancion">Sin Sanción</option>
-                                {{!-- <option value="Sancion-Profesional">Sanción Profesional</option> --}}
-                                <option value="deInterés-valorHistórico">Sanción Interes/Historico/Etc</option>
+                                <option value="sin Sancion">Sin Sanción</option>                                
+                                <option value="Apercibimiento">Apercibimiento</option>
                             </select>
-                            <br/>
-                            <input onkeyup="fmontototal()" type="number" style="color: rgb(0, 0, 0)" name="sancionprorc"
-                                id="porcentajeprofesional" value="0" min="1" max="999" disabled>%</input>
+                            <br/>      
+                            <input value="No" style="color: red; width:200px; display:none;" id="apercibimientoprof" name="apercibimientoprofesional" disabled/>
                             {{!-- REITERACIONES --}}
                             <label style="font-weight: bold; color:rgb(5, 5, 5)" for="incisos">- Reiteraciones:</label>
                             <br/>
@@ -849,7 +796,7 @@
                                 <option value="+4° Reiteración">5°/más</option>                                
                             </select>
                             <br/>
-                            <input type="text" style="color: green; width:200px" name="reiteracion" id="reiteracion"/>                                                           
+                            <input type="text" style="color: green; width:200px; display:none;" name="reiteracion" id="reiteracion" disabled/>                                                           
                         </div>
                         <div class="row my-2">
                             <div class="col-md-1">
@@ -857,7 +804,7 @@
                                     <label id="labelvalor1" style="color:blue;font-weight: bold;" class=""
                                         for="typeText">SCSp</label>
                                     <input name="scsp" onkeyup="fmontototal()" style="font-weight: bold; color:rgb(236, 10, 10)"
-                                        type="number" min="0" id="valor1" value="0" required>
+                                        type="number" min="0" id="valor1" value="0">
                                 </div>
                             </div>
                             <div class="col-md-1">
@@ -918,13 +865,13 @@
                             </div>
                         </div>
                         {{!-- ACÁ SE GRABA EL FORMULARIO --}}
-                        <div id="grabar" class="mx-auto" style="display:none">
-                            <button class="btn btn-success btn-block" type="submit">
+                        <div id="grabar" class="mx-auto">
+                            <button id="selectgrabar" class="btn btn-success btn-block" type="submit" style="display: none;">
                                 Grabar
                             </button>
                         </div>
                         <p></p>
-                        <a href="/multas/impresas" class="btn btn-danger btn-block btn-sm">Volver Listado</a>
+                        <a href="/multasprofesional/impresas" class="btn btn-danger btn-block btn-sm">Volver Listado</a>
                     </div>
                 </div>
             </form>

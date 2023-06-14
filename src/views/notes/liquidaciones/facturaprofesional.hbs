@@ -87,19 +87,12 @@
                     </h5>
                 </div>
 
-                <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">
-                    {{!-- <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
-                        action="/descargarfactura" method="GET" target="_blank">
-                        <input type="hidden" name="_method" value="GET">
-                        <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
-                            Descargar/Imprimir Factura
-                        </button>
-                    </form> --}}
+                <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">                    
                     <thead>
                         <tr style="background-color: rgb(117, 114, 117)">
                             {{!-- <td>Fecha</td> --}}
                             <td>Acta</td>
-                            <td>Propietario</td>
+                            <td>Profesional</td>
                             <td>Ubicación</td>
                             <td>Inciso</td>
                             <td>Sancion Prof</td>
@@ -141,7 +134,7 @@
                         {{/each}}
                     </tbody>
                 </table>
-                <form  action="/multas/impresas" method="GET"> {{!-- onSubmit="return confirm('Volver a Multas No-Impresas?')" --}}
+                <form  action="/multas/impresasprofesional" method="GET"> {{!-- onSubmit="return confirm('Volver a Multas No-Impresas?')" --}}
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-warning btn-block btn-sm" type="submit">
                         Volver a Multas No-Impresas
