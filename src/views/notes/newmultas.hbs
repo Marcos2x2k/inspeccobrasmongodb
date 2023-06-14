@@ -647,6 +647,10 @@
         document.getElementById('propietario').value = formatToString(writtenName);
     }
 
+    function ShowUbic() {
+        var writtenName = document.getElementById('ubicacion').value;
+        document.getElementById('ubicacion').value = formatToString(writtenName);
+    }
     function formatToString(writtenName) {
         var tmp = writtenName.split(" ");
         var fullName;
@@ -671,7 +675,7 @@
                         <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                     ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
                     text-shadow: 2px 2px 5px rgb(90, 88, 88)">
-                            ACTA DE LIQUIDACIÓN
+                            Acta Liquidación / Sanción Propietarios
                         </h3>
 
                         {{!--
@@ -725,7 +729,7 @@
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Ubicación:</label>
-                                    <input onkeyup="ponermayuscula()" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                    <input onkeyup="ShowUbic();" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Ubicación"
                                         name="ubicacion" type="text" id="ubicacion" class="form-control"
                                         autocomplete="off" required maxlength="40" value="{{multas.ubicacion}}" />
