@@ -71,7 +71,7 @@ const MultasSchema = new Schema({
     sancionprof: {
         type: String,
         require: false,
-        default: "sinsancion"
+        default: "SinSancion"
     }, 
     sancionprorc: {
         type: String,

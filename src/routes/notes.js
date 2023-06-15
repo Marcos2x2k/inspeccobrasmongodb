@@ -25,7 +25,7 @@ var pdfoptionsA4 = { format: 'A4' };
 
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
+    const multas = await Multas.find({ $and : [{ impreso: 'No' },{apercibimientoprofesional:"No"}]}).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
     res.render('notes/factura', { multas });
     //res.render('notes/factura', { layouts: "pdf"});
 })
@@ -61,6 +61,45 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
+
+    //<td>${multas.fecha}</td> este etaba en tablamultas
+    for (const multas of tablamultas) {
+        // Y concatenar las multas                    
+        tabla += `<tr>    
+    <td>${multas.numacta}</td>
+    <td>${multas.propietario}</td>
+    <td>${multas.ubicacion}</td>
+    <td>${multas.inciso}</td>
+    <td>${multas.formulamulta}</td>
+    <td>${multas.sancionprof}</td>
+    <td>${multas.sancionprorc}</td>
+    <td>${multas.montototal}</td>
+    <td>${multas.infraccionoparalizacion}</td>    
+    </tr>`;
+    }
+    // console.log("MULTAS", tablamultas)
+    // console.log("TABLA", tabla)
+    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
+    //contenidoHtml = contenidoHtml.replace("{{multas}}");
+    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
+    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
+        if (error) {
+            res.end("Error creando PDF: " + error)
+        } else {
+            req.flash('success_msg', 'Multas Impresas')
+            res.setHeader("Content-Type", "application/pdf");
+            stream.pipe(res);
+        }
+    });
+})
+
+router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => {
+    const ubicacionPlantilla = require.resolve("../views/notes/liquidaciones/facturaimprimirprofesional.hbs")
+    //const puerto = "172.25.2.215";
+    var fstemp = require('fs');
+    let tabla = "";
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'Si'}]}).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
@@ -171,8 +210,24 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     newMultas.name = req.user.name;
     newMultas.date = new Date();
     await newMultas.save();
-    req.flash('success_msg', 'Multa Agregada Exitosamente');
+    req.flash('success_msg', 'Multa a Propietario Agregada');
     res.redirect('/multas');
+})
+
+router.post("/notes/newmultasprofesional", isAuthenticated, async (req, res) => {
+    const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date } = req.body;
+
+    const newMultas = new Multas({
+        fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date
+    })
+    newMultas.user = req.user.id;
+    newMultas.name = req.user.name;
+    newMultas.date = new Date();
+    await newMultas.save();
+    req.flash('success_msg', 'Multa a Profesional Agregada');
+    res.redirect('/multasprofesionales');
 })
 
 router.post('/notes/newtasas', isAuthenticated, async (req, res) => {
@@ -589,7 +644,7 @@ router.get('/multasprofesionales', isAuthenticated, async (req, res) => {
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
-        res.render('notes/allmultas', { multas });
+        res.render('notes/liquidaciones/allmultasprofadm', { multas });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasprofadm', { multas });
@@ -1906,8 +1961,14 @@ router.delete('/tasas/delete/:id', isAuthenticated, async (req, res) => {
 
 router.delete('/multas/delete/:id', isAuthenticated, async (req, res) => {
     await Multas.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', 'Multa Eliminada')
+    req.flash('success_msg', 'Multa a Propietario Eliminada')
     res.redirect('/multas')
+});
+
+router.delete('/multasprofesional/delete/:id', isAuthenticated, async (req, res) => {
+    await Multas.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Multa a Profesional Eliminada')
+    res.redirect('/multasprofesionales')
 });
 
 router.delete('/tickets/delete/:id', isAuthenticated, async (req, res) => {
