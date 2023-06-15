@@ -186,7 +186,7 @@
 <div style="max-width: 95%" class="col-md-8 mx-auto">
     <div class="card">
         <div class="card-body">
-            <form action="/notes/newmultasprofesional" method="POST">
+            <form action="/notes/newmultas" method="POST">
                 <div class="form-group">
                     <div class="car-header mx-auto">
                         <br />
@@ -268,8 +268,8 @@
                             <option value="A">a) Apercibimiento</option>
 
                         </select>
-                        <a id="volverlistado" href="/multas/impresas"
-                            class="btn btn-outline-warning btn-block btn-sm">Volver Listado</a>
+                        <a id="volverlistado" href="/multas/impresasprofesional"
+                            class="btn btn-outline-warning btn-block btn-sm">Volver Listado Liq.  a Profesionales</a>
                     </div>
                     <br />
                     {{!-- INCISOS --}}
@@ -319,7 +319,7 @@
                                 <option value="Si">Si</option>
                             </select>
                             <br/>      
-                            <input style="color: red; width:200px; display:none;" id="sancionado" name="sancionprof"/>
+                            <input style="color: red; width:200px; display:none;" id="sancionado" name="sancionprof" disabled/>
                             {{!-- REITERACIONES --}}
                             <label style="font-weight: bold; color:rgb(5, 5, 5)" for="incisos">- Reiteraciones:</label>
                             <br/>
@@ -407,7 +407,7 @@
                             </button>
                         </div>
                         <p></p>
-                        <a href="/multasprofesional/impresas" class="btn btn-danger btn-block btn-sm">Volver Listado</a>
+                        <a href="/multas/impresasprofesional" class="btn btn-danger btn-block btn-sm">Volver Listado Liq. a Profesionales</a>
                     </div>
                 </div>
             </form>
