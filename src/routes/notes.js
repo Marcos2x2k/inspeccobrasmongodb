@@ -60,7 +60,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     var fstemp = require('fs');
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
+    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'No'}]}).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
@@ -1083,7 +1083,11 @@ router.get('/multas/add/:id', isAuthenticated, async (req, res) => {
     const multas = await Multas.findById(req.params.id).lean()
     res.render('notes/newmultas', { multas, tasaactual })
 });
-
+router.get('/multasprofesional/add/:id', isAuthenticated, async (req, res) => {
+    const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
+    const multas = await Multas.findById(req.params.id).lean()
+    res.render('notes/newmultasprofesional', { multas, tasaactual })
+});
 
 router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()

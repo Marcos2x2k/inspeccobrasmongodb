@@ -18,10 +18,10 @@
         document.getElementById("fechahoy").value = fecha;
         document.getElementById("botonfecha").hidden = true;
     }
+
     function desabilitar() {
         //document.getElementById("verfactura").hidden = true;
-        document.getElementById("descargarfactura").hidden = true;
-        document.getElementById("tablafacturas").hidden = true;
+        document.getElementById("divocultarformbutton").hidden = true;
     }
 
     function recargar() {
@@ -30,13 +30,13 @@
     function actualizar() {
         location.reload(true)
     }
-    // Función para actualizar cada 4 segundos(4000 milisegundos)
-    //setInterval("actualizar()", 3000);
+    //Función para actualizar cada 3 segundos(3000 milisegundos)
+    setInterval("actualizar()", 3000);
 
 </script>
 
 <div class="row">
-    
+
     <div class="form-group btn-center mx-auto">
         <div class="card">
             <div class="card-body">
@@ -86,67 +86,71 @@
                     <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.5. MULTAS AL
                         PROPIETARIO</h5>
                 </div>
-
-                <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">
-                    {{!-- <form onSubmit="return confirm('Desea Previsualisar para Imprimir y/o Descargar?')"
-                        action="/descargarfactura" method="GET" target="_blank">
-                        <input type="hidden" name="_method" value="GET">
-                        <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
-                            Descargar/Imprimir Factura
-                        </button>
-                    </form> --}}
-                    <thead>
-                        <tr style="background-color: rgb(117, 114, 117)">
-                            {{!-- <td>Fecha</td> --}}
-                            <td>Acta</td>
-                            <td>Propietario</td>
-                            <td>Ubicación</td>
-                            <td>Inciso</td>
-                            <td>Sancion Prof</td>
-                            <td>% Sancion</td>
-                            <td>Reiteraciones</td>
-                            <td>Monto Total</td>
-                            <td>Infracción/Paralización</td>
-                        </tr>
-                    </thead>
-                    {{#each multas}}
-                    <tbody>
-                        {{!-- {{#each multas}} --}}
-                        <tr>
-                            {{!-- <td>{{ fecha }}</td> --}}
-                            <td>{{ numacta }}</td>
-                            <td>{{ propietario }}</td>
-                            <td>{{ ubicacion }}</td>
-                            <td>{{ inciso }}</td>
-                            <td>{{ sancionprof }}</td>
-                            <td>{{ sancionprorc }}</td>
-                            <td>{{ reiteracion }}</td>
-                            <td>{{ montototal }}</td>
-                            <td>{{infraccionoparalizacion}}</td>
-                        </tr>
-                        {{else}}
-                        <script>
-                            desabilitar()
-                        </script>
-                        <div class="mx-auto">
-                            <br /> <br />
-                            <div class="card mx-auto">
-                                <div class="card-body">
-                                    <p class"lead" style="color:red; font-weight: bold;"> No existen Multas para
-                                        Imprimir...
-                                        Cargue y Regrese...</p>
+                <div id="divocultarformbutton">
+                    <table class="table table-striped" style="font-family: Serif;">
+                        <thead>
+                            <tr style="background-color: rgb(117, 114, 117)">
+                                {{!-- <td>Fecha</td> --}}
+                                <td>Acta</td>
+                                <td>Propietario</td>
+                                <td>Ubicación</td>
+                                <td>Inciso</td>
+                                <td>Sancion Prof</td>
+                                <td>% Sancion</td>
+                                <td>Reiteraciones</td>
+                                <td>Monto Total</td>
+                                <td>Infracción/Paralización</td>
+                            </tr>
+                        </thead>
+                        {{#each multas}}
+                        <tbody>
+                            {{!-- {{#each multas}} --}}
+                            <tr>
+                                {{!-- <td>{{ fecha }}</td> --}}
+                                <td>{{ numacta }}</td>
+                                <td>{{ propietario }}</td>
+                                <td>{{ ubicacion }}</td>
+                                <td>{{ inciso }}</td>
+                                <td>{{ sancionprof }}</td>
+                                <td>{{ sancionprorc }}</td>
+                                <td>{{ reiteracion }}</td>
+                                <td>{{ montototal }}</td>
+                                <td>{{infraccionoparalizacion}}</td>
+                            </tr>
+                            {{else}}
+                            <script>
+                                desabilitar()
+                            </script>
+                            <div class="mx-auto">
+                                <br /> <br />
+                                <div class="card mx-auto">
+                                    <div class="card-body">
+                                        <p class"lead" style="color:red; font-weight: bold;"> No existen Multas para
+                                            Imprimir...
+                                            Cargue y Regrese...</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {{/each}}
-                    </tbody>
-                </table>
-                <form  action="/multas/impresas" method="GET"> {{!-- onSubmit="return confirm('Volver a Multas No-Impresas?')" --}}
-                    <input type="hidden" name="_method" value="GET">
-                    <button class="btn btn-warning btn-block btn-sm" type="submit">
-                        Volver a Multas No-Impresas
-                    </button>
-                </form>
+                            {{/each}}
+                        </tbody>
+                    </table>
+
+                    <form action="/descargarfactura" method="GET" target="_blank" > {{!-- onSubmit="return confirm('Volver a Multas
+                        No-Impresas?')" --}}
+                        <input type="hidden" name="_method" value="GET">
+                        <button class="btn btn-success btn-block btn-sm;" type="submit">
+                            Descargar/Imprimir Factura
+                        </button>
+                    </form>
+                    <p></p>
+                    <form action="/multas/impresas" method="GET"> {{!-- onSubmit="return confirm('Volver a Multas
+                        No-Impresas?')" --}}
+                        <input type="hidden" name="_method" value="GET">
+                        <button class="btn btn-warning btn-block btn-sm" type="submit">
+                            Volver a Multas No-Impresas
+                        </button>
+                    </form>
+                </div>
                 <p></p>
                 <form onSubmit="return confirm('Volver a Todas las Multas?')" action="/multas" method="GET">
                     <input type="hidden" name="_method" value="GET">
