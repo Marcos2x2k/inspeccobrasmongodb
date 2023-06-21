@@ -108,6 +108,11 @@ const MultasSchema = new Schema({
         require: false,
         default: "0"
     },
+    eliminado: {
+        type: String,
+        require: false,
+        default: "No"
+    },
     user: {
         type: String,
         require: false,

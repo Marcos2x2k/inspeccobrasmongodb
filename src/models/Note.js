@@ -169,6 +169,11 @@ const NoteSchema = new Schema({
                 require: false,
                 default: "No Posee Información"
         },
+        eliminado: {
+                type: String,
+                require: false,
+                default: "No"
+        },
         // este user sirve para vincular las cuentas
         user: {
                 type: String,

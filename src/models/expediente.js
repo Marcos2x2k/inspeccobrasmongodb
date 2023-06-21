@@ -169,6 +169,11 @@ ExpedienteSchema = new Schema({
     // default: "/img/Imagen-no-disponible.png"
   },
   // este user sirve para vincular las cuentas
+  eliminado: {
+    type: String,
+    require: false,
+    default: "No"
+},
   user: {
     type: String,
     require: false,

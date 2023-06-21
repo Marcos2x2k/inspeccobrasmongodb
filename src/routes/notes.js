@@ -54,13 +54,30 @@ router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) =>
     res.redirect('/multas');
 });
 
+router.get('/multas/reimprimirfacturaprofesional/:id', isAuthenticated, async (req, res) => {
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const impreso = "No";
+    const fechaimpreso = "Esperando Re-Impresion";
+    const reimpreso = "Si";
+    const vecesreimpreso = "1 o Más";
+    const fechareimpreso = new Date();
+    await Multas.findByIdAndUpdate(req.params.id, {
+        impreso, fechaimpreso, reimpreso,
+        fechareimpreso, vecesreimpreso
+    });
+    req.flash('success_msg', 'Re-Impresión actualizada')
+    res.redirect('/multasprofesionales');
+});
+
 router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'No'}]}).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
+    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'No'}]}).lean().sort({ propietario: 'desc' });
 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
@@ -81,7 +98,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
+    await Multas.updateMany({$and : [{ impreso: 'No' },{apercibimientoprofesional:'No'}]}, { impreso: "Si", fechaimpreso: new Date() });
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
@@ -99,7 +116,7 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     var fstemp = require('fs');
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'Si'}]}).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
+    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'Si'}]}).lean().sort({ propietario: 'desc' });  
 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
@@ -120,7 +137,7 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
+    await Multas.updateMany({$and : [{ impreso: 'No' },{apercibimientoprofesional:'Si'}]}, { impreso: "Si", fechaimpreso: new Date() });
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
@@ -252,7 +269,7 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
     const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
         destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
         zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
-        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
+        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea, eliminado,
         user, name
     } = req.body;
 
@@ -261,7 +278,7 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
         fechaentradainspecciones, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, pasea, fechapasea,
+        infracciones, pasea, fechapasea, eliminado,
         user, name
     })
     const mayu = iniciador.replace(/\b\w/g, l => l.toUpperCase())
@@ -275,10 +292,10 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
 
 router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
     const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name } = req.body;
+        contacto, hora, observaciones, eliminado, user, name } = req.body;
     const newMesaentrada = new Mesaentrada({
         sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name
+        contacto, hora, observaciones, eliminado, user, name
     })
     newMesaentrada.user = req.user.id;
     newMesaentrada.name = req.user.name;
@@ -293,7 +310,7 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-        permisobraoactainfrac, fotoexpediente, fechainicioentrada, user, name
+        permisobraoactainfrac, fotoexpediente, fechainicioentrada, eliminado, user, name
     } = req.body;
     const errors = [];
     if (!numexpediente) {
@@ -315,7 +332,7 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
             fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
             directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
             superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-            permisobraoactainfrac, fotoexpediente, fechainicioentrada, user, name
+            permisobraoactainfrac, fotoexpediente, fechainicioentrada, eliminado, user, name
         })
         newExpediente.user = req.user.id;
         newExpediente.name = req.user.name;
@@ -389,14 +406,14 @@ router.post('/notes/newintimaciones', isAuthenticated, async (req, res) => {
     const { boletaintnum, numexpedienteint, adremaint, senorsenora,
         domiciliopart, lugaractuacion, otorgaplazode, paracumplimientoa,
         fechaintimacion, horaintimacion, vencimientoint, notificadoint, aclaracion,
-        numcodigoint, inspectorint, user, name
+        numcodigoint, inspectorint, eliminado, user, name
     } = req.body;
 
     const newIntimacion = new Intimacion({
         boletaintnum, numexpedienteint, adremaint, senorsenora,
         domiciliopart, lugaractuacion, otorgaplazode, paracumplimientoa,
         fechaintimacion, horaintimacion, vencimientoint, notificadoint, aclaracion,
-        numcodigoint, inspectorint, user, name
+        numcodigoint, inspectorint, eliminado, user, name
     })
 
     if (req.files[0]) {
@@ -443,14 +460,14 @@ router.post('/notes/newintimaciones/:id', isAuthenticated, async (req, res) => {
     const { boletaintnum, numexpedienteint, adremaint, senorsenora,
         domiciliopart, lugaractuacion, otorgaplazode, paracumplimientoa,
         fechaintimacion, horaintimacion, vencimientoint, notificadoint, aclaracion,
-        numcodigoint, inspectorint, user, name
+        numcodigoint, inspectorint, eliminado, user, name
     } = req.body;
 
     const newIntimacion = new Intimacion({
         boletaintnum, numexpedienteint, adremaint, senorsenora,
         domiciliopart, lugaractuacion, otorgaplazode, paracumplimientoa,
         fechaintimacion, horaintimacion, vencimientoint, notificadoint, aclaracion,
-        numcodigoint, inspectorint, user, name
+        numcodigoint, inspectorint, eliminado, user, name
     })
 
     if (req.files[0]) {
@@ -1139,6 +1156,11 @@ router.get('/mesaentrada/list/:id', isAuthenticated, async (req, res) => {
 router.get('/multas/list/:id', isAuthenticated, async (req, res) => {
     const multas = await Multas.findById(req.params.id).lean()
     res.render('notes/listmultas', { multas })
+});
+
+router.get('/multasprofesional/list/:id', isAuthenticated, async (req, res) => {
+    const multas = await Multas.findById(req.params.id).lean()
+    res.render('notes/liquidaciones/listmultaprofesional', { multas })
 });
 
 router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {

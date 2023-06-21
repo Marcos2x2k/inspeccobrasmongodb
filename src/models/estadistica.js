@@ -72,7 +72,11 @@ const EstadisticaSchema = new Schema({
                 type: String,
                 // default: "/img/Imagen-no-disponible.png"
         },
-
+        eliminado: {
+                type: String,
+                require: false,
+                default: "No"
+        },
         // originalname: {
         //         type: String
         // },

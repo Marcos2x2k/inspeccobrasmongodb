@@ -171,6 +171,11 @@ const IntimacionSchema = new Schema({
                 type: String,
                 // default: "/img/Imagen-no-disponible.png"
         },
+        eliminado: {
+                type: String,
+                require: false,
+                default: "No"
+        },
         // este user sirve para vincular las cuentas
         user: {
                 type: String,

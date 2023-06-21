@@ -23,6 +23,11 @@ const TasasSchema = new Schema({
         require: false,
         default: "No Posee"
     },
+    eliminado: {
+        type: String,
+        require: false,
+        default: "No"
+    },
     user: {
         type: String,
         require: false,

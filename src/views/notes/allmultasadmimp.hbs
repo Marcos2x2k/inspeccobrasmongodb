@@ -21,8 +21,9 @@
     function actualizar() {
         location.reload(true)
     }
-    // Función para actualizar cada 4 segundos(4000 milisegundos)
-    setInterval("actualizar()", 3000);
+    function limpiarpagina(){
+        setInterval("actualizar()", 5000);
+    }
 
 </script>
 
@@ -87,7 +88,7 @@
                 <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/descargarfactura" method="GET"
                     target="_blank">
                     <input type="hidden" name="_method" value="GET">
-                    <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
+                    <button onclick="limpiarpagina()" id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
                         Descargar/Imprimir Factura
                     </button>
                 </form>

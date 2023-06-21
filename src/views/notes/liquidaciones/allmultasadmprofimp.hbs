@@ -22,7 +22,9 @@
         location.reload(true)
     }
     // Función para actualizar cada 4 segundos(4000 milisegundos)
-    setInterval("actualizar()", 3000);
+    function limpiarpagina(){
+        setInterval("actualizar()", 5000);
+    }
 
 </script>
 
@@ -88,7 +90,7 @@
                 <form onSubmit="return confirm('Desea Crear Factura - Ver?')" action="/descargarfacturaprofesional"
                     method="GET" target="_blank">
                     <input type="hidden" name="_method" value="GET">
-                    <button id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
+                    <button onclick="limpiarpagina()" id="descargarfactura" class="btn btn-success btn-block btn-sm" type="submit">
                         Descargar/Imprimir Factura
                     </button>
                 </form>
@@ -117,7 +119,7 @@
                         <td>{{ montototal }}</td>
                         <td>{{ impreso}}</td>
                         <td>
-                            <a class="dropdown-item" href="/multas/list/{{_id}}"
+                            <a class="dropdown-item" href="/multasprofesional/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
                         </td>
                         {{!-- <td>
