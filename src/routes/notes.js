@@ -200,11 +200,13 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
 
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date } = req.body;
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        reiteracion, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        reiteracion, user, name, date
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
@@ -216,11 +218,13 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
 
 router.post("/notes/newmultasprofesional", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date } = req.body;
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        reiteracion, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, reiteracion, user, name, date
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        reiteracion, user, name, date
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;

@@ -58,11 +58,13 @@
     function selectapercibimiento() {
         var selectsancion = document.getElementById("apercibimientoprof")               
         var grabar = document.getElementById("selectgrabar")  
-        var SiNosancionado = document.getElementById("sancionado")      
+        var SiNosancionado = document.getElementById("sancionprof")           
     if (selectsancion.selectedIndex == 0) { 
-        SiNosancionado.value = "SinSancion"       
+        SiNosancionado.value = "SinSancion"  
+        SiNosancionado.style.color = "grey"     
         grabar.style.display = "none"   
     } else {
+        SiNosancionado.style.color = "red" 
         SiNosancionado.value = "Sancionado"       
         grabar.style.display = "block"
     }
@@ -186,7 +188,7 @@
 <div style="max-width: 95%" class="col-md-8 mx-auto">
     <div class="card">
         <div class="card-body">
-            <form action="/notes/newmultas" method="POST">
+            <form action="/notes/newmultasprofesional" method="POST">
                 <div class="form-group">
                     <div class="car-header mx-auto">
                         <br />
@@ -318,8 +320,9 @@
                                 <option value="No">No</option>                                
                                 <option value="Si">Si</option>
                             </select>
-                            <br/>      
-                            <input style="color: red; width:200px; display:none;" id="sancionado" name="sancionprof" disabled/>
+                            <br/>  
+                            <p></p>    
+                            <input style="color: red; width:200px" placeholder="SinSancion" id="sancionprof" name="sancionprof"/>
                             {{!-- REITERACIONES --}}
                             <label style="font-weight: bold; color:rgb(5, 5, 5)" for="incisos">- Reiteraciones:</label>
                             <br/>
