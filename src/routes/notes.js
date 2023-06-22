@@ -182,6 +182,9 @@ router.get('/expedientes/add', isAuthenticated, (req, res) => {
 router.get('/notes/add', isAuthenticated, (req, res) => {
     res.render('notes/inspecciones/newnotes');
 })
+router.get('/notes/add/:id', isAuthenticated, (req, res) => {
+    res.render('notes/inspecciones/newnotes');
+})
 
 router.get('/intimaciones/add', isAuthenticated, (req, res) => {
     res.render('notes/newintimaciones');
