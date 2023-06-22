@@ -180,7 +180,7 @@ router.get('/expedientes/add', isAuthenticated, (req, res) => {
 })
 
 router.get('/notes/add', isAuthenticated, (req, res) => {
-    res.render('notes/newnotes');
+    res.render('notes/inspecciones/newnotes');
 })
 
 router.get('/intimaciones/add', isAuthenticated, (req, res) => {
@@ -703,13 +703,13 @@ router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
         for (let i = 0; i < multas.length; i++) {
             montofinal = montofinal + parseInt(multas[i].montototal)
         }
-        res.render('notes/multaestadisticaadm', { multas, montofinal });
+        res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         for (let i = 0; i < multas.length; i++) {
             montofinal = montofinal + parseInt(multas[i].montototal)
         }
-        res.render('notes/multaestadisticaadm', { multas, montofinal });
+        res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -728,19 +728,19 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             for (let i = 0; i < multas.length; i++) {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
-            res.render('notes/multaestadisticaadm', { multas, montofinal });
+            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         } else if (adrema) {
             const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < multas.length; i++) {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
-            res.render('notes/multaestadisticaadm', { multas, montofinal });
+            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         } else if (numacta) {
             const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < multas.length; i++) {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
-            res.render('notes/multaestadisticaadm', { multas, montofinal });
+            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         } else if (desde && hasta) {
             //console.log("DESDE", desde)
             //console.log("HASTA", hasta)
@@ -753,18 +753,18 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             for (let i = 0; i < multas.length; i++) {
                 montofinal = montofinal + parseInt(multas[i].montototal)
             }
-            res.render('notes/multaestadisticaadm', { multas, montofinal });
+            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         }
     } else if (rolusuario == "Liquidaciones") {
         if (propietario) {
             const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
-            res.render('notes/multaestadisticaadm', { multas });
+            res.render('notes/liquidaciones/multaestadisticaadm', { multas });
         } else if (adrema) {
             const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
-            res.render('notes/multaestadisticaadm', { multas });
+            res.render('notes/liquidaciones/multaestadisticaadm', { multas });
         } else if (numacta) {
             const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
-            res.render('notes/multaestadisticaadm', { multas });
+            res.render('notes/liquidaciones/multaestadisticaadm', { multas });
         }
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
@@ -998,10 +998,10 @@ router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         const notes = await Note.find().lean().sort({ numinspeccion: 'desc' });
-        res.render('notes/allnotesadm', { notes });
+        res.render('notes/inspecciones/allnotesadm', { notes });
     } else if (rolusuario == "Inspector") {
         const notes = await Note.find().lean().sort({ numinspeccion: 'desc' });
-        res.render('notes/allnotes', { notes });
+        res.render('notes/inspecciones/allnotes', { notes });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INSPECCIONES')
         return res.redirect('/');
@@ -1013,10 +1013,10 @@ router.get('/notes/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         const inspeccions = await Note.find().lean().sort({ date: 'desc' });
-        res.render('notes/planillalistainspeccion', { inspeccions });
+        res.render('notes/inspecciones/planillalistainspeccion', { inspeccions });
     } else if (rolusuario == "Inspector") {
         const inspeccions = await Note.find().lean().sort({ date: 'desc' });
-        res.render('notes/planillalistainspeccion', { inspeccions });
+        res.render('notes/inspecciones/planillalistainspeccion', { inspeccions });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');
@@ -1127,7 +1127,7 @@ router.get('/expedientes/edit/:id', isAuthenticated, async (req, res) => {
 
 router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
-    res.render('notes/editnote', { note })
+    res.render('notes/inspecciones/editnote', { note })
 });
 
 router.get('/intimaciones/edit/:id', isAuthenticated, async (req, res) => {
@@ -1175,7 +1175,7 @@ router.get('/expedientes/list/:id', isAuthenticated, async (req, res) => {
 
 router.get('/notes/list/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
-    res.render('notes/listnote', { note })
+    res.render('notes/inspecciones/listnote', { note })
 });
 
 router.get('/intimaciones/list/:id', isAuthenticated, async (req, res) => {
@@ -1632,7 +1632,7 @@ router.post('/notes/findinspeccion', isAuthenticated, async (req, res) => {
     const notes = await Note.find({ numinspeccion: { $regex: numinspeccion, $options: "i" } }).lean().sort({ numinspeccion: 'desc' });;
     if (!notes) {
         req.flash('success_msg', 'cargue un Nº de expediente')
-        return res.render("notes/allnotes");
+        return res.render("notes/inspecciones/allnotes");
     } else {
         res.render('notes/findinspeccion', { notes })
     }
@@ -1642,7 +1642,7 @@ router.post('/notes/findexpediente', isAuthenticated, async (req, res) => {
     const notes = await Note.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ expediente: 'desc' });;
     if (!notes) {
         req.flash('success_msg', 'cargue un Nº de expediente')
-        return res.render("notes/allnotes");
+        return res.render("notes/inspecciones/allnotes");
     } else {
         res.render('notes/findinspeccion', { notes })
     }
@@ -1652,7 +1652,7 @@ router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
     const notes = await Note.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ adrema: 'desc' });;
     if (!notes) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
-        return res.render("notes/allnotes");
+        return res.render("notes/inspecciones/allnotes");
     } else {
         res.render('notes/findinspeccion', { notes })
     }
@@ -1662,7 +1662,7 @@ router.post('/notes/findinspector', isAuthenticated, async (req, res) => {
     const notes = await Note.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ inspector: 'desc' });;
     if (!notes) {
         req.flash('success_msg', 'cargue un Inspector')
-        return res.render("notes/allnotes");
+        return res.render("notes/inspecciones/allnotes");
     } else {
         res.render('notes/findinspeccion', { notes })
     }
@@ -1918,7 +1918,7 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
     res.redirect('/expedientes');
 });
 
-router.put('/notes/editnote/:id', isAuthenticated, async (req, res) => {
+router.put('/notes/inspecciones/editnote/:id', isAuthenticated, async (req, res) => {
     const { numinspeccion, expediente, oficio, acta, adrema, date, inspuser,
         informeinspnum, fechaentradinspec, inspecfecha, inspector,
         fotoinspeccion, intimacion, infraccion, observacion, paseanumdestino,
@@ -1930,7 +1930,7 @@ router.put('/notes/editnote/:id', isAuthenticated, async (req, res) => {
         pasea, fechapasea
     });
     req.flash('success_msg', 'Inspección actualizada')
-    res.redirect('/notes');
+    res.redirect('/notes/listado');
 });
 
 router.put('/notes/editintimacion/:id', isAuthenticated, async (req, res) => {
@@ -2017,7 +2017,7 @@ router.delete('/expedientes/delete/:id', isAuthenticated, async (req, res) => {
 router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
     await Note.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Inspección Eliminada')
-    res.redirect('/notes')
+    res.redirect('/notes/listado')
 });
 
 router.delete('/intimaciones/delete/:id', isAuthenticated, async (req, res) => {

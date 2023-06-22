@@ -76,6 +76,8 @@
                         <td>Inspector</td>
                         <td>N° Intimaciones</td>
                         <td>N° Infracciones</td>
+                        <td>+Datos</td>
+                        <td>Opciones</td>
 
                     </tr>
                 </thead>
@@ -103,8 +105,15 @@
                         <td>
                             <a class="dropdown-item" href="/notes/list/{{_id}}"
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
-                            <a class="dropdown-item" href="/notes/delete/{{_id}}"
-                                style="color:rgb(17, 231, 10);font-weight: bold;text-shadow: 1px 1px 2px rgb(235, 11, 11)">Borrar</a>
+                            {{!-- <a class="dropdown-item" href="/notes/delete/{{_id}}"
+                                style="color:rgb(17, 231, 10);font-weight: bold;text-shadow: 1px 1px 2px rgb(235, 11, 11)">Borrar</a> --}}
+                            <form onSubmit="return confirm('Desea Borrar?')"
+                                action="/notes/delete/{{_id}}?_method=DELETE" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                                    Borrar ADM
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {{else}}
