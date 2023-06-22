@@ -2013,7 +2013,7 @@ router.delete('/expedientes/delete/:id', isAuthenticated, async (req, res) => {
     res.redirect('/expedientes')
 });
 
-//notes es inspecciones
+//NOTES es inspecciones
 router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
     await Note.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Inspección Eliminada')
