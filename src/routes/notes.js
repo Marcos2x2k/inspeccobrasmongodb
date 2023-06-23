@@ -190,8 +190,9 @@ router.get('/intimaciones/add', isAuthenticated, (req, res) => {
     res.render('notes/newintimaciones');
 })
 
-router.get('/intimaciones/add/:id', isAuthenticated, (req, res) => {
-    res.render('notes/newintimaciones');
+router.get('/intimaciones/add/:id', isAuthenticated, async (req, res) => {
+    const intimacion = await Intimacion.findById(req.params.id).lean();
+    res.render('notes/newintimaciones', {intimacion});
 })
 
 router.get('/infracciones/add', isAuthenticated, (req, res) => {

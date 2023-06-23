@@ -1,14 +1,12 @@
-{{!--
 <script>
     function ffechaactual() {
         var tipo = document.getElementById('fechaactual');
         var eye = document.getElementById('botonfecha');
         if (tipo.type == "date") {
-            //tipo.disabled = true;
-            tipo.type = "text";
+            tipo.type = "date";
             eye.class = "btn btn-primary"
             const fecha = new Date();
-            const dia = fecha.getDate() + "-"
+            const dia = fecha.getDate();
             var mes = 0
             const calcmes = fecha.getMonth() + 1
             if (calcmes < 10) {
@@ -16,18 +14,21 @@
             } else {
                 mes = calcmes + "-"
             }
-            const ano = fecha.getFullYear()
-            //const fullyear = fecha.toLocaleDateString();
-            const fullyear = dia + mes + ano
-            //const fullyear = fecha.toLocaleDateString();
-            fechaactual.value = fullyear;
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia
+            } else {
+                var diastring = dia
+            }
+            const ano = fecha.getFullYear() + "-"
+            const fullyear = ano + mes + diastring
+            tipo.value = fullyear;
         } else {
             //tipo.disabled = false;
             tipo.type = "date";
             eye.class = "btn btn-secondary"
         }
     }
-</script> --}}
+</script>
 
 <div class="col-md-8 mx-auto">
     <div class="card">
@@ -41,8 +42,8 @@
             <form action="/notes/newtasas" method="POST">
                 <div class="form-group">
                     Monto de Tasa Actual:
-                    <input type="number" name="tasaconstruccion" value="0" placeholder="Turno" minlength="0"
-                        maxlength="99" step="1" pattern="^[0-9]+" required autofocus>
+                    <input type="number" name="tasaconstruccion" placeholder="0" minlength="0" maxlength="99" step="1"
+                        pattern="^[0-9]+" required autofocus>
                 </div>
                 <div class="form-group">
                     <p>Elige Tipo Tasa:
@@ -64,11 +65,11 @@
                 </div>
                 <div class="input-group-append">
                     <input style="font-weight: bold; color:black" type="date" id="fechaactual" name="fechaactual"
-                        class="form-control">
-                    {{!-- <button id="botonfecha" class='btn btn-primary' name="botonfecha" type="button"
+                        class="form-control" required>
+                    <button id="botonfecha" class='btn btn-primary' name="botonfecha" type="button"
                         onclick="ffechaactual()">
                         <span class="fa fa-calendar icon"></span>
-                    </button> --}}
+                    </button>
                 </div>
                 <div class="form-group">
                     Observaciones:
