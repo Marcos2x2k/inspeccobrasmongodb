@@ -23,18 +23,18 @@ const { isAuthenticated } = require('../helpers/auth')
 const pdf = require("html-pdf")
 var pdfoptionsA4 = { format: 'A4' };
 
+// **** liquidaciones ****
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({ $and : [{ impreso: 'No' },{apercibimientoprofesional:"No"}]}).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
+    const multas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: "No" }] }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
     res.render('notes/factura', { multas });
     //res.render('notes/factura', { layouts: "pdf"});
 })
 
 router.get('/facturaprofesional', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]} ).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
+    const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
     res.render('notes/liquidaciones/facturaprofesional', { multas });
-    //res.render('notes/factura', { layouts: "pdf"});
 })
 
 router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {
@@ -77,7 +77,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     var fstemp = require('fs');
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'No'}]}).lean().sort({ propietario: 'desc' });
+    const tablamultas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'No' }] }).lean().sort({ propietario: 'desc' });
 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
@@ -98,7 +98,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    await Multas.updateMany({$and : [{ impreso: 'No' },{apercibimientoprofesional:'No'}]}, { impreso: "Si", fechaimpreso: new Date() });
+    await Multas.updateMany({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'No' }] }, { impreso: "Si", fechaimpreso: new Date() });
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
@@ -116,7 +116,7 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     var fstemp = require('fs');
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({$and : [{ impreso: 'No' },{apercibimientoprofesional:'Si'}]}).lean().sort({ propietario: 'desc' });  
+    const tablamultas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'Si' }] }).lean().sort({ propietario: 'desc' });
 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
@@ -137,7 +137,7 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    await Multas.updateMany({$and : [{ impreso: 'No' },{apercibimientoprofesional:'Si'}]}, { impreso: "Si", fechaimpreso: new Date() });
+    await Multas.updateMany({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'Si' }] }, { impreso: "Si", fechaimpreso: new Date() });
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
@@ -168,35 +168,99 @@ router.get('/multasprofesional/add', isAuthenticated, async (req, res) => {
 //     res.render('notes/newmultas');
 // })
 router.get('/multas/addtasas', isAuthenticated, (req, res) => {
-    res.render('notes/newtasas');
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Liquidaciones") {
+        res.render('notes/newtasas');
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+    
 })
 
 router.get('/tickets/add', isAuthenticated, (req, res) => {
     res.render('notes/newtickets');
 })
 
-router.get('/expedientes/add', isAuthenticated, (req, res) => {
-    res.render('notes/newexpedientes');
+router.get('/expedientes/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/newexpedientes');
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
 })
 
-router.get('/notes/add', isAuthenticated, (req, res) => {
-    res.render('notes/inspecciones/newnotes');
+router.get('/notes/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/newnotes');
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INSPECCIONES')
+        return res.redirect('/');
+    }
+
 })
-router.get('/notes/add/:id', isAuthenticated, (req, res) => {
-    res.render('notes/inspecciones/newnotes');
+router.get('/notes/add/:id', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const notes = await Note.findById(req.params.id).lean();
+    //const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        res.render('notes/inspecciones/newnotes', { notes });
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INSPECCIONES')
+        return res.redirect('/');
+    }
 })
 
-router.get('/intimaciones/add', isAuthenticated, (req, res) => {
-    res.render('notes/newintimaciones');
+router.get('/intimaciones/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/newintimaciones');
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
+        return res.redirect('/');
+    }
+
 })
 
 router.get('/intimaciones/add/:id', isAuthenticated, async (req, res) => {
-    const intimacion = await Intimacion.findById(req.params.id).lean();
-    res.render('notes/newintimaciones', {intimacion});
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const intimacion = await Intimacion.findById(req.params.id).lean();
+        res.render('notes/newintimaciones', { intimacion });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
+        return res.redirect('/');
+    }
+    
 })
 
-router.get('/infracciones/add', isAuthenticated, (req, res) => {
-    res.render('notes/newinfracciones');
+router.get('/infracciones/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/newinfracciones');
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INFRACCIONES')
+        return res.redirect('/');
+    }
+
 })
 
 router.get('/estadisticas/add', isAuthenticated, (req, res) => {
@@ -221,12 +285,12 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
 
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
         reiteracion, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
         reiteracion, user, name, date
     })
     newMultas.user = req.user.id;
@@ -239,12 +303,12 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
 
 router.post("/notes/newmultasprofesional", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
         reiteracion, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc, 
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
         reiteracion, user, name, date
     })
     newMultas.user = req.user.id;
@@ -653,10 +717,10 @@ router.get('/multas', isAuthenticated, async (req, res) => {
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find({ apercibimientoprofesional: "No" }).lean().sort({ date: 'desc' });
-        res.render('notes/allmultas', { multas });
+        res.render('notes/liquidaciones/allmultasusr', { multas });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find({ apercibimientoprofesional: "No" }).lean().sort({ date: 'desc' });
-        res.render('notes/allmultasadm', { multas });
+        res.render('notes/liquidaciones/allmultasadm', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -666,13 +730,14 @@ router.get('/multas', isAuthenticated, async (req, res) => {
 router.get('/multasprofesionales', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
+    //const user = await Multas.find().lean().sort();
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasprofadm', { multas });
+        res.render('notes/liquidaciones/allmultasprofusr', { multas, rolusuario });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasprofadm', { multas });
+        res.render('notes/liquidaciones/allmultasprofadm', { multas, rolusuario });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -777,21 +842,21 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
 });
 
 router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/estadisticamultaimprimir.hbs")    
+    const ubicacionPlantilla = require.resolve("../views/notes/estadisticamultaimprimir.hbs")
     var fstemp = require('fs');
     var tabla = "";
     var montofinal = 0;
     var tablamultas = "";
-    var multas =  "";
+    var multas = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     var filtro = "";
     var tipofiltro = "";
     //const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user       
-    const {propietarioo, adremao, numactao, desdeo, hastao} = req.body;
+    const { propietarioo, adremao, numactao, desdeo, hastao } = req.body;
     //const propietario = "Marcos"
     //console.log("PROPIETARIO", propietario)
-    if (propietarioo) {        
+    if (propietarioo) {
         tablamultas = await Multas.find({ propietario: { $regex: propietarioo, $options: "i" } }).lean();
         filtro = propietarioo;
         tipofiltro = "por Propietario"
@@ -814,7 +879,7 @@ router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, re
             montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
     } else if (desdeo && hastao) {
-        filtro = desdeo+"-"+hastao;
+        filtro = desdeo + "-" + hastao;
         tipofiltro = "Fecha Desde y Fecha Hasta"
         var d = new Date(hastao);
         const hasta = d.setDate(d.getDate() + 1);
@@ -824,7 +889,7 @@ router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, re
         for (let i = 0; i < tablamultas.length; i++) {
             montofinal = montofinal + parseInt(tablamultas[i].montototal)
         }
-    }    
+    }
     //<td>${multas.fecha}</td> estaba en tablamultas
     for (multas of tablamultas) {
         // Y concatenar las multas                    
@@ -838,7 +903,7 @@ router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, re
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td>    
     </tr>`;
-    }    
+    }
     //console.log("MULTAS", multas)
     //console.log("TABLA", tabla)
     //console.log("TABLA MULTAS", tablamultas)
@@ -864,10 +929,10 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }]}).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }] }).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadmimp', { multas });
     } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }]}).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }] }).lean().sort({ date: 'desc' });
         res.render('notes/allmultasadmimp', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
@@ -880,10 +945,10 @@ router.get('/multas/impresasprofesional', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]}).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasadmprofimp', { multas });
     } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }]}).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasadmprofimp', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
@@ -985,11 +1050,11 @@ router.get('/expedientes/listado', isAuthenticated, async (req, res) => {
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         const expedientes = await Expediente.find().lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
-        res.render('notes/planillalistaexpedientes', { expedientes });
+        res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes });
     } else if (rolusuario == "Inspector") {
         const expedientes = await Expediente.find().lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
-        res.render('notes/planillalistaexpedientes', { expedientes });
+        res.render('notes/inspecciones/planillalistaexpedientesusr', { expedientes });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
@@ -1017,10 +1082,10 @@ router.get('/notes/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         const inspeccions = await Note.find().lean().sort({ date: 'desc' });
-        res.render('notes/inspecciones/planillalistainspeccion', { inspeccions });
+        res.render('notes/inspecciones/planillalistainspeccionadm', { inspeccions });
     } else if (rolusuario == "Inspector") {
         const inspeccions = await Note.find().lean().sort({ date: 'desc' });
-        res.render('notes/inspecciones/planillalistainspeccion', { inspeccions });
+        res.render('notes/inspecciones/planillalistainspeccionusr', { inspeccions });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');

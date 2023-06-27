@@ -54,7 +54,7 @@
     </div>
     <br /><br />
     <div style="color: rgb(22, 214, 48);text-shadow: 2px 2px 10px black">
-        <h5>Sección de Liquidaciones (Usuario)</h5>
+        <h5>Sección de Liquidaciones a Propietarios / Admin</h5>
     </div>
     <br /><br />
     <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva Liquid/multa</a>
@@ -95,7 +95,7 @@
                         <td>{{ formulamulta }}</td>
                         <td>{{ numacta }}</td>
                         <td>{{ montototal }}</td>
-                        <td style="color: orange;">{{impreso}}</td>
+                        <td style="color: orange; ">{{ impreso}}</td>
                         <td>
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
@@ -103,13 +103,13 @@
                         <td>
                             <a class="dropdown-item" href="/multas/add/{{_id}}"
                                 style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">Liquidar</a>
-                            <form onSubmit="return confirm('Desea Borrar?')"
+                            {{!-- <form onSubmit="return confirm('Desea Borrar?')"
                                 action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button class="btn btn-danger btn-block btn-sm" type="submit">
-                                    Borrar
+                                    Borrar ADM
                                 </button>
-                            </form>
+                            </form> --}}
                         </td>
                         {{!-- <td>
                             <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
