@@ -110,7 +110,7 @@
         <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
             <h5>Mesa de Entrada - ESTADISTICAS (Liquidador/Administrador)</h5>
         </div>
-        <form action="/multas/sacarestadistica" method="POST">
+        <form action="/mesaentrada/sacarestadistica" method="POST">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadistico">Selección:</label>
             <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()">
                 <option value=0>Elija Filtro de Estadistica</option>
@@ -132,15 +132,15 @@
                 </button>
             </div>
         </form>
-        <a href="/multas/imprimirestadisticas" class="btn btn-warning btn-block btn-sm">
+        {{!-- <a href="/multas/imprimirestadisticas" class="btn btn-warning btn-block btn-sm">
             Sección para Armar e Imprimir Estadistica...
         </a>
         <br />
         <div class="form-group">
             <a id="volverlistado" href="/multas" class="btn btn-outline-warning btn-block btn-sm">Volver
                 Listado Liquidaciones</a>
-        </div>
-        <a href="/multas/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
+        </div> --}}
+        <a href="/mesaentrada/estadisticas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
     </div>
     <br /><br />
     <div class="form-group btn-center mx-auto">
@@ -161,7 +161,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each mesaentradas}}
+                    {{#each mesaentrada}}
                     <tr>
                         {{!-- <td>
                             <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id'
