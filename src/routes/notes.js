@@ -180,8 +180,18 @@ router.get('/multas/addtasas', isAuthenticated, (req, res) => {
     
 })
 
-router.get('/tickets/add', isAuthenticated, (req, res) => {
-    res.render('notes/newtickets');
+router.get('/tickets/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });        
+        res.render('notes/newtickets');
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+    
 })
 
 router.get('/expedientes/add', isAuthenticated, async (req, res) => {
@@ -785,6 +795,24 @@ router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
+router.get('/mesaentrada/Estadisticas', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    var contador = 0;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Mesa-Entrada" || rolusuario == "Administrador") {        
+        const mesaentradas = await Mesaentrada.find().lean().sort({ date: 'desc' });
+        for (let i = 0; i < mesaentradas.length; i++) {
+            contador = contador + 1
+        }
+        res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentradas, contador });    
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
+
 router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { propietario, adrema, numacta, desde, hasta } = req.body;
