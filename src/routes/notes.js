@@ -20,7 +20,8 @@ const fs = require('fs').promises
 const { isAuthenticated } = require('../helpers/auth')
 
 // *ZONA PDF* //
-const pdf = require("html-pdf")
+const pdf = require("html-pdf");
+const User = require('../models/User');
 var pdfoptionsA4 = { format: 'A4' };
 
 // **** liquidaciones ****
@@ -1214,7 +1215,14 @@ router.get('/estadisticas/edit/:id', isAuthenticated, async (req, res) => {
     res.render('notes/editestadistica', { estadistica })
 });
 
-// ***** informacion de cada dato ******
+// ***** informacion de cada dato ****** LISTADOS
+
+router.get('/usuario/list', isAuthenticated, async (req, res) => {
+    const email = req.user.email;
+    const users = await Users.find({ email: email }).lean()
+    // console.log(note.date);
+    res.render('notes/listusuario', { users })
+});
 
 router.get('/mesaentrada/list/:id', isAuthenticated, async (req, res) => {
     const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
