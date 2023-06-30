@@ -3,6 +3,7 @@
     function selecdatoestadistico() {
         const seleccion = document.getElementById('datoestadistico');
         const x = document.getElementById("armarestadistica")
+        const imp = document.getElementById("imprimiresadistica")
         const p = document.getElementById("nomyape")
         const a = document.getElementById("adrema")
         const na = document.getElementById("sector")
@@ -11,6 +12,7 @@
         //var mtc = document.getElementById("montototalcobrado")        
         if (seleccion.selectedIndex == 0) {
             x.disabled = true;
+            imp.style.hidden = true;
             p.disabled = true;
             a.disabled = true;
             na.disabled = true;
@@ -26,7 +28,9 @@
         }
         else if (seleccion.selectedIndex == 1) {
             x.disabled = false;
+            imp.style.hidden = false;
             p.disabled = false;
+            //p.style.background= "rgb(130, 185, 192)";
             a.disabled = true;
             na.disabled = true;
             fd.disabled = true;
@@ -45,6 +49,7 @@
             fa.required = false;
         } else if (seleccion.selectedIndex == 2) {
             x.disabled = false;
+            imp.style.hidden = false;
             p.disabled = true;
             a.disabled = false;
             na.disabled = true;
@@ -64,6 +69,7 @@
             fa.required = false;
         } else if (seleccion.selectedIndex == 3) {
             x.disabled = false;
+            imp.style.hidden = false;
             p.disabled = true;
             a.disabled = true;
             na.disabled = false;
@@ -83,6 +89,7 @@
             fa.required = false;
         } else if (seleccion.selectedIndex == 4) {
             x.disabled = false;
+            imp.style.hidden = false;
             p.disabled = true;
             a.disabled = true;
             na.disabled = true;
@@ -114,17 +121,17 @@
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadistico">Selección:</label>
             <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()">
                 <option value=0>Elija Filtro de Estadistica</option>
-                <option value=1>por Propietario</option>
+                <option value=1>por Propietario/dni</option>
                 <option value=2>por Adrema</option>
                 <option value=3>por Sector</option>
                 <option value=4>por Fechas</option>
             </select>
             <br />
-            <input class="pl-3" type="text" id="nomyape" name="nomyape" placeholder="Propietario..." disabled />
+            <input class="pl-3" type="text" id="nomyape" name="nomyape" placeholder="Propietario/DNI..." disabled />
             <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Adrema..." disabled />            
             <input class="pl-3" type="text" id="sector" name="sector" placeholder="Sector..." disabled />                        
-            <input class="pl-3" type="text" size="10" id="desde" name="desde" placeholder="Desde..." disabled />
-            <input class="pl-3" type="text" size="10" id="hasta" name="hasta" placeholder="Hasta..." disabled />
+            <input class="pl-3" type="text" size="14" id="desde" name="desde" placeholder="Desde..." disabled />
+            <input class="pl-3" type="text" size="14" id="hasta" name="hasta" placeholder="Hasta..." disabled />
             <p></p>
             <div class="form-group">
                 <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
@@ -132,10 +139,11 @@
                 </button>
             </div>
         </form>
-        {{!-- <a href="/multas/imprimirestadisticas" class="btn btn-warning btn-block btn-sm">
-            Sección para Armar e Imprimir Estadistica...
-        </a>
+        <button id="imprimiresadistica" href="/descargarestadisticamesaentrada" class="btn btn-warning btn-block btn-sm" type="hidden">
+            Armar e Imprimir Estadistica...
+        </button>
         <br />
+        {{!-- 
         <div class="form-group">
             <a id="volverlistado" href="/multas" class="btn btn-outline-warning btn-block btn-sm">Volver
                 Listado Liquidaciones</a>
@@ -205,7 +213,7 @@
             </table>
             <div id="montototalcobrado">
                 <h4 style="color:rgb(55, 22, 202); font-weight: bold;">
-                    Contador:
+                    Totales:
                     <h4 />
                     <h4
                         style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">

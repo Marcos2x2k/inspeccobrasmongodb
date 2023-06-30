@@ -256,8 +256,7 @@ router.get('/intimaciones/add/:id', isAuthenticated, async (req, res) => {
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');
-    }
-    
+    }    
 })
 
 router.get('/infracciones/add', isAuthenticated, async (req, res) => {
@@ -771,7 +770,79 @@ router.get('/multas/imprimirestadisticas', isAuthenticated, async (req, res) => 
     }
 })
 
+router.get('/descargarestadisticamesaentrada', isAuthenticated, async (req, res) => {
+    const ubicacionPlantilla = require.resolve("../views/notes/mesaentrada/mesaentradaestadisticaimprimir.hbs")
+    //const puerto = "172.25.2.215";
+    var fstemp = require('fs');
+    let tabla = "";
+    var contador=0;
+    var filtro = "";
+    var tipofiltro = "";
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    const tablamesaentrada = await Mesaentrada.find().lean().sort({ date: 'desc' });
+    //<td>${multas.fecha}</td> este etaba en tablamultas
+    const { nomyape, adrema, sector, desde, hasta } = req.body;
+    if (nomyape) {
+        tablamesaentrada = await Mesaentrada.find({ propietario: { $regex: propietarioo, $options: "i" } }).lean();
+        filtro = nomyape;
+        tipofiltro = "por Nombre y Apellido/DNI"
+        //console.log("Multas Estadistica", multas)
+        for (let i = 0; i < tablamesaentrada.length; i++) {
+            contador += 1
+        }
+    } else if (adrema) {
+        tablamesaentrada = await Mesaentrada.find({ adrema: { $regex: adremao, $options: "i" } }).lean();
+        filtro = adrema;
+        tipofiltro = "por Adrema"
+        for (let i = 0; i < tablamesaentrada.length; i++) {
+            contador += 1
+        }
+    } else if (sector) {
+        tablamesaentrada = await Mesaentrada.find({ numacta: { $regex: numactao, $options: "i" } }).lean();
+        filtro = sector;
+        tipofiltro = "por Número Acta"
+        for (let i = 0; i < tablamesaentrada.length; i++) {
+            contador += 1
+        }
+    } else if (desde && hasta) {
+        filtro = desde + "-" + hasta;
+        tipofiltro = "Fecha Desde y Fecha Hasta"
+        var d = new Date(hasta);
+        const hasta = d.setDate(d.getDate() + 1);
+        tablamesaentrada = await Mesaentrada.find({ date: { $gte: desdeo, $lte: hastao } }).lean();
+        //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+        //.find({ desde: { $regex: date, $options: "i" } }).lean();            
+        for (let i = 0; i < tablamesaentrada.length; i++) {
+            contador += 1
+        }
+    }
 
+    for (const mesaentrada of tablamesaentrada) {
+        // Y concatenar las multas 
+        contador += 1
+        tabla += `<tr>    
+    <td>${mesaentrada.sector}</td>
+    <td>${mesaentrada.nomyape}</td>
+    <td>${mesaentrada.dni}</td>
+    <td>${mesaentrada.contacto}</td>
+    <td>${mesaentrada.fechaingreso}</td>
+    <td>${mesaentrada.horaingreso}</td>
+    </tr>`;
+    }
+    contenidoHtml = contenidoHtml.replace("{{tablamesaentrada}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
+
+    //contenidoHtml = contenidoHtml.replace("{{multas}}");    
+    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
+        if (error) {
+            res.end("Error creando PDF: " + error)
+        } else {
+            req.flash('success_msg', 'Mesa Entrada Estadistica impresa')
+            res.setHeader("Content-Type", "application/pdf");
+            stream.pipe(res);
+        }
+    });
+})
 
 router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -781,13 +852,13 @@ router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         for (let i = 0; i < multas.length; i++) {
-            contador = contador + 1
+            montofinal = montofinal + parseInt(multas[i].montototal)
         }
         res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         for (let i = 0; i < multas.length; i++) {
-            contador = contador + 1
+            montofinal = montofinal + parseInt(multas[i].montototal)
         }
         res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
     } else {
@@ -824,19 +895,19 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (let i = 0; i < multas.length; i++) {
-                contador = contador + 1
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         } else if (adrema) {
             const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < multas.length; i++) {
-                contador = contador + 1
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         } else if (numacta) {
             const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < multas.length; i++) {
-                contador = contador + 1
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         } else if (desde && hasta) {
@@ -849,7 +920,7 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
             for (let i = 0; i < multas.length; i++) {
-                contador = contador + 1
+                montofinal = montofinal + parseInt(multas[i].montototal)
             }
             res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         }
@@ -878,7 +949,8 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
         if (nomyape) {
-            const mesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ date: 'desc' });
+            const dni = nomyape
+            const mesaentrada = await Mesaentrada.find( {$or:[ { nomyape: { $regex: nomyape, $options: "i" }},{ dni: { $regex: dni, $options: "i" }}]}).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (let i = 0; i < mesaentrada.length; i++) {
                 contador = contador + 1
@@ -905,7 +977,7 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
             const mesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
-            for (let i = 0; i < multas.length; i++) {
+            for (let i = 0; i < mesaentrada.length; i++) {
                 contador = contador + 1
             }
             res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
