@@ -787,34 +787,38 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
         filtro = "Nombre y Apellido";
         tipofiltro = "por Nombre y Apellido/DNI"
         //console.log("Multas Estadistica", multas)
-        for (let i = 1; i < tablamesaentrada.length; i++) {
-            contador = i
-        }
+        contador = 0
+        // for (let i = 0; i < tablamesaentrada.length; i++) {
+        //     contador = i
+        // }
     } else if (adrema) {
         tablamesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean();
         filtro = "adrema";
         tipofiltro = "por Adrema"
-        for (let i = 1; i < tablamesaentrada.length; i++) {
-            contador = i
-        }
+        contador = 0
+        // for (let i = 0; i < tablamesaentrada.length; i++) {
+        //     contador = i
+        // }
     } else if (sector) {
         tablamesaentrada = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean();
         filtro = "Sector";
         tipofiltro = "por Número Acta"
-        for (let i = 1; i < tablamesaentrada.length; i++) {
-            contador = i
-        }
+        contador = 0
+        // for (let i = 0; i < tablamesaentrada.length; i++) {
+        //     contador += 1
+        // }
     } else if (desde && hasta) {
         filtro = "desde + "-" + hasta";
         tipofiltro = "Fecha Desde y Fecha Hasta"
+        contador = 0
         var d = new Date(hasta);
         const hastao = d.setDate(d.getDate() + 1);
         tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean();
         //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
         //.find({ desde: { $regex: date, $options: "i" } }).lean();            
-        for (let i = 1; i < tablamesaentrada.length; i++) {
-            contador = i
-        }
+        // for (let i = 0; i < tablamesaentrada.length; i++) {
+        //     contador += 1
+        // }
     }
     //contador =  contador - 1;
     for (const mesaentrada of tablamesaentrada) {
