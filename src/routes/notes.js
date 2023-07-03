@@ -770,7 +770,7 @@ router.get('/multas/imprimirestadisticas', isAuthenticated, async (req, res) => 
     }
 })
 
-router.get('/descargarestadisticamesaentrada', isAuthenticated, async (req, res) => {
+router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/mesaentrada/mesaentradaestadisticaimprimir.hbs")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
@@ -779,44 +779,44 @@ router.get('/descargarestadisticamesaentrada', isAuthenticated, async (req, res)
     var filtro = "";
     var tipofiltro = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamesaentrada = await Mesaentrada.find().lean().sort({ date: 'desc' });
+    var tablamesaentrada = "" //await Mesaentrada.find().lean().sort({ date: 'desc' });
     //<td>${multas.fecha}</td> este etaba en tablamultas
     const { nomyape, adrema, sector, desde, hasta } = req.body;
     if (nomyape) {
-        tablamesaentrada = await Mesaentrada.find({ propietario: { $regex: propietarioo, $options: "i" } }).lean();
-        filtro = nomyape;
+        tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
+        filtro = "Nombre y Apellido";
         tipofiltro = "por Nombre y Apellido/DNI"
         //console.log("Multas Estadistica", multas)
-        for (let i = 0; i < tablamesaentrada.length; i++) {
-            contador += 1
+        for (let i = 1; i < tablamesaentrada.length; i++) {
+            contador = i
         }
     } else if (adrema) {
-        tablamesaentrada = await Mesaentrada.find({ adrema: { $regex: adremao, $options: "i" } }).lean();
-        filtro = adrema;
+        tablamesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean();
+        filtro = "adrema";
         tipofiltro = "por Adrema"
-        for (let i = 0; i < tablamesaentrada.length; i++) {
-            contador += 1
+        for (let i = 1; i < tablamesaentrada.length; i++) {
+            contador = i
         }
     } else if (sector) {
-        tablamesaentrada = await Mesaentrada.find({ numacta: { $regex: numactao, $options: "i" } }).lean();
-        filtro = sector;
+        tablamesaentrada = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean();
+        filtro = "Sector";
         tipofiltro = "por Número Acta"
-        for (let i = 0; i < tablamesaentrada.length; i++) {
-            contador += 1
+        for (let i = 1; i < tablamesaentrada.length; i++) {
+            contador = i
         }
     } else if (desde && hasta) {
-        filtro = desde + "-" + hasta;
+        filtro = "desde + "-" + hasta";
         tipofiltro = "Fecha Desde y Fecha Hasta"
         var d = new Date(hasta);
-        const hasta = d.setDate(d.getDate() + 1);
-        tablamesaentrada = await Mesaentrada.find({ date: { $gte: desdeo, $lte: hastao } }).lean();
+        const hastao = d.setDate(d.getDate() + 1);
+        tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean();
         //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
         //.find({ desde: { $regex: date, $options: "i" } }).lean();            
-        for (let i = 0; i < tablamesaentrada.length; i++) {
-            contador += 1
+        for (let i = 1; i < tablamesaentrada.length; i++) {
+            contador = i
         }
     }
-
+    //contador =  contador - 1;
     for (const mesaentrada of tablamesaentrada) {
         // Y concatenar las multas 
         contador += 1
@@ -831,6 +831,8 @@ router.get('/descargarestadisticamesaentrada', isAuthenticated, async (req, res)
     }
     contenidoHtml = contenidoHtml.replace("{{tablamesaentrada}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
+    contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
+    contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);
 
     //contenidoHtml = contenidoHtml.replace("{{multas}}");    
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
@@ -1077,10 +1079,10 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
     if (rolusuario == "Liquidaciones") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }] }).lean().sort({ date: 'desc' });
-        res.render('notes/allmultasadmimp', { multas });
+        res.render('notes/liquidaciones/allmultasadmimp', { multas });
     } else if (rolusuario == "Administrador") {
         const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }] }).lean().sort({ date: 'desc' });
-        res.render('notes/allmultasadmimp', { multas });
+        res.render('notes/liquidaciones/allmultasadmimp', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
