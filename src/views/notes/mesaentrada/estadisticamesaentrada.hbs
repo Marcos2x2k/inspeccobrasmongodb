@@ -220,17 +220,17 @@
         }
     }
 
-        function selectfiltro() {
+    function selectfiltro() {
         const selecfiltro = document.getElementById('formfiltro');
         const fde = document.getElementById("formdatoestadistico")
-        const fdei = document.getElementById("formdatoestadisticoo")                
-        
+        const fdei = document.getElementById("formdatoestadisticoo")
+
         if (selecfiltro.selectedIndex == 0) {
             fde.style.display = "block";
-            fdei.style.display = "none"; 
+            fdei.style.display = "none";
         } else if (selecfiltro.selectedIndex == 1) {
-             fde.style.display = "none";
-            fdei.style.display = "block"; 
+            fde.style.display = "none";
+            fdei.style.display = "block";
         }
     }
     function recargar() {
@@ -252,13 +252,14 @@
             <h5>Mesa de Entrada - ESTADISTICAS (Liquidador/Administrador)</h5>
         </div>
         <label style="font-weight: bold; color:rgb(252, 93, 2)" for="formfiltro"></label>
-            <select style="text-align:center;background-color: #112fda;" name="formfiltro" id="formfiltro" onclick="selectfiltro()">
-                <option value=0> Busqueda filtro </option>
-                <option value=1> Imprimir/Descargar Busqueda filtro </option>
-                {{!-- <option value=2>Imprimir/Descargar Busqueda filtro</option>                 --}}
-            </select>
-            <p></p>
-        <form action="/mesaentrada/sacarestadistica" method="POST" Target="_blank" id="formdatoestadistico">
+        <select style="text-align:center;background-color: #112fda;" name="formfiltro" id="formfiltro"
+            onclick="selectfiltro()">
+            <option value=0> Busqueda filtro </option>
+            <option value=1> Imprimir/Descargar Busqueda filtro </option>
+            {{!-- <option value=2>Imprimir/Descargar Busqueda filtro</option> --}}
+        </select>
+        <p></p>
+        <form action="/mesaentrada/sacarestadistica" method="POST" id="formdatoestadistico">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadistico">Selección:</label>
             <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()">
                 <option value=0>Elija Filtro de Estadistica</option>
@@ -269,7 +270,7 @@
             </select>
             <br />
             <input class="pl-3" type="text" id="nomyape" name="nomyape" placeholder="Propietario/DNI..." disabled />
-            <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Adrema..." disabled />
+            <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Expediente/Adrema..." disabled />
             <input class="pl-3" type="text" id="sector" name="sector" placeholder="Sector..." disabled />
             <input class="pl-3" type="text" size="14" id="desde" name="desde" placeholder="Desde..." disabled />
             <input class="pl-3" type="text" size="14" id="hasta" name="hasta" placeholder="Hasta..." disabled />
@@ -280,7 +281,8 @@
                 </button>
             </div>
         </form>
-        <form style="display:none" action="/mesaentrada/descargarestadisticamesa" method="POST" Target="_blank" id="formdatoestadisticoo">
+        <form style="display:none" action="/mesaentrada/descargarestadisticamesa" method="POST" Target="_blank"
+            id="formdatoestadisticoo">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadisticoo">Selección:</label>
             <select name="datoestadisticoo" id="datoestadisticoo" onclick="selecdatoestadisticoo()">
                 <option value=0>Elija Filtro de Estadistica</option>
@@ -291,13 +293,14 @@
             </select>
             <br />
             <input class="pl-3" type="text" id="nomyapeo" name="nomyape" placeholder="Propietario/DNI..." disabled />
-            <input class="pl-3" type="text" id="adremao" name="adrema" placeholder="Adrema..." disabled />
+            <input class="pl-3" type="text" id="adremao" name="adrema" placeholder="Expediente/Adrema..." disabled />
             <input class="pl-3" type="text" id="sectoro" name="sector" placeholder="Sector..." disabled />
             <input class="pl-3" type="text" size="14" id="desdeo" name="desde" placeholder="Desde..." disabled />
             <input class="pl-3" type="text" size="14" id="hastao" name="hasta" placeholder="Hasta..." disabled />
             <p></p>
-            
-            <button onclick="limpiarpagina()" id="imprimiresadisticao" class="btn btn-warning btn-block btn-sm" type="submit" disabled>
+
+            <button onclick="limpiarpagina()" id="imprimiresadisticao" class="btn btn-warning btn-block btn-sm"
+                type="submit" disabled>
                 Armar e Imprimir Estadistica...
             </button>
             <p></p>
@@ -360,7 +363,7 @@
                         <br /> <br />
                         <div class="card mx-auto">
                             <div class="card-body">
-                                <p class"lead" style="color:red; font-weight: bold;"> No existen Datos por Mostrar...
+                                <p class"lead" style="color:red; font-weight: bold;"> No se Encontraron Datos...
                                 </p>
                             </div>
                         </div>
@@ -371,14 +374,16 @@
                 <div id="msg"></div>
             </table>
             <div id="montototalcobrado">
-                <h4 style="color:rgb(55, 22, 202); font-weight: bold;">
+                <h4 style="text-align: center;color:rgb(55, 22, 202); font-weight: bold;">
                     Totales:
                     <h4 />
                     <h4
-                        style="background-color: #737480; border-radius: 1px; border-color: #000000; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
-                        $ {{contador}}
+                        style="text-align: center; background-color: #b1b2b9; border-radius: 12px; border-color: grey; border-style: solid; color: #ff0000; font-size: 26px; font-weight: bold;">
+                        {{contador}}
                         <h4 />
             </div>
         </div>
+
     </div>
+
 </div>

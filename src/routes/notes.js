@@ -177,21 +177,21 @@ router.get('/multas/addtasas', isAuthenticated, (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
     }
-    
+
 })
 
 router.get('/tickets/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        const usuarios = await Users.find().lean().sort({ date: 'desc' });        
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
         res.render('notes/newtickets');
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
     }
-    
+
 })
 
 router.get('/expedientes/add', isAuthenticated, async (req, res) => {
@@ -256,7 +256,7 @@ router.get('/intimaciones/add/:id', isAuthenticated, async (req, res) => {
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');
-    }    
+    }
 })
 
 router.get('/infracciones/add', isAuthenticated, async (req, res) => {
@@ -775,7 +775,7 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
-    var contador=0;
+    var contador = 0;
     var filtro = "";
     var tipofiltro = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
@@ -783,34 +783,37 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
     //<td>${multas.fecha}</td> este etaba en tablamultas
     const { nomyape, adrema, sector, desde, hasta } = req.body;
     if (nomyape) {
-        tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
-        filtro = "Nombre y Apellido";
+        const dni = nomyape
+        tablamesaentrada = await Mesaentrada.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: { $regex: dni, $options: "i" } }] }).lean().sort({ date: 'desc' });
+        //tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
+        filtro = nomyape;
         tipofiltro = "por Nombre y Apellido/DNI"
         //console.log("Multas Estadistica", multas)
-        contador = 0
+        //contador = 0
         // for (let i = 0; i < tablamesaentrada.length; i++) {
         //     contador = i
         // }
     } else if (adrema) {
-        tablamesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean();
-        filtro = "adrema";
+        const numexpediente = adrema;
+        tablamesaentrada = await Mesaentrada.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+        filtro = adrema;
         tipofiltro = "por Adrema"
-        contador = 0
+        //contador = 0
         // for (let i = 0; i < tablamesaentrada.length; i++) {
         //     contador = i
         // }
     } else if (sector) {
         tablamesaentrada = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean();
-        filtro = "Sector";
-        tipofiltro = "por Número Acta"
-        contador = 0
+        filtro = sector;
+        tipofiltro = "por Sector interviniente"
+        ///contador = 0
         // for (let i = 0; i < tablamesaentrada.length; i++) {
         //     contador += 1
         // }
     } else if (desde && hasta) {
-        filtro = "desde + "-" + hasta";
+        filtro = "por Fecha" + desde + "/" + hasta;
         tipofiltro = "Fecha Desde y Fecha Hasta"
-        contador = 0
+        //contador = 0
         var d = new Date(hasta);
         const hastao = d.setDate(d.getDate() + 1);
         tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean();
@@ -820,7 +823,7 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
         //     contador += 1
         // }
     }
-    //contador =  contador - 1;
+
     for (const mesaentrada of tablamesaentrada) {
         // Y concatenar las multas 
         contador += 1
@@ -848,6 +851,7 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
             stream.pipe(res);
         }
     });
+
 })
 
 router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
@@ -877,12 +881,12 @@ router.get('/mesaentrada/Estadisticas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     var contador = 0;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Mesa-Entrada" || rolusuario == "Administrador") {        
+    if (rolusuario == "Mesa-Entrada" || rolusuario == "Administrador") {
         const mesaentrada = await Mesaentrada.find().lean().sort({ date: 'desc' });
         for (let i = 0; i < mesaentrada.length; i++) {
             contador = contador + 1
         }
-        res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });    
+        res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -948,22 +952,29 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
 });
 
 router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;    
+    const rolusuario = req.user.rolusuario;
     const { nomyape, adrema, sector, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Mesa-Entrada") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        var contador = 0;
+        var contador = 0;        
         if (nomyape) {
-            const dni = nomyape
-            const mesaentrada = await Mesaentrada.find( {$or:[ { nomyape: { $regex: nomyape, $options: "i" }},{ dni: { $regex: dni, $options: "i" }}]}).lean().sort({ date: 'desc' });
+            var dni = "";
+            if (typeof nomyape == 'number') {
+                dni = parseInt(nomyape)
+            } else {
+                dni = ""
+            }
+            const mesaentrada = await Mesaentrada.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: dni }] }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (let i = 0; i < mesaentrada.length; i++) {
                 contador = contador + 1
             }
             res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
         } else if (adrema) {
-            const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
+            var numexpediente = adrema;
+            const mesaentrada = await Mesaentrada.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+            //const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < mesaentrada.length; i++) {
                 contador = contador + 1
             }
@@ -979,7 +990,6 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
             //console.log("HASTA", hasta)
             var d = new Date(hasta);
             const hastad = d.setDate(d.getDate() + 1);
-
             const mesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
