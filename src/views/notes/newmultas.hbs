@@ -89,13 +89,13 @@
     }
     function clickselectreiteracion() {
         var selreiteracion = document.getElementById("selectreiteracion")
-        var reiteracion = document.getElementById("reiteracion")
+        var reiteracionm = document.getElementById("reiteracionmarca")
         if (selreiteracion.selectedIndex == 0) {
-            reiteracion.disabled = true;
-            reiteracion.value = ""
+            reiteracionm.disabled = true;
+            reiteracionm.value = ""
         } else if (selreiteracion.selectedIndex == 1 || selreiteracion.selectedIndex == 2 || selreiteracion.selectedIndex == 3 || selreiteracion.selectedIndex == 4 || selreiteracion.selectedIndex == 5) {
-            reiteracion.disabled = true;
-            reiteracion.value = "Reiteración Agregada!";        
+            reiteracionm.disabled = true;
+            reiteracionm.value = "Reiteración Agregada!";        
         }
     }
     function seleccionarinciso() {
@@ -853,7 +853,7 @@
                                 <option value="+4° Reiteración">5°/más</option>                                
                             </select>
                             <br/>
-                            <input type="text" style="color: green; width:200px" name="reiteracion" id="reiteracion"/>                                                           
+                            <input type="text" style="color: green; width:200px" name="reiteracionmarca" id="reiteracion"/>                                                           
                         </div>
                         <div class="row my-2">
                             <div class="col-md-1">

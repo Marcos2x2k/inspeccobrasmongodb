@@ -921,11 +921,12 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             }
             res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
         } else if (desde && hasta) {
-            //console.log("DESDE", desde)
-            //console.log("HASTA", hasta)
+            console.log("DESDE", desde)
+            console.log("HASTA", hasta)
             var d = new Date(hasta);
-            const hastad = d.setDate(d.getDate() + 1);
-
+            const hastad = d.setDate(d.getDate() + 1);            
+            console.log("HASTAD", hastad)
+            console.log("D", d)
             const multas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
@@ -986,10 +987,12 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
             }
             res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
         } else if (desde && hasta) {
-            //console.log("DESDE", desde)
-            //console.log("HASTA", hasta)
-            var d = new Date(hasta);
-            const hastad = d.setDate(d.getDate() + 1);
+            console.log("DESDE", desde)
+            console.log("HASTA", hasta)
+            var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+            const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
+            console.log("HASTAD", hastad)
+            console.log("D", d)
             const mesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
