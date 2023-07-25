@@ -1339,6 +1339,7 @@ router.get('/multas/add/:id', isAuthenticated, async (req, res) => {
     const multas = await Multas.findById(req.params.id).lean()
     res.render('notes/newmultas', { multas, tasaactual })
 });
+
 router.get('/multasprofesional/add/:id', isAuthenticated, async (req, res) => {
     const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
     const multas = await Multas.findById(req.params.id).lean()
