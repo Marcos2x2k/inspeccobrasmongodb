@@ -2,12 +2,17 @@
     <br /><br />    
     <div class="form-group btn-center mx-auto">
         <form action="/mesaentrada/findsector" method="POST">
-            <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus />
+            {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus /> --}}
+            <select name="sector">
+                            <option>Sub Secretaría</option>
+                            <option>Obras Particulares</option>
+                            <option>Visado</option>
+            </select>
+            <p></p>
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Sector Involucrado
                 </button>
-
             </div>
         </form>
     </div>
