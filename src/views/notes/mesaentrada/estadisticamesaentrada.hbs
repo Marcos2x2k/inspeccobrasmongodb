@@ -271,7 +271,13 @@
             <br />
             <input class="pl-3" type="text" id="nomyape" name="nomyape" placeholder="Propietario/DNI..." disabled />
             <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Expediente/Adrema..." disabled />
-            <input class="pl-3" type="text" id="sector" name="sector" placeholder="Sector..." disabled />
+            {{!-- <input class="pl-3" type="text" id="sector" name="sector" placeholder="Sector..." disabled /> --}}
+            <select name="sector" id="sector" disabled>
+                <option value=0>Elija Sector</option>
+                <option>Sub Secretaría</option>
+                <option>Obras Particulares</option>
+                <option>Visado</option>
+            </select>
             <input class="pl-3" type="text" size="14" id="desde" name="desde" placeholder="Desde..." disabled />
             <input class="pl-3" type="text" size="14" id="hasta" name="hasta" placeholder="Hasta..." disabled />
             <p></p>
@@ -294,7 +300,13 @@
             <br />
             <input class="pl-3" type="text" id="nomyapeo" name="nomyape" placeholder="Propietario/DNI..." disabled />
             <input class="pl-3" type="text" id="adremao" name="adrema" placeholder="Expediente/Adrema..." disabled />
-            <input class="pl-3" type="text" id="sectoro" name="sector" placeholder="Sector..." disabled />
+            {{!-- <input class="pl-3" type="text" id="sectoro" name="sector" placeholder="Sector..." disabled /> --}}            
+            <select name="sector" id="sectoro" disabled>
+                <option>Elija Sector</option>
+                <option>Sub Secretaría</option>
+                <option>Obras Particulares</option>
+                <option>Visado</option>
+            </select>
             <input class="pl-3" type="text" size="14" id="desdeo" name="desde" placeholder="Desde..." disabled />
             <input class="pl-3" type="text" size="14" id="hastao" name="hasta" placeholder="Hasta..." disabled />
             <p></p>
