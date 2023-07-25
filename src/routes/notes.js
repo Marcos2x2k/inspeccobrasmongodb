@@ -2222,7 +2222,7 @@ router.put('/notes/editestadistica/:id', isAuthenticated, async (req, res) => {
 router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
     await Mesaentrada.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Turno Eliminado')
-    res.redirect('/mesaentrada')
+    res.redirect('/mesaentrada/listado')
 });
 
 router.delete('/tasas/delete/:id', isAuthenticated, async (req, res) => {
@@ -2343,7 +2343,6 @@ router.post('/notes/newestadisticas', isAuthenticated, async (req, res) => {
     // newEstadistica.originalname = req.file.originalname;
     // newEstadistica.mimetype = req.file.mimetype;
     // newEstadistica.size = req.file.size;
-
     // console.log(req.files[2].filename) 
     await newEstadistica.save();
     req.flash('success_msg', 'Estadistica Creada Exitosamente');

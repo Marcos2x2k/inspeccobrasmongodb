@@ -56,7 +56,32 @@
             //tipohora.value = "--:--"
             eyehora.class = "btn btn-secondary"
         }
-    }    
+    }
+
+    function ShowName() {
+        var writtenName = document.getElementById('nomyape').value;
+        document.getElementById('nomyape').value = formatToString(writtenName);
+    }
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }
+
+    function ponerminuscula() {
+        let ex = document.getElementById("contacto");
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
 </script>
 
 <div class="col-md-8 mx-auto">
@@ -115,20 +140,20 @@
                 </div>
                 <div class="form-group">
                     Nombre y Apellido:
-                    <input style="font-weight: bold; color:green" minlength="10" maxlength="40"
-                        value="{{mesaentrada.nomyape}}" type="text" name="nomyape" class="form-control"
+                    <input onkeyup="ShowName();" style="font-weight: bold; color:green" minlength="10" maxlength="40"
+                        value="{{mesaentrada.nomyape}}" type="text" name="nomyape" id="nomyape" class="form-control"
                         placeholder="Nombre y Apellido" required autofocus>
                 </div>
                 <div class="form-group">
                     Documento Nacional Identidad:
-                    <input maxlength="9" style="font-weight: bold; color:green"
-                        value="{{mesaentrada.dni}}" name="dni" class="form-control" type="text"
-                        placeholder="Colocar DNI sin puntos" required autofocus></input>
+                    <input maxlength="9" style="font-weight: bold; color:green" value="{{mesaentrada.dni}}" name="dni"
+                        class="form-control" type="text" placeholder="Colocar DNI sin puntos" required
+                        autofocus></input>
                 </div>
                 <div class="form-group">
                     contacto E-mail/Celular:
-                    <input style="font-weight: bold; color:green" minlength="0" maxlength="30"
-                        value="{{mesaentrada.contacto}}" name="contacto" class="form-control"
+                    <input onkeyup="ponerminuscula()" style="font-weight: bold; color:green" minlength="0" maxlength="30"
+                        value="{{mesaentrada.contacto}}" name="contacto" id="contacto" class="form-control"
                         placeholder="E-mail/Celular"></input>
                 </div>
                 <div class="form-group">

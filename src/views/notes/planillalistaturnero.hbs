@@ -4,16 +4,15 @@
     <form action="/mesaentrada/findlistasector" method="POST">
       {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus /> --}}
       <select name="sector">
-                            <option>Sub Secretaría</option>
-                            <option>Obras Particulares</option>
-                            <option>Visado</option>
-                        </select>
+        <option>Sub Secretaría</option>
+        <option>Obras Particulares</option>
+        <option>Visado</option>
+      </select>
       <div class="form-group">
         <p></p>
         <button class="btn btn-warning btn-block btn-sm" type="submit">
           Buscar Sector Involucrado
         </button>
-
       </div>
     </form>
   </div>
@@ -24,7 +23,6 @@
         <button class="btn btn-warning btn-block btn-sm" type="submit">
           Buscar Iniciador
         </button>
-
       </div>
     </form>
   </div>
@@ -35,7 +33,6 @@
         <button class="btn btn-warning btn-block btn-sm" type="submit">
           Buscar DNI
         </button>
-
       </div>
     </form>
   </div>
@@ -81,7 +78,6 @@
             <td>Hora/Ingreso</td>
             <td>Opciones</td>
             <td>Suplementario</td>
-
           </tr>
         </thead>
         <tbody>
@@ -103,7 +99,8 @@
             <td>
 
               <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}" style="color:rgb(165, 196, 28)">Editar</a>
-              <form onSubmit="return confirm('Desea Borrar?')" style="" action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
+              <form onSubmit="return confirm('Desea Borrar?')" style=""
+                action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar
