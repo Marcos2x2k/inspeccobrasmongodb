@@ -14,6 +14,7 @@ const Cicloinspeccion = require('../models/cicloinspeccion')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 const Users = require('../models/User')
+const expedinspeccion = require('../models/expedinspeccion')
 
 const fs = require('fs').promises
 
@@ -207,6 +208,20 @@ router.get('/expedientes/add', isAuthenticated, async (req, res) => {
     }
 })
 
+router.get('/informeinspeccion/add/:id', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const notes = await Note.findById(req.params.id).lean();
+    const expedientes = await Expediente.findById(req.params.id).lean();
+    //const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        res.render('notes/newinformeinspeccion', { notes, expedientes });;
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+})
+
 router.get('/notes/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -223,15 +238,18 @@ router.get('/notes/add', isAuthenticated, async (req, res) => {
 router.get('/notes/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const notes = await Note.findById(req.params.id).lean();
+    const expedientes = await Expediente.findById(req.params.id).lean();
     //const usuarios = await Users.find().lean().sort({ date: 'desc' });
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        res.render('notes/inspecciones/newnotes', { notes });
+        res.render('notes/inspecciones/newnotes', { notes, expedientes });
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INSPECCIONES')
         return res.redirect('/');
     }
 })
+
+
 
 router.get('/intimaciones/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;

@@ -2,50 +2,25 @@
     <div class="card">
         <div class="car-header mx-auto">
             <br />
-            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nueva Inspección</h3>
+            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Insforme Inspección</h3>
         </div>
         <div class="card-body">
             <p style="color:red">(*) Obligatorio</p>
-            <form action="/notes/newnotes" method="POST" enctype="multipart/form-data">
+            <form action="/informeinspeccion/newinformeinspeccion" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <p>Origen de Inspección:
-                        <select name="origeninspeccion">
-                            <option>--Sin Selección --</option>
-                            <option>Correo Electrónico</option>
-                            <option>Nota</option>
-                            <option>Administración</option>
-                            <option>Denuncia 0800</option>
-                            <option>Dir.Gral.Recup. y Fizc.Espac.Público</option>
-                            <option>dirección Auditoria y fiscalización</option>
-                        </select>
-                    </p>
+                    ID Expediente:
+                    <input value="{{expedientes._id}}" style="font-weight: bold; color:green" value="{{expedientes.numexpediente}}" type="text"
+                        name="numexpediente" class="form-control" placeholder="No Posee" disabled>
                 </div>
                 <div class="form-group">
-                    (*) Nº Inspeccion:
-                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num. Inspección" required
-                        autofocus>
-                </div>
-                <div class="form-group">
-                    (*) Fecha(Actual):
-                    <input name="date" class="form-control" placeholder="dd/mm/aaaa" type="date"></input>
-                </div>
-                <div class="form-group">
-                    Expediente:
-                    <input style="font-weight: bold; color:green" value="{{expedientes.numexpediente}}" type="text"
-                        name="expediente" class="form-control" placeholder="No Posee" autofocus>
-                </div>
-                <div class="form-group">
-                    oficio:
-                    <input type="text" name="oficio" class="form-control" placeholder="No Posee" autofocus>
-                </div>
-                <div class="form-group">
-                    acta:
-                    <input type="text" name="acta" class="form-control" placeholder="No Posee" autofocus>
-                </div>
+                    N° Expediente:
+                    <input value="{{expedientes.numexpediente}}" style="font-weight: bold; color:green" value="{{expedientes.numexpediente}}" type="text"
+                        name="numexpediente" class="form-control" placeholder="No Posee" disabled>
+                </div>                
                 <div class="form-group">
                     Adrema:
                     <input style="font-weight: bold; color:green" value="{{expedientes.adremaexp}}" 
-                    name="adrema" class="form-control" placeholder="Adrema"></input>
+                    name="adrema" class="form-control" placeholder="Adrema" disabled></input>
                 </div>
                 <div class="form-group">
                     (*) Inspector/Usuario:
@@ -56,15 +31,46 @@
                     Informe de Inspección número:
                     <input name="informeinspnum" class="form-control" placeholder="Informe Número"></input>
                 </div>
-                {{!-- <div class="form-group">
-                    Número de Expediente:
-                    <input name="numexp" class="form-control" placeholder="Nº de Expediente"></input>
-                </div> --}}
+                                <div class="form-group">
+                    <p>Inspección:
+                        <select name="inspeccion">
+                            <option value="x">No</option>
+                            <option>Si</option>                            
+                        </select>
+                    </p>
+                </div>
+                <div class="form-group">
+                    (*) Nº Inspeccion:
+                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num. Inspección" required
+                        disabled>
+                </div>
+                <div class="form-group">
+                    <p>Intimación:
+                        <select name="inspeccion">
+                            <option value="x">No</option>
+                            <option>Si</option>                            
+                        </select>
+                    </p>
+                </div>
+                <div class="form-group">
+                    (*) Nº Intimación:
+                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num. Inspección" required
+                        disabled>
+                </div>
                 <div class="form-group">
                     (*) Fecha Entrada a Inspección
                     <input name="fechaentradinspec" class="form-control" placeholder="fecha Entrada Inspección"
                         type="date" required autofocus></input>
                 </div>
+                <div class="form-group">
+                    (*) Fecha entrada a Inspección e Inspector:
+                    <input name="fechaeinspectorinspeccion" id="fechaeinspectorinspeccion" class="form-control" placeholder="Fecha entrada y nombre inspector" type="text"></input>
+                </div>
+                {{!-- <div class="form-group">
+                    Número de Expediente:
+                    <input name="numexp" class="form-control" placeholder="Nº de Expediente"></input>
+                </div> --}}
+                
                 {{!-- <div class="form-group">
                     Fecha de Inspección:
                     <input name="inspecfecha" class="form-control" placeholder="fecha de Inspección"
