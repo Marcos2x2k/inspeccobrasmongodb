@@ -397,7 +397,7 @@ router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
     newMesaentrada.name = req.user.name;
     await newMesaentrada.save();
     req.flash('success_msg', 'Turno Agregado Exitosamente');
-    res.redirect('/mesaentrada');
+    res.redirect('/mesaentrada/listado');
 })
 
 router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
@@ -437,6 +437,24 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         res.redirect('/expedientes');
     }
 })
+
+router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (req, res) => {
+    //console.log(req.body)
+    const { idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion,darcumplimientoa, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date
+    } = req.body;    
+    
+    const newInformeinspeccion = new expedinspeccion({
+        idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion,darcumplimientoa, numinfraccion ,causas,paralizacion, causasparalizacion, informe, destinopase,fechasalida,user, name, date
+        })
+        newInformeinspeccion.user = req.user.id;
+        newInformeinspeccion.name = req.user.name;
+        await newInformeinspeccion.save();
+        req.flash('success_msg', 'Informe de Inspección Agregado Exitosamente');
+        res.redirect('/expedientes');
+    }
+)
 
 router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
     const newNote = new Note();

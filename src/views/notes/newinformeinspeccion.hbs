@@ -1,147 +1,175 @@
+<script>
+
+    function seleccionarintimacion() {
+        var seleccion = document.getElementById('selectintimacion');
+        var numintimacion = document.getElementById("numintimacion");
+        var darcumplimientoa = document.getElementById("darcumplimientoa");
+        if ((seleccion.selectedIndex == 0)) {
+            numintimacion.value = "x";
+            numintimacion.style.display = "none";
+            darcumplimientoa.style.display = "none";
+            numintimacion.required = false;
+        } else if ((seleccion.selectedIndex == 1)) {
+            //numintimacion.focus();
+            numintimacion.required = true;
+            numintimacion.value = "";
+            numintimacion.style.display = "block";
+            darcumplimientoa.style.display = "block";
+        }
+    }
+    function seleccionarinfraccion() {
+        var seleccioninf = document.getElementById('selectinfraccion');
+        var numinfraccion = document.getElementById("numinfraccion")
+        var causas = document.getElementById("causas");
+        var labelparaliz = document.getElementById("labelparaliz");
+        var selectparalizacion = document.getElementById("selectparalizacion");
+        if ((seleccioninf.selectedIndex == 0)) {
+            numinfraccion.required = false;
+            numinfraccion.value = "x";
+            numinfraccion.style.display = "none";
+            causas.style.display = "none";
+            labelparaliz.style.display = "none";
+            selectparalizacion.style.display = "none";
+            selectparalizacion.style.display = "none";
+        } else if ((seleccioninf.selectedIndex == 1)) {
+            numinfraccion.required = true;
+            //numinfraccion.focus();
+            numinfraccion.value = "";
+            numinfraccion.style.display = "block";
+            causas.style.display = "block";
+            selectparalizacion.style.display = "block";
+            labelparaliz.style.display = "block";            
+        }
+    }
+    function seleccionarparalizacion() {
+        var selectparalizacion = document.getElementById('selectparalizacion');        
+        var causasparalizacion = document.getElementById("causasparalizacion");        
+        if ((selectparalizacion.selectedIndex == 0)) {                        
+            causasparalizacion.style.display = "none";            
+        } else if ((selectparalizacion.selectedIndex == 1)) {                                            
+            causasparalizacion.style.display = "block";            
+        }
+    }
+
+</script>
+
+
 <div class="col-md-8 mx-auto">
     <div class="card">
         <div class="car-header mx-auto">
             <br />
-            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Insforme Inspección</h3>
+            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Informe Inspección</h3>
         </div>
         <div class="card-body">
             <p style="color:red">(*) Obligatorio</p>
             <form action="/informeinspeccion/newinformeinspeccion" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    ID Expediente:
-                    <input value="{{expedientes._id}}" style="font-weight: bold; color:green" value="{{expedientes.numexpediente}}" type="text"
-                        name="numexpediente" class="form-control" placeholder="No Posee" disabled>
+                    <p style="font-weight: bold;">ID Expediente:</p>
+                    <input value="{{expedientes._id}}" style="display:none; font-weight: bold; color:green" type="text"
+                        name="idexpediente" class="form-control" placeholder="No Posee"/>
+                    <label style="font-weight: bold; color:green" >{{expedientes._id}}</label>
+                    <br/>
                 </div>
                 <div class="form-group">
-                    N° Expediente:
-                    <input value="{{expedientes.numexpediente}}" style="font-weight: bold; color:green" value="{{expedientes.numexpediente}}" type="text"
-                        name="numexpediente" class="form-control" placeholder="No Posee" disabled>
-                </div>                
-                <div class="form-group">
-                    Adrema:
-                    <input style="font-weight: bold; color:green" value="{{expedientes.adremaexp}}" 
-                    name="adrema" class="form-control" placeholder="Adrema" disabled></input>
+                    <p style="font-weight: bold;">N° Expediente:</p>
+                    <input value="{{expedientes.numexpediente}}" style="display:none;font-weight: bold; color:green"
+                        type="text" name="numexpediente" class="form-control" placeholder="No Posee"/>
+                        <label style="font-weight: bold; color:green" >{{expedientes.numexpediente}}</label>
+                    <br/>
                 </div>
                 <div class="form-group">
-                    (*) Inspector/Usuario:
-                    <input name="inspuser" class="form-control" placeholder="Inspector/Usuario" required
-                        autofocus></input>
-                </div>
+                    <p style="font-weight: bold;">N° Adrema:</p>
+                    <input value="{{expedientes.adremaexp}}" style="display:none;font-weight: bold; color:green"
+                        name="numadrema" class="form-control" placeholder="Adrema"></input>
+                        <label style="font-weight: bold; color:green" >{{expedientes.adremaexp}}</label>
+                    <br/>
+                </div>   
                 <div class="form-group">
-                    Informe de Inspección número:
-                    <input name="informeinspnum" class="form-control" placeholder="Informe Número"></input>
-                </div>
-                                <div class="form-group">
-                    <p>Inspección:
-                        <select name="inspeccion">
-                            <option value="x">No</option>
-                            <option>Si</option>                            
-                        </select>
-                    </p>
-                </div>
-                <div class="form-group">
-                    (*) Nº Inspeccion:
-                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num. Inspección" required
-                        disabled>
-                </div>
-                <div class="form-group">
-                    <p>Intimación:
-                        <select name="inspeccion">
-                            <option value="x">No</option>
-                            <option>Si</option>                            
-                        </select>
-                    </p>
-                </div>
-                <div class="form-group">
-                    (*) Nº Intimación:
-                    <input type="text" name="numinspeccion" class="form-control" placeholder="Num. Inspección" required
-                        disabled>
-                </div>
-                <div class="form-group">
-                    (*) Fecha Entrada a Inspección
+                    <p style="font-weight: bold;">(*) Fecha Entrada a Inspección</p>
                     <input name="fechaentradinspec" class="form-control" placeholder="fecha Entrada Inspección"
-                        type="date" required autofocus></input>
+                        type="date" required></input>
                 </div>
                 <div class="form-group">
-                    (*) Fecha entrada a Inspección e Inspector:
-                    <input name="fechaeinspectorinspeccion" id="fechaeinspectorinspeccion" class="form-control" placeholder="Fecha entrada y nombre inspector" type="text"></input>
+                    <p style="font-weight: bold;">(*) Fecha entrada a Inspección / Inspector:</p>
+                    <input name="fechaeinspectorinspeccion" id="fechaeinspectorinspeccion" class="form-control"
+                        placeholder="Fecha entrada y nombre inspector" type="text"></input>
                 </div>
-                {{!-- <div class="form-group">
-                    Número de Expediente:
-                    <input name="numexp" class="form-control" placeholder="Nº de Expediente"></input>
-                </div> --}}
-                
-                {{!-- <div class="form-group">
-                    Fecha de Inspección:
-                    <input name="inspecfecha" class="form-control" placeholder="fecha de Inspección"
-                        type="date"></input>
-                </div> --}}
                 <div class="form-group">
-                    (*) Inspector (Apellido y Nombre)
-                    <input name="inspector" class="form-control" placeholder="Inspector"></input>
+                    <p style="font-weight: bold;">Intimación:</p>
+                    <select name="selectintimacion" id="selectintimacion" onclick="seleccionarintimacion()">
+                        <option value="x">No</option>
+                        <option>Si</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="form-group">
+                    {{!-- <p style="font-weight: bold;">(*) Nº Intimación:</p> --}}
+                    <input style="color: green; width:200px; display:none;" type="text" name="numintimacion"
+                        value="x"  id="numintimacion" class="form-control" placeholder="Num. Intimación:" />
+                </div>
+                <div class="form-group">
+                    {{!-- <p style="font-weight: bold;">Informe</p> --}}
+                    <textarea style="display:none;" name="darcumplimientoa" id="darcumplimientoa" class="form-control"
+                        placeholder="Dar Cumplimiento a:"></textarea>
+                </div>
+                <div class="form-group">
+                    <p style="font-weight: bold;">Infracción:</p>
+                    <select name="selectinfraccion" id="selectinfraccion" onclick="seleccionarinfraccion()">
+                        <option value="x">No</option>
+                        <option>Si</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="form-group">
+                    {{!-- <p style="font-weight: bold;">(*) Nº Infracción:</p> --}}
+                    <input style="color: green; width:200px; display:none;" type="text" id="numinfraccion"
+                        value="x" name="numinfraccion" class="form-control" placeholder="Num. Infracción" />
+                </div>
+                <div class="form-group">
+                    {{!-- <p style="font-weight: bold;">Informe</p> --}}
+                    <textarea style="display:none;" name="causas" id="causas" class="form-control"
+                        placeholder="Causas:"></textarea>
+                </div>
+                <div class="form-group">
+                    <p style="color:red;font-weight: bold;display:none;" id="labelparaliz">Paralización:</p>
+                    <select style="font-weight: bold;display:none;" name="paralizacion" id="selectparalizacion" onclick="seleccionarparalizacion()">
+                        <option value="No">No</option>
+                        <option value="Si">Si</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="form-group">
+                    {{!-- <p style="font-weight: bold;">Informe</p> --}}
+                    <textarea style="display:none;" name="causasparalizacion" id="causasparalizacion" class="form-control"
+                        placeholder="Causas Paralización:"></textarea>
+                </div>
+                <div class="form-group">
+                    <p style="font-weight: bold;">Informe</p>
+                    <input name="informe" id="informe" class="form-control" placeholder="Informe"></input>
                 </div>
 
                 <div class="form-group">
-                    Intimación Número:
-                    <input name="intimacion" class="form-control" placeholder="Intimación Número" disabled></input>
+                    <p style="font-weight: bold;">Destino / Pase:</p>
+                    <input name="destinopase" id="destinopase" class="form-control"
+                        placeholder="Destino / Pase"></input>
                 </div>
                 <div class="form-group">
-                    Infracción Número:
-                    <input name="infraccion" class="form-control" placeholder="Intimación Número" disabled></input>
+                    <p style="font-weight: bold;">Fecha Salida:</p>
+                    <input type="date" name="fechasalida" id="fechasalida" class="form-control"
+                        placeholder="Fecha Salida"></input>
                 </div>
                 <div class="form-group">
-                    (*) Observaciones:
-                    <textarea name="observacion" class="form-control" placeholder="Observaciones"></textarea>
-                </div>
-                {{!-- <div class="form-group">
-                    Pase a número de destino:
-                    <input name="paseanumdestino" class="form-control" placeholder="Pase a número de destino"></input>
-                </div> --}}
-                <div class="form-group">
-                    Pase a:
-                    <input name="pasea" class="form-control" placeholder="Pase a número de destino"></input>
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Grabar
+                    </button>
                 </div>
                 <div class="form-group">
-                    Fecha de Pase a:
-                    <input name="fechapasea" class="form-control" placeholder="Pase a número de destino"></input>
+                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i
+                                class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver-Cartas</p>
+                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes/listado"><i
+                                class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver-Listado</p>
                 </div>
-
-                <label style="font-weight:bold">Seleccione Fotos Inspección: (Máximo 8):</label>
-                <div class="input-group mb-3">
-                    <div class="custom-file">
-                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile02"
-                            accept=".jpg,.png" multiple>
-                        <label class="custom-file-label" for="inputGroupFile02"
-                            aria-describedby="inputGroupFileAddon02">Selecciones Foto</label>
-                    </div>
-                </div>
-                {{!--
+            </form>
         </div>
-        <input type="file" src="" name="image" id="fotoinspeccion" width="40" height="40"></input>
-    </div> --}}
-    {{!-- <div class="form-group">
-        Usuario Actual:
-        <input type="text" src="{{User.name}}" name="user" placeholder="User.name" width="40" height="40"
-            disabled></input>
-    </div> --}}
-    {{!-- <div class="form-group">
-        Email Usuario Actual:
-        <input type="text" src="{{User.email}}" name="user" placeholder="User.email" width="40" height="40"
-            disabled></input>
-    </div> --}}
-
-    <div class="form-group">
-        <button class="btn btn-primary btn-block" type="submit">
-            Save
-        </button>
     </div>
-    <div class="form-group">
-        <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/notes"><i class="fas fa-list"
-                    style='font-size:24px;color:black'></i></a> Volver-Cartas</p>
-        <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/notes/listado"><i class="fas fa-list"
-                    style='font-size:24px;color:black'></i></a> Volver-Listado</p>
-    </div>
-    </form>
-</div>
-</div>
 </div>

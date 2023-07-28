@@ -5,15 +5,15 @@ const { Schema } = mongoose; // aca defino esquema de base de datos
 const ExpedinspeccionSchema = new Schema({
     idexpediente:{
         type: String,
-        required: true,
+        required: false,
     },
     numexpediente:{
         type: String,
-        required: true,
+        required: false,
     },
     numadrema:{
         type: String,
-        required: true,
+        required: false,
     },
     fechaentradainspeccion: {
         type: Date,
@@ -23,16 +23,37 @@ const ExpedinspeccionSchema = new Schema({
         type: String,
         require: false
     },
-    intimacion: {
+    numintimacion: {
         type: String,
         require: false,
         default: "x" // x es No sino pone el num de intimacion
     },
-    infraccion: {
+    darcumplimientoa: {
+        type: String,
+        require: false,
+        default: "Sin Informacion"
+    },
+    numinfraccion: {
         type: String,
         require: false,
         default: "x" // x es No sino pone el num de infraccion
     },
+    causas: {
+        type: String,
+        require: false,
+        default: "Sin Informacion"
+    },
+    paralizacion: {
+        type: String,
+        require: false,
+        default: "Sin Informacion"
+    },
+    causasparalizacion: {
+        type: String,
+        require: false,
+        default: "Sin Informacion"
+    },
+
     informe: {
         type: String,
         require: false,
