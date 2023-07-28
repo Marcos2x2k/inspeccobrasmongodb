@@ -1,7 +1,6 @@
 <div class="row">
-  <div class="form-group btn-center mx-auto">
-    <h3 style="color:red">Planilla Informes Expedientes</h3>
-  </div>  
+  <h3 style="color:red">Planilla Informes Expedientes</h3>    
+  <br/><br/><br/>
   <div class="form-group btn-center mx-auto">
     <form action="/expedientes/find" method="POST">
       <input type="search" class="form-control" name="numexpediente" placeholder="Buscar x Expediente..." autofocus />
@@ -70,10 +69,10 @@
             <td>{{ numinfraccion }}</td>
             <td>{{ paralizacion }}</td>
             <td>
-              <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
-                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a> 
+              {{!-- <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
+                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a>  --}}
               <a class="dropdown-item" href="/expedientes/list/{{_id}}"
-                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Completa</a>
+                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">+Info</a>
                
               {{!-- <a class="dropdown-item" href="/expedientes/edit/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a> --}}

@@ -14,7 +14,7 @@ const Cicloinspeccion = require('../models/cicloinspeccion')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 const Users = require('../models/User')
-const expedinspeccion = require('../models/expedinspeccion')
+const Expedinspeccion = require('../models/expedinspeccion')
 
 const fs = require('fs').promises
 
@@ -1257,6 +1257,24 @@ router.get('/expedientes/listado', isAuthenticated, async (req, res) => {
         const expedientes = await Expediente.find().lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/inspecciones/planillalistaexpedientesusr', { expedientes });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
+router.get('/expedientes/informeinspeccion', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const expedisnpeccion = await Expedinspeccion.find().lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/planillalistainformeexped', { expedisnpeccion });
+    } else if (rolusuario == "Inspector") {
+        const expedisnpeccion = await Expedinspeccion.find().lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/planillalistainformeexped', { expedisnpeccion });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
