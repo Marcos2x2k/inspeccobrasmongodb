@@ -16,7 +16,7 @@ const ExpedinspeccionSchema = new Schema({
         required: false,
     },
     fechaentradainspeccion: {
-        type: Date,
+        type: String,
         require: false
     },
     fechaeinspectorinspeccion:{

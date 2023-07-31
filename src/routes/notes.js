@@ -23,6 +23,7 @@ const { isAuthenticated } = require('../helpers/auth')
 // *ZONA PDF* //
 const pdf = require("html-pdf");
 const User = require('../models/User');
+const expedinspeccion = require('../models/expedinspeccion');
 var pdfoptionsA4 = { format: 'A4' };
 
 // **** liquidaciones ****
@@ -444,7 +445,7 @@ router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (r
         numintimacion,darcumplimientoa, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date
     } = req.body;    
     
-    const newInformeinspeccion = new expedinspeccion({
+    const newInformeinspeccion = new Expedinspeccion({
         idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
         numintimacion,darcumplimientoa, numinfraccion ,causas,paralizacion, causasparalizacion, informe, destinopase,fechasalida,user, name, date
         })
@@ -452,7 +453,7 @@ router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (r
         newInformeinspeccion.name = req.user.name;
         await newInformeinspeccion.save();
         req.flash('success_msg', 'Informe de Inspección Agregado Exitosamente');
-        res.redirect('/expedientes');
+        res.redirect('/expedientes/listado');
     }
 )
 
@@ -1470,6 +1471,11 @@ router.get('/expedientes/list/:id', isAuthenticated, async (req, res) => {
     res.render('notes/listexpediente', { expediente })
 });
 
+router.get('/informexpedientes/list/:id', isAuthenticated, async (req, res) => {
+    const expedinspeccion = await Expedinspeccion.findById(req.params.id).lean()
+    res.render('notes/inspecciones/listinformexpediente', { expedinspeccion })
+});
+
 router.get('/notes/list/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
     res.render('notes/inspecciones/listnote', { note })
@@ -2215,6 +2221,18 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
     res.redirect('/expedientes');
 });
 
+router.put('/notes/editinformexpediente/:id', isAuthenticated, async (req, res) => {
+    const { idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion,darcumplimientoa, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date } = req.body
+    await Expedinspeccion.findByIdAndUpdate(req.params.id, {
+        idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion,darcumplimientoa, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date
+    });
+    req.flash('success_msg', 'Informe de Expediente actualizado')
+    res.redirect('/expedientes/listado');
+});
+
+
 router.put('/notes/inspecciones/editnote/:id', isAuthenticated, async (req, res) => {
     const { numinspeccion, expediente, oficio, acta, adrema, date, inspuser,
         informeinspnum, fechaentradinspec, inspecfecha, inspector,
@@ -2308,6 +2326,12 @@ router.delete('/expedientes/delete/:id', isAuthenticated, async (req, res) => {
     await Expediente.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'expediente Eliminado')
     res.redirect('/expedientes')
+});
+
+router.delete('/expedinspeccion/delete/:id', isAuthenticated, async (req, res) => {
+    await expedinspeccion.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Informe de Expediente Eliminado')
+    res.redirect('/expedientes/informeinspeccion')
 });
 
 //NOTES es inspecciones
