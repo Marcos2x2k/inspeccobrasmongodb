@@ -44,8 +44,8 @@
       <table class="table table-dark table-hover">
         <thead>
           <tr style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
-            <td>Nº Expediente</td>
             <td>Estado</td>
+            <td>Nº Expediente</td>            
             <td>Iniciador (N y A)</td>
             <td>Adrema</td>
             <td>Director de Obra/ Perito Visor</td>
@@ -57,21 +57,21 @@
         <tbody>
           {{#each expedientes}}
           <tr>
-            {{!-- <td>{{ _id }}</td> --}}
+            {{!-- <td>{{ _id }}</td> --}}            
+            <td style="color:yellow;">{{ estado }}</td>
             <td>{{ numexpediente }}</td>
-            <td>{{ estado }}</td>
             <td>{{ iniciadornomyape }}</td>
             <td>{{ adremaexp }}</td>
             <td>{{ directorobraoperitovisor }}</td>
             <td>{{ destinodeobra }}</td>
             <td>
+              <a class="dropdown-item" href="/expedientes/expedconinformeinspeccion/{{_id}}"
+                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Informes Insp</a>
               <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
                 style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a> 
               <a class="dropdown-item" href="/expedientes/list/{{_id}}"
-                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Completa</a>
-               
-              {{!-- <a class="dropdown-item" href="/expedientes/edit/{{_id}}"
-                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a> --}}
+                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Completa</a>               
+              
             </td>
             <td>
               <a class="dropdown-item " href="/expedientes/edit/{{_id}}"

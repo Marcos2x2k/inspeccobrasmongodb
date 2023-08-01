@@ -1282,6 +1282,29 @@ router.get('/expedientes/informeinspeccion', isAuthenticated, async (req, res) =
     }
 });
 
+router.get('/expedientes/expedconinformeinspeccion/:id', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    var id = req.params.id;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        //const mesaentrada = await Mesaentrada.findById(req.params.id).lean() 
+        const expediente = await Expediente.findById(req.params.id).lean()       
+        //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
+        var numexpediente = expediente.numexpediente
+        const expedisnpeccion = await Expedinspeccion.find({numexpediente: numexpediente}).lean().sort({ date: 'desc' }); //
+        
+        res.render('notes/inspecciones/planillalistaexpconinformes', { expedisnpeccion, expediente });
+    } else if (rolusuario == "Inspector") {
+        const expedisnpeccion = await Expedinspeccion.find().lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/planillalistainformeexped', { expedisnpeccion });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user

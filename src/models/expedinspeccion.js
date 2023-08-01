@@ -33,6 +33,11 @@ const ExpedinspeccionSchema = new Schema({
         require: false,
         default: "Sin Informacion"
     },
+    plazointimacion: {
+        type: String,
+        require: false,
+        default: "Sin Informacion"
+    },
     numinfraccion: {
         type: String,
         require: false,

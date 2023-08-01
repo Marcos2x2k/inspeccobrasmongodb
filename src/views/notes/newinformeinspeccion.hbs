@@ -4,17 +4,23 @@
         var seleccion = document.getElementById('selectintimacion');
         var numintimacion = document.getElementById("numintimacion");
         var darcumplimientoa = document.getElementById("darcumplimientoa");
+        var plazointimacion = document.getElementById("plazointimacion");
+        var labelplazointimacion = document.getElementById("labelplazointimacion");
         if ((seleccion.selectedIndex == 0)) {
             numintimacion.value = "x";
             numintimacion.style.display = "none";
             darcumplimientoa.style.display = "none";
-            numintimacion.required = false;
+            plazointimacion.style.display = "none";
+            plazointimacion.style.display = "none";
+            labelplazointimacion.required = false;
         } else if ((seleccion.selectedIndex == 1)) {
             //numintimacion.focus();
             numintimacion.required = true;
             numintimacion.value = "";
             numintimacion.style.display = "block";
             darcumplimientoa.style.display = "block";
+            plazointimacion.style.display = "block";
+            labelplazointimacion.style.display = "block";
         }
     }
     function seleccionarinfraccion() {
@@ -112,7 +118,13 @@
                     {{!-- <p style="font-weight: bold;">Informe</p> --}}
                     <textarea style="display:none;" name="darcumplimientoa" id="darcumplimientoa" class="form-control"
                         placeholder="Dar Cumplimiento a:"></textarea>
+                </div>                
+                <div class="form-group">
+                    <p id="labelplazointimacion" style="font-weight: bold; display:none;">Plazo de Intimación: (en Horas) </p>
+                    <input style="color: red; width:100px; display:none;font-weight: bold;" type="number" name="plazointimacion" id="plazointimacion" class="form-control"
+                        placeholder=""></input>
                 </div>
+
                 <div class="form-group">
                     <p style="font-weight: bold;">Infracción:</p>
                     <select name="selectinfraccion" id="selectinfraccion" onclick="seleccionarinfraccion()">
@@ -146,7 +158,7 @@
                 </div>
                 <div class="form-group">
                     <p style="font-weight: bold;">Informe</p>
-                    <input name="informe" id="informe" class="form-control" placeholder="Informe"></input>
+                    <textarea name="informe" id="informe" class="form-control" placeholder="Informe"></textarea>
                 </div>
 
                 <div class="form-group">
