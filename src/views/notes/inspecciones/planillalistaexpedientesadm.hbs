@@ -32,8 +32,21 @@
       </div>
     </form>
   </div>
+  <div class="form-group btn-center mx-auto">
+    <form action="/expedientes/findestado" method="POST">
+      <input type="search" class="form-control" name="estado" placeholder="Buscar x Estado..." autofocus />
+      <div class="form-group">
+        <button class="btn btn-warning btn-block btn-sm" type="submit">
+          Buscar Estado
+        </button>
+
+      </div>
+    </form>
+  </div>
+
   <a href="/expedientes/add" class="btn btn-success btn-block">Agregar Expediente!</a>
   <a href="/expedientes/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+
   {{!-- <br /> --}}
   <div class="form-group btn-center mx-auto">
     <br />
@@ -45,19 +58,19 @@
         <thead>
           <tr style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
             <td>Estado</td>
-            <td>Nº Expediente</td>            
+            <td>Nº Expediente</td>
             <td>Iniciador (N y A)</td>
             <td>Adrema</td>
             <td>Director de Obra/ Perito Visor</td>
             <td>Destino Obra</td>
             <td>Opciones</td>
-            <td>Suplementario</td>
+            <td>Extras</td>
           </tr>
         </thead>
         <tbody>
           {{#each expedientes}}
           <tr>
-            {{!-- <td>{{ _id }}</td> --}}            
+            {{!-- <td>{{ _id }}</td> --}}
             <td style="color:yellow;">{{ estado }}</td>
             <td>{{ numexpediente }}</td>
             <td>{{ iniciadornomyape }}</td>
@@ -66,20 +79,20 @@
             <td>{{ destinodeobra }}</td>
             <td>
               <a class="dropdown-item" href="/expedientes/expedconinformeinspeccion/{{_id}}"
-                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Informes Insp</a>
-              <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
-                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a> 
+                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Informes Insp</a>              
               <a class="dropdown-item" href="/expedientes/list/{{_id}}"
-                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Completa</a>               
-              
+                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Completa</a>
+
             </td>
             <td>
+              <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
+                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a>
               <a class="dropdown-item " href="/expedientes/edit/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a>
-              <form style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
+              <form onSubmit="return confirm('Desea Borrar Expediente?')" style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
-                  Borrar
+                  Borrar ...
                 </button>
               </form>
             </td>
@@ -90,4 +103,5 @@
       </table>
     </div>
   </div>
-  {{!-- {{else}} --}}
+</div>
+{{!-- {{else}} --}}

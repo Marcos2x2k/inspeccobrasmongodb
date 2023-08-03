@@ -1,3 +1,35 @@
+<script>
+    //const {ponerminuscula} = require('./funciones/importantes.js');
+    //import ponerminuscula from './funciones/importantes.js' 
+    //src="./funciones/importantes.js" type="module"
+    //import {ponerminuscula} from "./funciones/importantes.js.
+    
+    function ShowName() {
+        var writtenName = document.getElementById('iniciadornomyape').value;
+        document.getElementById('iniciadornomyape').value = formatToString(writtenName);
+    }
+
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }    
+
+    function ponerminuscula() {
+        let ex = document.getElementById("email");
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+</script>
+
 <div class="col-md-6 mx-auto">
     <div class="card">
         <div class="car-header mx-auto">
@@ -15,17 +47,17 @@
                 <div class="form-group">  
                     (*) Estado:                 
                     <input type="text" name="estado" class="form-control" 
-                    placeholder="Estado" required autofocus>                    
+                    placeholder="Estado" required>                    
                 </div>
                 <div class="form-group">
-                    (*) Iniciador (NyA):
-                    <input type="text" name="iniciadornomyape" class="form-control"
-                    placeholder="Iniciador (NyA)" required autofocus></input>
+                    (*) Iniciador (NyA) Probando:
+                    <input onkeyup="ShowName();"  type="text" id="iniciadornomyape" name="iniciadornomyape" class="form-control"
+                    placeholder="Iniciador (NyA)" required></input>
                 </div>
                 <div class="form-group" >  
                     (*) Domicilio:                  
                     <input type="text" name="domicilio" class="form-control"
-                    placeholder="Domicilio" required autofocus></input>
+                    placeholder="Domicilio" required></input>
                 </div>
                 <div class="form-group">
                     Adrema Nº:

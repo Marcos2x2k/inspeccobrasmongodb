@@ -36,8 +36,6 @@ router.get ('/users/11vvsOpmo90W-MAD', (req, res) => {
     res.render ('users/signup');
 });
 
-
-
 router.post('/users/signup', async (req, res) =>{
     const { rolusuario, name, email, password, confirm_password} = req.body;
     const errors = [];

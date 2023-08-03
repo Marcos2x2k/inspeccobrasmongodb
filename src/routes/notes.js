@@ -442,12 +442,12 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
 router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (req, res) => {
     //console.log(req.body)
     const { idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
-        numintimacion,darcumplimientoa, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date
+        numintimacion,darcumplimientoa,plazointimacion, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date
     } = req.body;    
     
     const newInformeinspeccion = new Expedinspeccion({
         idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
-        numintimacion,darcumplimientoa, numinfraccion ,causas,paralizacion, causasparalizacion, informe, destinopase,fechasalida,user, name, date
+        numintimacion,darcumplimientoa, plazointimacion, numinfraccion ,causas,paralizacion, causasparalizacion, informe, destinopase,fechasalida,user, name, date
         })
         newInformeinspeccion.user = req.user.id;
         newInformeinspeccion.name = req.user.name;
@@ -1894,9 +1894,9 @@ router.post('/expedientes/find', isAuthenticated, async (req, res) => {
     const expedientes = await Expediente.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ fechainicioentrada: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Nº de expediente')
-        return res.render("notes/planillalistaexpedientes");
+        return res.render("notes/inspecciones/planillalistaexpedientesadm");
     } else {
-        res.render('notes/planillalistaexpedientes', { expedientes })
+        res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes })
     }
 });
 router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
@@ -1904,9 +1904,9 @@ router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
     const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
-        return res.render("notes/planillalistaexpedientes");
+        return res.render("notes/inspecciones/planillalistaexpedientesadm");
     } else {
-        res.render('notes/planillalistaexpedientes', { expedientes })
+        res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes })
     }
 });
 router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
@@ -1914,9 +1914,20 @@ router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
     const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Iniciador (N y A)')
-        return res.render("notes/planillalistaexpedientes");
+        return res.render("notes/inspecciones/planillalistaexpedientesadm");
     } else {
-        res.render('notes/planillalistaexpedientes', { expedientes })
+        res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes })
+    }
+});
+
+router.post('/expedientes/findestado', isAuthenticated, async (req, res) => {
+    const { estado } = req.body;
+    const expedientes = await Expediente.find({ estado: { $regex: estado, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue estado (N y A)')
+        return res.render("notes/inspecciones/planillalistaexpedientesadm");
+    } else {
+        res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes })
     }
 });
 

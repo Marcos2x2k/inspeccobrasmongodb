@@ -13,35 +13,38 @@
   <a href="" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
   {{!-- <br /> --}}
   <div class="form-group btn-center mx-auto">
-    <br />
+    
     {{!-- <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
       LISTADO DE MESA DE ENTRADA</h5> --}}
     {{!-- <br /><br /> --}}
-    <div class="form-group btn-center mx-auto">
-      <h5 style="color:black">Estado del Expediente:</h5>
-      <h5 style="color:yellow">{{ expediente.estado }}</h5>      
+    <br/>
+    <div style="padding: 0%; width: 100%; display: flex; justify-content: center;">
+      <div class="form-group btn-center mx-auto">
+        <h6 style="color:black;text-decoration-line: underline;">Estado del Expediente:</h6>
+        <h5 style="color:yellow">{{ expediente.estado }}</h5>
+      </div>
+      <div class="form-group btn-center mx-auto">
+        <h6 style="color:black;text-decoration-line: underline;">Número de Expediente</h6>
+        <h5 style="color:yellow">{{ expediente.numexpediente }}</h5>
+      </div>
+      <div class="form-group btn-center mx-auto">
+        <h6 style="color:black;text-decoration-line: underline;">Iniciador de Expediente</h6>
+        <h5 style="color:yellow">{{ expediente.iniciadornomyape }}</h5>
+      </div>
+      <div class="form-group btn-center mx-auto">
+        <h6 style="color:black;text-decoration-line: underline;">Número de Adrema</h6>
+        <h5 style="color:yellow">{{ expediente.adremaexp }}</h5>
+      </div>
+      <div class="form-group btn-center mx-auto">
+        <h6 style="color:black;text-decoration-line: underline;">Director de Obra/Perito Visor</h6>
+        <h5 style="color:yellow">{{ expediente.directorobraoperitovisor }}</h5>
+      </div>
+      <div class="form-group btn-center mx-auto">
+        <h6 style="color:black;text-decoration-line: underline;">Destino de Obra</h6>
+        <h5 style="color:yellow">{{ expediente.destinodeobra }}</h5>
+      </div>
     </div>
-    <div class="form-group btn-center mx-auto">
-      <h5 style="color:black">Número de Expediente</h5>
-      <h5 style="color:yellow">{{ expediente.numexpediente }}</h5>      
-    </div>
-    <div class="form-group btn-center mx-auto">
-      <h5 style="color:black">Iniciador de Expediente</h5>
-      <h5 style="color:yellow">{{ expediente.iniciadornomyape }}</h5>      
-    </div>
-    <div class="form-group btn-center mx-auto">
-      <h5 style="color:black">Número de Adrema</h5>
-      <h5 style="color:yellow">{{ expediente.adremaexp }}</h5>      
-    </div>
-    <div class="form-group btn-center mx-auto">
-      <h5 style="color:black">Director de Obra/Perito Visor</h5>
-      <h5 style="color:yellow">{{ expediente.directorobraoperitovisor }}</h5>      
-    </div>
-    <div class="form-group btn-center mx-auto">
-      <h5 style="color:black">Destino de Obra</h5>
-      <h5 style="color:yellow">{{ expediente.destinodeobra }}</h5>      
-    </div>        
-    <br />
+    
     <div class="form-group btn-center mx-auto">
       <table id="tabla" class="table table-dark table-hover">
         <thead>
@@ -115,8 +118,8 @@
       </table>
     </div>
     <div class="form-group">
-      <p style="color:rgb(238, 241, 6); font-style:oblique; font-weight: bold;"><a href="/expedientes/listado"><i
-            class="fas fa-list" style='font-size:24px;color:white'></i></a> Volver Listado</p>
+      <p style="color:rgb(0, 0, 0); font-style:oblique; font-weight: bold;"><a href="/expedientes/listado"><i
+            class="fas fa-list" style='font-size:24px;color:rgb(255, 0, 0)'></i></a> Volver Listado Expedientes</p>
     </div>
   </div>
   {{!-- {{else}} --}}
