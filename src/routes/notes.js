@@ -199,7 +199,7 @@ router.get('/tickets/add', isAuthenticated, async (req, res) => {
 router.get('/expedientes/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador" || rolusuario == "Inspector") {
+    if (rolusuario == "Administrador" || rolusuario == "Inspector"|| rolusuario == "Jefe-Inspectores") {
         const usuarios = await Users.find().lean().sort({ date: 'desc' });
         res.render('notes/newexpedientes');
         //res.render('notes/allusuariosadm', { usuarios });

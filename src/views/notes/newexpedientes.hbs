@@ -3,10 +3,21 @@
     //import ponerminuscula from './funciones/importantes.js' 
     //src="./funciones/importantes.js" type="module"
     //import {ponerminuscula} from "./funciones/importantes.js.
-    
+
     function ShowName() {
-        var writtenName = document.getElementById('iniciadornomyape').value;
+        var writtenName = ""
+        writtenName = document.getElementById('iniciadornomyape').value;
         document.getElementById('iniciadornomyape').value = formatToString(writtenName);
+        writtenName = document.getElementById('fiduciariopropsocio').value;
+        document.getElementById('fiduciariopropsocio').value = formatToString(writtenName);
+        writtenName = document.getElementById('direcfiduciariopropsocio').value;
+        document.getElementById('direcfiduciariopropsocio').value = formatToString(writtenName);
+        writtenName = document.getElementById('directorobraoperitovisor').value;
+        document.getElementById('directorobraoperitovisor').value = formatToString(writtenName);
+    }
+    function ShowDomi() {
+        var writtenName = document.getElementById('domicilio').value;
+        document.getElementById('domicilio').value = formatToString(writtenName);
     }
 
     function formatToString(writtenName) {
@@ -20,126 +31,138 @@
             }
         })
         return fullName;
-    }    
+    }
+
+    function ponerMayuscula() {
+        let ex = document.getElementById("numexpediente");
+        ex.value = ex.value.toUpperCase();
+        let y = document.getElementById("adremaexp");
+        y.value = y.value.toUpperCase();
+    }
+
 
     function ponerminuscula() {
-        let ex = document.getElementById("email");
-        ex.value = ex.value.toLowerCase();
-        //let y = document.getElementById("adrema");
-        //y.value = y.value.toLowerCase();
+        let ex = document.getElementById("correofiduciariopropsocio");
+        ex.value = ex.value.toLocaleLowerCase();
     }
 </script>
 
-<div class="col-md-6 mx-auto">
+<div class="col-md-6 mx-auto">    
     <div class="card">
         <div class="car-header mx-auto">
-            <br/>
+            <br />
             <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Expediente</h3>
         </div>
         <div class="card-body">
             <p style="color:red">(*) Obligatorio</p>
-            <form action="/notes/newexpedientes" method="POST">  
-            <div class="form-group">  
-                    (*) Expediente Nº:                 
-                    <input type="text" name="numexpediente" class="form-control" 
-                    placeholder="Expediente Nº" required autofocus>                    
-                </div>              
-                <div class="form-group">  
-                    (*) Estado:                 
-                    <input type="text" name="estado" class="form-control" 
-                    placeholder="Estado" required>                    
+            <form action="/notes/newexpedientes" method="POST">
+                <div class="form-group">
+                    (*) Expediente Nº:
+                    <input onkeyup="ponerMayuscula()" id="numexpediente" type="text" name="numexpediente"
+                        class="form-control" placeholder="Expediente Nº" required autofocus>
                 </div>
                 <div class="form-group">
-                    (*) Iniciador (NyA) Probando:
-                    <input onkeyup="ShowName();"  type="text" id="iniciadornomyape" name="iniciadornomyape" class="form-control"
-                    placeholder="Iniciador (NyA)" required></input>
+                    (*) Estado:
+                    <input id="estado" type="text" name="estado" class="form-control" placeholder="Estado" required>
                 </div>
-                <div class="form-group" >  
-                    (*) Domicilio:                  
-                    <input type="text" name="domicilio" class="form-control"
-                    placeholder="Domicilio" required></input>
+                <div class="form-group">
+                    (*) Iniciador (NyA):
+                    <input onkeyup="ShowName()" type="text" id="iniciadornomyape" name="iniciadornomyape"
+                        class="form-control" placeholder="Iniciador (NyA)" required />
+                </div>
+                <div class="form-group">
+                    (*) Domicilio:
+                    <input onkeyup="ShowDomi();" type="text" id="domicilio" name="domicilio" class="form-control"
+                        placeholder="Domicilio" required />
                 </div>
                 <div class="form-group">
                     Adrema Nº:
-                    <input name="adremaexp" class="form-control"
-                    placeholder="Nº Adrema" ></input>
+                    <input onkeyup="ponerMayuscula()" id="adremaexp" name="adremaexp" class="form-control"
+                        placeholder="Nº Adrema"></input>
                 </div>
                 <div class="form-group">
                     fiduciariopropsocio (AyN):
-                    <input name="fiduciariopropsocio" class="form-control"
-                    placeholder="fiduciariopropsocio (AyN)" ></input>
+                    <input onkeyup="ShowName()" id="fiduciariopropsocio" name="fiduciariopropsocio" class="form-control"
+                        placeholder="fiduciariopropsocio (AyN)"></input>
                 </div>
                 <div class="form-group">
                     Domicilio Fiduciario o Socio:
-                    <input name="direcfiduciariopropsocio" class="form-control"
-                    placeholder="Domicilio Fiduciario o Socio" ></input>
+                    <input onkeyup="ShowName()" id="direcfiduciariopropsocio" name="direcfiduciariopropsocio"
+                        class="form-control" placeholder="Domicilio Fiduciario o Socio"></input>
                 </div>
                 <div class="form-group">
                     Correo Fiduciario o Socio:
-                    <input name="correofiduciariopropsocio" class="form-control"
-                    placeholder="Correo Fiduciario o Socio" ></input>
+                    <input onkeyup="ponerminuscula()" id="correofiduciariopropsocio" name="correofiduciariopropsocio"
+                        class="form-control" placeholder="Correo Fiduciario o Socio"></input>
                 </div>
                 <div class="form-group">
                     Director de obra o Perito Visor:
-                    <input name="directorobraoperitovisor" class="form-control"
-                    placeholder="Director de obra o Perito Visor" type="text"></input>
-                </div> 
+                    <input onkeyup="ShowName()" id="directorobraoperitovisor" name="directorobraoperitovisor"
+                        class="form-control" placeholder="Director de obra o Perito Visor" type="text"></input>
+                </div>
                 <div class="form-group">
                     Destino de obra:
-                    <input name="destinodeobra" class="form-control"
-                    placeholder="Destino de obra" type="text"></input>
-                </div> 
+                    <input name="destinodeobra" class="form-control" placeholder="Destino de obra" type="text"></input>
+                </div>
                 <div class="form-group">
                     (*) Superficie de terreno:
-                    <input name="superficieterreno" class="form-control"
-                    placeholder="Superficie de terreno" required autofocus></input>
-                </div>                 
+                    <input type="number" name="superficieterreno" class="form-control"
+                        placeholder="Superficie de terreno" required autofocus></input>
+                </div>
                 <div class="form-group">
                     (*) Superficie a construir:
-                    <input name="superficieaconstruir" class="form-control"
-                    placeholder="superficie a construir" required autofocus></input>
-                </div>  
+                    <input type="number" name="superficieaconstruir" class="form-control"
+                        placeholder="superficie a construir" required autofocus></input>
+                </div>
                 <div class="form-group">
                     (*) Superficie subsuelo planta baja:
-                    <input name="superficiesubsueloplantabaja" class="form-control"
-                    placeholder="Superficie subsuelo planta baja" required autofocus></input>
+                    <input type="number" name="superficiesubsueloplantabaja" class="form-control"
+                        placeholder="Superficie subsuelo planta baja" required autofocus></input>
                 </div>
                 <div class="form-group">
                     Superficie primer piso y mas pisos:
-                    <input name="superficieprimerpisoymaspisos" class="form-control"
-                    placeholder="Superficie primer piso y mas pisos"></input>
-                </div>                                 
+                    <input type="number" name="superficieprimerpisoymaspisos" class="form-control"
+                        placeholder="Superficie primer piso y mas pisos"></input>
+                </div>
                 <div class="form-group">
                     (*) Observaciones:
-                    <input name="observaciones" class="form-control"
-                    placeholder="Observaciones" ></input>
+                    <textarea name="observaciones" class="form-control" placeholder="Observaciones"></textarea>
                 </div>
                 <div class="form-group">
                     Permiso obra o acta infracción:
-                    <input name="permisobraoactainfrac" class="form-control"
-                    placeholder="Permiso obra o acta infracción"></input>
+                    {{!-- <input name="permisobraoactainfrac" class="form-control"
+                        placeholder="Permiso obra o acta infracción"></input> --}}
+                    <br />
+                    <p></p>
+                    <select name="permisobraoactainfrac" id="permisobraoactainfrac">
+                        <option value="Permiso Obra">Permiso Obra</option>
+                        <option value="Acta Infracción">Acta Infracción</option>
+                    </select>
+
                 </div>
                 <div class="form-group">
                     Foto de expediente:
-                    <input type="text" name="fotoexpediente" class="form-control"
-                    placeholder="Foto de Expediente"></input>
-                </div>   
+                    <input type="text" name="fotoexpediente" class="form-control" placeholder="Foto de Expediente"
+                        disabled></input>
+                </div>
                 <div class="form-group">
                     (*) Fecha inicio entrada:
-                    <input type="date" name="fechainicioentrada" class="form-control"
-                    placeholder="Fecha inicio entrada" required autofocus></input>
+                    <input type="date" name="fechainicioentrada" class="form-control" placeholder="Fecha inicio entrada"
+                        required autofocus></input>
                 </div>
-                
+
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">
                         Save
-                    </button>                    
+                    </button>
                 </div>
                 <div class="form-group">
-                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver Cartas</p> 
+                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i
+                                class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver Cartas</p>
                 </div>
                 <div class="form-group">
-                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes/listado"><i class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver Listado</p> 
+                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes/listado"><i
+                                class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver Listado</p>
                 </div>
             </form>
         </div>
