@@ -179,6 +179,10 @@ ExpedienteSchema = new Schema({
     require: false,
     default: "Administrador"
 },
+borrado: {
+  type: String,
+  require: false,
+},
 name: {
     type: String,
     require: false,

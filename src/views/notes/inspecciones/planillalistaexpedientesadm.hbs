@@ -1,12 +1,21 @@
 <div class="row">
   <div class="form-group btn-center mx-auto">
+    <form action="/expedientes/findestado" method="POST">
+      <input type="search" class="form-control" name="estado" placeholder="Buscar x Estado..." autofocus />
+      <div class="form-group">
+        <button class="btn btn-warning btn-block btn-sm" type="submit">
+          Buscar Estado
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="form-group btn-center mx-auto">
     <form action="/expedientes/find" method="POST">
       <input type="search" class="form-control" name="numexpediente" placeholder="Buscar x Expediente..." autofocus />
       <div class="form-group">
         <button class="btn btn-warning btn-block btn-sm" type="submit">
           Buscar Expediente
         </button>
-
       </div>
     </form>
   </div>
@@ -17,7 +26,6 @@
         <button class="btn btn-warning btn-block btn-sm" type="submit">
           Buscar Adrema
         </button>
-
       </div>
     </form>
   </div>
@@ -28,21 +36,9 @@
         <button class="btn btn-warning btn-block btn-sm" type="submit">
           Buscar Iniciador
         </button>
-
       </div>
     </form>
-  </div>
-  <div class="form-group btn-center mx-auto">
-    <form action="/expedientes/findestado" method="POST">
-      <input type="search" class="form-control" name="estado" placeholder="Buscar x Estado..." autofocus />
-      <div class="form-group">
-        <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar Estado
-        </button>
-
-      </div>
-    </form>
-  </div>
+  </div>  
 
   <a href="/expedientes/add" class="btn btn-success btn-block">Agregar Expediente!</a>
   <a href="/expedientes/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
@@ -59,9 +55,9 @@
           <tr style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
             <td>Estado</td>
             <td>Nº Expediente</td>
-            <td>Iniciador (N y A)</td>
             <td>Adrema</td>
-            <td>Director de Obra/ Perito Visor</td>
+            <td>Iniciador (N y A)</td>            
+            {{!-- <td>Director de Obra/ Perito Visor</td> --}}
             <td>Destino Obra</td>
             <td>Opciones</td>
             <td>Extras</td>
@@ -73,15 +69,15 @@
             {{!-- <td>{{ _id }}</td> --}}
             <td style="color:yellow;">{{ estado }}</td>
             <td>{{ numexpediente }}</td>
-            <td>{{ iniciadornomyape }}</td>
             <td>{{ adremaexp }}</td>
-            <td>{{ directorobraoperitovisor }}</td>
+            <td>{{ iniciadornomyape }}</td>            
+            {{!-- <td>{{ directorobraoperitovisor }}</td> --}}
             <td>{{ destinodeobra }}</td>
             <td>
               <a class="dropdown-item" href="/expedientes/expedconinformeinspeccion/{{_id}}"
-                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Informes Insp</a>              
+                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Informes Inspec.</a>
               <a class="dropdown-item" href="/expedientes/list/{{_id}}"
-                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Expediente</a>
+                style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Expediente</a>
 
             </td>
             <td>
@@ -89,7 +85,9 @@
                 style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a>
               <a class="dropdown-item " href="/expedientes/edit/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a>
-              <form onSubmit="return confirm('Recuerde que se borrará el expediente pero no sus informes. Desea Borrar?')" style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
+              <form
+                onSubmit="return confirm('Recuerde que se borrará el expediente pero no sus informes. Desea Borrar?')"
+                style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar

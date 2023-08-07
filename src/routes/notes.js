@@ -1439,6 +1439,12 @@ router.get('/expedientes/edit/:id', isAuthenticated, async (req, res) => {
     res.render('notes/editexpediente', { expediente })
 });
 
+router.get('/informexpedientes/edit/:id', isAuthenticated, async (req, res) => {
+    const expedinspeccion = await Expedinspeccion.findById(req.params.id).lean()
+    res.render('notes/inspecciones/editinformexpediente', { expedinspeccion })
+});
+
+
 router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
     res.render('notes/inspecciones/editnote', { note })
