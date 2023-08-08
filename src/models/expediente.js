@@ -88,6 +88,35 @@ ExpedienteSchema = new Schema({
     require: false,
     default: "No Posee Información"
   },
+  selecpermisoedificacion: {
+    type: String,
+    require: false,
+    default: "No"
+  },
+  permisoedificacionnumero: {
+    type: String,
+    require: false,
+    default: "No Posee Información"
+  },
+  fechapermisoedificacion: {
+    type: String,
+    require: false,
+  },
+  selecpermisodemolicion: {
+    type: String,
+    require: false,
+    default: "No"
+  },
+  permisodemolicionnumero: {
+    type: String,
+    require: false,
+    default: "No Posee Información" 
+  },
+  fechapermisodemolicion: {
+    type: String,
+    require: false,
+    default: "No"
+  },
   fotoexpediente: {
     type: String,
     require: false,

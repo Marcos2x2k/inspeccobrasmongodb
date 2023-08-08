@@ -298,11 +298,11 @@ router.get('/estadisticas/add', isAuthenticated, (req, res) => {
 
 router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
     const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name
+        contacto, hora, observaciones, user, name, date
     } = req.body;
     const newMesaentrada = new Mesaentrada({
         sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name
+        contacto, hora, observaciones, user, name, date
     })
     newMesaentrada.user = req.user.id;
     newMesaentrada.name = req.user.name;
@@ -407,7 +407,9 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-        permisobraoactainfrac, fotoexpediente, fechainicioentrada, eliminado, user, name
+        permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
+        fechainicioentrada, eliminado, user, name
     } = req.body;
     const errors = [];
     if (!numexpediente) {
@@ -426,10 +428,12 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
     } else {
         const newExpediente = new Expediente({
             numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
-            fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
-            directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
-            superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-            permisobraoactainfrac, fotoexpediente, fechainicioentrada, eliminado, user, name
+        fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
+        directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
+        superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
+        permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
+        fechainicioentrada, eliminado, user, name
         })
         newExpediente.user = req.user.id;
         newExpediente.name = req.user.name;
@@ -747,10 +751,10 @@ router.get('/mesaentrada', isAuthenticated, async (req, res) => {
     if (rolusuario == "Mesa-Entrada") {
         // res.send('Notes from data base');
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const mesaentradas = await Mesaentrada.find().lean().sort({ dateturno: 'desc' });
+        const mesaentradas = await Mesaentrada.find().lean().sort({ date: 'asc' });
         res.render('notes/allmesaentrada', { mesaentradas });
     } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find().lean().sort({ dateturno: 'desc' });
+        const mesaentradas = await Mesaentrada.find().lean().sort({ date: 'asc' });
         res.render('notes/allmesaentradaadm', { mesaentradas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
@@ -1187,10 +1191,10 @@ router.get('/mesaentrada/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Mesa-Entrada") {
-        const mesaentradas = await Mesaentrada.find().limit(60).lean().sort({ dateturno: 'asc' });
+        const mesaentradas = await Mesaentrada.find().limit(60).lean().sort({ dateturno: 'desc' });
         res.render('notes/planillalistaturnero', { mesaentradas });
     } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find().limit(60).lean().sort({ dateturno: 'asc' });
+        const mesaentradas = await Mesaentrada.find().limit(60).lean().sort({ dateturno: 'desc' });
         res.render('notes/planillalistaturnero', { mesaentradas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
@@ -2249,13 +2253,17 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-        permisobraoactainfrac, fotoexpediente, fechainicioentrada } = req.body
+        permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
+        fechainicioentrada, eliminado, user, name } = req.body
     await Expediente.findByIdAndUpdate(req.params.id, {
         numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-        permisobraoactainfrac, fotoexpediente, fechainicioentrada
+        permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
+        fechainicioentrada, eliminado, user, name
     });
     req.flash('success_msg', 'Expediente actualizado')
     res.redirect('/expedientes');

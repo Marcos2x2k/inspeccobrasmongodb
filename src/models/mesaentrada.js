@@ -12,7 +12,7 @@ const MesaentradaSchema = new Schema({
         require: false
     },
     fechaingreso: {
-        type: Date,
+        type: String,
         require: false
     },
     horaingreso:{
