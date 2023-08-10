@@ -11,36 +11,14 @@
     }
 </script>
 
-<div class="row"> 
-    <div class="form-group btn-center mx-auto">
-        <form action="/multa/findpropietario" method="POST">
-            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..." />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar x Usuario
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/multa/findexpediente" method="POST">
-            <input type="search" class="form-control" name="expediente" placeholder="Buscar x Expediente..." />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar x Cargo
-                </button>
-            </div>
-        </form>
-    </div>
+<div class="row">     
     <br /><br />
-    <div style="color: rgb(214, 67, 22);text-shadow: 1px 1px 2px black">
+    <div style="color: rgb(185, 214, 22);text-shadow: 1px 1px 2px black">
         <h5>Sección de Usuarios - ADMINISTRADOR</h5>
     </div>
     <br /><br />
-    <a href="/multas/add" class="btn btn-success btn-block  btn-sm">Cargar Nueva multa!</a>
-    <a href="/multas/impresas" class="btn btn-warning btn-block btn-sm">Listar No-Impresas para
-        Ver/Descargar/Imprimir</a>
-    <a href="/multas" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
+    <a href="/users/11vvsOpmo90W" class="btn btn-success btn-block  btn-sm">Cargar Nuevo Usuario!</a>    
+    <a href="/usuarios" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
     <br /><br />    
     <div class="form-group btn-center mx-auto">
         <br />
@@ -49,14 +27,11 @@
                 <thead>
                     <tr id="tdtable" style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
                         {{!-- <td>_ID</td> --}}
-                        <td>Fecha</td>
-                        <td>Propietario</td>
-                        <td>Ubicación</td>
-                        <td>Formula</td>
-                        <td>N° Acta</td>
-                        <td>Monto Total</td>
-                        <td>Impreso</td>
-                        <td>+Datos</td>
+                        <td>Nombre</td>
+                        <td>D.N.I.</td>
+                        <td>E-mail</td>
+                        <td>Rol-Usuario</td>
+                        <td>Creado</td>
                         <td>Opciones</td>
                         {{!-- <td>Impresión</td> --}}
                     </tr>
@@ -69,25 +44,18 @@
                                 value=''
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
                         </td> --}}
-                        <td>{{ fecha }}</td>
-                        <td>{{ propietario }}</td>
-                        <td>{{ ubicacion }}</td>
-                        <td>{{ formulamulta }}</td>
-                        <td>{{ numacta }}</td>
-                        <td>{{ montototal }}</td>
-                        <td>{{ impreso}}</td>
+                        <td>{{ name }}</td>
+                        <td>{{ dni }}</td>
+                        <td>{{ email }}</td>
+                        <td>{{rolusuario}}</td>
+                        <td>{{ date }}</td>                        
                         <td>
-                            <a class="dropdown-item" href="/multas/list/{{_id}}"
-                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
-                        </td>
-                        <td>
-                            <a class="dropdown-item" href="/multas/add/{{_id}}"
-                                style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">Liquidación</a>
-                            <form onSubmit="return confirm('Desea Borrar?')"
-                                action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
+                            <a class="dropdown-item" href="/usuarios/edit/{{_id}}" style="color:rgb(165, 196, 28)">Editar</a>
+                            <form onSubmit="return confirm('Desea Borrar Usuario?')"
+                                action="/usuarios/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button class="btn btn-danger btn-block btn-sm" type="submit">
-                                    Borrar ADM
+                                    Borrar
                                 </button>
                             </form>
                         </td>

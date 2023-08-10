@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require("bcrypt");
 //const mongopagi = require('mongoose-paginate-v2') Paginacion de mongodb
 
 // tengo que requerir los modelos para que mongoose me cree las tablas
@@ -193,7 +194,6 @@ router.get('/tickets/add', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
     }
-
 })
 
 router.get('/expedientes/add', isAuthenticated, async (req, res) => {
@@ -1409,6 +1409,19 @@ router.get('/estadisticas', isAuthenticated, async (req, res) => {
     res.render('notes/allestadistica', { estadisticas });
 });
 
+router.get('/usuarios', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador"){
+        const infracciones = await Infraccion.find().lean().sort({ date: 'desc' });
+        res.render('notes/allusuariosadm', { infracciones });    
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
+        return res.redirect('/');
+    }
+});
+
+
 // ***** Aca los GET para EDITAR ******
 
 router.get('/mesaentrada/add/:id', isAuthenticated, async (req, res) => {
@@ -1426,6 +1439,11 @@ router.get('/multasprofesional/add/:id', isAuthenticated, async (req, res) => {
     const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
     const multas = await Multas.findById(req.params.id).lean()
     res.render('notes/newmultasprofesional', { multas, tasaactual })
+});
+
+router.get('/usuarios/edit/:id', isAuthenticated, async (req, res) => {
+    const usuarios = await Users.findById(req.params.id).lean()
+    res.render('users/editusuarios', { usuarios })
 });
 
 router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
@@ -2219,6 +2237,15 @@ router.put('/notes/editaddintimacion/:id', isAuthenticated, async (req, res) => 
 
 // **** SECTOR EDITAR ****
 
+router.put('/users/editusuarios/:id', isAuthenticated, async (req, res) => {
+    const { name, dni, email, rolusuario} = req.body
+    await Users.findByIdAndUpdate(req.params.id, {
+        name, dni, email, rolusuario
+    });
+    req.flash('success_msg', 'Usuario Actualizado')
+    res.redirect('/usuarios');
+});
+
 router.put('/notes/editmesaentrada/:id', isAuthenticated, async (req, res) => {
     const { sector, numturno, fechaingreso, horaingreso, numexpediente,
         nomyape, dni, observaciones, contacto, dateturno } = req.body
@@ -2344,6 +2371,19 @@ router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
     await Mesaentrada.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Turno Eliminado')
     res.redirect('/mesaentrada/listado')
+});
+
+router.delete('/usuarios/delete/:id', isAuthenticated, async (req, res) => {
+    var usuarios = await Users.find().lean().sort();
+    if (usuarios.length>1){
+        await Users.findByIdAndDelete(req.params.id);
+        req.flash('success_msg', 'Usuario Eliminado')    
+        res.redirect('/usuarios')
+    }
+        else {
+        req.flash('success_msg', 'No puede eliminar usuario único')    
+        res.redirect('/usuarios')
+    }
 });
 
 router.delete('/tasas/delete/:id', isAuthenticated, async (req, res) => {
