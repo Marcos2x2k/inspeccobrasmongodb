@@ -58,7 +58,7 @@ router.post('/users/signup', async (req, res) =>{
                 return res.redirect("/users/11vvsOpmo90W");
                 // res.render('users/signup', {errors, name, email, password, confirm_password});
         }
-        const newUser = new User({rolusuario, name, email, password});
+        const newUser = new User({rolusuario, name, dni, email, password});
         const salt = await bcrypt.genSalt(10);
         newUser.password = await bcrypt.hash(newUser.password, salt);
         // newUser.password = await newUser.EncryptPassword(password); //NOSE PORQUE NO ANDA

@@ -199,7 +199,7 @@ router.get('/tickets/add', isAuthenticated, async (req, res) => {
 router.get('/expedientes/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador" || rolusuario == "Inspector"|| rolusuario == "Jefe-Inspectores") {
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
         const usuarios = await Users.find().lean().sort({ date: 'desc' });
         res.render('notes/newexpedientes');
         //res.render('notes/allusuariosadm', { usuarios });
@@ -293,7 +293,13 @@ router.get('/infracciones/add', isAuthenticated, async (req, res) => {
 })
 
 router.get('/estadisticas/add', isAuthenticated, (req, res) => {
-    res.render('notes/newestadisticas');
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        res.render('notes/newestadisticas');
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA ESTADISTICAS')
+        return res.redirect('/');
+    }
 })
 
 router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
@@ -408,7 +414,7 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
         permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
-        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
         fechainicioentrada, eliminado, user, name
     } = req.body;
     const errors = [];
@@ -428,12 +434,12 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
     } else {
         const newExpediente = new Expediente({
             numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
-        fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
-        directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
-        superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-        permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
-        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
-        fechainicioentrada, eliminado, user, name
+            fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
+            directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
+            superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
+            permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
+            selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
+            fechainicioentrada, eliminado, user, name
         })
         newExpediente.user = req.user.id;
         newExpediente.name = req.user.name;
@@ -445,20 +451,20 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
 
 router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (req, res) => {
     //console.log(req.body)
-    const { idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
-        numintimacion,darcumplimientoa,plazointimacion, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date
-    } = req.body;    
-    
+    const { idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion, darcumplimientoa, plazointimacion, numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase, fechasalida, user, name, date
+    } = req.body;
+
     const newInformeinspeccion = new Expedinspeccion({
-        idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
-        numintimacion,darcumplimientoa, plazointimacion, numinfraccion ,causas,paralizacion, causasparalizacion, informe, destinopase,fechasalida,user, name, date
-        })
-        newInformeinspeccion.user = req.user.id;
-        newInformeinspeccion.name = req.user.name;
-        await newInformeinspeccion.save();
-        req.flash('success_msg', 'Informe de Inspección Agregado Exitosamente');
-        res.redirect('/expedientes/listado');
-    }
+        idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion, darcumplimientoa, plazointimacion, numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase, fechasalida, user, name, date
+    })
+    newInformeinspeccion.user = req.user.id;
+    newInformeinspeccion.name = req.user.name;
+    await newInformeinspeccion.save();
+    req.flash('success_msg', 'Informe de Inspección Agregado Exitosamente');
+    res.redirect('/expedientes/listado');
+}
 )
 
 router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
@@ -965,7 +971,7 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             console.log("DESDE", desde)
             console.log("HASTA", hasta)
             var d = new Date(hasta);
-            const hastad = d.setDate(d.getDate() + 1);            
+            const hastad = d.setDate(d.getDate() + 1);
             console.log("HASTAD", hastad)
             console.log("D", d)
             const multas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
@@ -999,7 +1005,7 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Mesa-Entrada") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        var contador = 0;        
+        var contador = 0;
         if (nomyape) {
             var dni = "";
             if (typeof nomyape == 'number') {
@@ -1293,11 +1299,11 @@ router.get('/expedientes/expedconinformeinspeccion/:id', isAuthenticated, async 
     var id = req.params.id;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         //const mesaentrada = await Mesaentrada.findById(req.params.id).lean() 
-        const expediente = await Expediente.findById(req.params.id).lean()       
+        const expediente = await Expediente.findById(req.params.id).lean()
         //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
         var numexpediente = expediente.numexpediente
-        const expedisnpeccion = await Expedinspeccion.find({numexpediente: numexpediente}).lean().sort({ date: 'desc' }); //
-        
+        const expedisnpeccion = await Expedinspeccion.find({ numexpediente: numexpediente }).lean().sort({ date: 'desc' }); //
+
         res.render('notes/inspecciones/planillalistaexpconinformes', { expedisnpeccion, expediente });
     } else if (rolusuario == "Inspector") {
         const expedisnpeccion = await Expedinspeccion.find().lean().limit(100).sort({ date: 'desc' }); //
@@ -1403,18 +1409,25 @@ router.get('/infracciones/listado', isAuthenticated, async (req, res) => {
 
 router.get('/estadisticas', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
-    const estadisticas = await Estadistica.find().lean().sort({ estadisticanum: 'asc' });
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const estadisticas = await Estadistica.find().lean().sort({ estadisticanum: 'asc' });
+        res.render('notes/allestadistica', { estadisticas });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA ESTADISTICAS')
+        return res.redirect('/');
+    }
     //para que muestre notas de un solo user
     // const estadisticas = await Estadistica.find({user : req.user.id}).lean().sort({estadisticanum:'desc'}); 
-    res.render('notes/allestadistica', { estadisticas });
+
 });
 
 router.get('/usuarios', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     const rolusuario = req.user.rolusuario;
-    if (rolusuario == "Administrador"){
+    if (rolusuario == "Administrador") {
         const infracciones = await Infraccion.find().lean().sort({ date: 'desc' });
-        res.render('notes/allusuariosadm', { infracciones });    
+        res.render('notes/allusuariosadm', { infracciones });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
         return res.redirect('/');
@@ -2238,7 +2251,7 @@ router.put('/notes/editaddintimacion/:id', isAuthenticated, async (req, res) => 
 // **** SECTOR EDITAR ****
 
 router.put('/users/editusuarios/:id', isAuthenticated, async (req, res) => {
-    const { name, dni, email, rolusuario} = req.body
+    const { name, dni, email, rolusuario } = req.body
     await Users.findByIdAndUpdate(req.params.id, {
         name, dni, email, rolusuario
     });
@@ -2281,7 +2294,7 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
         permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
-        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
         fechainicioentrada, eliminado, user, name } = req.body
     await Expediente.findByIdAndUpdate(req.params.id, {
         numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
@@ -2289,7 +2302,7 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
         permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
-        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente, 
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
         fechainicioentrada, eliminado, user, name
     });
     req.flash('success_msg', 'Expediente actualizado')
@@ -2297,11 +2310,11 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
 });
 
 router.put('/notes/editinformexpediente/:id', isAuthenticated, async (req, res) => {
-    const { idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
-        numintimacion,darcumplimientoa, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date } = req.body
+    const { idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion, darcumplimientoa, numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase, fechasalida, user, name, date } = req.body
     await Expedinspeccion.findByIdAndUpdate(req.params.id, {
-        idexpediente, numexpediente,numadrema,fechaentradainspeccion, fechaeinspectorinspeccion,
-        numintimacion,darcumplimientoa, numinfraccion , causas,paralizacion, causasparalizacion,  informe, destinopase,fechasalida,user, name, date
+        idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion,
+        numintimacion, darcumplimientoa, numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase, fechasalida, user, name, date
     });
     req.flash('success_msg', 'Informe de Expediente actualizado')
     res.redirect('/expedientes/listado');
@@ -2375,13 +2388,13 @@ router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
 
 router.delete('/usuarios/delete/:id', isAuthenticated, async (req, res) => {
     var usuarios = await Users.find().lean().sort();
-    if (usuarios.length>1){
+    if (usuarios.length > 1) {
         await Users.findByIdAndDelete(req.params.id);
-        req.flash('success_msg', 'Usuario Eliminado')    
+        req.flash('success_msg', 'Usuario Eliminado')
         res.redirect('/usuarios')
     }
-        else {
-        req.flash('success_msg', 'No puede eliminar usuario único')    
+    else {
+        req.flash('success_msg', 'No puede eliminar usuario único')
         res.redirect('/usuarios')
     }
 });

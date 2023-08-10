@@ -37,15 +37,50 @@
             </h4>
             <div class="card-body">
                 <form>
+                    <div class="form-group" style="color:grey; font-style:oblique; font-weight: bold;">
+                        N° Identificacion:
+                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                            value="{{mesaentrada._id}}" style="color: grey; font-weight: bold;" disabled>
+                    </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Turno Nº:
+                        Turno Entregado Nº:
                         <input type="text" name="user" class="form-control" placeholder="Sin Información"
                             value="{{mesaentrada.numturno}}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Sector Visitado:
+                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                            value="{{mesaentrada.sector}}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Nombre y Apellido:
+                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                            value="{{ mesaentrada.nomyape }}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Documento Nac. de Identidad:
+                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                            value="{{ mesaentrada.dni }}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Contacto:
+                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                            value="{{ mesaentrada.contacto }}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Numº Expediente:
                         <input type="text" name="user" class="form-control" placeholder="No Especificado"
                             value="{{ mesaentrada.numexpediente }}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Fecha del Turno:
+                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                            value="{{mesaentrada.fechaingreso}}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Hora del Turno:
+                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                            value="{{mesaentrada.horaingreso}}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Observaciones:
@@ -78,5 +113,4 @@
             </form>
         </div>
     </div>
-
 </div>
