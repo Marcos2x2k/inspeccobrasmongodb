@@ -409,7 +409,7 @@ router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
 
 router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
     //console.log(req.body)
-    const { numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
+    const { numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
@@ -433,7 +433,7 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         })
     } else {
         const newExpediente = new Expediente({
-            numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
+            numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
             fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
             directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
             superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
@@ -2289,7 +2289,7 @@ router.put('/notes/editticket/:id', isAuthenticated, async (req, res) => {
 });
 
 router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
-    const { numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
+    const { numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
@@ -2297,7 +2297,7 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
         selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
         fechainicioentrada, eliminado, user, name } = req.body
     await Expediente.findByIdAndUpdate(req.params.id, {
-        numexpediente, estado, iniciadornomyape, domicilio, adremaexp,
+        numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
@@ -2306,7 +2306,7 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
         fechainicioentrada, eliminado, user, name
     });
     req.flash('success_msg', 'Expediente actualizado')
-    res.redirect('/expedientes');
+    res.redirect('/expedientes/listado');
 });
 
 router.put('/notes/editinformexpediente/:id', isAuthenticated, async (req, res) => {

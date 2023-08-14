@@ -9,6 +9,11 @@ ExpedienteSchema = new Schema({
     require: false,
     default: "No Posee Información"
   },
+  motivoentsal:{
+    type: String,
+    require: false,
+    default: "No Posee Información"
+  },
   numexpediente: {
     type: String,
     require: false,
