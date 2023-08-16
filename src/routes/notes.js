@@ -11,11 +11,13 @@ const Infraccion = require('../models/Infraccion')
 const Estadistica = require('../models/Estadistica')
 const Mesaentrada = require('../models/mesaentrada')
 const Ticket = require('../models/Ticket')
-const Cicloinspeccion = require('../models/cicloinspeccion')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 const Users = require('../models/User')
 const Expedinspeccion = require('../models/expedinspeccion')
+const Cicloinspeccion = require('../models/cicloinspeccion')
+const Expedticket = require('../models/Expedticket')
+const Expedticketentrainsp = require('../models/Expedticketentrainsp')
 
 const fs = require('fs').promises
 
@@ -177,7 +179,7 @@ router.get('/multas/addtasas', isAuthenticated, (req, res) => {
     if (rolusuario == "Administrador" || rolusuario == "Liquidaciones") {
         res.render('notes/newtasas');
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS')
         return res.redirect('/');
     }
 
@@ -191,7 +193,7 @@ router.get('/tickets/add', isAuthenticated, async (req, res) => {
         res.render('notes/newtickets');
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETS')
         return res.redirect('/');
     }
 })
@@ -1273,6 +1275,26 @@ router.get('/expedientes/listado', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
+router.get('/expedientes/listadoticket', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const expedticket = await Expedticket.find().lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/planillaexpticketinsp.hbs', { expedticket });
+    } else if (rolusuario == "Inspector") {
+        const expedticket = await Expediente.find().lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/planillaexpticketinsp.hbs', { expedticket });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
+
 
 router.get('/expedientes/informeinspeccion', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
