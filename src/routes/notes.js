@@ -1283,17 +1283,30 @@ router.get('/expedientes/listadoticket', isAuthenticated, async (req, res) => {
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         const expedticket = await Expedticket.find().lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
-        res.render('notes/inspecciones/planillaexpticketinsp.hbs', { expedticket });
+        res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket });
     } else if (rolusuario == "Inspector") {
         const expedticket = await Expediente.find().lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
-        res.render('notes/inspecciones/planillaexpticketinsp.hbs', { expedticket });
+        res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
     }
 });
 
+router.get('/expedientes/listadoticket/add/:id', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const expedticket = await Expedticket.findById(req.params.id).lean();
+    const expedticketentrainsp = await Expedticketentrainsp.findById(req.params.id).lean();
+    //const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        res.render('notes/inspecciones/expticket/newinforexpticket', { expedticket, expedticketentrainsp });;
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+})
 
 
 router.get('/expedientes/informeinspeccion', isAuthenticated, async (req, res) => {

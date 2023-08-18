@@ -33,8 +33,8 @@
     </form>
   </div>
 
-  <a href="/tickets/add" class="btn btn-success btn-block">Agregar Ticket!</a>
-  <a href="/ticket/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+  <a href="/expedientes/listadoticket/add" class="btn btn-success btn-block">Agregar Ticket!</a>
+  <a href="/expedientes/listadoticket" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
 
   <div class="form-group btn-center mx-auto">
     {{!-- </br> --}}
@@ -66,20 +66,27 @@
             <td>{{ destinodeobra }}</td>
             <td>{{ adrema }}</td>
             <td>
-              {{!-- <a class="dropdown-item" href="/ticket/add/{{_id}}"
-                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a> --}}
-              <a class="dropdown-item" href="/ticket/list/{{_id}}"
-                style="color:rgb(56, 219, 56);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+              <a class="dropdown-item" href="/expedientes/expedconinformeinspeccion/{{_id}}"
+                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Informes Ticket</a>
+              <a class="dropdown-item" href="/expedientes/list/{{_id}}"
+                style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">Info Ticket Exp</a>
+
             </td>
             <td>
-              <a class="dropdown-item" href="/tickets/edit/{{_id}}" style="color:yellow">Editar</a>
-              <form onSubmit="return confirm('Desea Borrar?')"  style="" action="/tickets/delete/{{_id}}?_method=DELETE" method="POST">
+              <a class="dropdown-item" href="/expedientes/listadoticket/add/{{_id}}"
+                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe ExpTicket</a>
+              <a class="dropdown-item " href="/expedientes/edit/{{_id}}"
+                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar Ticket Exp</a>
+              <form
+                onSubmit="return confirm('Recuerde que se borrará el expediente pero no sus informes. Desea Borrar?')"
+                style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar
                 </button>
               </form>
             </td>
+          </tr>
           </tr>
           {{/each}}
         </tbody>
