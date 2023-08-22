@@ -1368,7 +1368,7 @@ router.get('/expedientes/ticket/ticketexpedconinformeinspeccion/:id', isAuthenti
         //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
         var numticket = expedticket.numticket
         const expedticketentrainsp = await Expedticketentrainsp.find({ numticket: numticket }).lean().sort({ date: 'desc' }); //
-        res.render('notes/inspecciones/expticket/planillalistaticketconinforme', { expedticketentrainsp, expedticket });
+        res.render('notes/inspecciones/expticket/planillalistaticketconinforme', { expedticketentrainsp, expedticket });        
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
