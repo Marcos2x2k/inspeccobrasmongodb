@@ -1350,6 +1350,32 @@ router.get('/expedientes/expedconinformeinspeccion/:id', isAuthenticated, async 
     }
 });
 
+router.get('/expedientes/ticket/ticketexpedconinformeinspeccion/:id', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    var id = req.params.id;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        //const mesaentrada = await Mesaentrada.findById(req.params.id).lean() 
+        const expedticket = await Expedticket.findById(req.params.id).lean()
+        //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
+        var numticket = expedticket.numticket
+        const expedticketentrainsp = await Expedticketentrainsp.find({ numticket: numticket }).lean().sort({ date: 'desc' }); //
+        res.render('notes/inspecciones/expticket/planillalistaticketconinforme', { expedticketentrainsp, expedticket });
+    } else if (rolusuario == "Inspector") {
+        //const mesaentrada = await Mesaentrada.findById(req.params.id).lean() 
+        const expedticket = await Expedticket.findById(req.params.id).lean()
+        //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
+        var numticket = expedticket.numticket
+        const expedticketentrainsp = await Expedticketentrainsp.find({ numticket: numticket }).lean().sort({ date: 'desc' }); //
+        res.render('notes/inspecciones/expticket/planillalistaticketconinforme', { expedticketentrainsp, expedticket });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
+
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -1568,6 +1594,11 @@ router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {
 router.get('/expedientes/list/:id', isAuthenticated, async (req, res) => {
     const expediente = await Expediente.findById(req.params.id).lean()
     res.render('notes/listexpediente', { expediente })
+});
+
+router.get('/expedientes/ticket/list/:id', isAuthenticated, async (req, res) => {
+    const expedticket = await Expedticket .findById(req.params.id).lean()
+    res.render('notes/inspecciones/expticket/listticketexp.hbs', { expedticket }) 
 });
 
 router.get('/informexpedientes/list/:id', isAuthenticated, async (req, res) => {
