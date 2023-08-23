@@ -1535,6 +1535,11 @@ router.get('/expedientes/edit/:id', isAuthenticated, async (req, res) => {
     res.render('notes/editexpediente', { expediente })
 });
 
+router.get('/expedientes/ticket/edit/:id', isAuthenticated, async (req, res) => {
+    const expedticket = await Expedticket.findById(req.params.id).lean()
+    res.render('notes/inspecciones/expticket/editticketexpediente', { expedticket })    
+});
+
 router.get('/informexpedientes/edit/:id', isAuthenticated, async (req, res) => {
     const expedinspeccion = await Expedinspeccion.findById(req.params.id).lean()
     res.render('notes/inspecciones/editinformexpediente', { expedinspeccion })
@@ -2386,6 +2391,20 @@ router.put('/notes/editinformexpediente/:id', isAuthenticated, async (req, res) 
     res.redirect('/expedientes/listado');
 });
 
+router.put('/notes/editexpedticket/:id', isAuthenticated, async (req, res) => {
+    const {estado, numticket, iniciador,domicilio, adrema,fiduciariopropsocio, direcfiduciariopropsocio,
+        correofiduciariopropsocio, directorobraoperitovisor, destinodeobra, 
+        superficieterreno, superficieaconstruir, superficiesubsueloplantabaja,superficieprimerpisoymaspisos,
+        observaciones,permisobraoactainfrac, user, name, date} = req.body
+    await Expedticket.findByIdAndUpdate(req.params.id, {
+        estado, numticket, iniciador,domicilio, adrema,fiduciariopropsocio, direcfiduciariopropsocio,
+        correofiduciariopropsocio, directorobraoperitovisor, destinodeobra, 
+        superficieterreno, superficieaconstruir, superficiesubsueloplantabaja,superficieprimerpisoymaspisos
+        ,observaciones,permisobraoactainfrac, user, name, date 
+    });
+    req.flash('success_msg', 'Informe de ticket de Expediente actualizado')
+    res.redirect('/expedientes/listadoticket');
+});
 
 router.put('/notes/inspecciones/editnote/:id', isAuthenticated, async (req, res) => {
     const { numinspeccion, expediente, oficio, acta, adrema, date, inspuser,
