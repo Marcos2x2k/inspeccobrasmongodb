@@ -68,26 +68,26 @@
         </div>
         <div class="card-body">
             <p style="color:red">(*) Obligatorio</p>
-            <form action="/informeinspeccion/newinformeinspeccion" method="POST" enctype="multipart/form-data">
+            <form action="/ticket/informeinspeccion/newinforexpticket" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <p style="font-weight: bold;">ID Expediente:</p>
-                    <input value="{{expedientes._id}}" style="display:none; font-weight: bold; color:green" type="text"
+                    <p style="font-weight: bold;">ID Ticket:</p>
+                    <input value="{{expedticket._id}}" style="display:none; font-weight: bold; color:green" type="text"
                         name="idexpediente" class="form-control" placeholder="No Posee"/>
-                    <label style="font-weight: bold; color:green" >{{expedientes._id}}</label>
+                    <label style="font-weight: bold; color:gray" >{{expedticket._id}}</label>
                     <br/>
                 </div>
                 <div class="form-group">
-                    <p style="font-weight: bold;">N° Expediente:</p>
-                    <input value="{{expedientes.numexpediente}}" style="display:none;font-weight: bold; color:green"
-                        type="text" name="numexpediente" class="form-control" placeholder="No Posee"/>
-                        <label style="font-weight: bold; color:green" >{{expedientes.numexpediente}}</label>
+                    <p style="font-weight: bold;">N° Ticket:</p>
+                    <input value="{{expedticket.numticket}}" style="display:none;font-weight: bold; color:green"
+                        type="text" name="numticket" class="form-control" placeholder="No Posee"/>
+                        <label style="font-weight: bold; color:green" >{{expedticket.numticket}}</label>
                     <br/>
                 </div>
                 <div class="form-group">
                     <p style="font-weight: bold;">N° Adrema:</p>
-                    <input value="{{expedientes.adremaexp}}" style="display:none;font-weight: bold; color:green"
-                        name="numadrema" class="form-control" placeholder="Adrema"></input>
-                        <label style="font-weight: bold; color:green" >{{expedientes.adremaexp}}</label>
+                    <input value="{{expedticket.adrema}}" style="display:none;font-weight: bold; color:green"
+                        name="adrema" class="form-control" placeholder="Adrema"></input>
+                        <label style="font-weight: bold; color:green" >{{expedticket.adrema}}</label>
                     <br/>
                 </div>   
                 <div class="form-group">

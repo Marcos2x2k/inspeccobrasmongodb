@@ -469,6 +469,31 @@ router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (r
 }
 )
 
+router.post('/ticket/informeinspeccion/newinforexpticket', isAuthenticated, async (req, res) => {
+    //console.log(req.body)
+    const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
+        destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
+        zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
+        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
+        user, name, date
+    } = req.body;
+
+    const newExpedticketentrainsp = new Expedticketentrainsp({
+        plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
+        destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
+        zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
+        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
+        user, name, date
+    })
+    newExpedticketentrainsp.user = req.user.id;
+    newExpedticketentrainsp.name = req.user.name;
+    await newExpedticketentrainsp.save();
+    req.flash('success_msg', 'Informe Expediente de Inspección Ticket Agregado Exitosamente');
+    res.redirect('/expedientes/listadoticket');
+}
+)
+
+
 router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
     const newNote = new Note();
     newNote.origeninspeccion = req.body.origeninspeccion;
