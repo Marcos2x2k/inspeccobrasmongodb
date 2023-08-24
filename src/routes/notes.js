@@ -1566,6 +1566,10 @@ router.get('/informexpedientes/edit/:id', isAuthenticated, async (req, res) => {
     res.render('notes/inspecciones/editinformexpediente', { expedinspeccion })
 });
 
+router.get('/informexpedtickets/edit/:id', isAuthenticated, async (req, res) => {
+    const expedticketentrainsp = await Expedticketentrainsp.findById(req.params.id).lean()
+    res.render('notes/inspecciones/expticket/editinformeticket.hbs', { expedticketentrainsp })
+});
 
 router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
@@ -1630,6 +1634,11 @@ router.get('/expedientes/ticket/list/:id', isAuthenticated, async (req, res) => 
 router.get('/informexpedientes/list/:id', isAuthenticated, async (req, res) => {
     const expedinspeccion = await Expedinspeccion.findById(req.params.id).lean()
     res.render('notes/inspecciones/listinformexpediente', { expedinspeccion })
+});
+
+router.get('/informexpedtickets/list/:id', isAuthenticated, async (req, res) => {
+    const expedticketentrainsp = await Expedticketentrainsp.findById(req.params.id).lean()
+    res.render('notes/inspecciones/expticket/listinforticket', { expedticketentrainsp })
 });
 
 router.get('/notes/list/:id', isAuthenticated, async (req, res) => {
@@ -2423,9 +2432,23 @@ router.put('/notes/editexpedticket/:id', isAuthenticated, async (req, res) => {
         superficieterreno, superficieaconstruir, superficiesubsueloplantabaja,superficieprimerpisoymaspisos
         ,observaciones,permisobraoactainfrac, user, name, date 
     });
+    req.flash('success_msg', 'Ticket de Expediente actualizado')
+    res.redirect('/expedientes/listadoticket');
+});
+
+router.put('/notes/editinformeticket/:id', isAuthenticated, async (req, res) => {
+    const {idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
+        numinfraccion, observaciones,destinopase,fechasalida,
+        user, name, date} = req.body
+    await Expedticketentrainsp.findByIdAndUpdate(req.params.id, {
+        idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
+        numinfraccion, observaciones,destinopase,fechasalida,
+        user, name, date
+    });
     req.flash('success_msg', 'Informe de ticket de Expediente actualizado')
     res.redirect('/expedientes/listadoticket');
 });
+
 
 router.put('/notes/inspecciones/editnote/:id', isAuthenticated, async (req, res) => {
     const { numinspeccion, expediente, oficio, acta, adrema, date, inspuser,
