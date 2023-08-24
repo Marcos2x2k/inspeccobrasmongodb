@@ -25,11 +25,11 @@
         <h5 style="color:yellow">{{ expedticket.estado }}</h5>
       </div>
       <div class="form-group btn-center mx-auto">
-        <h6 style="color:black;text-decoration-line: underline;">Número de expedticket</h6>
+        <h6 style="color:black;text-decoration-line: underline;">Número de Expediente</h6>
         <h5 style="color:yellow">{{ expedticket.numticket }}</h5>
       </div>
       <div class="form-group btn-center mx-auto">
-        <h6 style="color:black;text-decoration-line: underline;">Iniciador de expedticket</h6>
+        <h6 style="color:black;text-decoration-line: underline;">Iniciador de Expediente</h6>
         <h5 style="color:yellow">{{ expedticket.iniciador }}</h5>
       </div>
       <div class="form-group btn-center mx-auto">
@@ -64,7 +64,7 @@
           {{#each expedticketentrainsp}}
           <tr>
             {{!-- <td>{{ _id }}</td> --}}
-            <td>{{ numexpedticket }}</td>
+            <td>{{ numexpediente }}</td>
             <td>{{ numadrema }}</td>
             <td>{{ fechaentradainspeccion }}</td>
             <td>{{ fechaeinspectorinspeccion }}</td>
@@ -81,7 +81,7 @@
               <a class="dropdown-item " href="/informexpedtickets/edit/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a>
               <form onSubmit="return confirm('Desea Borrar Informe?')"
-                action="/expedinspeccion/delete/{{_id}}?_method=DELETE" method="POST">
+                action="/expedinspeccion/ticket/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar

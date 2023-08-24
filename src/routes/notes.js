@@ -471,18 +471,14 @@ router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (r
 
 router.post('/ticket/informeinspeccion/newinforexpticket', isAuthenticated, async (req, res) => {
     //console.log(req.body)
-    const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
-        destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
-        zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
-        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
+    const { idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
+        numinfraccion, observaciones,destinopase,fechasalida,
         user, name, date
     } = req.body;
 
     const newExpedticketentrainsp = new Expedticketentrainsp({
-        plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
-        destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
-        zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
-        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
+        idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
+        numinfraccion, observaciones,destinopase,fechasalida,        
         user, name, date
     })
     newExpedticketentrainsp.user = req.user.id;
@@ -2544,6 +2540,14 @@ router.delete('/expedinspeccion/delete/:id', isAuthenticated, async (req, res) =
     req.flash('success_msg', 'Informe de Expediente Eliminado')
     res.redirect('/expedientes/informeinspeccion')
 });
+
+router.delete('/expedinspeccion/ticket/delete/:id', isAuthenticated, async (req, res) => {
+    await Expedticketentrainsp.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Informe de Ticket de Expediente Eliminado')
+    res.redirect('/expedientes/listadoticket')
+});
+
+
 
 //NOTES es inspecciones
 router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
