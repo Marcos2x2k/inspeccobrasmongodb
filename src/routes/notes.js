@@ -471,14 +471,16 @@ router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (r
 
 router.post('/ticket/informeinspeccion/newinforexpticket', isAuthenticated, async (req, res) => {
     //console.log(req.body)
-    const { idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
-        numinfraccion, observaciones,destinopase,fechasalida,
+    const { idexpediente, numexpediente, numadrema, numticket, fechaentradainspeccion, fechaeinspectorinspeccion, 
+        selectintimacion, numintimacion, darcumplimientoa, plazointimacion, selectinfraccion,
+        numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase,fechasalida,
         user, name, date
     } = req.body;
 
     const newExpedticketentrainsp = new Expedticketentrainsp({
-        idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
-        numinfraccion, observaciones,destinopase,fechasalida,        
+        idexpediente, numexpediente, numadrema, numticket, fechaentradainspeccion, fechaeinspectorinspeccion, 
+        selectintimacion, numintimacion, darcumplimientoa, plazointimacion, selectinfraccion,
+        numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase,fechasalida,
         user, name, date
     })
     newExpedticketentrainsp.user = req.user.id;

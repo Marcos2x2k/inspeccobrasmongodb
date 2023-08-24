@@ -28,15 +28,40 @@ const ExpedticketentrainspSchema = new Schema({
         require: false,
         default: "x" // x es No sino pone el num de intimacion
     },
+    darcumplimientoa: {
+        type: String,
+        require: false,
+        default: "No Informó"
+    },
+    plazointimacion: {
+        type: String,
+        require: false,
+        default: "0"
+    },
     numinfraccion: {
         type: String,
         require: false,
         default: "x" // x es No sino pone el num de infraccion
     },
-    observaciones: {
+    causas: {
         type: String,
         require: false,
-        default: "Sin Informacion"
+        default: "No Informó"
+    },
+    paralizacion: {
+        type: String,
+        require: false,
+        default: "No"
+    },
+    causasparalizacion: {
+        type: String,
+        require: false,
+        default: "No Informó"
+    },
+    informe: {
+        type: String,
+        require: false,
+        default: "No Informó"
     },
     destinopase: {
         type: String,
