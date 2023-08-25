@@ -73,6 +73,11 @@ ExpedienteSchema = new Schema({
     require: false,
     default: "No Posee Información"
   },
+  superficieademoler: {
+    type: String,
+    require: false,
+    default: "No Posee Información"
+  },
   superficiesubsueloplantabaja: {
     type: String,
     require: false,

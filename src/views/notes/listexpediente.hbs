@@ -71,10 +71,15 @@
                         value="{{expediente.superficieaconstruir}}" style="color: black; font-weight: bold;" disabled>
                 </div>
                 <div class="form-group">
+                    Superficie a Demoler:
+                    <input type="text" name="superficieademoler" class="form-control" placeholder="Sin Información"
+                        value="{{expediente.superficieademoler}}" style="color: black; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group">
                     superficie subsuelo, planta baja:
-                    <textarea type="text" name="superficiesubsueloplantabaja" class="form-control"
+                    <input type="text" name="superficiesubsueloplantabaja" class="form-control"
                         placeholder="Sin Información" value="{{expediente.superficiesubsueloplantabaja}}"
-                        style="color: black; font-weight: bold;" disabled></textarea>
+                        style="color: black; font-weight: bold;" disabled></input>
                 </div>
                 <div class="form-group">
                     Superficie primerpiso y más pisos:
@@ -144,12 +149,12 @@
                     <input type="text" name="fechainicioentrada" class="form-control" placeholder="Sin Información"
                         value="{{expediente.fechainicioentrada}}" style="color: black; font-weight: bold;" disabled>
                 </div>
-                <div class="form-group">
+                {{!-- <div class="form-group">
                     <label style="font-weight:bold">Fotos 1:</label>
                     <br />
                     {{!-- <img style="border-radius:30px;" src="{{expediente.path}}" alt="_Imagen No Cargada"
                         width="400" /> <br /><br /> --}}
-                    {{!-- <a href="{{expediente.path}}">Ver Foto en Grande</a> --}}
+                    {{!-- <a href="{{expediente.path}}">Ver Foto en Grande</a>
                     <a href="{{expediente.path}}" target="_blank">
                         <img style="border-radius:30px;" src="{{expediente.path}}" alt="_Imagen No Cargada" width="250"
                             height="300">
@@ -211,7 +216,7 @@
                         <img style="border-radius:30px;" src="{{expediente.pathocho}}" alt="_Imagen No Cargada"
                             width="250" height="300">
                     </a>
-                </div>
+                </div> --}}
 
                 <div class="form-group">
                     ID Usuario. Cargó Infracción

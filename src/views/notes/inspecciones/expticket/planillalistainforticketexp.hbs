@@ -22,20 +22,10 @@
   </div>
   <div class="form-group btn-center mx-auto">
     <form action="/expedientes/findiniciador" method="POST">
-      <input type="search" class="form-control" name="iniciadornomyape" placeholder="Buscar x Iniciador..." autofocus />
+      <input type="search" class="form-control" name="iniciadornomyape" placeholder="Buscar x Iniciador/dni..." autofocus />
       <div class="form-group">
         <button class="btn btn-warning btn-block btn-sm" type="submit">
           Buscar Intimación
-        </button>
-      </div>
-    </form>
-  </div>
-  <div class="form-group btn-center mx-auto">
-    <form action="/expedientes/findiniciador" method="POST">
-      <input type="search" class="form-control" name="iniciadornomyape" placeholder="Buscar x Iniciador..." autofocus />
-      <div class="form-group">
-        <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar Infracción
         </button>
       </div>
     </form>
@@ -54,38 +44,37 @@
       <table class="table table-dark table-hover">
         <thead>
           <tr style="background-color: rgb(38, 18, 221);;text-shadow: 1px 1px 2px black">
-            <td>numexpediente</td>
+            <td>numexpedticket</td>
             <td>numadrema</td>
             <td>fechaentradainspeccion</td>
             <td>fechaeinspectorinspeccion</td>
             <td>numintimacion</td>
             <td>numinfraccion</td>
-            <td>Destino.pase</td>
+            <td>fechaSalida</td>
             <td>+Opciones</td>
           </tr>
         </thead>
         <tbody>
-          {{#each expedisnpeccion}}          
+          {{#each expedticketentrainsp}}          
           <tr>
-            {{!-- <td>{{ _id }}</td> --}}
             <td>{{ numexpediente }}</td>
             <td>{{ numadrema }}</td>
             <td>{{ fechaentradainspeccion }}</td>
             <td>{{ fechaeinspectorinspeccion }}</td>
             <td>{{ numintimacion }}</td>
             <td>{{ numinfraccion }}</td>
-            <td>{{ destinopase }}</td>
+            <td>{{ fechasalida }}</td>
             <td>
               {{!-- <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
                 style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a>
               --}}
-              <a class="dropdown-item" href="/informexpedientes/list/{{_id}}"
-                style="color:rgb(226, 241, 9);font-weight: bold;text-shadow: 1px 1px 2px black;">+Info</a>
+              <a class="dropdown-item" href="/informexpedtickets/list/{{_id}}"
+                style="color:rgb(24, 27, 211);font-weight: bold;text-shadow: 1px 1px 2px black;">+Info</a>
 
-              <a class="dropdown-item " href="/expedientes/ticket/edit/{{_id}}"
+              <a class="dropdown-item " href="/informexpedtickets/edit/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a>
               <form onSubmit="return confirm('Desea Borrar Informe?')"
-                action="/expedinspeccion/delete/{{_id}}?_method=DELETE" method="POST">
+                action="/expedinspeccion/ticket/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar

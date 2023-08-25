@@ -1350,6 +1350,24 @@ router.get('/expedientes/informeinspeccion', isAuthenticated, async (req, res) =
     }
 });
 
+router.get('/expedientes/ticket/informeinspeccion', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const expedticketentrainsp = await Expedticketentrainsp.find().lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/expticket/planillalistainforticketexp', { expedticketentrainsp });
+    } else if (rolusuario == "Inspector") {
+        const expedticketentrainsp = await Expedticketentrainsp.find().lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/expticket/planillalistainforticketexp', { expedticketentrainsp });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKET EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
 router.get('/expedientes/expedconinformeinspeccion/:id', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -2031,6 +2049,58 @@ router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
         res.render('notes/planillalistaticket', { ticket })
     }
 });
+
+// *** BUSCAR TICKETS DE EXPEDIENTES - LISTADO ***
+
+router.post('/ticketexp/findlistaticket', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { numticket } = req.body;
+    const expedticket = await Expedticket.find({ numticket: { $regex: numticket, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        if (!expedticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs");
+        } else {
+            res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket })
+        }
+    } else {
+        res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket })
+    }
+});
+
+router.post('/ticketexp/findlistainiciador', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { iniciador } = req.body;
+    const expedticket = await Expedticket.find({ iniciador: { $regex: iniciador, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        if (!expedticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs");
+        } else {
+            res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket })
+        }
+    } else {
+        res.render('notes/planillalistaticket', { expedticket })
+    }
+});
+
+router.post('/ticketexp/findlistaadrema', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { adrema } = req.body;
+    const expedticket = await Expedticket.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        if (!expedticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs");
+        } else {
+            res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket })
+        }
+    } else {
+        res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket })
+    }
+});
+
+
 
 // *** BUSCAR EXPEDIENTES (NOTES) - LISTADO ***
 router.post('/expedientes/find', isAuthenticated, async (req, res) => {
