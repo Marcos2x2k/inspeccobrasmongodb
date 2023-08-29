@@ -25,7 +25,7 @@
         <h5 style="color:yellow; font-size: medium">{{ expedticket.estado }}</h5>
       </div>
       <div class="form-group btn-center mx-auto">
-        <h6 style="color:black;text-decoration-line: underline;">Número de Expediente</h6>
+        <h6 style="color:black;text-decoration-line: underline;">Número Ticket</h6>
         <h5 style="color:yellow; font-size: medium">{{ expedticket.numticket }}</h5>
       </div>
       <div class="form-group btn-center mx-auto">
@@ -51,7 +51,7 @@
         <thead>
           <tr style="background-color: rgb(38, 18, 221);;text-shadow: 1px 1px 2px black">
             <td>numexpedticket</td>
-            <td>numadrema</td>
+            {{!-- <td>numadrema</td> --}}
             <td>fechaentradainspeccion</td>
             <td>fechaeinspectorinspeccion</td>
             <td>numintimacion</td>
@@ -64,8 +64,8 @@
           {{#each expedticketentrainsp}}
           <tr>
             {{!-- <td>{{ _id }}</td> --}}
-            <td>{{ numexpediente }}</td>
-            <td>{{ numadrema }}</td>
+            <td>{{ numticket }}</td>
+            {{!-- <td>{{ numadrema }}</td> --}}
             <td>{{ fechaentradainspeccion }}</td>
             <td>{{ fechaeinspectorinspeccion }}</td>
             <td>{{ numintimacion }}</td>

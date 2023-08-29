@@ -19,7 +19,7 @@ const ExpedticketSchema = new Schema({
         type: String,
         require: false
     },
-    adrema: {
+    numadrema: {
         type: String,
         require: false,
         default: "No Informó"

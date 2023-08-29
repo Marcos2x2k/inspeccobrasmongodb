@@ -2054,17 +2054,12 @@ router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
 
 router.post('/ticketexp/findlistaticket', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { numticket } = req.body;
-    const expedticket = await Expedticket.find({ numticket: { $regex: numticket, $options: "i" } }).lean().sort({ date: 'desc' })
+    const { numeroticket } = req.body;
+    const expedticket = await Expedticket.find({ numticket: { $regex: numeroticket, $options: "i" } }).lean().sort({ date: 'desc' })
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        if (!expedticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs");
-        } else {
-            res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket })
-        }
+        res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs", { expedticket })        
     } else {
-        res.render('notes/inspecciones/expticket/planillaexpticketinsp.hbs', { expedticket })
+        res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs", { expedticket })
     }
 });
 

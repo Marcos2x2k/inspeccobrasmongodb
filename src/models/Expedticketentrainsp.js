@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const ExpedticketentrainspSchema = new Schema({
-    idexpediente:{
+    idticket:{
         type: String,
         required: false,
     },
-    numexpediente:{
+    numticket:{
         type: String,
         required: false,
     },
