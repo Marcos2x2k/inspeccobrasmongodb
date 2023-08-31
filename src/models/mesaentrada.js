@@ -58,8 +58,10 @@ const MesaentradaSchema = new Schema({
         require: false,
         default: "Administrador"
     },
-    date: {type: Date, 
-        default: Date.now},
+    date: {
+        type: Date, 
+        default: Date.now
+    },
 });
 
 module.exports = mongoose.model("Mesaentrada", MesaentradaSchema);

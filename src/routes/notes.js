@@ -888,7 +888,7 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
         //contador = 0
         var d = new Date(hasta);
         const hastao = d.setDate(d.getDate() + 1);
-        tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean();
+        tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean().sort({ sector: 'desc' });;
         //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
         //.find({ desde: { $regex: date, $options: "i" } }).lean();            
         // for (let i = 0; i < tablamesaentrada.length; i++) {
@@ -901,6 +901,7 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
         contador += 1
         tabla += `<tr>    
     <td>${mesaentrada.sector}</td>
+    <td>${mesaentrada.numexpediente}</td>
     <td>${mesaentrada.nomyape}</td>
     <td>${mesaentrada.dni}</td>
     <td>${mesaentrada.contacto}</td>
