@@ -107,9 +107,28 @@
             na.required = false;
             fd.required = true;
             fa.required = true;
+        } else if (seleccion.selectedIndex == 5) {
+            x.disabled = false;
+            //imp.disabled = false;
+            p.disabled = true;
+            a.disabled = true;
+            na.disabled = false;
+            fd.disabled = false;
+            fa.disabled = false;
+            p.type = "text";
+            a.type = "text";
+            //na.type = "text";
+            fd.type = "date";
+            fa.type = "date";
+            fd.style.hidden = false;
+            fa.style.hidden = false;
+            p.required = false;
+            a.required = false;
+            na.required = true;
+            fd.required = true;
+            fa.required = true;
         }
     }
-
     function selecdatoestadisticoo() {
         const selecciono = document.getElementById('datoestadisticoo');
         //const xo = document.getElementById("armarestadisticao")
@@ -217,6 +236,26 @@
             nao.required = false;
             fdo.required = true;
             fao.required = true;
+        } else if (selecciono.selectedIndex == 5) {
+            //xo.disabled = false;
+            impo.disabled = false;
+            po.disabled = true;
+            ao.disabled = true;
+            nao.disabled = false;
+            fdo.disabled = false;
+            fao.disabled = false;
+            po.type = "text";
+            ao.type = "text";
+            nao.type = "text";
+            fdo.type = "date";
+            fao.type = "date";
+            fdo.style.hidden = false;
+            fao.style.hidden = false;
+            po.required = false;
+            ao.required = false;
+            nao.required = true;
+            fdo.required = true;
+            fao.required = true;
         }
     }
 
@@ -267,6 +306,7 @@
                 <option value=2>por Adrema</option>
                 <option value=3>por Sector</option>
                 <option value=4>por Fechas</option>
+                <option value=5>Sector/fecha</option>
             </select>
             <br />
             <input class="pl-3" type="text" id="nomyape" name="nomyape" placeholder="Propietario/DNI..." disabled />
@@ -296,11 +336,12 @@
                 <option value=2>por Adrema</option>
                 <option value=3>por Sector</option>
                 <option value=4>por Fechas</option>
+                <option value=5>Sector/fecha</option>
             </select>
             <br />
             <input class="pl-3" type="text" id="nomyapeo" name="nomyape" placeholder="Propietario/DNI..." disabled />
             <input class="pl-3" type="text" id="adremao" name="adrema" placeholder="Expediente/Adrema..." disabled />
-            {{!-- <input class="pl-3" type="text" id="sectoro" name="sector" placeholder="Sector..." disabled /> --}}            
+            {{!-- <input class="pl-3" type="text" id="sectoro" name="sector" placeholder="Sector..." disabled /> --}}
             <select name="sector" id="sectoro" disabled>
                 <option>Elija Sector</option>
                 <option>Sub Secretaría</option>

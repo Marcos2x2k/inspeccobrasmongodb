@@ -471,16 +471,16 @@ router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (r
 
 router.post('/ticket/informeinspeccion/newinforexpticket', isAuthenticated, async (req, res) => {
     //console.log(req.body)
-    const { idexpediente, numexpediente, numadrema, numticket, fechaentradainspeccion, fechaeinspectorinspeccion, 
+    const { idexpediente, numexpediente, numadrema, numticket, fechaentradainspeccion, fechaeinspectorinspeccion,
         selectintimacion, numintimacion, darcumplimientoa, plazointimacion, selectinfraccion,
-        numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase,fechasalida,
+        numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase, fechasalida,
         user, name, date
     } = req.body;
 
     const newExpedticketentrainsp = new Expedticketentrainsp({
-        idexpediente, numexpediente, numadrema, numticket, fechaentradainspeccion, fechaeinspectorinspeccion, 
+        idexpediente, numexpediente, numadrema, numticket, fechaentradainspeccion, fechaeinspectorinspeccion,
         selectintimacion, numintimacion, darcumplimientoa, plazointimacion, selectinfraccion,
-        numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase,fechasalida,
+        numinfraccion, causas, paralizacion, causasparalizacion, informe, destinopase, fechasalida,
         user, name, date
     })
     newExpedticketentrainsp.user = req.user.id;
@@ -873,7 +873,28 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
         //contador = 0
         // for (let i = 0; i < tablamesaentrada.length; i++) {
         //     contador = i
-        // }
+        // }    
+    } else if (desde && hasta) {
+        if (sector) {
+            filtro = "Sector: " + sector + " - por Fecha: " + desde + " / " + hasta;
+            tipofiltro = "Sector con Fecha Desde y Fecha Hasta"
+            var o = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+            const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
+            console.log("HASTAO", hastao)
+            console.log("D", o)
+            tablamesaentrada = await Mesaentrada.find({ $and: [{date: { $gte: desde, $lte: hastao }}, {sector: { $regex: sector, $options: "i" }}] }).lean().sort({ sector: 'desc' });
+        } else {
+            filtro = "por Fecha" + desde + "/" + hasta;
+            tipofiltro = "Fecha Desde y Fecha Hasta"
+            //contador = 0
+            var d = new Date(hasta);
+            const hastao = d.setDate(d.getDate() + 1);
+            tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean().sort({ sector: 'desc' });;
+            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+            //.find({ desde: { $regex: date, $options: "i" } }).lean();            
+            // for (let i = 0; i < tablamesaentrada.length; i++) {
+            //     contador += 1
+        }
     } else if (sector) {
         tablamesaentrada = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean();
         filtro = sector;
@@ -882,20 +903,7 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
         // for (let i = 0; i < tablamesaentrada.length; i++) {
         //     contador += 1
         // }
-    } else if (desde && hasta) {
-        filtro = "por Fecha" + desde + "/" + hasta;
-        tipofiltro = "Fecha Desde y Fecha Hasta"
-        //contador = 0
-        var d = new Date(hasta);
-        const hastao = d.setDate(d.getDate() + 1);
-        tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean().sort({ sector: 'desc' });;
-        //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-        //.find({ desde: { $regex: date, $options: "i" } }).lean();            
-        // for (let i = 0; i < tablamesaentrada.length; i++) {
-        //     contador += 1
-        // }
     }
-
     for (const mesaentrada of tablamesaentrada) {
         // Y concatenar las multas 
         contador += 1
@@ -924,7 +932,6 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
             stream.pipe(res);
         }
     });
-
 })
 
 router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
@@ -1067,6 +1074,18 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
             console.log("HASTAD", hastad)
             console.log("D", d)
             const mesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
+            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+            //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
+            for (let i = 0; i < mesaentrada.length; i++) {
+                contador = contador + 1
+            }
+            res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
+        } else if ((desde && hasta) && (sector)) {
+            var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+            const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
+            console.log("HASTAD", hastad)
+            console.log("D", d)
+            const mesaentrada = await Mesaentrada.find({ $and: [{ date: { $gte: desde, $lte: hastad } }, { sector: { $regex: sector, $options: "i" } }] }).lean().sort({ date: 'desc' });
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
             for (let i = 0; i < mesaentrada.length; i++) {
@@ -1410,7 +1429,7 @@ router.get('/expedientes/ticket/ticketexpedconinformeinspeccion/:id', isAuthenti
         //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
         var numticket = expedticket.numticket
         const expedticketentrainsp = await Expedticketentrainsp.find({ numticket: numticket }).lean().sort({ date: 'desc' }); //
-        res.render('notes/inspecciones/expticket/planillalistaticketconinforme', { expedticketentrainsp, expedticket });        
+        res.render('notes/inspecciones/expticket/planillalistaticketconinforme', { expedticketentrainsp, expedticket });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
@@ -1579,7 +1598,7 @@ router.get('/expedientes/edit/:id', isAuthenticated, async (req, res) => {
 
 router.get('/expedientes/ticket/edit/:id', isAuthenticated, async (req, res) => {
     const expedticket = await Expedticket.findById(req.params.id).lean()
-    res.render('notes/inspecciones/expticket/editticketexpediente', { expedticket })    
+    res.render('notes/inspecciones/expticket/editticketexpediente', { expedticket })
 });
 
 router.get('/informexpedientes/edit/:id', isAuthenticated, async (req, res) => {
@@ -1648,8 +1667,8 @@ router.get('/expedientes/list/:id', isAuthenticated, async (req, res) => {
 });
 
 router.get('/expedientes/ticket/list/:id', isAuthenticated, async (req, res) => {
-    const expedticket = await Expedticket .findById(req.params.id).lean()
-    res.render('notes/inspecciones/expticket/listticketexp.hbs', { expedticket }) 
+    const expedticket = await Expedticket.findById(req.params.id).lean()
+    res.render('notes/inspecciones/expticket/listticketexp.hbs', { expedticket })
 });
 
 router.get('/informexpedientes/list/:id', isAuthenticated, async (req, res) => {
@@ -2058,7 +2077,7 @@ router.post('/ticketexp/findlistaticket', isAuthenticated, async (req, res) => {
     const { numeroticket } = req.body;
     const expedticket = await Expedticket.find({ numticket: { $regex: numeroticket, $options: "i" } }).lean().sort({ date: 'desc' })
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs", { expedticket })        
+        res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs", { expedticket })
     } else {
         res.render("notes/inspecciones/expticket/planillaexpticketinsp.hbs", { expedticket })
     }
@@ -2490,27 +2509,27 @@ router.put('/notes/editinformexpediente/:id', isAuthenticated, async (req, res) 
 });
 
 router.put('/notes/editexpedticket/:id', isAuthenticated, async (req, res) => {
-    const {estado, numticket, iniciador,domicilio, adrema,fiduciariopropsocio, direcfiduciariopropsocio,
-        correofiduciariopropsocio, directorobraoperitovisor, destinodeobra, 
-        superficieterreno, superficieaconstruir, superficiesubsueloplantabaja,superficieprimerpisoymaspisos,
-        observaciones,permisobraoactainfrac, user, name, date} = req.body
+    const { estado, numticket, iniciador, domicilio, adrema, fiduciariopropsocio, direcfiduciariopropsocio,
+        correofiduciariopropsocio, directorobraoperitovisor, destinodeobra,
+        superficieterreno, superficieaconstruir, superficiesubsueloplantabaja, superficieprimerpisoymaspisos,
+        observaciones, permisobraoactainfrac, user, name, date } = req.body
     await Expedticket.findByIdAndUpdate(req.params.id, {
-        estado, numticket, iniciador,domicilio, adrema,fiduciariopropsocio, direcfiduciariopropsocio,
-        correofiduciariopropsocio, directorobraoperitovisor, destinodeobra, 
-        superficieterreno, superficieaconstruir, superficiesubsueloplantabaja,superficieprimerpisoymaspisos
-        ,observaciones,permisobraoactainfrac, user, name, date 
+        estado, numticket, iniciador, domicilio, adrema, fiduciariopropsocio, direcfiduciariopropsocio,
+        correofiduciariopropsocio, directorobraoperitovisor, destinodeobra,
+        superficieterreno, superficieaconstruir, superficiesubsueloplantabaja, superficieprimerpisoymaspisos
+        , observaciones, permisobraoactainfrac, user, name, date
     });
     req.flash('success_msg', 'Ticket de Expediente actualizado')
     res.redirect('/expedientes/listadoticket');
 });
 
 router.put('/notes/editinformeticket/:id', isAuthenticated, async (req, res) => {
-    const {idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
-        numinfraccion, observaciones,destinopase,fechasalida,
-        user, name, date} = req.body
+    const { idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
+        numinfraccion, observaciones, destinopase, fechasalida,
+        user, name, date } = req.body
     await Expedticketentrainsp.findByIdAndUpdate(req.params.id, {
         idexpediente, numexpediente, numadrema, fechaentradainspeccion, fechaeinspectorinspeccion, numintimacion,
-        numinfraccion, observaciones,destinopase,fechasalida,
+        numinfraccion, observaciones, destinopase, fechasalida,
         user, name, date
     });
     req.flash('success_msg', 'Informe de ticket de Expediente actualizado')
