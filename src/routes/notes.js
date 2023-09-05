@@ -15,7 +15,7 @@ const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 const Users = require('../models/User')
 const Expedinspeccion = require('../models/expedinspeccion')
-const Cicloinspeccion = require('../models/cicloinspeccion')
+//const Cicloinspeccion = require('../models/cicloinspeccion')
 const Expedticket = require('../models/Expedticket')
 const Expedticketentrainsp = require('../models/Expedticketentrainsp')
 
@@ -882,7 +882,7 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
             const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
             console.log("HASTAO", hastao)
             console.log("D", o)
-            tablamesaentrada = await Mesaentrada.find({ $and: [{date: { $gte: desde, $lte: hastao }}, {sector: { $regex: sector, $options: "i" }}] }).lean().sort({ sector: 'desc' });
+            tablamesaentrada = await Mesaentrada.find({ $and: [{date: { $gte: desde, $lte: hastao }}, {sector: { $regex: sector, $options: "i" }}] }).lean().sort({ date: 'asc' });
         } else {
             filtro = "por Fecha" + desde + "/" + hasta;
             tipofiltro = "Fecha Desde y Fecha Hasta"
