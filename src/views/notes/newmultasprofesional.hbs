@@ -82,6 +82,17 @@
             reiteracion.style.display = "block";       
         }
     }
+    
+    function seleccionarinfparaliz() {
+        var infraccionoparalizacion = document.getElementById("infraccionoparalizacion")
+        var labelinfparaliz = document.getElementById("labelinfparaliz")
+        if (infraccionoparalizacion.selectedIndex == 0) {
+            labelinfparaliz.innerHTML= 'INFRACCIÓN';
+        } else if (infraccionoparalizacion.selectedIndex == 1) {
+            labelinfparaliz.innerHTML= 'INFRACCIÓN y PARALIZACIÓN';
+        }
+    }
+
     function seleccionarinciso() {
         var seleccion = document.getElementById('incisos');
         //con o sin sansion
@@ -257,9 +268,9 @@
                                 </div>
                             </div>
                         </div>
-                        <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
+                        <label style="font-weight: bold; color:black" for="incisos">Seleccione tipo
                             infración:</label>
-                        <select name="infraccionoparalizacion" id="infraccionoparalizacion">
+                        <select name="infraccionoparalizacion" id="infraccionoparalizacion" onclick="seleccionarinfparaliz()">
                             <option value="Infracción">Infracción</option>
                             <option value="Infracción/Paralización">Infracción/Paralización</option>
                         </select>
@@ -278,8 +289,7 @@
                     <div id="cardinciso" class="card-body mx-auto"
                         style="display:none; max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
 
-                        <label style="font-weight: bold;text-shadow: 2px 2px 5px rgb(134, 133, 133)">INFRACCIÓN Y
-                            PARALIZACIÓN</label>
+                        <label id="labelinfparaliz" style="font-weight: bold;text-shadow: 2px 2px 5px rgb(134, 133, 133)">INFRACCIÓN</label>
                         <br />
                         <input name="acta" id="acta" style="font-weight: bold; width: 21%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                                 border: 2px solid #cc0e0e; color:rgb(24, 24, 26); border-radius: 4px;"

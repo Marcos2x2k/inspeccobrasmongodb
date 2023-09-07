@@ -782,11 +782,11 @@ router.get('/mesaentrada', isAuthenticated, async (req, res) => {
     if (rolusuario == "Mesa-Entrada") {
         // res.send('Notes from data base');
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const mesaentradas = await Mesaentrada.find().lean().sort({ date: 'asc' });
+        const mesaentradas = await Mesaentrada.find({borrado:"No"}).lean().sort({ date: 'asc' });
         res.render('notes/allmesaentrada', { mesaentradas });
     } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find().lean().sort({ date: 'asc' });
-        res.render('notes/allmesaentradaadm', { mesaentradas });
+        const mesaentradas = await Mesaentrada.find({borrado:"No"}).lean().sort({ date: 'asc' });
+        res.render('notes/allmesaentrada', { mesaentradas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
         return res.redirect('/');
@@ -1242,11 +1242,22 @@ router.get('/mesaentrada/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Mesa-Entrada") {
-        const mesaentradas = await Mesaentrada.find().limit(60).lean().sort({ dateturno: 'desc' });
+        const mesaentradas = await Mesaentrada.find({borrado:"No"}).limit(60).lean().sort({ dateturno: 'desc' });
         res.render('notes/planillalistaturnero', { mesaentradas });
     } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find().limit(60).lean().sort({ dateturno: 'desc' });
+        const mesaentradas = await Mesaentrada.find({borrado:"No"}).limit(60).lean().sort({ dateturno: 'desc' });
         res.render('notes/planillalistaturnero', { mesaentradas });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
+        return res.redirect('/');
+    }
+});
+router.get('/mesaentrada/borradolistado', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador") {
+        const mesaentradas = await Mesaentrada.find({borrado:"Si"}).limit(60).lean().sort({ dateturno: 'desc' });
+        res.render('notes/planillalistaturneroborrado', { mesaentradas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
         return res.redirect('/');
@@ -2595,6 +2606,22 @@ router.put('/notes/editestadistica/:id', isAuthenticated, async (req, res) => {
 
 
 // **** SECTOR DELETE ****
+
+router.put('/mesaentrada/marcadelete/:id', isAuthenticated, async (req, res) => {
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const borrado = "Si";    
+    const fechaborrado = new Date();
+    await Mesaentrada.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado
+    });
+    req.flash('success_msg', 'Turno a Papelera Reciclaje')
+    res.redirect('/mesaentrada/listado');
+    // await Mesaentrada.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/mesaentrada/listado')
+});
 
 router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
     await Mesaentrada.findByIdAndDelete(req.params.id);

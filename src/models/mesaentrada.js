@@ -3,6 +3,16 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const MesaentradaSchema = new Schema({
+    borrado:{
+        type: String,
+        required: true,
+        default:"No",
+    },
+    fechaborrado:{
+        type: String,
+        required: true,
+        default:"No",
+    },
     sector: {
         type: String,
         require: false
