@@ -8,10 +8,15 @@ const MesaentradaSchema = new Schema({
         required: true,
         default:"No",
     },
+    userborrado:{
+        type: String,
+        required: true,
+        default:"Sin Datos",
+    },
     fechaborrado:{
         type: String,
         required: true,
-        default:"No",
+        default:"Sin Datos",
     },
     sector: {
         type: String,

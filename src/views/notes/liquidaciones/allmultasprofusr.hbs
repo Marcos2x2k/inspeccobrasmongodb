@@ -102,7 +102,16 @@
                         </td>
                         <td>
                             <a class="dropdown-item" href="/multasprofesional/add/{{_id}}"
-                                style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">Liquidar</a>
+                                style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">
+                                Liquidar
+                            </a>
+                            <form onSubmit="return confirm('Desea enviar a Papelera?')" style=""
+                                action="/multas/marcadelete/{{_id}}?_method=PUT" method="POST">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                                    Borrar
+                                </button>
+                            </form>
                             {{!-- <form onSubmit="return confirm('Desea Borrar?')"
                                 action="/multasprofesional/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">

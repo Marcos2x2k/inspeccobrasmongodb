@@ -55,12 +55,13 @@
         </button>
       </div>
     </form>
-  </div>  
+  </div>
   <a href="/mesaentrada/borradolistado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
   {{!-- <br /> --}}
   <div class="car-header mx-auto">
     <br />
-    <h5 style="color:rgb(226, 110, 15); text-decoration:underline; font-weight: bold;;text-shadow: 1px 1px 2px black">Lista Papelera Mesa entrada</h5>
+    <h5 style="color:rgb(226, 110, 15); text-decoration:underline; font-weight: bold;;text-shadow: 1px 1px 2px black">
+      Lista Papelera Mesa entrada</h5>
   </div>
   <div class="form-group btn-center mx-auto">
     {{!-- <br /> --}}
@@ -93,9 +94,10 @@
             <td>{{ fechaingreso }}</td>
             <td>{{ horaingreso }}</td>
             <td>
-              <a class="dropdown-item" href="/mesaentrada/list/{{_id}}"
+              <a class="dropdown-item" href="/mesaentrada/borradolist/{{_id}}"
                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
-              <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}" style="color:rgb(165, 196, 28)">Editar</a>
+              {{!-- <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}" style="color:rgb(165, 196, 28)">Editar</a>
+              --}}
             </td>
             <td>
               {{!-- <form onSubmit="return confirm('Desea enviar Papelera?')" style="box-shadow: 3px 4px;"
@@ -106,7 +108,14 @@
                 </button>
               </form> --}}
               {{!-- **** EL BORRADO DE ABAJO ES DEFINITIVO PARA ADMIN --}}
-              <form onSubmit="return confirm('Desea Borrar?')" style=""
+              <form onSubmit="return confirm('Desea Restaurar?')" style=""
+                action="/mesaentrada/marcadeleterestaurar/{{_id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <button class="btn btn-info btn-block btn-sm" type="submit">
+                  Restaurar
+                </button>
+              </form>
+              <form onSubmit="return confirm('Desea Borrar definitivamente?')" style=""
                 action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">

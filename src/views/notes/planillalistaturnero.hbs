@@ -99,12 +99,13 @@
             <td>
 
               <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}" style="color:rgb(165, 196, 28)">Editar</a>
-              <form onSubmit="return confirm('Desea enviar Papelera?')"  style="box-shadow: 3px 4px;" action="/mesaentrada/marcadelete/{{_id}}?_method=PUT" method="POST">
-                    <input type="hidden" name="_method" value="PUT">
-                    <button class="btn btn-danger btn-block btn-sm" type="submit">
-                        Borrar
-                    </button>
-                </form>
+              <form onSubmit="return confirm('Desea enviar a Papelera?')" style=""
+                action="/mesaentrada/marcadelete/{{_id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                  Borrar
+                </button>
+              </form>
               {{!-- **** EL BORRADO DE ABAJO ES DEFINITIVO PARA ADMIN --}}
               {{!-- <form onSubmit="return confirm('Desea Borrar?')" style=""
                 action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
