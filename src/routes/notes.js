@@ -323,7 +323,7 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
         tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
-        reiteracion, user, name, date } = req.body;
+        reiteracion, user, name, date} = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
@@ -332,7 +332,6 @@ router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
-    newMultas.date = new Date();
     await newMultas.save();
     req.flash('success_msg', 'Multa a Propietario Agregada');
     res.redirect('/multas');
@@ -350,7 +349,6 @@ router.post("/notes/newmultasprofesional", isAuthenticated, async (req, res) => 
     })
     newMultas.user = req.user.id;
     newMultas.name = req.user.name;
-    newMultas.date = new Date();
     await newMultas.save();
     req.flash('success_msg', 'Multa a Profesional Agregada');
     res.redirect('/multasprofesionales');
@@ -798,7 +796,7 @@ router.get('/multas', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({$or:[{ apercibimientoprofesional: "No" },{borrado:""}]}).lean().sort({ date: 'desc' });
+        const multas = await Multas.find({$and:[{ apercibimientoprofesional: "No" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasusr', { multas });    
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
@@ -823,13 +821,10 @@ router.get('/multasprofesionales', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     //const user = await Multas.find().lean().sort();
-    if (rolusuario == "Liquidaciones") {
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasprofusr', { multas, rolusuario });
-    } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find({ apercibimientoprofesional: "Si" }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasprofadm', { multas, rolusuario });
+        const multas = await Multas.find( {$and:[{apercibimientoprofesional: "Si" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
+        res.render('notes/liquidaciones/allmultasprofusr', { multas, rolusuario });    
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -2655,6 +2650,25 @@ router.put('/mesaentrada/marcadeleterestaurar/:id', isAuthenticated, async (req,
     // res.redirect('/mesaentrada/listado')
 });
 
+router.put('/multas/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const borrado = "No";    
+    const fechaborrado = "Restaurado";
+    const userborrado = req.user.name;
+    await Multas.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Liquidación Restaurada')
+    res.redirect('/multas/borradolistado');
+    // await Mesaentrada.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/mesaentrada/listado')
+});
+
+
+
 router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
     await Mesaentrada.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Turno Eliminado')
@@ -2703,14 +2717,26 @@ router.put('/multas/marcadelete/:id', isAuthenticated, async (req, res) => {
     // res.redirect('/mesaentrada/listado')
 });
 
-router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {     
-    await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});
-    req.flash('success_msg', 'todos los datos de liquidación recuperados')
-    res.redirect('/multas');
+router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {         
+    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
+    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"No" }, { borrado: "No", fechaborrado:"Recuperado"});
+    req.flash('success_msg', 'todos los datos de liquidación de Propietarios recuperados')
+    res.redirect('/multas/borradolistado');
     // await Mesaentrada.findByIdAndDelete(req.params.id);
     // req.flash('success_msg', 'Turno Eliminado')
     // res.redirect('/mesaentrada/listado')
 });
+
+router.put('/multas/recuperarlistadoprof', isAuthenticated, async (req, res) => {         
+    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
+    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"Si" }, { borrado: "No", fechaborrado:"Recuperado"});
+    req.flash('success_msg', 'todos los datos de liquidación de profesionales recuperados')
+    res.redirect('/multas/borradolistado');
+    // await Mesaentrada.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/mesaentrada/listado')
+});
+
 
 router.delete('/multasprofesional/delete/:id', isAuthenticated, async (req, res) => {
     await Multas.findByIdAndDelete(req.params.id);

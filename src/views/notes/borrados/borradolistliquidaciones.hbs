@@ -9,10 +9,16 @@
         }
         document.getElementById("ejemplo").innerHTML = mensaje;
     }
+
+    function buttonrecuperartodos() {
+        document.getElementById("recuperartodos").disabled = true;
+        document.getElementById("recuperartodosprof").disabled = true;
+
+    }
 </script>
 
 <div class="row">
-    <div class="form-group btn-center mx-auto">        
+    <div class="form-group btn-center mx-auto">
         <form action="/multa/findnumacta" method="POST">
             <input type="search" class="form-control" name="numacta" placeholder="Buscar x Nº Acta..." autofocus />
             <div class="form-group">
@@ -34,7 +40,8 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findpropietario" method="POST">
-            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..." disabled/>
+            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Propietario..."
+                disabled />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit" disabled>
                     Buscar x Propietario
@@ -44,27 +51,33 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/multa/findubicacion" method="POST">
-            <input type="search" class="form-control" name="ubicacion" placeholder="Buscar x Ubicación..." disabled/>
+            <input type="search" class="form-control" name="ubicacion" placeholder="Buscar x Ubicación..." disabled />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit" disabled>
                     Buscar x Ubicación
                 </button>
             </div>
         </form>
-    </div>    
+    </div>
     <br /><br />
     <div style="color: rgb(22, 214, 48);text-shadow: 2px 2px 10px black">
         <h5>Papelera de Liquidaciones a Propietarios</h5>
     </div>
-    <br /><br />    
-    <a href="/multas/recuperarlistado" class="btn btn-warning btn-block btn-sm" disabled>Recuperar Todos los eliminados</a>
-    <form onSubmit="return confirm('Desea Recuperar Todos los Datos?')" style=""
-                                action="/multas/recuperarlistado?_method=PUT" method="POST">
-                                <input type="hidden" name="_method" value="PUT">
-                                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                                    Recuperar Todos los Datos
-                                </button>
-                            </form>
+    <br /><br />
+    <form class="btn-block" onSubmit="return confirm('Desea Recuperar Todos los Datos?')" style=""
+        action="/multas/recuperarlistado?_method=PUT" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <button id="recuperartodos" class="btn btn-success btn-block btn-sm" type="submit">
+            Recuperar Todos los Registros eliminados de propietarios
+        </button>
+    </form>
+    <form class="btn-block" onSubmit="return confirm('Desea Recuperar Todos los Datos?')" style=""
+        action="/multas/recuperarlistadoprof?_method=PUT" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <button id="recuperartodosprof" class="btn btn-success btn-block btn-sm" type="submit">
+            Recuperar Todos los Registros eliminados de profesionales
+        </button>
+    </form>
     <a href="/multas/borradolistado" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
@@ -106,10 +119,13 @@
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
                         </td>
                         <td>
-                            <a class="dropdown-item" href="/multas/add/{{_id}}"
-                                style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                                Liquidar
-                            </a>
+                            <form onSubmit="return confirm('Desea Restaurar?')" style=""
+                                action="/multas/marcadeleterestaurar/{{_id}}?_method=PUT" method="POST">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="btn btn-info btn-block btn-sm" type="submit">
+                                    Restaurar
+                                </button>
+                            </form>
                             <form onSubmit="return confirm('Desea Borrar Definitivamente?')"
                                 action="/multas/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -125,6 +141,9 @@
 
                     </tr>
                     {{else}}
+                    <script>
+                        buttonrecuperartodos();
+                    </script>
                     <div class="mx-auto">
                         <br /> <br />
                         <div class="card mx-auto">
