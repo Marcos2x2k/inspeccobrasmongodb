@@ -1728,89 +1728,53 @@ router.post('/multa/findpropietario', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { propietario } = req.body;
     const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones") {
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
-            req.flash('success_msg', 'cargue Nombre y/o Apellido')
-            return res.render("notes/allmultas");
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/liquidaciones/allmultasusr");   
         } else {
-            res.render('notes/allmultas', { multas })
+            res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } else if (rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmultasadm");
-        } else {
-            res.render('notes/allmultasadm', { multas })
-        }
-    } else {
-        res.render('notes/allmultasadm', { multas })
-    }
+    } 
 });
 router.post('/multa/findnumacta', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numacta } = req.body;
     const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones") {
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/allmultas");
+            return res.render("notes/liquidaciones/allmultasusr");   
         } else {
-            res.render('notes/allmultas', { multas })
+            res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } else if (rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/allmultasadm");
-        } else {
-            res.render('notes/allmultasadm', { multas })
-        }
-    } else {
-        res.render('notes/allmultasadm', { multas })
-    }
+    } 
 });
 router.post('/multa/findubicacion', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { ubicacion } = req.body;
     const multas = await Multas.find({ ubicacion: { $regex: ubicacion, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones") {
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/allmultas");
+            return res.render("notes/liquidaciones/allmultasusr");   
         } else {
-            res.render('notes/allmultas', { multas })
+            res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } else if (rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/allmultasadm");
-        } else {
-            res.render('notes/allmultasadm', { multas })
-        }
-    } else {
-        res.render('notes/allmultas', { multas })
-    }
+    } 
 });
 router.post('/multa/findexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { expediente } = req.body;
     const multas = await Multas.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones") {
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmultas");
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/liquidaciones/allmultasusr");   
         } else {
-            res.render('notes/allmultas', { multas })
+            res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } else if (rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmultasadm");
-        } else {
-            res.render('notes/allmultasadm', { multas })
-        }
-    } else {
-        res.render('notes/allmultasadm', { multas })
-    }
+    } 
 });
 
 // *** BUSCAR TURNOS ***

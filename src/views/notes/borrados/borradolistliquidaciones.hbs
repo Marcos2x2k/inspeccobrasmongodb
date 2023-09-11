@@ -13,6 +13,7 @@
     function buttonrecuperartodos() {
         document.getElementById("recuperartodos").disabled = true;
         document.getElementById("recuperartodosprof").disabled = true;
+        document.getElementById("recargartodos").style.visibility = "hidden";
 
     }
 </script>
@@ -78,7 +79,7 @@
             Recuperar Todos los Registros eliminados de profesionales
         </button>
     </form>
-    <a href="/multas/borradolistado" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
+    <a href="/multas/borradolistado" id="recargartodos" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
         <br />
