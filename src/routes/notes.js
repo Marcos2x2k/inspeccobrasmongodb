@@ -9,10 +9,7 @@ const Note = require('../models/Note')
 const Intimacion = require('../models/Intimacion')
 const Infraccion = require('../models/Infraccion')
 const Estadistica = require('../models/Estadistica')
-const Mesaentrada = require('../models/mesaentrada')
 const Ticket = require('../models/Ticket')
-const Multas = require('../models/Multas')
-const Tasas = require('../models/Tasas')
 const Users = require('../models/User')
 const Expedinspeccion = require('../models/expedinspeccion')
 //const Cicloinspeccion = require('../models/cicloinspeccion')
@@ -20,7 +17,6 @@ const Expedticket = require('../models/Expedticket')
 const Expedticketentrainsp = require('../models/Expedticketentrainsp')
 
 const fs = require('fs').promises
-
 const { isAuthenticated } = require('../helpers/auth')
 
 // *ZONA PDF* //
@@ -28,162 +24,6 @@ const pdf = require("html-pdf");
 const User = require('../models/User');
 const expedinspeccion = require('../models/expedinspeccion');
 var pdfoptionsA4 = { format: 'A4' };
-
-// **** liquidaciones ****
-router.get('/factura', isAuthenticated, async (req, res) => {
-    //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: "No" }] }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
-    res.render('notes/factura', { multas });
-    //res.render('notes/factura', { layouts: "pdf"});
-})
-
-router.get('/facturaprofesional', isAuthenticated, async (req, res) => {
-    //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
-    const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues
-    res.render('notes/liquidaciones/facturaprofesional', { multas });
-})
-
-router.get('/multas/reimprimirfactura/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();    
-    //await Multas.updateMany({ _id: "id" });  
-    //Busco el id y le sumo 1 a veces impreso
-    const impreso = "No";
-    const fechaimpreso = "Esperando Re-Impresion";
-    const reimpreso = "Si";
-    const vecesreimpreso = "1 o Más";
-    const fechareimpreso = new Date();
-    await Multas.findByIdAndUpdate(req.params.id, {
-        impreso, fechaimpreso, reimpreso,
-        fechareimpreso, vecesreimpreso
-    });
-    req.flash('success_msg', 'Re-Impresión actualizada')
-    res.redirect('/multas');
-});
-
-router.get('/multas/reimprimirfacturaprofesional/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();    
-    //await Multas.updateMany({ _id: "id" });  
-    //Busco el id y le sumo 1 a veces impreso
-    const impreso = "No";
-    const fechaimpreso = "Esperando Re-Impresion";
-    const reimpreso = "Si";
-    const vecesreimpreso = "1 o Más";
-    const fechareimpreso = new Date();
-    await Multas.findByIdAndUpdate(req.params.id, {
-        impreso, fechaimpreso, reimpreso,
-        fechareimpreso, vecesreimpreso
-    });
-    req.flash('success_msg', 'Re-Impresión actualizada')
-    res.redirect('/multasprofesionales');
-});
-
-router.get('/descargarfactura', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/facturaimprimir.hbs")
-    //const puerto = "172.25.2.215";
-    var fstemp = require('fs');
-    let tabla = "";
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'No' }] }).lean().sort({ propietario: 'desc' });
-
-    //<td>${multas.fecha}</td> este etaba en tablamultas
-    for (const multas of tablamultas) {
-        // Y concatenar las multas                    
-        tabla += `<tr>    
-    <td>${multas.numacta}</td>
-    <td>${multas.propietario}</td>
-    <td>${multas.ubicacion}</td>
-    <td>${multas.inciso}</td>
-    <td>${multas.formulamulta}</td>
-    <td>${multas.sancionprof}</td>
-    <td>${multas.sancionprorc}</td>
-    <td>${multas.montototal}</td>
-    <td>${multas.infraccionoparalizacion}</td>    
-    </tr>`;
-    }
-    // console.log("MULTAS", tablamultas)
-    // console.log("TABLA", tabla)
-    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
-    //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    await Multas.updateMany({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'No' }] }, { impreso: "Si", fechaimpreso: new Date() });
-    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
-        if (error) {
-            res.end("Error creando PDF: " + error)
-        } else {
-            req.flash('success_msg', 'Multas Impresas')
-            res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);
-        }
-    });
-})
-
-router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/liquidaciones/facturaimprimirprofesional.hbs")
-    //const puerto = "172.25.2.215";
-    var fstemp = require('fs');
-    let tabla = "";
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    const tablamultas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'Si' }] }).lean().sort({ propietario: 'desc' });
-
-    //<td>${multas.fecha}</td> este etaba en tablamultas
-    for (const multas of tablamultas) {
-        // Y concatenar las multas                    
-        tabla += `<tr>    
-    <td>${multas.numacta}</td>
-    <td>${multas.propietario}</td>
-    <td>${multas.ubicacion}</td>
-    <td>${multas.inciso}</td>
-    <td>${multas.formulamulta}</td>
-    <td>${multas.sancionprof}</td>
-    <td>${multas.sancionprorc}</td>
-    <td>${multas.montototal}</td>
-    <td>${multas.infraccionoparalizacion}</td>    
-    </tr>`;
-    }
-    // console.log("MULTAS", tablamultas)
-    // console.log("TABLA", tabla)
-    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
-    //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    await Multas.updateMany({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'Si' }] }, { impreso: "Si", fechaimpreso: new Date() });
-    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
-        if (error) {
-            res.end("Error creando PDF: " + error)
-        } else {
-            req.flash('success_msg', 'Multas Impresas')
-            res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);
-        }
-    });
-})
-
-router.get('/mesaentradas/add', isAuthenticated, (req, res) => {
-    res.render('notes/newmesaentradas');
-})
-router.get('/mesaentradas/add/:id', isAuthenticated, (req, res) => {
-    res.render('notes/newmesaentradas');
-})
-router.get('/multas/add', isAuthenticated, async (req, res) => {
-    const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
-    res.render('notes/newmultas', { tasaactual });
-})
-router.get('/multasprofesional/add', isAuthenticated, async (req, res) => {
-    const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
-    res.render('notes/newmultasprofesional', { tasaactual });
-})
-
-// router.get('/multas/add/:id', isAuthenticated, (req, res) => {
-//     res.render('notes/newmultas');
-// })
-router.get('/multas/addtasas', isAuthenticated, (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador" || rolusuario == "Liquidaciones") {
-        res.render('notes/newtasas');
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS')
-        return res.redirect('/');
-    }
-
-})
 
 router.get('/tickets/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -252,8 +92,6 @@ router.get('/notes/add/:id', isAuthenticated, async (req, res) => {
     }
 })
 
-
-
 router.get('/intimaciones/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -265,7 +103,6 @@ router.get('/intimaciones/add', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');
     }
-
 })
 
 router.get('/intimaciones/add/:id', isAuthenticated, async (req, res) => {
@@ -304,69 +141,6 @@ router.get('/estadisticas/add', isAuthenticated, (req, res) => {
     }
 })
 
-router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
-    const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name, date
-    } = req.body;
-    const newMesaentrada = new Mesaentrada({
-        sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name, date
-    })
-    newMesaentrada.user = req.user.id;
-    newMesaentrada.name = req.user.name;
-    await newMesaentrada.save();
-    req.flash('success_msg', 'Turno Agregado Exitosamente');
-    res.redirect('/mesaentrada/listado');
-
-})
-
-router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
-    const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
-        reiteracion, user, name, date} = req.body;
-
-    const newMultas = new Multas({
-        fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
-        reiteracion, user, name, date
-    })
-    newMultas.user = req.user.id;
-    newMultas.name = req.user.name;
-    await newMultas.save();
-    req.flash('success_msg', 'Multa a Propietario Agregada');
-    res.redirect('/multas');
-})
-
-router.post("/notes/newmultasprofesional", isAuthenticated, async (req, res) => {
-    const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
-        reiteracion, user, name, date } = req.body;
-
-    const newMultas = new Multas({
-        fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
-        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
-        reiteracion, user, name, date
-    })
-    newMultas.user = req.user.id;
-    newMultas.name = req.user.name;
-    await newMultas.save();
-    req.flash('success_msg', 'Multa a Profesional Agregada');
-    res.redirect('/multasprofesionales');
-})
-
-router.post('/notes/newtasas', isAuthenticated, async (req, res) => {
-    const { tasaconstruccion, tipotasa, fechaactual, observaciones, user, name, date
-    } = req.body;
-    const newTasas = new Tasas({
-        tasaconstruccion, tipotasa, fechaactual, observaciones, user, name, date
-    })
-    newTasas.user = req.user.id;
-    newTasas.name = req.user.name;
-    await newTasas.save();
-    req.flash('success_msg', 'Tasa Agregada Exitosamente');
-    res.redirect('/tasas');
-})
-
 router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
 
     const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
@@ -393,19 +167,19 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
     res.redirect('/ticket/listado');
 })
 
-router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
-    const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, eliminado, user, name } = req.body;
-    const newMesaentrada = new Mesaentrada({
-        sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, eliminado, user, name
-    })
-    newMesaentrada.user = req.user.id;
-    newMesaentrada.name = req.user.name;
-    await newMesaentrada.save();
-    req.flash('success_msg', 'Turno Agregado Exitosamente');
-    res.redirect('/mesaentrada/listado');
-})
+// router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
+//     const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
+//         contacto, hora, observaciones, eliminado, user, name } = req.body;
+//     const newMesaentrada = new Mesaentrada({
+//         sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
+//         contacto, hora, observaciones, eliminado, user, name
+//     })
+//     newMesaentrada.user = req.user.id;
+//     newMesaentrada.name = req.user.name;
+//     await newMesaentrada.save();
+//     req.flash('success_msg', 'Turno Agregado Exitosamente');
+//     res.redirect('/mesaentrada/listado');
+// })
 
 router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
     //console.log(req.body)
@@ -769,506 +543,10 @@ router.get('/usuarios', isAuthenticated, async (req, res) => {
         const usuarios = await Users.find().lean().sort({ date: 'desc' });
         res.render('notes/allusuariosadm', { usuarios });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
         return res.redirect('/');
     }
 });
-
-router.get('/mesaentrada', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Mesa-Entrada") {
-        // res.send('Notes from data base');
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const mesaentradas = await Mesaentrada.find({borrado:"No"}).lean().sort({ date: 'asc' });
-        res.render('notes/allmesaentrada', { mesaentradas });
-    } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find({borrado:"No"}).lean().sort({ date: 'asc' });
-        res.render('notes/allmesaentrada', { mesaentradas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
-        return res.redirect('/');
-    }
-});
-
-router.get('/multas', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({$and:[{ apercibimientoprofesional: "No" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasusr', { multas });    
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.get('/multas/borradolistado', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({borrado:"Si"}).lean().sort({ date: 'desc' });
-        res.render('notes/borrados/borradolistliquidaciones', { multas });    
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.get('/multasprofesionales', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    //const user = await Multas.find().lean().sort();
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find( {$and:[{apercibimientoprofesional: "Si" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasprofusr', { multas, rolusuario });    
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.get('/multas/imprimirestadisticas', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Liquidaciones") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find().lean().sort({ date: 'desc' });
-        res.render('notes/multaestadictarmar', { multas });
-    } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find().lean().sort({ date: 'desc' });
-        res.render('notes/multaestadictarmar', { multas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-})
-
-router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/mesaentrada/mesaentradaestadisticaimprimir.hbs")
-    //const puerto = "172.25.2.215";
-    var fstemp = require('fs');
-    let tabla = "";
-    var contador = 0;
-    var filtro = "";
-    var tipofiltro = "";
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    var tablamesaentrada = "" //await Mesaentrada.find().lean().sort({ date: 'desc' });
-    //<td>${multas.fecha}</td> este etaba en tablamultas
-    const { nomyape, adrema, sector, desde, hasta } = req.body;
-    if (nomyape) {
-        const dni = nomyape
-        tablamesaentrada = await Mesaentrada.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: { $regex: dni, $options: "i" } }] }).lean().sort({ date: 'desc' });
-        //tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
-        filtro = nomyape;
-        tipofiltro = "por Nombre y Apellido/DNI"
-        //console.log("Multas Estadistica", multas)
-        //contador = 0
-        // for (let i = 0; i < tablamesaentrada.length; i++) {
-        //     contador = i
-        // }
-    } else if (adrema) {
-        const numexpediente = adrema;
-        tablamesaentrada = await Mesaentrada.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
-        filtro = adrema;
-        tipofiltro = "por Adrema"
-        //contador = 0
-        // for (let i = 0; i < tablamesaentrada.length; i++) {
-        //     contador = i
-        // }    
-    } else if (desde && hasta) {
-        if (sector) {
-            filtro = "Sector: " + sector + " - por Fecha: " + desde + " / " + hasta;
-            tipofiltro = "Sector con Fecha Desde y Fecha Hasta"
-            var o = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
-            const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
-            console.log("HASTAO", hastao)
-            console.log("D", o)
-            tablamesaentrada = await Mesaentrada.find({ $and: [{date: { $gte: desde, $lte: hastao }}, {sector: { $regex: sector, $options: "i" }}] }).lean().sort({ date: 'asc' });
-        } else {
-            filtro = "por Fecha" + desde + "/" + hasta;
-            tipofiltro = "Fecha Desde y Fecha Hasta"
-            //contador = 0
-            var d = new Date(hasta);
-            const hastao = d.setDate(d.getDate() + 1);
-            tablamesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastao } }).lean().sort({ sector: 'desc' });;
-            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-            //.find({ desde: { $regex: date, $options: "i" } }).lean();            
-            // for (let i = 0; i < tablamesaentrada.length; i++) {
-            //     contador += 1
-        }
-    } else if (sector) {
-        tablamesaentrada = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean();
-        filtro = sector;
-        tipofiltro = "por Sector interviniente"
-        ///contador = 0
-        // for (let i = 0; i < tablamesaentrada.length; i++) {
-        //     contador += 1
-        // }
-    }
-    for (const mesaentrada of tablamesaentrada) {
-        // Y concatenar las multas 
-        contador += 1
-        tabla += `<tr>    
-    <td>${mesaentrada.sector}</td>
-    <td>${mesaentrada.numexpediente}</td>
-    <td>${mesaentrada.nomyape}</td>
-    <td>${mesaentrada.dni}</td>
-    <td>${mesaentrada.contacto}</td>
-    <td>${mesaentrada.fechaingreso}</td>
-    <td>${mesaentrada.horaingreso}</td>
-    </tr>`;
-    }
-    contenidoHtml = contenidoHtml.replace("{{tablamesaentrada}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
-    contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
-    contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);
-
-    //contenidoHtml = contenidoHtml.replace("{{multas}}");    
-    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
-        if (error) {
-            res.end("Error creando PDF: " + error)
-        } else {
-            req.flash('success_msg', 'Mesa Entrada Estadistica impresa')
-            res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);
-        }
-    });
-})
-
-router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    var montofinal = 0;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Liquidaciones") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find().lean().sort({ date: 'desc' });
-        for (let i = 0; i < multas.length; i++) {
-            montofinal = montofinal + parseInt(multas[i].montototal)
-        }
-        res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
-    } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find().lean().sort({ date: 'desc' });
-        for (let i = 0; i < multas.length; i++) {
-            montofinal = montofinal + parseInt(multas[i].montototal)
-        }
-        res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.get('/mesaentrada/Estadisticas', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    var contador = 0;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Mesa-Entrada" || rolusuario == "Administrador") {
-        const mesaentrada = await Mesaentrada.find().lean().sort({ date: 'desc' });
-        for (let i = 0; i < mesaentrada.length; i++) {
-            contador = contador + 1
-        }
-        res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-
-router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { propietario, adrema, numacta, desde, hasta } = req.body;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador" || rolusuario == "Liquidaciones") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        var montofinal = 0;
-        if (propietario) {
-            const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
-            //console.log("Multas Estadistica", multas)
-            for (let i = 0; i < multas.length; i++) {
-                montofinal = montofinal + parseInt(multas[i].montototal)
-            }
-            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
-        } else if (adrema) {
-            const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
-            for (let i = 0; i < multas.length; i++) {
-                montofinal = montofinal + parseInt(multas[i].montototal)
-            }
-            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
-        } else if (numacta) {
-            const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
-            for (let i = 0; i < multas.length; i++) {
-                montofinal = montofinal + parseInt(multas[i].montototal)
-            }
-            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
-        } else if (desde && hasta) {
-            console.log("DESDE", desde)
-            console.log("HASTA", hasta)
-            var d = new Date(hasta);
-            const hastad = d.setDate(d.getDate() + 1);
-            console.log("HASTAD", hastad)
-            console.log("D", d)
-            const multas = await Multas.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
-            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-            //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
-            for (let i = 0; i < multas.length; i++) {
-                montofinal = montofinal + parseInt(multas[i].montototal)
-            }
-            res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
-        }
-    } else if (rolusuario == "Liquidaciones") {
-        if (propietario) {
-            const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' });
-            res.render('notes/liquidaciones/multaestadisticaadm', { multas });
-        } else if (adrema) {
-            const multas = await Multas.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
-            res.render('notes/liquidaciones/multaestadisticaadm', { multas });
-        } else if (numacta) {
-            const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' });
-            res.render('notes/liquidaciones/multaestadisticaadm', { multas });
-        }
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { nomyape, adrema, sector, desde, hasta } = req.body;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador" || rolusuario == "Mesa-Entrada") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        var contador = 0;
-        if (nomyape) {
-            var dni = "";
-            if (typeof nomyape == 'number') {
-                dni = parseInt(nomyape)
-            } else {
-                dni = ""
-            }
-            const mesaentrada = await Mesaentrada.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: dni }] }).lean().sort({ date: 'desc' });
-            //console.log("Multas Estadistica", multas)
-            for (let i = 0; i < mesaentrada.length; i++) {
-                contador = contador + 1
-            }
-            res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
-        } else if (adrema) {
-            var numexpediente = adrema;
-            const mesaentrada = await Mesaentrada.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
-            //const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
-            for (let i = 0; i < mesaentrada.length; i++) {
-                contador = contador + 1
-            }
-            res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
-        } else if (sector) {
-            const mesaentrada = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ date: 'desc' });
-            for (let i = 0; i < mesaentrada.length; i++) {
-                contador = contador + 1
-            }
-            res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
-        } else if (desde && hasta) {
-            console.log("DESDE", desde)
-            console.log("HASTA", hasta)
-            var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
-            const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
-            console.log("HASTAD", hastad)
-            console.log("D", d)
-            const mesaentrada = await Mesaentrada.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'asc' });
-            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-            //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
-            for (let i = 0; i < mesaentrada.length; i++) {
-                contador = contador + 1
-            }
-            res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
-        } else if ((desde && hasta) && (sector)) {
-            var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
-            const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
-            console.log("HASTAD", hastad)
-            console.log("D", d)
-            const mesaentrada = await Mesaentrada.find({ $and: [{ date: { $gte: desde, $lte: hastad } }, { sector: { $regex: sector, $options: "i" } }] }).lean().sort({ date: 'desc' });
-            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-            //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
-            for (let i = 0; i < mesaentrada.length; i++) {
-                contador = contador + 1
-            }
-            res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
-        }
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.post('/multas/descargarmultaestadistica', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/estadisticamultaimprimir.hbs")
-    var fstemp = require('fs');
-    var tabla = "";
-    var montofinal = 0;
-    var tablamultas = "";
-    var multas = "";
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
-    var filtro = "";
-    var tipofiltro = "";
-    //const tablamultas = await Multas.find({ impreso: 'No' }).lean().sort({ propietario: 'desc' }); // temporal poner el d arriba despues    
-    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user       
-    const { propietarioo, adremao, numactao, desdeo, hastao } = req.body;
-    //const propietario = "Marcos"
-    //console.log("PROPIETARIO", propietario)
-    if (propietarioo) {
-        tablamultas = await Multas.find({ propietario: { $regex: propietarioo, $options: "i" } }).lean();
-        filtro = propietarioo;
-        tipofiltro = "por Propietario"
-        //console.log("Multas Estadistica", multas)
-        for (let i = 0; i < tablamultas.length; i++) {
-            montofinal = montofinal + parseInt(tablamultas[i].montototal)
-        }
-    } else if (adremao) {
-        tablamultas = await Multas.find({ adrema: { $regex: adremao, $options: "i" } }).lean();
-        filtro = adremao;
-        tipofiltro = "por Adrema"
-        for (let i = 0; i < tablamultas.length; i++) {
-            montofinal = montofinal + parseInt(tablamultas[i].montototal)
-        }
-    } else if (numactao) {
-        tablamultas = await Multas.find({ numacta: { $regex: numactao, $options: "i" } }).lean();
-        filtro = numactao;
-        tipofiltro = "por Número Acta"
-        for (let i = 0; i < tablamultas.length; i++) {
-            montofinal = montofinal + parseInt(tablamultas[i].montototal)
-        }
-    } else if (desdeo && hastao) {
-        filtro = desdeo + "-" + hastao;
-        tipofiltro = "Fecha Desde y Fecha Hasta"
-        var d = new Date(hastao);
-        const hasta = d.setDate(d.getDate() + 1);
-        tablamultas = await Multas.find({ date: { $gte: desdeo, $lte: hastao } }).lean();
-        //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-        //.find({ desde: { $regex: date, $options: "i" } }).lean();            
-        for (let i = 0; i < tablamultas.length; i++) {
-            montofinal = montofinal + parseInt(tablamultas[i].montototal)
-        }
-    }
-    //<td>${multas.fecha}</td> estaba en tablamultas
-    for (multas of tablamultas) {
-        // Y concatenar las multas                    
-        tabla += `<tr>    
-    <td>${multas.numacta}</td>
-    <td>${multas.propietario}</td>
-    <td>${multas.ubicacion}</td>
-    <td>${multas.inciso}</td>
-    <td>${multas.formulamulta}</td>
-    <td>${multas.sancionprof}</td>
-    <td>${multas.montototal}</td>
-    <td>${multas.infraccionoparalizacion}</td>    
-    </tr>`;
-    }
-    //console.log("MULTAS", multas)
-    //console.log("TABLA", tabla)
-    //console.log("TABLA MULTAS", tablamultas)
-    contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{montofinal}}", montofinal);
-    contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);
-    contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
-    //contenidoHtml = contenidoHtml.replace("{{multas}}");
-    //await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
-    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
-        if (error) {
-            res.end("Error creando PDF: " + error)
-        } else {
-            req.flash('success_msg', 'Multas Impresas')
-            res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);
-        }
-    });
-})
-
-router.get('/multas/impresas', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Liquidaciones") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }] }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasadmimp', { multas });
-    } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }] }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasadmimp', { multas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.get('/multas/impresasprofesional', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Liquidaciones") {
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasadmprofimp', { multas });
-    } else if (rolusuario == "Administrador") {
-        const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasadmprofimp', { multas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
-});
-
-router.get('/multas/imprimir', isAuthenticated, async (req, res) => {
-    await Multas.updateMany({ impreso: "No" }, { impreso: "Si", fechaimpreso: new Date() });
-    const multasimprimir = Multas.find().lean().sort({ propietario: 'desc' });
-    req.flash('success_msg', 'Multas Impresas')
-    res.render('notes/multas', { multasimprimir });
-});
-
-router.get('/tasas', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    if (rolusuario == "Liquidaciones") {
-        // res.send('Notes from data base');
-        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const tasas = await Tasas.find().lean().sort({ date: 'desc' });
-        res.render('notes/alltasasadm', { tasas });
-    } else if (rolusuario == "Administrador") {
-        const tasas = await Tasas.find().lean().sort({ date: 'desc' });
-        res.render('notes/alltasasadm', { tasas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
-        return res.redirect('/');
-    }
-});
-
-
-router.get('/mesaentrada/listado', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Mesa-Entrada") {
-        const mesaentradas = await Mesaentrada.find({borrado:"No"}).limit(60).lean().sort({ dateturno: 'desc' });
-        res.render('notes/planillalistaturnero', { mesaentradas });
-    } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find({borrado:"No"}).limit(60).lean().sort({ dateturno: 'desc' });
-        res.render('notes/planillalistaturnero', { mesaentradas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
-        return res.redirect('/');
-    }
-});
-router.get('/mesaentrada/borradolistado', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find({borrado:"Si"}).limit(60).lean().sort({ dateturno: 'desc' });
-        res.render('notes/planillalistaturneroborrado', { mesaentradas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
-        return res.redirect('/');
-    }
-});
-
 router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -1283,21 +561,6 @@ router.get('/ticket/listado', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
-
-router.get('/tasas/listado', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    if (rolusuario == "Administrador") {
-        const tasas = await Tasas.find().limit(500).lean().sort({ date: 'desc' });;
-        res.render('notes/planillalistaticket', { tasas });
-    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const tasas = await Tasas.find().limit(500).lean().sort({ date: 'desc' });
-        res.render('notes/planillalistaticketadm', { tasas });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
-        return res.redirect('/');
-    }
-});
-
 router.get('/expedientes', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -1574,23 +837,6 @@ router.get('/usuarios', isAuthenticated, async (req, res) => {
 
 // ***** Aca los GET para EDITAR ******
 
-router.get('/mesaentrada/add/:id', isAuthenticated, async (req, res) => {
-    const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
-    res.render('notes/newmesaentradas', { mesaentrada })
-});
-
-router.get('/multas/add/:id', isAuthenticated, async (req, res) => {
-    const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
-    const multas = await Multas.findById(req.params.id).lean()
-    res.render('notes/newmultas', { multas, tasaactual })
-});
-
-router.get('/multasprofesional/add/:id', isAuthenticated, async (req, res) => {
-    const tasaactual = await Tasas.findOne({ tipotasa: { $regex: "T.C.", $options: "i" } }).lean().sort({ date: 'desc' });
-    const multas = await Multas.findById(req.params.id).lean()
-    res.render('notes/newmultasprofesional', { multas, tasaactual })
-});
-
 router.get('/usuarios/edit/:id', isAuthenticated, async (req, res) => {
     const usuarios = await Users.findById(req.params.id).lean()
     res.render('users/editusuarios', { usuarios })
@@ -1599,11 +845,6 @@ router.get('/usuarios/edit/:id', isAuthenticated, async (req, res) => {
 router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
     res.render('notes/editticket', { ticket })
-});
-
-router.get('/mesaentrada/edit/:id', isAuthenticated, async (req, res) => {
-    const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
-    res.render('notes/editmesaentrada', { mesaentrada })
 });
 
 router.get('/expedientes/edit/:id', isAuthenticated, async (req, res) => {
@@ -1655,27 +896,6 @@ router.get('/usuario/list', isAuthenticated, async (req, res) => {
     res.render('notes/listusuario', { users })
 });
 
-router.get('/mesaentrada/list/:id', isAuthenticated, async (req, res) => {
-    const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
-    // console.log(note.date);
-    res.render('notes/listmesaentrada', { mesaentrada })
-});
-router.get('/mesaentrada/borradolist/:id', isAuthenticated, async (req, res) => {
-    const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
-    // console.log(note.date);
-    res.render('notes/borrados/borradolistmesaentrada', { mesaentrada })
-});
-
-router.get('/multas/list/:id', isAuthenticated, async (req, res) => {
-    const multas = await Multas.findById(req.params.id).lean()
-    res.render('notes/listmultas', { multas })
-});
-
-router.get('/multasprofesional/list/:id', isAuthenticated, async (req, res) => {
-    const multas = await Multas.findById(req.params.id).lean()
-    res.render('notes/liquidaciones/listmultaprofesional', { multas })
-});
-
 router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
     res.render('notes/listticket', { ticket })
@@ -1723,221 +943,167 @@ router.get('/estadisticas/list/:id', isAuthenticated, async (req, res) => {
 
 //  ***** SECTOR BUSQUEDA *****
 
-// *** BUSCAR LIQUIDACIONES O MULTAS ***
-router.post('/multa/findpropietario', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { propietario } = req.body;
-    const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
-        } else {
-            res.render('notes/liquidaciones/allmultasusr', { multas })
-        }
-    } 
-});
-router.post('/multa/findnumacta', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { numacta } = req.body;
-    const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
-        } else {
-            res.render('notes/liquidaciones/allmultasusr', { multas })
-        }
-    } 
-});
-router.post('/multa/findubicacion', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { ubicacion } = req.body;
-    const multas = await Multas.find({ ubicacion: { $regex: ubicacion, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
-        } else {
-            res.render('notes/liquidaciones/allmultasusr', { multas })
-        }
-    } 
-});
-router.post('/multa/findexpediente', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { expediente } = req.body;
-    const multas = await Multas.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
-        if (!multas) {
-            req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
-        } else {
-            res.render('notes/liquidaciones/allmultasusr', { multas })
-        }
-    } 
-});
-
 // *** BUSCAR TURNOS ***
-router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { sector } = req.body;
-    const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Mesa-Entrada") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/findmesaentrada', { mesaentradas })
-        }
-    } else if (rolusuario == "Administrador") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/findmesaentradaadm', { mesaentradas })
-        }
-    } else {
-        res.render('notes/findmesaentrada', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findiniciador', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { nomyape } = req.body;
-    const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Mesa-Entrada") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/findmesaentrada', { mesaentradas })
-        }
-    } else if (rolusuario == "Administrador") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/findmesaentradaadm', { mesaentradas })
-        }
-    } else {
-        res.render('notes/findmesaentrada', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findlistasector', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { sector } = req.body;
-    const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Mesa-Entrada") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/planillalistaturnero', { mesaentradas })
-        }
-    } else if (rolusuario == "Administrador") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/planillalistaturnero', { mesaentradas })
-        }
-    } else {
-        res.render('notes/planillalistaturnero', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findlistainiciador', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { nomyape } = req.body;
-    const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Mesa-Entrada") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/planillalistaturnero', { mesaentradas })
-        }
-    } else if (rolusuario == "Administrador") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/planillalistaturnero', { mesaentradas })
-        }
-    } else {
-        res.render('notes/planillalistaturnero', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/finddni', isAuthenticated, async (req, res) => {
-    const { dni } = req.body;
-    const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (!mesaentradas) {
-        req.flash('success_msg', 'cargue un Número de DNI')
-        return res.render("notes/allmesaentrada");
-    } else {
-        res.render('notes/findmesaentrada', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findlistadni', isAuthenticated, async (req, res) => {
-    const { dni } = req.body;
-    const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (!mesaentradas) {
-        req.flash('success_msg', 'cargue un Número de DNI')
-        return res.render("notes/allmesaentrada");
-    } else {
-        res.render('notes/planillalistaturnero', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findexpediente', isAuthenticated, async (req, res) => {
-    const { numexpediente } = req.body;
-    const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (!mesaentradas) {
-        req.flash('success_msg', 'cargue un Número de Expediente')
-        return res.render("notes/allmesaentrada");
-    } else {
-        res.render('notes/findmesaentrada', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findlistaexpediente', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { numexpediente } = req.body;
-    const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Mesa-Entrada") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Expediente')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/planillalistaturnero', { mesaentradas })
-        }
-    } else if (rolusuario == "Administrador") {
-        if (!mesaentradas) {
-            req.flash('success_msg', 'cargue Expediente')
-            return res.render("notes/allmesaentrada");
-        } else {
-            res.render('notes/planillalistaturnero', { mesaentradas })
-        }
-    } else {
-        res.render('notes/planillalistaturnero', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findfechaentrada', isAuthenticated, async (req, res) => {
-    const { fechaingreso } = req.body;
-    const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (!mesaentradas) {
-        req.flash('success_msg', 'cargue Fecha Ingreso')
-        return res.render("notes/allmesaentrada");
-    } else {
-        res.render('notes/findmesaentrada', { mesaentradas })
-    }
-});
-router.post('/mesaentrada/findlistafechaentrada', isAuthenticated, async (req, res) => {
-    const { fechaingreso } = req.body;
-    const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-    if (!mesaentradas) {
-        req.flash('success_msg', 'cargue Fecha Ingreso')
-        return res.render("notes/allmesaentrada");
-    } else {
-        res.render('notes/planillalistaturnero', { mesaentradas })
-    }
-});
+// router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {
+//     const rolusuario = req.user.rolusuario;
+//     const { sector } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (rolusuario == "Mesa-Entrada") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/findmesaentrada', { mesaentradas })
+//         }
+//     } else if (rolusuario == "Administrador") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/findmesaentradaadm', { mesaentradas })
+//         }
+//     } else {
+//         res.render('notes/findmesaentrada', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findiniciador', isAuthenticated, async (req, res) => {
+//     const rolusuario = req.user.rolusuario;
+//     const { nomyape } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (rolusuario == "Mesa-Entrada") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/findmesaentrada', { mesaentradas })
+//         }
+//     } else if (rolusuario == "Administrador") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/findmesaentradaadm', { mesaentradas })
+//         }
+//     } else {
+//         res.render('notes/findmesaentrada', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findlistasector', isAuthenticated, async (req, res) => {
+//     const rolusuario = req.user.rolusuario;
+//     const { sector } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (rolusuario == "Mesa-Entrada") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/planillalistaturnero', { mesaentradas })
+//         }
+//     } else if (rolusuario == "Administrador") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/planillalistaturnero', { mesaentradas })
+//         }
+//     } else {
+//         res.render('notes/planillalistaturnero', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findlistainiciador', isAuthenticated, async (req, res) => {
+//     const rolusuario = req.user.rolusuario;
+//     const { nomyape } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (rolusuario == "Mesa-Entrada") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/planillalistaturnero', { mesaentradas })
+//         }
+//     } else if (rolusuario == "Administrador") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Nombre y Apellido')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/planillalistaturnero', { mesaentradas })
+//         }
+//     } else {
+//         res.render('notes/planillalistaturnero', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/finddni', isAuthenticated, async (req, res) => {
+//     const { dni } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (!mesaentradas) {
+//         req.flash('success_msg', 'cargue un Número de DNI')
+//         return res.render("notes/allmesaentrada");
+//     } else {
+//         res.render('notes/findmesaentrada', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findlistadni', isAuthenticated, async (req, res) => {
+//     const { dni } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (!mesaentradas) {
+//         req.flash('success_msg', 'cargue un Número de DNI')
+//         return res.render("notes/allmesaentrada");
+//     } else {
+//         res.render('notes/planillalistaturnero', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findexpediente', isAuthenticated, async (req, res) => {
+//     const { numexpediente } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (!mesaentradas) {
+//         req.flash('success_msg', 'cargue un Número de Expediente')
+//         return res.render("notes/allmesaentrada");
+//     } else {
+//         res.render('notes/findmesaentrada', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findlistaexpediente', isAuthenticated, async (req, res) => {
+//     const rolusuario = req.user.rolusuario;
+//     const { numexpediente } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (rolusuario == "Mesa-Entrada") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Expediente')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/planillalistaturnero', { mesaentradas })
+//         }
+//     } else if (rolusuario == "Administrador") {
+//         if (!mesaentradas) {
+//             req.flash('success_msg', 'cargue Expediente')
+//             return res.render("notes/allmesaentrada");
+//         } else {
+//             res.render('notes/planillalistaturnero', { mesaentradas })
+//         }
+//     } else {
+//         res.render('notes/planillalistaturnero', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findfechaentrada', isAuthenticated, async (req, res) => {
+//     const { fechaingreso } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (!mesaentradas) {
+//         req.flash('success_msg', 'cargue Fecha Ingreso')
+//         return res.render("notes/allmesaentrada");
+//     } else {
+//         res.render('notes/findmesaentrada', { mesaentradas })
+//     }
+// });
+// router.post('/mesaentrada/findlistafechaentrada', isAuthenticated, async (req, res) => {
+//     const { fechaingreso } = req.body;
+//     const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+//     if (!mesaentradas) {
+//         req.flash('success_msg', 'cargue Fecha Ingreso')
+//         return res.render("notes/allmesaentrada");
+//     } else {
+//         res.render('notes/planillalistaturnero', { mesaentradas })
+//     }
+// });
 // *** BUSCAR EN TICKET ***
 router.post('/ticket/findlistaticket', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -2393,16 +1559,16 @@ router.post('/notes/findfechaestadistica', isAuthenticated, async (req, res) => 
 
 
 // **** AGREGAR TURNO A CLIENTE HABITUAL ****
-router.put('/notes/editaddmesaentrada/:id', isAuthenticated, async (req, res) => {
-    const { sector, numturno, fechaingreso, horaingreso, numexpediente,
-        nomyape, dni, observaciones, contacto, dateturno } = req.body
-    await Mesaentrada.findByIdAndUpdate(req.params.id, {
-        sector, numturno, fechaingreso, horaingreso, numexpediente,
-        nomyape, dni, contacto, dateturno
-    });
-    req.flash('success_msg', 'Turno nuevo Agregado')
-    res.redirect('/mesaentrada');
-});
+// router.put('/notes/editaddmesaentrada/:id', isAuthenticated, async (req, res) => {
+//     const { sector, numturno, fechaingreso, horaingreso, numexpediente,
+//         nomyape, dni, observaciones, contacto, dateturno } = req.body
+//     await Mesaentrada.findByIdAndUpdate(req.params.id, {
+//         sector, numturno, fechaingreso, horaingreso, numexpediente,
+//         nomyape, dni, contacto, dateturno
+//     });
+//     req.flash('success_msg', 'Turno nuevo Agregado')
+//     res.redirect('/mesaentrada');
+// });
 
 // **** AGREGAR OTRA INTIMACION A MISMA PERSONA****
 router.put('/notes/editaddintimacion/:id', isAuthenticated, async (req, res) => {
@@ -2431,16 +1597,16 @@ router.put('/users/editusuarios/:id', isAuthenticated, async (req, res) => {
     res.redirect('/usuarios');
 });
 
-router.put('/notes/editmesaentrada/:id', isAuthenticated, async (req, res) => {
-    const { sector, numturno, fechaingreso, horaingreso, numexpediente,
-        nomyape, dni, observaciones, contacto, dateturno } = req.body
-    await Mesaentrada.findByIdAndUpdate(req.params.id, {
-        sector, numturno, fechaingreso, horaingreso, numexpediente,
-        nomyape, dni, contacto, dateturno
-    });
-    req.flash('success_msg', 'Turno Actualizado')
-    res.redirect('/mesaentrada');
-});
+// router.put('/notes/editmesaentrada/:id', isAuthenticated, async (req, res) => {
+//     const { sector, numturno, fechaingreso, horaingreso, numexpediente,
+//         nomyape, dni, observaciones, contacto, dateturno } = req.body
+//     await Mesaentrada.findByIdAndUpdate(req.params.id, {
+//         sector, numturno, fechaingreso, horaingreso, numexpediente,
+//         nomyape, dni, contacto, dateturno
+//     });
+//     req.flash('success_msg', 'Turno Actualizado')
+//     res.redirect('/mesaentrada');
+// });
 
 router.put('/notes/editticket/:id', isAuthenticated, async (req, res) => {
     const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
@@ -2580,65 +1746,6 @@ router.put('/notes/editestadistica/:id', isAuthenticated, async (req, res) => {
 
 // **** SECTOR DELETE ****
 
-router.put('/mesaentrada/marcadelete/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();    
-    //await Multas.updateMany({ _id: "id" });  
-    //Busco el id y le sumo 1 a veces impreso
-    const borrado = "Si";    
-    const fechaborrado = new Date();
-    const userborrado = req.user.name;
-    await Mesaentrada.findByIdAndUpdate(req.params.id, {
-        borrado, fechaborrado, userborrado
-    });
-    req.flash('success_msg', 'Turno a Papelera Reciclaje')
-    res.redirect('/mesaentrada/listado');
-    // await Mesaentrada.findByIdAndDelete(req.params.id);
-    // req.flash('success_msg', 'Turno Eliminado')
-    // res.redirect('/mesaentrada/listado')
-});
-
-router.put('/mesaentrada/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();    
-    //await Multas.updateMany({ _id: "id" });  
-    //Busco el id y le sumo 1 a veces impreso
-    const borrado = "No";    
-    const fechaborrado = "Restaurado";
-    const userborrado = req.user.name;
-    await Mesaentrada.findByIdAndUpdate(req.params.id, {
-        borrado, fechaborrado, userborrado
-    });
-    req.flash('success_msg', 'Turno Restaurado')
-    res.redirect('/mesaentrada/listado');
-    // await Mesaentrada.findByIdAndDelete(req.params.id);
-    // req.flash('success_msg', 'Turno Eliminado')
-    // res.redirect('/mesaentrada/listado')
-});
-
-router.put('/multas/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();    
-    //await Multas.updateMany({ _id: "id" });  
-    //Busco el id y le sumo 1 a veces impreso
-    const borrado = "No";    
-    const fechaborrado = "Restaurado";
-    const userborrado = req.user.name;
-    await Multas.findByIdAndUpdate(req.params.id, {
-        borrado, fechaborrado, userborrado
-    });
-    req.flash('success_msg', 'Liquidación Restaurada')
-    res.redirect('/multas/borradolistado');
-    // await Mesaentrada.findByIdAndDelete(req.params.id);
-    // req.flash('success_msg', 'Turno Eliminado')
-    // res.redirect('/mesaentrada/listado')
-});
-
-
-
-router.delete('/mesaentrada/delete/:id', isAuthenticated, async (req, res) => {
-    await Mesaentrada.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', 'Turno Eliminado')
-    res.redirect('/mesaentrada/listado')
-});
-
 router.delete('/usuarios/delete/:id', isAuthenticated, async (req, res) => {
     var usuarios = await Users.find().lean().sort();
     if (usuarios.length > 1) {
@@ -2650,62 +1757,6 @@ router.delete('/usuarios/delete/:id', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'No puede eliminar usuario único')
         res.redirect('/usuarios')
     }
-});
-
-router.delete('/tasas/delete/:id', isAuthenticated, async (req, res) => {
-    await Tasas.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', 'Tasa Eliminada')
-    res.redirect('/Tasas')
-});
-
-router.delete('/multas/delete/:id', isAuthenticated, async (req, res) => {
-    await Multas.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', 'Multa a Propietario Eliminada')
-    res.redirect('/multas')
-});
-
-router.put('/multas/marcadelete/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();    
-    //await Multas.updateMany({ _id: "id" });  
-    //Busco el id y le sumo 1 a veces impreso
-    const borrado = "Si";    
-    const fechaborrado = new Date();
-    const userborrado = req.user.name;
-    await Multas.findByIdAndUpdate(req.params.id, {
-        borrado, fechaborrado, userborrado
-    });
-    req.flash('success_msg', 'Liquidación a Papelera Reciclaje')
-    res.redirect('/multas');
-    // await Mesaentrada.findByIdAndDelete(req.params.id);
-    // req.flash('success_msg', 'Turno Eliminado')
-    // res.redirect('/mesaentrada/listado')
-});
-
-router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {         
-    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
-    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"No" }, { borrado: "No", fechaborrado:"Recuperado"});
-    req.flash('success_msg', 'todos los datos de liquidación de Propietarios recuperados')
-    res.redirect('/multas/borradolistado');
-    // await Mesaentrada.findByIdAndDelete(req.params.id);
-    // req.flash('success_msg', 'Turno Eliminado')
-    // res.redirect('/mesaentrada/listado')
-});
-
-router.put('/multas/recuperarlistadoprof', isAuthenticated, async (req, res) => {         
-    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
-    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"Si" }, { borrado: "No", fechaborrado:"Recuperado"});
-    req.flash('success_msg', 'todos los datos de liquidación de profesionales recuperados')
-    res.redirect('/multas/borradolistado');
-    // await Mesaentrada.findByIdAndDelete(req.params.id);
-    // req.flash('success_msg', 'Turno Eliminado')
-    // res.redirect('/mesaentrada/listado')
-});
-
-
-router.delete('/multasprofesional/delete/:id', isAuthenticated, async (req, res) => {
-    await Multas.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', 'Multa a Profesional Eliminada')
-    res.redirect('/multasprofesionales')
 });
 
 router.delete('/tickets/delete/:id', isAuthenticated, async (req, res) => {
@@ -2731,8 +1782,6 @@ router.delete('/expedinspeccion/ticket/delete/:id', isAuthenticated, async (req,
     req.flash('success_msg', 'Informe de Ticket de Expediente Eliminado')
     res.redirect('/expedientes/listadoticket')
 });
-
-
 
 //NOTES es inspecciones
 router.delete('/notes/delete/:id', isAuthenticated, async (req, res) => {
