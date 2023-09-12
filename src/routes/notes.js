@@ -36,7 +36,7 @@ router.get('/tickets/add', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETS')
         return res.redirect('/');
     }
-})
+});
 
 router.get('/expedientes/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -49,7 +49,7 @@ router.get('/expedientes/add', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
     }
-})
+});
 
 router.get('/informeinspeccion/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -63,7 +63,7 @@ router.get('/informeinspeccion/add/:id', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
     }
-})
+});
 
 router.get('/notes/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -76,8 +76,8 @@ router.get('/notes/add', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INSPECCIONES')
         return res.redirect('/');
     }
+});
 
-})
 router.get('/notes/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const notes = await Note.findById(req.params.id).lean();
@@ -90,7 +90,7 @@ router.get('/notes/add/:id', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INSPECCIONES')
         return res.redirect('/');
     }
-})
+});
 
 router.get('/intimaciones/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -103,7 +103,7 @@ router.get('/intimaciones/add', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');
     }
-})
+});
 
 router.get('/intimaciones/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -128,7 +128,6 @@ router.get('/infracciones/add', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INFRACCIONES')
         return res.redirect('/');
     }
-
 })
 
 router.get('/estadisticas/add', isAuthenticated, (req, res) => {
@@ -165,21 +164,7 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
     await newTicket.save();
     req.flash('success_msg', 'Ticket Agregado Exitosamente');
     res.redirect('/ticket/listado');
-})
-
-// router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
-//     const { sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-//         contacto, hora, observaciones, eliminado, user, name } = req.body;
-//     const newMesaentrada = new Mesaentrada({
-//         sector, numturno, fechaingreso, horaingreso, numexpediente, nomyape, dni,
-//         contacto, hora, observaciones, eliminado, user, name
-//     })
-//     newMesaentrada.user = req.user.id;
-//     newMesaentrada.name = req.user.name;
-//     await newMesaentrada.save();
-//     req.flash('success_msg', 'Turno Agregado Exitosamente');
-//     res.redirect('/mesaentrada/listado');
-// })
+});
 
 router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
     //console.log(req.body)
@@ -221,7 +206,7 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'Expediente Agregado Exitosamente');
         res.redirect('/expedientes');
     }
-})
+});
 
 router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (req, res) => {
     //console.log(req.body)
@@ -238,8 +223,7 @@ router.post('/informeinspeccion/newinformeinspeccion', isAuthenticated, async (r
     await newInformeinspeccion.save();
     req.flash('success_msg', 'Informe de Inspección Agregado Exitosamente');
     res.redirect('/expedientes/listado');
-}
-)
+});
 
 router.post('/ticket/informeinspeccion/newinforexpticket', isAuthenticated, async (req, res) => {
     //console.log(req.body)
@@ -260,9 +244,7 @@ router.post('/ticket/informeinspeccion/newinforexpticket', isAuthenticated, asyn
     await newExpedticketentrainsp.save();
     req.flash('success_msg', 'Informe Expediente de Inspección Ticket Agregado Exitosamente');
     res.redirect('/expedientes/listadoticket');
-}
-)
-
+});
 
 router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
     const newNote = new Note();
@@ -547,6 +529,7 @@ router.get('/usuarios', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
 router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -561,6 +544,7 @@ router.get('/ticket/listado', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
 router.get('/expedientes', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -628,7 +612,6 @@ router.get('/expedientes/listadoticket/add/:id', isAuthenticated, async (req, re
         return res.redirect('/');
     }
 })
-
 
 router.get('/expedientes/informeinspeccion', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
@@ -714,7 +697,6 @@ router.get('/expedientes/ticket/ticketexpedconinformeinspeccion/:id', isAuthenti
     }
 });
 
-
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -790,6 +772,7 @@ router.get('/infracciones', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
 router.get('/infracciones/listado', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     const rolusuario = req.user.rolusuario;
@@ -804,8 +787,6 @@ router.get('/infracciones/listado', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
-
-
 
 router.get('/estadisticas', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
@@ -943,167 +924,6 @@ router.get('/estadisticas/list/:id', isAuthenticated, async (req, res) => {
 
 //  ***** SECTOR BUSQUEDA *****
 
-// *** BUSCAR TURNOS ***
-// router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {
-//     const rolusuario = req.user.rolusuario;
-//     const { sector } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (rolusuario == "Mesa-Entrada") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/findmesaentrada', { mesaentradas })
-//         }
-//     } else if (rolusuario == "Administrador") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/findmesaentradaadm', { mesaentradas })
-//         }
-//     } else {
-//         res.render('notes/findmesaentrada', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findiniciador', isAuthenticated, async (req, res) => {
-//     const rolusuario = req.user.rolusuario;
-//     const { nomyape } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (rolusuario == "Mesa-Entrada") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/findmesaentrada', { mesaentradas })
-//         }
-//     } else if (rolusuario == "Administrador") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/findmesaentradaadm', { mesaentradas })
-//         }
-//     } else {
-//         res.render('notes/findmesaentrada', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findlistasector', isAuthenticated, async (req, res) => {
-//     const rolusuario = req.user.rolusuario;
-//     const { sector } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (rolusuario == "Mesa-Entrada") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/planillalistaturnero', { mesaentradas })
-//         }
-//     } else if (rolusuario == "Administrador") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/planillalistaturnero', { mesaentradas })
-//         }
-//     } else {
-//         res.render('notes/planillalistaturnero', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findlistainiciador', isAuthenticated, async (req, res) => {
-//     const rolusuario = req.user.rolusuario;
-//     const { nomyape } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (rolusuario == "Mesa-Entrada") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/planillalistaturnero', { mesaentradas })
-//         }
-//     } else if (rolusuario == "Administrador") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Nombre y Apellido')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/planillalistaturnero', { mesaentradas })
-//         }
-//     } else {
-//         res.render('notes/planillalistaturnero', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/finddni', isAuthenticated, async (req, res) => {
-//     const { dni } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (!mesaentradas) {
-//         req.flash('success_msg', 'cargue un Número de DNI')
-//         return res.render("notes/allmesaentrada");
-//     } else {
-//         res.render('notes/findmesaentrada', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findlistadni', isAuthenticated, async (req, res) => {
-//     const { dni } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (!mesaentradas) {
-//         req.flash('success_msg', 'cargue un Número de DNI')
-//         return res.render("notes/allmesaentrada");
-//     } else {
-//         res.render('notes/planillalistaturnero', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findexpediente', isAuthenticated, async (req, res) => {
-//     const { numexpediente } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (!mesaentradas) {
-//         req.flash('success_msg', 'cargue un Número de Expediente')
-//         return res.render("notes/allmesaentrada");
-//     } else {
-//         res.render('notes/findmesaentrada', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findlistaexpediente', isAuthenticated, async (req, res) => {
-//     const rolusuario = req.user.rolusuario;
-//     const { numexpediente } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (rolusuario == "Mesa-Entrada") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Expediente')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/planillalistaturnero', { mesaentradas })
-//         }
-//     } else if (rolusuario == "Administrador") {
-//         if (!mesaentradas) {
-//             req.flash('success_msg', 'cargue Expediente')
-//             return res.render("notes/allmesaentrada");
-//         } else {
-//             res.render('notes/planillalistaturnero', { mesaentradas })
-//         }
-//     } else {
-//         res.render('notes/planillalistaturnero', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findfechaentrada', isAuthenticated, async (req, res) => {
-//     const { fechaingreso } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (!mesaentradas) {
-//         req.flash('success_msg', 'cargue Fecha Ingreso')
-//         return res.render("notes/allmesaentrada");
-//     } else {
-//         res.render('notes/findmesaentrada', { mesaentradas })
-//     }
-// });
-// router.post('/mesaentrada/findlistafechaentrada', isAuthenticated, async (req, res) => {
-//     const { fechaingreso } = req.body;
-//     const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
-//     if (!mesaentradas) {
-//         req.flash('success_msg', 'cargue Fecha Ingreso')
-//         return res.render("notes/allmesaentrada");
-//     } else {
-//         res.render('notes/planillalistaturnero', { mesaentradas })
-//     }
-// });
 // *** BUSCAR EN TICKET ***
 router.post('/ticket/findlistaticket', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
@@ -1221,7 +1041,6 @@ router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
 });
 
 // *** BUSCAR TICKETS DE EXPEDIENTES - LISTADO ***
-
 router.post('/ticketexp/findlistaticket', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numeroticket } = req.body;
@@ -1265,8 +1084,6 @@ router.post('/ticketexp/findlistaadrema', isAuthenticated, async (req, res) => {
     }
 });
 
-
-
 // *** BUSCAR EXPEDIENTES (NOTES) - LISTADO ***
 router.post('/expedientes/find', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
@@ -1278,6 +1095,7 @@ router.post('/expedientes/find', isAuthenticated, async (req, res) => {
         res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes })
     }
 });
+
 router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
     const { adremaexp } = req.body;
     const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
@@ -1288,6 +1106,7 @@ router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
         res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes })
     }
 });
+
 router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
     const { iniciadornomyape } = req.body;
     const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
@@ -1321,6 +1140,7 @@ router.post('/notes/find', isAuthenticated, async (req, res) => {
         res.render('notes/findexpediente', { expedientes })
     }
 });
+
 router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
     const { adremaexp } = req.body;
     const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
@@ -1331,6 +1151,7 @@ router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
         res.render('notes/findexpediente', { expedientes })
     }
 });
+
 router.post('/notes/findiniciador', isAuthenticated, async (req, res) => {
     const { iniciadornomyape } = req.body;
     const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
@@ -1353,6 +1174,7 @@ router.post('/notes/findinspeccion', isAuthenticated, async (req, res) => {
         res.render('notes/findinspeccion', { notes })
     }
 });
+
 router.post('/notes/findexpediente', isAuthenticated, async (req, res) => {
     const { expediente } = req.body;
     const notes = await Note.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ expediente: 'desc' });;
@@ -1363,6 +1185,7 @@ router.post('/notes/findexpediente', isAuthenticated, async (req, res) => {
         res.render('notes/findinspeccion', { notes })
     }
 });
+
 router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
     const { adrema } = req.body;
     const notes = await Note.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ adrema: 'desc' });;
@@ -1373,6 +1196,7 @@ router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
         res.render('notes/findinspeccion', { notes })
     }
 });
+
 router.post('/notes/findinspector', isAuthenticated, async (req, res) => {
     const { inspector } = req.body;
     const notes = await Note.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ inspector: 'desc' });;
@@ -1395,6 +1219,7 @@ router.post('/notes/findintimacion', isAuthenticated, async (req, res) => {
         res.render('notes/findintimacion', { intimacions })
     }
 });
+
 router.post('/notes/findexpedienteintimacion', isAuthenticated, async (req, res) => {
     const { numexpedienteint } = req.body;
     const intimacions = await Intimacion.find({ numexpedienteint: { $regex: numexpedienteint, $options: "i" } }).lean().sort({ numexpedienteint: 'desc' });;
@@ -1405,6 +1230,7 @@ router.post('/notes/findexpedienteintimacion', isAuthenticated, async (req, res)
         res.render('notes/findintimacion', { intimacions })
     }
 });
+
 router.post('/notes/findadremaintim', isAuthenticated, async (req, res) => {
     const { adrema } = req.body;
     const intimacions = await Intimacion.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ adrema: 'desc' });;
@@ -1415,6 +1241,7 @@ router.post('/notes/findadremaintim', isAuthenticated, async (req, res) => {
         res.render('notes/findintimacion', { intimacions })
     }
 });
+
 router.post('/notes/findinspectorintim', isAuthenticated, async (req, res) => {
     const { inspectorint } = req.body;
     const intimacions = await Intimacion.find({ inspectorint: { $regex: inspectorint, $options: "i" } }).lean().sort({ inspectorint: 'desc' });;
@@ -1438,6 +1265,7 @@ router.post('/notes/findinfraccion', isAuthenticated, async (req, res) => {
         res.render('notes/findinfraccion', { infraccions })
     }
 });
+
 router.post('/notes/findexpedienteinf', isAuthenticated, async (req, res) => {
     const { numexpedienteinf } = req.body;
     const infraccions = await Infraccion.find({ numexpedienteinf: { $regex: numexpedienteinf, $options: "i" } }).lean().sort({ numexpedienteinf: 'desc' });;
@@ -1458,6 +1286,7 @@ router.post('/notes/findadremainf', isAuthenticated, async (req, res) => {
         res.render('notes/findinfraccion', { infraccions })
     }
 });
+
 router.post('/notes/findpropietainf', isAuthenticated, async (req, res) => {
     const { apellidonombrepropietarioinf } = req.body;
     const infraccions = await Infraccion.find({ apellidonombrepropietarioinf: { $regex: apellidonombrepropietarioinf, $options: "i" } }).lean().sort({ apellidonombrepropietarioinf: 'desc' });;
@@ -1468,6 +1297,7 @@ router.post('/notes/findpropietainf', isAuthenticated, async (req, res) => {
         res.render('notes/findinfraccion', { infraccions })
     }
 });
+
 // *** BUSCAR INFRACCIONES - LISTADO ***
 router.post('/infracciones/findinfraccion', isAuthenticated, async (req, res) => {
     const { actainfnum } = req.body;
@@ -1479,6 +1309,7 @@ router.post('/infracciones/findinfraccion', isAuthenticated, async (req, res) =>
         res.render('notes/planillalistainfraccion', { infracciones })
     }
 });
+
 router.post('/infracciones/findexpedienteinf', isAuthenticated, async (req, res) => {
     const { numexpedienteinf } = req.body;
     const infracciones = await Infraccion.find({ numexpedienteinf: { $regex: numexpedienteinf, $options: "i" } }).lean().sort({ numexpedienteinf: 'desc' });;
@@ -1489,6 +1320,7 @@ router.post('/infracciones/findexpedienteinf', isAuthenticated, async (req, res)
         res.render('notes/planillalistainfraccion', { infracciones })
     }
 });
+
 router.post('/infracciones/dniinf', isAuthenticated, async (req, res) => {
     const { dnipropietarioinf } = req.body;
     const infracciones = await Infraccion.find({ dnipropietarioinf: { $regex: dnipropietarioinf, $options: "i" } }).lean().sort({ dnipropietarioinf: 'desc' });;
@@ -1499,6 +1331,7 @@ router.post('/infracciones/dniinf', isAuthenticated, async (req, res) => {
         res.render('notes/planillalistainfraccion', { infracciones })
     }
 });
+
 router.post('/infracciones/findlistaadrema', isAuthenticated, async (req, res) => {
     const { adremainf } = req.body;
     const infracciones = await Infraccion.find({ adremainf: { $regex: adremainf, $options: "i" } }).lean().sort({ adremainf: 'desc' });;
@@ -1509,6 +1342,7 @@ router.post('/infracciones/findlistaadrema', isAuthenticated, async (req, res) =
         res.render('notes/planillalistainfraccion', { infracciones })
     }
 });
+
 router.post('/infracciones/findpropietainf', isAuthenticated, async (req, res) => {
     const { apellidonombrepropietarioinf } = req.body;
     const infracciones = await Infraccion.find({ apellidonombrepropietarioinf: { $regex: apellidonombrepropietarioinf, $options: "i" } }).lean().sort({ apellidonombrepropietarioinf: 'desc' });;
@@ -1530,8 +1364,6 @@ router.post('/infracciones/findlistafechaentrada', isAuthenticated, async (req, 
         res.render('notes/planillalistainfraccion', { infracciones })
     }
 });
-
-
 
 // *** BUSCAR ESTADISTICAS - CARTAS ***
 router.post('/notes/findnumestadistica', isAuthenticated, async (req, res) => {
@@ -1556,19 +1388,6 @@ router.post('/notes/findfechaestadistica', isAuthenticated, async (req, res) => 
         res.render('notes/findestadistica', { estadisticas })
     }
 });
-
-
-// **** AGREGAR TURNO A CLIENTE HABITUAL ****
-// router.put('/notes/editaddmesaentrada/:id', isAuthenticated, async (req, res) => {
-//     const { sector, numturno, fechaingreso, horaingreso, numexpediente,
-//         nomyape, dni, observaciones, contacto, dateturno } = req.body
-//     await Mesaentrada.findByIdAndUpdate(req.params.id, {
-//         sector, numturno, fechaingreso, horaingreso, numexpediente,
-//         nomyape, dni, contacto, dateturno
-//     });
-//     req.flash('success_msg', 'Turno nuevo Agregado')
-//     res.redirect('/mesaentrada');
-// });
 
 // **** AGREGAR OTRA INTIMACION A MISMA PERSONA****
 router.put('/notes/editaddintimacion/:id', isAuthenticated, async (req, res) => {
@@ -1596,17 +1415,6 @@ router.put('/users/editusuarios/:id', isAuthenticated, async (req, res) => {
     req.flash('success_msg', 'Usuario Actualizado')
     res.redirect('/usuarios');
 });
-
-// router.put('/notes/editmesaentrada/:id', isAuthenticated, async (req, res) => {
-//     const { sector, numturno, fechaingreso, horaingreso, numexpediente,
-//         nomyape, dni, observaciones, contacto, dateturno } = req.body
-//     await Mesaentrada.findByIdAndUpdate(req.params.id, {
-//         sector, numturno, fechaingreso, horaingreso, numexpediente,
-//         nomyape, dni, contacto, dateturno
-//     });
-//     req.flash('success_msg', 'Turno Actualizado')
-//     res.redirect('/mesaentrada');
-// });
 
 router.put('/notes/editticket/:id', isAuthenticated, async (req, res) => {
     const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,

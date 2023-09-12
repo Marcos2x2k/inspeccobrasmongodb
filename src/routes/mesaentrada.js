@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require("bcrypt");
-const passport = require ('passport');
-const User =  require ('../models/User')
+// const bcrypt = require("bcrypt");
+// const passport = require ('passport');
+// const User =  require ('../models/User')
 
 //const bcrypt = require("bcrypt");
 //const mongopagi = require('mongoose-paginate-v2') Paginacion de mongodb
@@ -289,7 +289,6 @@ router.get('/mesaentrada/borradolist/:id', isAuthenticated, async (req, res) => 
 });
 
 // *** SECTOR BUSQUEDA ***
-
 router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { sector } = req.body;

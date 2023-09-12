@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require("bcrypt");
-const passport = require ('passport');
-const User =  require ('../models/User')
+// const bcrypt = require("bcrypt");
+// const passport = require ('passport');
+// const User =  require ('../models/User')
 
 //const bcrypt = require("bcrypt");
 //const mongopagi = require('mongoose-paginate-v2') Paginacion de mongodb
@@ -470,10 +470,10 @@ router.get('/tasas', isAuthenticated, async (req, res) => {
     if (rolusuario == "Liquidaciones") {
         // res.send('Notes from data base');
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const tasas = await Tasas.find().lean().sort({ date: 'desc' });
+        const tasas = await Tasas.find({borrado:"No"}).lean().sort({ date: 'desc' });
         res.render('notes/alltasasadm', { tasas });
     } else if (rolusuario == "Administrador") {
-        const tasas = await Tasas.find().lean().sort({ date: 'desc' });
+        const tasas = await Tasas.find({borrado:"No"}).lean().sort({ date: 'desc' });
         res.render('notes/alltasasadm', { tasas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
@@ -661,13 +661,29 @@ router.put('/multas/recuperarlistadoprof', isAuthenticated, async (req, res) => 
     // res.redirect('/mesaentrada/listado')
 });
 
-
 router.delete('/multasprofesional/delete/:id', isAuthenticated, async (req, res) => {
     await Multas.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Multa a Profesional Eliminada')
     res.redirect('/multasprofesionales')
 });
 
+
+router.put('/tasas/marcadelete/:id', isAuthenticated, async (req, res) => {
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const borrado = "Si";    
+    const fechaborrado = new Date();
+    const userborrado = req.user.name;
+    await Tasas.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Tasas a Papelera Reciclaje')
+    res.redirect('/Tasas');
+    // await Mesaentrada.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/mesaentrada/listado')
+});
 
 router.delete('/tasas/delete/:id', isAuthenticated, async (req, res) => {
     await Tasas.findByIdAndDelete(req.params.id);
