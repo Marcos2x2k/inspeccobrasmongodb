@@ -92,12 +92,12 @@ app.use((req, res, next) => {
 });
 
 // Routes aca defino las Rutas que utilizo
-app.use(require('./routes/index.js'))
-app.use(require('./routes/notes.js'))
-app.use(require('./routes/users.js'))
+app.use(require('./routes/index.js'));
+app.use(require('./routes/notes.js'));
+app.use(require('./routes/users.js'));
 app.use(require('./routes/mesaentrada.js'));
 app.use(require('./routes/liquidaciones.js'));
-
+app.use(require('./routes/expedientes.js'));
 
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')));
