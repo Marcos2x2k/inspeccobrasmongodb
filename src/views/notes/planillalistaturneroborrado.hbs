@@ -1,63 +1,80 @@
+<script>
+
+  function desactivarelementos() {
+    document.getElementById("tabla").style.color = "rgb(22, 166, 214)"
+    document.getElementById("botones").style.display = "none";
+    document.getElementById("recargarlistado").style.display = "none";
+  }
+</script>
+
+
 <div class="row">
   {{!-- <br /><br /> --}}
-  <div class="form-group btn-center mx-auto">
-    <form action="/mesaentrada/findlistasector" method="POST">
-      {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus /> --}}
-      <select name="sector">
-        <option>Sub Secretaría</option>
-        <option>Obras Particulares</option>
-        <option>Visado</option>
-      </select>
-      <div class="form-group">
-        <p></p>
-        <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar Sector Involucrado
-        </button>
-      </div>
-    </form>
+  <div class="row" id="botones">
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistasector" method="POST">
+        {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus /> --}}
+        <select name="sector">
+          <option>Sub Secretaría</option>
+          <option>Obras Particulares</option>
+          <option>Visado</option>
+        </select>
+        <div class="form-group">
+          <p></p>
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Sector Involucrado
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistainiciador" method="POST">
+        <input type="search" class="form-control" name="nomyape" placeholder="Buscar x NyApellido..." autofocus />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Iniciador
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistadni" method="POST">
+        <input id="inputbuscardni" type="search" class="form-control" name="dni" placeholder="Buscar x DNI..." />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar DNI
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistafechaentrada" method="POST">
+        <input id="inputbuscarfecha" type="search" class="form-control" name="fechaingreso"
+          placeholder="Buscar x Fecha..." />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Fecha
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistaexpediente" method="POST">
+        <input id="inputbuscarexpediente" type="search" class="form-control" name="numexpediente"
+          placeholder="Buscar x Expediente..." />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Expediente
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="form-group btn-center mx-auto">
-    <form action="/mesaentrada/findlistainiciador" method="POST">
-      <input type="search" class="form-control" name="nomyape" placeholder="Buscar x NyApellido..." autofocus />
-      <div class="form-group">
-        <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar Iniciador
-        </button>
-      </div>
-    </form>
-  </div>
-  <div class="form-group btn-center mx-auto">
-    <form action="/mesaentrada/findlistadni" method="POST">
-      <input type="search" class="form-control" name="dni" placeholder="Buscar x DNI..." autofocus />
-      <div class="form-group">
-        <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar DNI
-        </button>
-      </div>
-    </form>
-  </div>
-  <div class="form-group btn-center mx-auto">
-    <form action="/mesaentrada/findlistafechaentrada" method="POST">
-      <input type="search" class="form-control" name="fechaingreso" placeholder="Buscar x Fecha..." autofocus />
-      <div class="form-group">
-        <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar Fecha
-        </button>
-      </div>
-    </form>
-  </div>
-  <div class="form-group btn-center mx-auto">
-    <form action="/mesaentrada/findlistaexpediente" method="POST">
-      <input type="search" class="form-control" name="numexpediente" placeholder="Buscar x Expediente..." autofocus />
-      <div class="form-group">
-        <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar Expediente
-        </button>
-      </div>
-    </form>
-  </div>
-  <a href="/mesaentrada/borradolistado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
-  {{!-- <br /> --}}
+  <a id="recargarlistado" href="/mesaentrada/borradolistado" class="btn btn-outline-warning btn-block btn-sm">Recargar
+    Listado
+  </a>
+  <a href="/mesaentrada/listado" class="btn btn-success btn-block btn-sm">Volver a Mesa de Entrada</a>
+
   <div class="car-header mx-auto">
     <br />
     <h5 style="color:rgb(226, 110, 15); text-decoration:underline; font-weight: bold;;text-shadow: 1px 1px 2px black">
@@ -69,7 +86,7 @@
       LISTADO DE BORRADOS DE MESA DE ENTRADA</h5> --}}
     <br />
     <div class="form-group btn-center mx-auto">
-      <table class="table table-dark table-hover">
+      <table class="table table-dark table-hover" id="tabla">
         <thead>
           <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
             {{!-- <td style="visibility:collapse;">ID</td> --}}
@@ -124,8 +141,20 @@
               </form>
             </td>
           </tr>
-          {{/each}}
         </tbody>
+
+        {{else}}
+        <script>
+          desactivarelementos()
+        </script>
+        <div class="mx-auto">
+          <div class="card mx-auto">
+            <div class="card-body">
+              <p class"lead" style="color:red; font-weight: bold;"> No existen Inspecciónes Aun...</p>
+            </div>
+          </div>
+        </div>
+        {{/each}}
       </table>
     </div>
   </div>

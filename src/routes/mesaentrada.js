@@ -504,7 +504,7 @@ router.put('/mesaentrada/marcadeleterestaurar/:id', isAuthenticated, async (req,
         borrado, fechaborrado, userborrado
     });
     req.flash('success_msg', 'Turno Restaurado')
-    res.redirect('/mesaentrada/listado');
+    res.redirect('/mesaentrada/borradolistado');
     // await Mesaentrada.findByIdAndDelete(req.params.id);
     // req.flash('success_msg', 'Turno Eliminado')
     // res.redirect('/mesaentrada/listado')
