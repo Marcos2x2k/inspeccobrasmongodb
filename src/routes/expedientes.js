@@ -4,6 +4,7 @@ const router = express.Router();
 const fs = require('fs').promises;
 const { isAuthenticated } = require('../helpers/auth');
 
+const Users = require('../models/User');
 const Expediente = require('../models/Expediente');
 const Expedinspeccion = require('../models/expedinspeccion');
 const Expedticket = require('../models/Expedticket')
@@ -93,7 +94,7 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
         newExpediente.name = req.user.name;
         await newExpediente.save();
         req.flash('success_msg', 'Expediente Agregado Exitosamente');
-        res.redirect('/expedientes');
+        res.redirect('/expedientes/listado');
     }
 });
 
@@ -120,11 +121,11 @@ router.get('/expedientes/listado', isAuthenticated, async (req, res) => {
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const expedientes = await Expediente.find().lean().limit(100).sort({ date: 'desc' }); //
+        const expedientes = await Expediente.find({ $or: [{ borrado: "No" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes });
     } else if (rolusuario == "Inspector") {
-        const expedientes = await Expediente.find().lean().limit(100).sort({ date: 'desc' }); //
+        const expedientes = await Expediente.find({ $or: [{ borrado: "No" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/inspecciones/planillalistaexpedientesusr', { expedientes });
     } else {
@@ -132,6 +133,40 @@ router.get('/expedientes/listado', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
+router.get('/expedientes/borradolistado', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const expedientes = await Expediente.find({ $or: [{ borrado: "Si" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/borrados/borradolistexpedientes', { expedientes });
+    } else if (rolusuario == "Inspector") {
+        const expedientes = await Expediente.find({ $or: [{ borrado: "Si" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/borrados/borradolistexpedientes', { expedientes });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
+router.put('/expedientes/recuperarlistado', isAuthenticated, async (req, res) => {
+    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
+    await Expediente.updateMany({ borrado: 'Si' }, { borrado: "No", fechaborrado: "Recuperado" });
+    //await Expediente.update({},{$set:{borrado: "No"}},{upsert:false,multi:true})
+    req.flash('success_msg', 'todos los Expedientes recuperados')
+    res.redirect('/expedientes/borradolistado');
+});
+
+// **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
+router.put('/expedientes/listadoborradosenno', isAuthenticated, async (req, res) => {
+    await Expediente.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
+    req.flash('success_msg', 'Todos los Expedientes Marcados')
+    res.redirect('/expedientes/borradolistado');
+});
+
 
 router.get('/expedientes/expedconinformeinspeccion/:id', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
@@ -280,9 +315,30 @@ router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
 router.delete('/expedientes/delete/:id', isAuthenticated, async (req, res) => {
     await Expediente.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'expediente Eliminado')
-    res.redirect('/expedientes')
+    res.redirect('/expedientes/borradolistado')
 });
 
+router.put('/expedientes/marcadelete/:id', isAuthenticated, async (req, res) => {
+    const borrado = "Si";
+    const fechaborrado = new Date();
+    const userborrado = req.user.name;
+    await Expediente.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Expediente a Papelera Reciclaje')
+    res.redirect('/expedientes/listado');
+});
+
+router.put('/expedientes/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
+    const borrado = "No";
+    const fechaborrado = "Restaurado";
+    const userborrado = req.user.name;
+    await Expediente.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Expediente Restaurado')
+    res.redirect('/expedientes/borradolistado');
+});
 
 // ********* ZONA DE INFORMES DE INSPECCION *********
 

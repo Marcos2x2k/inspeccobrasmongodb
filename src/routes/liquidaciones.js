@@ -640,6 +640,7 @@ router.put('/multas/marcadelete/:id', isAuthenticated, async (req, res) => {
     // res.redirect('/mesaentrada/listado')
 });
 
+
 router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {         
     //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
     await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"No" }, { borrado: "No", fechaborrado:"Recuperado"});
@@ -663,9 +664,16 @@ router.put('/multas/recuperarlistadoprof', isAuthenticated, async (req, res) => 
 router.delete('/multasprofesional/delete/:id', isAuthenticated, async (req, res) => {
     await Multas.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Multa a Profesional Eliminada')
-    res.redirect('/multasprofesionales')
+    res.redirect('/multas/borradolistado')
 });
 
+
+// **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
+router.put('/multas/listadoborradosenno', isAuthenticated, async (req, res) => {
+    await Multas.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
+    req.flash('success_msg', 'Todos las Multas Marcadas')
+    res.redirect('/multas/borradolistado');
+});
 
 router.put('/tasas/marcadelete/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();    

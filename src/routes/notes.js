@@ -121,10 +121,6 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
     res.redirect('/ticket/listado');
 });
 
-
-
-
-
 router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
     const newNote = new Note();
     newNote.origeninspeccion = req.body.origeninspeccion;

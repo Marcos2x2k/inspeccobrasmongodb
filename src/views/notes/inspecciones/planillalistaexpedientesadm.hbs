@@ -90,14 +90,20 @@
                 style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a>
               <a class="dropdown-item " href="/expedientes/edit/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a>
-              <form
+              {{!-- <form
                 onSubmit="return confirm('Recuerde que se borrará el expediente pero no sus informes. Desea Borrar?')"
                 style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar
                 </button>
-              </form>
+              </form> --}}
+              <form onSubmit="return confirm('Desea enviar Papelera?')"  style="box-shadow: 3px 4px;" action="/expedientes/marcadelete/{{_id}}?_method=PUT" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button class="btn btn-danger btn-block btn-sm" type="submit">
+                        Borrar
+                    </button>
+                </form>
             </td>
           </tr>
           </tr>
