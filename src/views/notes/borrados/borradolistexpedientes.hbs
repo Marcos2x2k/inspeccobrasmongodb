@@ -2,6 +2,7 @@
 
     function buttonrecuperartodos() {
         document.getElementById("recuperartodos").disabled = true;
+        document.getElementById("recuperartodosexpediente").disabled = true;
         document.getElementById("recargarlistado").style.visibility = "hidden";
     }
     
@@ -58,7 +59,14 @@
             Recuperar Todos los Expedientes eliminados
         </button>
     </form>   
-    <br /><br />    
+    <br /><br />  
+    <form class="btn-block" onSubmit="return confirm('Desea Recuperar Todos los Datos?')" style=""
+        action="/expedientes/recuperarlistado?_method=PUT" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <button id="recuperartodosexpediente" class="btn btn-warning btn-block btn-sm" type="submit">
+            Recuperar Todos los Registros eliminados de Expedientes
+        </button>
+    </form>    
     <a href="/expedientes/listado" class="btn btn-success btn-block">Ir lista Expedientes!</a>    
     <div class="form-group mx-auto">        
         <br />

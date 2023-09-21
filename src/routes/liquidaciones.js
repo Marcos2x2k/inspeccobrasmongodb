@@ -659,6 +659,16 @@ router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {
     // res.redirect('/mesaentrada/listado')
 });
 
+router.put('/multas/recuperarlistadoprop', isAuthenticated, async (req, res) => {         
+    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
+    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"No" }, { borrado: "No", fechaborrado:"Recuperado"});
+    req.flash('success_msg', 'todos los datos de liquidación de propietarios recuperados')
+    res.redirect('/multas/borradolistado');
+    // await Mesaentrada.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/mesaentrada/listado')
+});
+
 router.put('/multas/recuperarlistadoprof', isAuthenticated, async (req, res) => {         
     //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
     await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"Si" }, { borrado: "No", fechaborrado:"Recuperado"});

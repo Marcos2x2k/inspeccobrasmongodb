@@ -507,6 +507,16 @@ router.put('/mesaentrada/marcadelete/:id', isAuthenticated, async (req, res) => 
     // res.redirect('/mesaentrada/listado')
 });
 
+router.put('/mesaentrada/recuperarlistado', isAuthenticated, async (req, res) => {         
+    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
+    await Mesaentrada.updateMany({ borrado: 'Si'}, { borrado: "No", fechaborrado:"Recuperado"});
+    req.flash('success_msg', 'todos los datos de Mesa de Entradas recuperados')
+    res.redirect('/mesaentrada/listado');
+    // await Mesaentrada.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/mesaentrada/listado')
+});
+
 router.put('/mesaentrada/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();    
     //await Multas.updateMany({ _id: "id" });  

@@ -4,8 +4,9 @@
     document.getElementById("tabla").style.color = "rgb(22, 166, 214)"
     document.getElementById("botones").style.display = "none";
     document.getElementById("recargarlistado").style.display = "none";
+    document.getElementById("recuperartodosmesa").disabled = true;
   }
-  
+
 </script>
 
 
@@ -71,8 +72,15 @@
       </form>
     </div>
   </div>
-  <a id="recargarlistado" href="/mesaentrada/borradolistado" class="btn btn-outline-warning btn-block btn-sm">Recargar
-    Listado
+  <form class="btn-block" onSubmit="return confirm('Desea Recuperar Todos los Datos?')" style=""
+    action="/mesaentrada/recuperarlistado?_method=PUT" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <button id="recuperartodosmesa" class="btn btn-warning btn-block btn-sm" type="submit">
+      Recuperar Todos los Registros eliminados de Mesa de Entrada
+    </button>
+  </form>
+  <a id="recargarlistado" href="/mesaentrada/borradolistado" class="btn btn-outline-warning btn-block btn-sm">
+    Recargar Listado
   </a>
   <a href="/mesaentrada/listado" class="btn btn-success btn-block btn-sm">Volver a Mesa de Entrada</a>
 

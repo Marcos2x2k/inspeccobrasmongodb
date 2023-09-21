@@ -320,6 +320,13 @@ router.put('/expedientes/marcadelete/:id', isAuthenticated, async (req, res) => 
     res.redirect('/expedientes/listado');
 });
 
+router.put('/expedientes/recuperarlistado', isAuthenticated, async (req, res) => {         
+    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
+    await Expediente.updateMany({ borrado: 'Si'}, { borrado: "No", fechaborrado:"Recuperado"});
+    req.flash('success_msg', 'todos los datos de Expedientes recuperados')
+    res.redirect('/expedientes/listado');
+});
+
 router.put('/expedientes/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
     const borrado = "No";
     const fechaborrado = "Restaurado";
