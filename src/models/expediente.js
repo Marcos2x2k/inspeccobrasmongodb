@@ -74,10 +74,6 @@ ExpedienteSchema = new Schema({
     require: false,
     default: "No Posee Información"
   },
-  // zona:{ 
-  //   type: String,
-  //   allowNull: true
-  // },
   superficieterreno: {
     type: String,
     require: false,
@@ -221,21 +217,11 @@ ExpedienteSchema = new Schema({
   pathocho: {
     type: String,
     // default: "/img/Imagen-no-disponible.png"
-  },
-  // este user sirve para vincular las cuentas
-  eliminado: {
-    type: String,
-    require: false,
-    default: "No"
-  },
+  },  
   user: {
     type: String,
     require: false,
     default: "Administrador"
-  },
-  borrado: {
-    type: String,
-    require: false,
   },
   name: {
     type: String,

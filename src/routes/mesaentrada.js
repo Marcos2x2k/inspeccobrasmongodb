@@ -12,6 +12,13 @@ const { isAuthenticated } = require('../helpers/auth')
 // tengo que requerir los modelos para que mongoose me cree las tablas
 const Mesaentrada = require('../models/mesaentrada')
 
+// **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
+router.put('/mesaentrada/listadoborradosenno', isAuthenticated, async (req, res) => {
+    await Mesaentrada.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
+    req.flash('success_msg', 'Todos las Multas Marcadas')
+    res.redirect('/Mesaentrada/listado');
+});
+
 router.get('/mesaentradas/add', isAuthenticated, (req, res) => {
     res.render('notes/newmesaentradas');
 })
@@ -260,7 +267,7 @@ router.get('/mesaentrada/borradolistado', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador") {
         const mesaentradas = await Mesaentrada.find({borrado:"Si"}).limit(60).lean().sort({ dateturno: 'desc' });
-        res.render('notes/planillalistaturneroborrado', { mesaentradas });
+        res.render('notes/borrados/borradolistmesaentrada', { mesaentradas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
         return res.redirect('/');
@@ -287,6 +294,13 @@ router.get('/mesaentrada/borradolist/:id', isAuthenticated, async (req, res) => 
     // console.log(note.date);
     res.render('notes/borrados/borradolistmesaentrada', { mesaentrada })
 });
+
+router.get('/mesaentrada/infoborradolist/:id', isAuthenticated, async (req, res) => {
+    const mesaentrada = await Mesaentrada.findById(req.params.id).lean()
+    // console.log(note.date);
+    res.render('notes/borrados/infoborradomesaentrada', { mesaentrada })
+});
+
 
 // *** SECTOR BUSQUEDA ***
 router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {

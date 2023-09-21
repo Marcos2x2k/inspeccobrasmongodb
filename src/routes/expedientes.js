@@ -16,6 +16,13 @@ const Note = require('../models/Note');
 // *ZONA PDF* //
 const expedinspeccion = require('../models/expedinspeccion');
 
+// **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
+router.put('/expedientes/listadoborradosenno', isAuthenticated, async (req, res) => {
+    await Expediente.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
+    req.flash('success_msg', 'Todos los Expedientes Marcados')
+    res.redirect('/expedientes/listado');
+});
+
 router.get('/expedientes/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -57,45 +64,29 @@ router.get('/notes/add/:id', isAuthenticated, async (req, res) => {
     }
 });
 
-router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
-    //console.log(req.body)
-    const { numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
+router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {    
+    const { borrado, userborrado, fechaborrado, numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
         fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
         directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
         superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
         permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
         selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
-        fechainicioentrada, eliminado, user, name
+        fechainicioentrada, user, name
     } = req.body;
-    const errors = [];
-    if (!numexpediente) {
-        errors.push({ text: "Ingrese Nº Expediente" })
-    }
-    if (!estado) {
-        errors.push({ text: "Ingrese Estado" })
-    }
-    console.log(errors)
-    if (errors.length > 0) {
-        res.render('notes/newexpediente', {
-            errors,
-            numexpediente, estado, iniciadornomyape
-        })
-    } else {
-        const newExpediente = new Expediente({
-            numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
-            fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
-            directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
-            superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
-            permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
-            selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
-            fechainicioentrada, eliminado, user, name
-        })
-        newExpediente.user = req.user.id;
-        newExpediente.name = req.user.name;
-        await newExpediente.save();
-        req.flash('success_msg', 'Expediente Agregado Exitosamente');
-        res.redirect('/expedientes/listado');
-    }
+    const newExpediente = new Expediente({
+        borrado, userborrado, fechaborrado, numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
+        fiduciariopropsocio, direcfiduciariopropsocio, correofiduciariopropsocio,
+        directorobraoperitovisor, destinodeobra, superficieterreno, superficieaconstruir,
+        superficiesubsueloplantabaja, superficieprimerpisoymaspisos, observaciones,
+        permisobraoactainfrac, selecpermisoedificacion, permisoedificacionnumero, fechapermisoedificacion,
+        selecpermisodemolicion, permisodemolicionnumero, fechapermisodemolicion, fotoexpediente,
+        fechainicioentrada, user, name
+    })
+    newExpediente.user = req.user.id;
+    newExpediente.name = req.user.name;
+    await newExpediente.save();
+    req.flash('success_msg', 'Expediente Agregado Exitosamente');
+    res.redirect('/expedientes/listado');
 });
 
 router.get('/expedientes', isAuthenticated, async (req, res) => {
@@ -121,11 +112,11 @@ router.get('/expedientes/listado', isAuthenticated, async (req, res) => {
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const expedientes = await Expediente.find({ $or: [{ borrado: "No" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
+        const expedientes = await Expediente.find({ borrado: "No" }).lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/inspecciones/planillalistaexpedientesadm', { expedientes });
     } else if (rolusuario == "Inspector") {
-        const expedientes = await Expediente.find({ $or: [{ borrado: "No" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
+        const expedientes = await Expediente.find({ borrado: "No" }).lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/inspecciones/planillalistaexpedientesusr', { expedientes });
     } else {

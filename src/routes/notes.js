@@ -21,6 +21,18 @@ const pdf = require("html-pdf");
 const User = require('../models/User');
 var pdfoptionsA4 = { format: 'A4' };
 
+//**** sector de recuperacoin de borrados a bases de datos no preparadas *****/
+router.get('/marcarborradosennoall', isAuthenticated, async (req, res) => {    
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador") {
+        const infraccions = await Infraccion.find().lean().sort({ date: 'desc' });
+        res.render('notes/borrados/marcarborradosennoall');
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INFRACCIONES')
+        return res.redirect('/');
+    }
+});
+
 router.get('/tickets/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector

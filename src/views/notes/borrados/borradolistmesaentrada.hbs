@@ -1,129 +1,162 @@
-<script type="text/javascript">
+<script>
 
-    function startTime() {
-
-        today = new Date();
-
-        h = today.getHours();
-
-        m = today.getMinutes();
-
-        s = today.getSeconds();
-
-        m = checkTime(m);
-
-        s = checkTime(s);
-
-        document.getElementById(‘reloj’).innerHTML = h +»:»+m +»:»+s;
-
-        t = setTimeout(‘startTime()’, 500);
-    }
-
-    function checkTime(i) { if (i < 10) { i =»0″ + i; } return i; }
-
-    window.onload = function () { startTime(); }
-
+  function desactivarelementos() {
+    document.getElementById("tabla").style.color = "rgb(22, 166, 214)"
+    document.getElementById("botones").style.display = "none";
+    document.getElementById("recargarlistado").style.display = "none";
+  }
+  
 </script>
 
 
-<div class="col-md-7 mx-auto">
-    {{!-- <div id=»reloj» style=»font-family: ‘DS-Digital’; width: 450px; background-color: black;font-size:100px;color:
-        green ; text-align: center «></div> --}}
-    <div class="card" style="font-style: italic;font-weight: bold;">
-        <div class="card-header mx-auto">
-            <h4 style="color: #3d0ee7; font-weight: bold;"
-                class="text-dark card-title d-flex justify-content-between align-items-center">Información Suplementaria
-                Mesa de Entrada
-            </h4>
-            <div class="card-body">
-                <form>
-                    <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
-                        Borrado:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.borrado}}" style="color: grey; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
-                        Fecha Borrado:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.fechaborrado}}" style="color: grey; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
-                        Usuario que realizo el borrado:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.userborrado}}" style="color: grey; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        N° Identificacion ID Mesa Entrada:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada._id}}" style="color: grey; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Turno Entregado Nº:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.numturno}}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Sector Visitado:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.sector}}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Nombre y Apellido:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ mesaentrada.nomyape }}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Documento Nac. de Identidad:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ mesaentrada.dni }}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Contacto:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ mesaentrada.contacto }}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Numº Expediente:
-                        <input type="text" name="user" class="form-control" placeholder="No Especificado"
-                            value="{{ mesaentrada.numexpediente }}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Fecha del Turno:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.fechaingreso}}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Hora del Turno:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.horaingreso}}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Observaciones:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ mesaentrada.observaciones }}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        ID Cargo Turno:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.user}}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Nombre Cargo Turno:
-                        <input type="text" name="name" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.name}}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Datos Exactos Creación Horarios de Turno:
-                        <input type="text" name="dateturno" class="form-control" placeholder="Sin Información"
-                            value="{{mesaentrada.dateturno}}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/mesaentrada/borradolistado"><i
-                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
-                    {{!-- <button class="btn btn-primary btn-block" href="/notes">
-                        Volver
-                    </button> --}}
-            </div>
-            </form>
+<div class="row">
+  {{!-- <br /><br /> --}}
+  <div class="row" id="botones">
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistasector" method="POST">
+        {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus /> --}}
+        <select name="sector">
+          <option>Sub Secretaría</option>
+          <option>Obras Particulares</option>
+          <option>Visado</option>
+        </select>
+        <div class="form-group">
+          <p></p>
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Sector Involucrado
+          </button>
         </div>
+      </form>
     </div>
-</div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistainiciador" method="POST">
+        <input type="search" class="form-control" name="nomyape" placeholder="Buscar x NyApellido..." autofocus />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Iniciador
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistadni" method="POST">
+        <input id="inputbuscardni" type="search" class="form-control" name="dni" placeholder="Buscar x DNI..." />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar DNI
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistafechaentrada" method="POST">
+        <input id="inputbuscarfecha" type="search" class="form-control" name="fechaingreso"
+          placeholder="Buscar x Fecha..." />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Fecha
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+      <form action="/mesaentrada/findlistaexpediente" method="POST">
+        <input id="inputbuscarexpediente" type="search" class="form-control" name="numexpediente"
+          placeholder="Buscar x Expediente..." />
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" type="submit">
+            Buscar Expediente
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <a id="recargarlistado" href="/mesaentrada/borradolistado" class="btn btn-outline-warning btn-block btn-sm">Recargar
+    Listado
+  </a>
+  <a href="/mesaentrada/listado" class="btn btn-success btn-block btn-sm">Volver a Mesa de Entrada</a>
+
+  <div class="car-header mx-auto">
+    <br />
+    <h5 style="color:rgb(226, 110, 15); text-decoration:underline; font-weight: bold;;text-shadow: 1px 1px 2px black">
+      Lista Papelera Mesa entrada</h5>
+  </div>
+  <div class="form-group btn-center mx-auto">
+    {{!-- <br /> --}}
+    {{!-- <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
+      LISTADO DE BORRADOS DE MESA DE ENTRADA</h5> --}}
+    <br />
+    <div class="form-group btn-center mx-auto">
+      <table class="table table-dark table-hover" id="tabla">
+        <thead>
+          <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
+            {{!-- <td style="visibility:collapse;">ID</td> --}}
+            <td>Sector</td>
+            <td>Nombre y Apellido</td>
+            <td>D.N.I.</td>
+            <td>Contacto</td>
+            <td>Fecha/Ingreso</td>
+            <td>Hora/Ingreso</td>
+            <td>Opciones</td>
+            <td>Suplementario</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each mesaentradas}}
+          <tr>
+            {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}}
+            <td>{{ sector }}</td>
+            <td>{{ nomyape }}</td>
+            <td>{{ dni }}</td>
+            <td>{{ contacto }}</td>
+            <td>{{ fechaingreso }}</td>
+            <td>{{ horaingreso }}</td>
+            <td>
+              <a class="dropdown-item" href="/mesaentrada/infoborradolist/{{_id}}"
+                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+              {{!-- <a class="dropdown-item" href="/mesaentrada/edit/{{_id}}" style="color:rgb(165, 196, 28)">Editar</a>
+              --}}
+            </td>
+            <td>
+              {{!-- <form onSubmit="return confirm('Desea enviar Papelera?')" style="box-shadow: 3px 4px;"
+                action="/mesaentrada/marcadelete/{{_id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                  Borrar
+                </button>
+              </form> --}}
+              {{!-- **** EL BORRADO DE ABAJO ES DEFINITIVO PARA ADMIN --}}
+              <form onSubmit="return confirm('Desea Restaurar?')" style=""
+                action="/mesaentrada/marcadeleterestaurar/{{_id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <button class="btn btn-info btn-block btn-sm" type="submit">
+                  Restaurar
+                </button>
+              </form>
+              <form onSubmit="return confirm('Desea Borrar definitivamente?')" style=""
+                action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                  Borrar
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+
+        {{else}}
+        <script>
+          desactivarelementos()
+        </script>
+        <div class="mx-auto">
+          <div class="card mx-auto">
+            <div class="card-body">
+              <p class"lead" style="color:red; font-weight: bold;"> No existen Inspecciónes Aun...</p>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </table>
+    </div>
+  </div>
+  {{!-- {{else}} --}}

@@ -12,6 +12,14 @@ const { isAuthenticated } = require('../helpers/auth')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 
+
+// **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
+router.put('/multas/listadoborradosenno', isAuthenticated, async (req, res) => {
+    await Multas.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
+    req.flash('success_msg', 'Todas las Liquidaciones Marcadas')
+    res.redirect('/multas');
+});
+
 // **** liquidaciones ****
 router.get('/factura', isAuthenticated, async (req, res) => {
     //const multas = await Multas.find({ impreso: "No" }).lean().sort({ date: 'desc' });
@@ -665,14 +673,6 @@ router.delete('/multasprofesional/delete/:id', isAuthenticated, async (req, res)
     await Multas.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Multa a Profesional Eliminada')
     res.redirect('/multas/borradolistado')
-});
-
-
-// **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
-router.put('/multas/listadoborradosenno', isAuthenticated, async (req, res) => {
-    await Multas.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
-    req.flash('success_msg', 'Todos las Multas Marcadas')
-    res.redirect('/multas/borradolistado');
 });
 
 router.put('/tasas/marcadelete/:id', isAuthenticated, async (req, res) => {

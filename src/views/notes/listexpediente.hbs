@@ -95,49 +95,54 @@
                 <div class="form-group">
                     Permiso de obra o acta de infracción:
                     <input type="text" name="permisobraoactainfrac" class="form-control" placeholder="Sin Información"
-                        value="{{expediente.permisobraoactainfrac}}" style="color: black; font-weight: bold;"
-                        disabled>
+                        value="{{expediente.permisobraoactainfrac}}" style="color: black; font-weight: bold;" disabled>
                 </div>
                 <div class="form-group">
-                            <label style="color:black" for="incisos">
-                                Permiso de Edificación:</label>                            
-                            <input style="color:black;font-weight: bold;" type="text" id="permisoedificacionnumero" name="permisoedificacionnumero" class="form-control"
-                                placeholder="Permiso de Edificación N°"
-                                value="{{expediente.selecpermisoedificacion}}" disabled>
-                        </div>
-                        <div style="color:black;font-weight: bold;" id="labelplanoregistrado" class="form-group" style="font-weight:bold;">
-                            Plano Registrado:                            
-                        </div>
-                        <div class="form-group">
-                            <input style="color:black;font-weight: bold;" type="text" id="permisoedificacionnumero" name="permisoedificacionnumero" class="form-control"
-                                placeholder="Permiso de Edificación N°"
-                                value="{{expediente.permisoedificacionnumero}}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label style="color:black;font-weight: bold;" id="labelfechapermisoedificacion">Fecha Permiso de Edificación:</label>
-                            <input style="color:black;font-weight: bold;" type="text" id="fechapermisoedificacion" name="fechapermisoedificacion" class="form-control" placeholder="Observación"
-                                value="{{expediente.fechapermisoedificacion}}">
-                        </div>
-                        <div class="form-group">
-                            <label style="color:black" for="incisos">
-                                Permiso de Demolición:</label>                            
-                            <input style="color:black;font-weight: bold;" type="text" id="permisodemolicionnumero" name="permisodemolicionnumero" class="form-control"
-                                placeholder="Permiso de Demolición N°"
-                                value="{{expediente.selecpermisodemolicion}}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label style="color:black;font-weight: bold;" id="labelplanovisado" style="font-weight:bold;"> Plano Visado:</label>
-                        </div>
-                        <div class="form-group">
-                            <input style="color:black;font-weight: bold;" type="text" id="permisodemolicionnumero" name="permisodemolicionnumero" class="form-control"
-                                placeholder="Permiso de Demolición N°"
-                                value="{{expediente.permisodemolicionnumero}}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label style="color:black;font-weight: bold;" id="labelfechapermisodemolicion">Fecha Permiso de Demolición:</label>
-                            <input style="color:black;font-weight: bold;" type="text" id="fechapermisodemolicion" name="fechapermisodemolicion" class="form-control" placeholder="Observación"
-                                value="{{expediente.fechapermisodemolicion}}" disabled>
-                        </div>
+                    <label style="color:black" for="incisos">
+                        Permiso de Edificación:</label>
+                    <input style="color:black;font-weight: bold;" type="text" id="permisoedificacionnumero"
+                        name="permisoedificacionnumero" class="form-control" placeholder="Permiso de Edificación N°"
+                        value="{{expediente.selecpermisoedificacion}}" disabled>
+                </div>
+                <div style="color:black;font-weight: bold;" id="labelplanoregistrado" class="form-group"
+                    style="font-weight:bold;">
+                    Plano Registrado:
+                </div>
+                <div class="form-group">
+                    <input style="color:black;font-weight: bold;" type="text" id="permisoedificacionnumero"
+                        name="permisoedificacionnumero" class="form-control" placeholder="Permiso de Edificación N°"
+                        value="{{expediente.permisoedificacionnumero}}" disabled>
+                </div>
+                <div class="form-group">
+                    <label style="color:black;font-weight: bold;" id="labelfechapermisoedificacion">Fecha Permiso de
+                        Edificación:</label>
+                    <input style="color:black;font-weight: bold;" type="text" id="fechapermisoedificacion"
+                        name="fechapermisoedificacion" class="form-control" placeholder="Observación"
+                        value="{{expediente.fechapermisoedificacion}}">
+                </div>
+                <div class="form-group">
+                    <label style="color:black" for="incisos">
+                        Permiso de Demolición:</label>
+                    <input style="color:black;font-weight: bold;" type="text" id="permisodemolicionnumero"
+                        name="permisodemolicionnumero" class="form-control" placeholder="Permiso de Demolición N°"
+                        value="{{expediente.selecpermisodemolicion}}" disabled>
+                </div>
+                <div class="form-group">
+                    <label style="color:black;font-weight: bold;" id="labelplanovisado" style="font-weight:bold;"> Plano
+                        Visado:</label>
+                </div>
+                <div class="form-group">
+                    <input style="color:black;font-weight: bold;" type="text" id="permisodemolicionnumero"
+                        name="permisodemolicionnumero" class="form-control" placeholder="Permiso de Demolición N°"
+                        value="{{expediente.permisodemolicionnumero}}" disabled>
+                </div>
+                <div class="form-group">
+                    <label style="color:black;font-weight: bold;" id="labelfechapermisodemolicion">Fecha Permiso de
+                        Demolición:</label>
+                    <input style="color:black;font-weight: bold;" type="text" id="fechapermisodemolicion"
+                        name="fechapermisodemolicion" class="form-control" placeholder="Observación"
+                        value="{{expediente.fechapermisodemolicion}}" disabled>
+                </div>
                 <div class="form-group">
                     Foto de Expediente:
                     <input type="file" name="fotoexpediente" class="form-control" placeholder="Sin Información"
@@ -227,6 +232,21 @@
                     Fecha y Hora de Carga
                     <input type="datetime" name="dateinf" class="form-control" placeholder="Sin Información"
                         value="{{expediente.dateexp}}" style="color: red;" disabled>
+                </div>
+                <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
+                    Borrado:
+                    <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        value="{{expediente.borrado}}" style="color: grey; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
+                    Fecha Borrado:
+                    <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        value="{{expediente.fechaborrado}}" style="color: grey; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
+                    Usuario que realizo el borrado:
+                    <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        value="{{expediente.userborrado}}" style="color: grey; font-weight: bold;" disabled>
                 </div>
                 <div class="form-group">
                     <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i
