@@ -143,6 +143,12 @@ router.get('/expedientes/borradolistado', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/expedientes/infoborradolist/:id', isAuthenticated, async (req, res) => {
+    const expediente = await Expediente.findById(req.params.id).lean()
+    // console.log(note.date);
+    res.render('notes/borrados/infoborradoexpediente', { expediente })
+});
+
 router.put('/expedientes/recuperarlistado', isAuthenticated, async (req, res) => {
     //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
     await Expediente.updateMany({ borrado: 'Si' }, { borrado: "No", fechaborrado: "Recuperado" });
@@ -195,7 +201,7 @@ router.get('/expedientes/list/:id', isAuthenticated, async (req, res) => {
 // *** BUSCAR EXPEDIENTES (NOTES) - LISTADO ***
 router.post('/expedientes/find', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
-    const expedientes = await Expediente.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ fechainicioentrada: 'desc' });;
+    const expedientes = await Expediente.find({$and:[{borrado:"No"}, { numexpediente: { $regex: numexpediente, $options: "i" } }]}).lean().sort({ fechainicioentrada: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Nº de expediente')
         return res.render("notes/inspecciones/planillalistaexpedientesadm");
@@ -206,7 +212,7 @@ router.post('/expedientes/find', isAuthenticated, async (req, res) => {
 
 router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
     const { adremaexp } = req.body;
-    const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
+    const expedientes = await Expediente.find({$and:[{borrado:"No"}, { adremaexp: { $regex: adremaexp, $options: "i" } }]}).lean().sort({ adremaexp: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
         return res.render("notes/inspecciones/planillalistaexpedientesadm");
@@ -217,7 +223,7 @@ router.post('/expedientes/findadrema', isAuthenticated, async (req, res) => {
 
 router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
     const { iniciadornomyape } = req.body;
-    const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
+    const expedientes = await Expediente.find({$and:[{borrado:"No"}, { iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }]}).lean().sort({ iniciadornomyape: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Iniciador (N y A)')
         return res.render("notes/inspecciones/planillalistaexpedientesadm");
@@ -227,8 +233,8 @@ router.post('/expedientes/findiniciador', isAuthenticated, async (req, res) => {
 });
 
 router.post('/expedientes/findestado', isAuthenticated, async (req, res) => {
-    const { estado } = req.body;
-    const expedientes = await Expediente.find({ estado: { $regex: estado, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
+    const {estado} = req.body;
+    const expedientes = await Expediente.find({$and:[{borrado:"No"},  {estado: { $regex: estado, $options: "i" }}]}).lean().sort({ iniciadornomyape: 'desc' });
     if (!expedientes) {
         req.flash('success_msg', 'cargue estado (N y A)')
         return res.render("notes/inspecciones/planillalistaexpedientesadm");
@@ -240,7 +246,7 @@ router.post('/expedientes/findestado', isAuthenticated, async (req, res) => {
 // *** BUSCAR EXPEDIENTES (NOTES) - CARTAS ***
 router.post('/notes/find', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
-    const expedientes = await Expediente.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ fechainicioentrada: 'desc' });;
+    const expedientes = await Expediente.find({$and:[{borrado:"No"}, { numexpediente: { $regex: numexpediente, $options: "i" } }]}).lean().sort({ fechainicioentrada: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Nº de expediente')
         return res.render("notes/allexpedientes");
@@ -251,7 +257,7 @@ router.post('/notes/find', isAuthenticated, async (req, res) => {
 
 router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
     const { adremaexp } = req.body;
-    const expedientes = await Expediente.find({ adremaexp: { $regex: adremaexp, $options: "i" } }).lean().sort({ adremaexp: 'desc' });;
+    const expedientes = await Expediente.find({$and:[{borrado:"No"}, { adremaexp: { $regex: adremaexp, $options: "i" } }]}).lean().sort({ adremaexp: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
         return res.render("notes/allexpedientes");
@@ -262,7 +268,7 @@ router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
 
 router.post('/notes/findiniciador', isAuthenticated, async (req, res) => {
     const { iniciadornomyape } = req.body;
-    const expedientes = await Expediente.find({ iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }).lean().sort({ iniciadornomyape: 'desc' });;
+    const expedientes = await Expediente.find({$and:[{borrado:"No"}, { iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }]}).lean().sort({ iniciadornomyape: 'desc' });;
     if (!expedientes) {
         req.flash('success_msg', 'cargue un Iniciador (N y A)')
         return res.render("notes/allexpedientes");
@@ -273,7 +279,7 @@ router.post('/notes/findiniciador', isAuthenticated, async (req, res) => {
 
 router.post('/notes/findexpediente', isAuthenticated, async (req, res) => {
     const { expediente } = req.body;
-    const notes = await Note.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ expediente: 'desc' });;
+    const notes = await Note.find({$and:[{borrado:"No"}, { expediente: { $regex: expediente, $options: "i" } }]}).lean().sort({ expediente: 'desc' });;
     if (!notes) {
         req.flash('success_msg', 'cargue un Nº de expediente')
         return res.render("notes/inspecciones/allnotes");
@@ -281,6 +287,52 @@ router.post('/notes/findexpediente', isAuthenticated, async (req, res) => {
         res.render('notes/findinspeccion', { notes })
     }
 });
+
+// *** BUSCAR EXPEDIENTES BORRADOS (NOTES) - LISTADO ***
+router.post('/expedientes/borradofind', isAuthenticated, async (req, res) => {
+    const { numexpediente } = req.body;
+    const expedientes = await Expediente.find({$and:[{borrado:"Si"}, { numexpediente: { $regex: numexpediente, $options: "i" } }]}).lean().sort({ fechainicioentrada: 'desc' });;
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue un Nº de expediente')
+        return res.render("notes/borrados/borradolistexpedientes");
+    } else {
+        res.render('notes/borrados/borradolistexpedientes', { expedientes })
+    }
+});
+
+router.post('/expedientes/borradofindadrema', isAuthenticated, async (req, res) => {
+    const { adremaexp } = req.body;
+    const expedientes = await Expediente.find({$and:[{borrado:"Si"}, { adremaexp: { $regex: adremaexp, $options: "i" } }]}).lean().sort({ adremaexp: 'desc' });;
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/borrados/borradolistexpedientes");
+    } else {
+        res.render('notes/borrados/borradolistexpedientes', { expedientes })
+    }
+});
+
+router.post('/expedientes/borradofindiniciador', isAuthenticated, async (req, res) => {
+    const { iniciadornomyape } = req.body;
+    const expedientes = await Expediente.find({$and:[{borrado:"Si"}, { iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }]}).lean().sort({ iniciadornomyape: 'desc' });;
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue un Iniciador (N y A)')
+        return res.render("notes/borrados/borradolistexpedientes");
+    } else {
+        res.render('notes/borrados/borradolistexpedientes', { expedientes })
+    }
+});
+
+router.post('/expedientes/borradofindestado', isAuthenticated, async (req, res) => {
+    const {estado} = req.body;
+    const expedientes = await Expediente.find({$and:[{borrado:"Si"},  {estado: { $regex: estado, $options: "i" }}]}).lean().sort({ iniciadornomyape: 'desc' });
+    if (!expedientes) {
+        req.flash('success_msg', 'cargue estado (N y A)')
+        return res.render("notes/borrados/borradolistexpedientes");
+    } else {
+        res.render('notes/borrados/borradolistexpedientes', { expedientes })
+    }
+});
+
 
 router.put('/notes/editexpediente/:id', isAuthenticated, async (req, res) => {
     const { numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,

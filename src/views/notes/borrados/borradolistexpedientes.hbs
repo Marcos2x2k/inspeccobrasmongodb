@@ -1,17 +1,17 @@
-<script>   
+<script>
 
     function buttonrecuperartodos() {
         document.getElementById("recuperartodos").disabled = true;
         document.getElementById("recuperartodosexpediente").disabled = true;
         document.getElementById("recargarlistado").style.visibility = "hidden";
     }
-    
+
 </script>
 
 
 <div class="row">
     <div class="form-group btn-center mx-auto">
-        <form action="/expedientes/findestado" method="POST">
+        <form action="/expedientes/borradofindestado" method="POST">
             <input type="search" class="form-control" name="estado" placeholder="Buscar x Estado..." autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -21,7 +21,7 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/expedientes/find" method="POST">
+        <form action="/expedientes/borradofind" method="POST">
             <input type="search" class="form-control" name="numexpediente" placeholder="Buscar x Expediente..."
                 autofocus />
             <div class="form-group">
@@ -32,7 +32,7 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/expedientes/findadrema" method="POST">
+        <form action="/expedientes/borradofindadrema" method="POST">
             <input type="search" class="form-control" name="adremaexp" placeholder="Buscar x Adrema..." autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -42,7 +42,7 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/expedientes/findiniciador" method="POST">
+        <form action="/expedientes/borradofindiniciador" method="POST">
             <input type="search" class="form-control" name="iniciadornomyape" placeholder="Buscar x Iniciador..."
                 autofocus />
             <div class="form-group">
@@ -58,22 +58,28 @@
         <button id="recuperartodos" class="btn btn-warning btn-block btn-sm" type="submit">
             Recuperar Todos los Expedientes eliminados
         </button>
-    </form>   
-    <br /><br />  
+    </form>
+    <br /><br />
     <form class="btn-block" onSubmit="return confirm('Desea Recuperar Todos los Datos?')" style=""
         action="/expedientes/recuperarlistado?_method=PUT" method="POST">
         <input type="hidden" name="_method" value="PUT">
         <button id="recuperartodosexpediente" class="btn btn-warning btn-block btn-sm" type="submit">
             Recuperar Todos los Registros eliminados de Expedientes
         </button>
-    </form>    
-    <a href="/expedientes/listado" class="btn btn-success btn-block">Ir lista Expedientes!</a>    
+    </form>
+    <a href="/expedientes/listado" class="btn btn-success btn-block">
+        Ir lista Expedientes!
+    </a>
     <div class="form-group mx-auto">        
         <br />
-        <h5 style="color: rgb(221, 201, 17);text-shadow: 3px 2px 10px black">Papelera Reciclaje de Expedientes</h5>
+        <h5 style="color: yellow;text-shadow: 3px 2px 10px black">Papelera Reciclaje de Expedientes</h5>
     </div>
     <br /><br />
-    <a id="recargarlistado" href="/expedientes/borradolistado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+    <a id="recargarlistado" href="/expedientes/borradolistado" class="btn btn-outline-warning btn-block btn-sm">
+        Recargar Listado
+    </a>
+
+
 
     <div class="form-group btn-center mx-auto">
         <br />
@@ -99,9 +105,9 @@
                         <td>{{ iniciadornomyape }}</td>
                         <td>{{ destinodeobra }}</td>
                         <td>
-                            <a class="dropdown-item" href="/expedientes/list/{{_id}}"
+                            <a class="dropdown-item" href="/expedientes/infoborradolist/{{_id}}"
                                 style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                                Info Expediente
+                                Info
                             </a>
                             <a class="dropdown-item" href="/expedientes/expedconinformeinspeccion/{{_id}}"
                                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
@@ -115,7 +121,7 @@
                                 <button class="btn btn-info btn-block btn-sm" type="submit">
                                     Restaurar
                                 </button>
-                            </form>                                                    
+                            </form>
                             <form
                                 onSubmit="return confirm('Recuerde que se borrará el expediente pero no sus informes. Desea Borrar definitivamente?')"
                                 style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">

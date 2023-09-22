@@ -12,7 +12,6 @@ const { isAuthenticated } = require('../helpers/auth')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 
-
 // **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
 router.put('/multas/listadoborradosenno', isAuthenticated, async (req, res) => {
     await Multas.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
@@ -237,6 +236,12 @@ router.get('/multas/borradolistado', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
     }
+});
+
+router.get('/multas/infoborradolist/:id', isAuthenticated, async (req, res) => {
+    const multas = await Multas.findById(req.params.id).lean()
+    // console.log(note.date);
+    res.render('notes/borrados/infoborradoliquidaciones', { multas })
 });
 
 router.get('/multasprofesionales', isAuthenticated, async (req, res) => {

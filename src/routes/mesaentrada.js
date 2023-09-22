@@ -262,6 +262,7 @@ router.get('/mesaentrada/listado', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
 router.get('/mesaentrada/borradolistado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -306,7 +307,7 @@ router.get('/mesaentrada/infoborradolist/:id', isAuthenticated, async (req, res)
 router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { sector } = req.body;
-    const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { sector: { $regex: sector, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Mesa-Entrada") {
         if (!mesaentradas) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
@@ -328,7 +329,7 @@ router.post('/mesaentrada/findsector', isAuthenticated, async (req, res) => {
 router.post('/mesaentrada/findiniciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { nomyape } = req.body;
-    const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { nomyape: { $regex: nomyape, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Mesa-Entrada") {
         if (!mesaentradas) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
@@ -350,7 +351,7 @@ router.post('/mesaentrada/findiniciador', isAuthenticated, async (req, res) => {
 router.post('/mesaentrada/findlistasector', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { sector } = req.body;
-    const mesaentradas = await Mesaentrada.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { sector: { $regex: sector, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Mesa-Entrada") {
         if (!mesaentradas) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
@@ -372,7 +373,7 @@ router.post('/mesaentrada/findlistasector', isAuthenticated, async (req, res) =>
 router.post('/mesaentrada/findlistainiciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { nomyape } = req.body;
-    const mesaentradas = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { nomyape: { $regex: nomyape, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Mesa-Entrada") {
         if (!mesaentradas) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
@@ -393,7 +394,7 @@ router.post('/mesaentrada/findlistainiciador', isAuthenticated, async (req, res)
 });
 router.post('/mesaentrada/finddni', isAuthenticated, async (req, res) => {
     const { dni } = req.body;
-    const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { dni: { $regex: dni, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (!mesaentradas) {
         req.flash('success_msg', 'cargue un Número de DNI')
         return res.render("notes/allmesaentrada");
@@ -403,7 +404,7 @@ router.post('/mesaentrada/finddni', isAuthenticated, async (req, res) => {
 });
 router.post('/mesaentrada/findlistadni', isAuthenticated, async (req, res) => {
     const { dni } = req.body;
-    const mesaentradas = await Mesaentrada.find({ dni: { $regex: dni, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { dni: { $regex: dni, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (!mesaentradas) {
         req.flash('success_msg', 'cargue un Número de DNI')
         return res.render("notes/allmesaentrada");
@@ -413,7 +414,7 @@ router.post('/mesaentrada/findlistadni', isAuthenticated, async (req, res) => {
 });
 router.post('/mesaentrada/findexpediente', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
-    const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { numexpediente: { $regex: numexpediente, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (!mesaentradas) {
         req.flash('success_msg', 'cargue un Número de Expediente')
         return res.render("notes/allmesaentrada");
@@ -424,7 +425,7 @@ router.post('/mesaentrada/findexpediente', isAuthenticated, async (req, res) => 
 router.post('/mesaentrada/findlistaexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numexpediente } = req.body;
-    const mesaentradas = await Mesaentrada.find({ numexpediente: { $regex: numexpediente, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { numexpediente: { $regex: numexpediente, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Mesa-Entrada") {
         if (!mesaentradas) {
             req.flash('success_msg', 'cargue Expediente')
@@ -445,7 +446,7 @@ router.post('/mesaentrada/findlistaexpediente', isAuthenticated, async (req, res
 });
 router.post('/mesaentrada/findfechaentrada', isAuthenticated, async (req, res) => {
     const { fechaingreso } = req.body;
-    const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { fechaingreso: { $regex: fechaingreso, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (!mesaentradas) {
         req.flash('success_msg', 'cargue Fecha Ingreso')
         return res.render("notes/allmesaentrada");
@@ -455,13 +456,47 @@ router.post('/mesaentrada/findfechaentrada', isAuthenticated, async (req, res) =
 });
 router.post('/mesaentrada/findlistafechaentrada', isAuthenticated, async (req, res) => {
     const { fechaingreso } = req.body;
-    const mesaentradas = await Mesaentrada.find({ fechaingreso: { $regex: fechaingreso, $options: "i" } }).lean().sort({ dateturno: 'desc' })
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"No"}, { fechaingreso: { $regex: fechaingreso, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
     if (!mesaentradas) {
         req.flash('success_msg', 'cargue Fecha Ingreso')
         return res.render("notes/allmesaentrada");
     } else {
         res.render('notes/planillalistaturnero', { mesaentradas })
     }
+});
+
+// *** SECTOR BUSQUEDA BORRADOS***
+router.post('/mesaentrada/borradofindlistasector', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { sector } = req.body;
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"Si"}, { sector: { $regex: sector, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
+    res.render('notes/borrados/borradolistmesaentrada', { mesaentradas })      
+});
+
+router.post('/mesaentrada/borradofindlistainiciador', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { nomyape } = req.body;
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"Si"}, { nomyape: { $regex: nomyape, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
+    res.render('notes/borrados/borradolistmesaentrada', { mesaentradas }) 
+});
+
+router.post('/mesaentrada/borradofindlistadni', isAuthenticated, async (req, res) => {
+    const { dni } = req.body;
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"Si"}, { dni: { $regex: dni, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
+    res.render('notes/borrados/borradolistmesaentrada', { mesaentradas }) 
+});
+
+router.post('/mesaentrada/borradofindlistaexpediente', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { numexpediente } = req.body;
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"Si"}, { numexpediente: { $regex: numexpediente, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
+    res.render('notes/borrados/borradolistmesaentrada', { mesaentradas }) 
+});
+
+router.post('/mesaentrada/borradofindlistafechaentrada', isAuthenticated, async (req, res) => {
+    const { fechaingreso } = req.body;
+    const mesaentradas = await Mesaentrada.find({$and:[{borrado:"Si"}, { fechaingreso: { $regex: fechaingreso, $options: "i" } }]}).lean().sort({ dateturno: 'desc' })
+    res.render('notes/borrados/borradolistmesaentrada', { mesaentradas }) 
 });
 
 // **** AGREGAR TURNO A CLIENTE HABITUAL ****
