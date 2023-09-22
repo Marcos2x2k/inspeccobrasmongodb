@@ -534,7 +534,7 @@ router.get('/multasprofesional/list/:id', isAuthenticated, async (req, res) => {
 router.post('/multa/findpropietario', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { propietario } = req.body;
-    const multas = await Multas.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({$and:[{borrado:"No"},{ propietario: { $regex: propietario, $options: "i" }}]}).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
@@ -547,7 +547,7 @@ router.post('/multa/findpropietario', isAuthenticated, async (req, res) => {
 router.post('/multa/findnumacta', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numacta } = req.body;
-    const multas = await Multas.find({ numacta: { $regex: numacta, $options: "i" } }).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({$and:[{borrado:"No"},{ numacta: { $regex: numacta, $options: "i" }}]}).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
@@ -560,7 +560,7 @@ router.post('/multa/findnumacta', isAuthenticated, async (req, res) => {
 router.post('/multa/findubicacion', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { ubicacion } = req.body;
-    const multas = await Multas.find({ ubicacion: { $regex: ubicacion, $options: "i" } }).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({$and:[{borrado:"No"},{ ubicacion: { $regex: ubicacion, $options: "i" }}]}).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
@@ -573,13 +573,68 @@ router.post('/multa/findubicacion', isAuthenticated, async (req, res) => {
 router.post('/multa/findexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { expediente } = req.body;
-    const multas = await Multas.find({ expediente: { $regex: expediente, $options: "i" } }).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({$and:[{borrado:"No"},{ expediente: { $regex: expediente, $options: "i" }}]}).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
             return res.render("notes/liquidaciones/allmultasusr");   
         } else {
             res.render('notes/liquidaciones/allmultasusr', { multas })
+        }
+    } 
+});
+
+
+// *** BUSCAR LIQUIDACIONES O MULTAS BORRADAS ***
+router.post('/multa/borradofindpropietario', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { propietario } = req.body;
+    const multas = await Multas.find({$and:[{borrado:"Si"},{ propietario: { $regex: propietario, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/liquidaciones/allmultasusr");   
+        } else {
+            res.render('notes/borrados/borradolistliquidaciones', { multas })
+        }
+    } 
+});
+router.post('/multa/borradofindnumacta', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { numacta } = req.body;
+    const multas = await Multas.find({$and:[{borrado:"Si"},{ numacta: { $regex: numacta, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/borrados/borradolistliquidaciones");   
+        } else {
+            res.render('notes/borrados/borradolistliquidaciones', { multas })
+        }
+    } 
+});
+router.post('/multa/borradofindubicacion', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { ubicacion } = req.body;
+    const multas = await Multas.find({$and:[{borrado:"Si"},{ ubicacion: { $regex: ubicacion, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/borrados/borradolistliquidaciones");   
+        } else {
+            res.render('notes/borrados/borradolistliquidaciones', { multas })
+        }
+    } 
+});
+router.post('/multa/borradofindexpediente', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { expediente } = req.body;
+    const multas = await Multas.find({$and:[{borrado:"Si"},{ expediente: { $regex: expediente, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
+        if (!multas) {
+            req.flash('success_msg', 'Cargue Número Acta')
+            return res.render("notes/borrados/borradolistliquidaciones");   
+        } else {
+            res.render('notes/borrados/borradolistliquidaciones', { multas })
         }
     } 
 });
