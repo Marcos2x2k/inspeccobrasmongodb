@@ -11,7 +11,6 @@ const Infraccion = require('../models/Infraccion')
 const Estadistica = require('../models/Estadistica')
 const Ticket = require('../models/Ticket')
 const Users = require('../models/User')
-//
 //const Cicloinspeccion = require('../models/cicloinspeccion')
 const fs = require('fs').promises
 const { isAuthenticated } = require('../helpers/auth')
@@ -28,7 +27,7 @@ router.get('/marcarborradosennoall', isAuthenticated, async (req, res) => {
         const infraccions = await Infraccion.find().lean().sort({ date: 'desc' });
         res.render('notes/borrados/marcarborradosennoall');
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INFRACCIONES')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA ESTE AREA')
         return res.redirect('/');
     }
 });

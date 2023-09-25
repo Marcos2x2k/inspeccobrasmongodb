@@ -228,12 +228,12 @@ router.get('/multas', isAuthenticated, async (req, res) => {
 router.get('/multas/borradolistado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
+    if (rolusuario == "Administrador") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const multas = await Multas.find({borrado:"Si"}).lean().sort({ date: 'desc' });
         res.render('notes/borrados/borradolistliquidaciones', { multas });    
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO/AREA PAPELERA LIQUIDACIONES')
         return res.redirect('/');
     }
 });

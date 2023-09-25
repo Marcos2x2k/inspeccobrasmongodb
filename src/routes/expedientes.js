@@ -133,12 +133,8 @@ router.get('/expedientes/borradolistado', isAuthenticated, async (req, res) => {
         const expedientes = await Expediente.find({ $or: [{ borrado: "Si" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/borrados/borradolistexpedientes', { expedientes });
-    } else if (rolusuario == "Inspector") {
-        const expedientes = await Expediente.find({ $or: [{ borrado: "Si" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
-        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
-        res.render('notes/borrados/borradolistexpedientes', { expedientes });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        req.flash('success_msg', 'NO TIENE PERMISO/AREA PAPELERA DE EXPEDIENTES')
         return res.redirect('/');
     }
 });

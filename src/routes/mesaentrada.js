@@ -39,7 +39,6 @@ router.post('/notes/newmesaentradas', isAuthenticated, async (req, res) => {
     await newMesaentrada.save();
     req.flash('success_msg', 'Turno Agregado Exitosamente');
     res.redirect('/mesaentrada/listado');
-
 })
 
 router.post('/notes/newmesaentradas/:id', isAuthenticated, async (req, res) => {
@@ -270,7 +269,7 @@ router.get('/mesaentrada/borradolistado', isAuthenticated, async (req, res) => {
         const mesaentradas = await Mesaentrada.find({borrado:"Si"}).limit(60).lean().sort({ dateturno: 'desc' });
         res.render('notes/borrados/borradolistmesaentrada', { mesaentradas });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
+        req.flash('success_msg', 'NO TIENE PERMISO/AREA PAPELERA MESA DE ENTRADA')
         return res.redirect('/');
     }
 });
