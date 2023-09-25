@@ -1,12 +1,12 @@
 <div class="row">
-    <br /><br />    
+    <br /><br />
     <div class="form-group btn-center mx-auto">
         <form action="/mesaentrada/findsector" method="POST">
-            {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus /> --}}
+            {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus />--}}
             <select name="sector">
-                            <option>Sub Secretaría</option>
-                            <option>Obras Particulares</option>
-                            <option>Visado</option>
+                <option>Sub Secretaría</option>
+                <option>Obras Particulares</option>
+                <option>Visado</option>
             </select>
             <p></p>
             <div class="form-group">
@@ -91,9 +91,10 @@
                 {{!-- <p style="color:rgb(15, 14, 14); font-style:oblique; font-weight: bold;"
                     class="text-dark display-5 card-title d-flex justify-content-between align-items-center">
                     Numº Expediente:</p>
-                <p style="color:brown; font-style:oblique; font-weight: bold;" value="No Posee Información">{{ numexpediente }}
+                <p style="color:brown; font-style:oblique; font-weight: bold;" value="No Posee Información">{{
+                    numexpediente }}
                 </p> --}}
-                <p  style="color:rgb(15, 14, 14); font-style:oblique; font-weight: bold;"
+                <p style="color:rgb(15, 14, 14); font-style:oblique; font-weight: bold;"
                     class="text-dark display-5 card-title d-flex justify-content-between align-items-center">
                     Fecha Ingreso:</p>
                 <p type="date" style="color:blue; font-style:oblique; font-weight: bold;">{{ fechaingreso }}
@@ -123,7 +124,8 @@
                 <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/mesaentrada/list/{{_id}}"><i
                             class="fas fa-list" style='font-size:24px;color:blue'></i></a> Info Suplementaria</p>
 
-                <form onSubmit="return confirm('Desea Borrar?')"  style="box-shadow: 3px 4px;" action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
+                <form onSubmit="return confirm('Desea Borrar?')" style="box-shadow: 3px 4px;"
+                    action="/mesaentrada/delete/{{_id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Borrar

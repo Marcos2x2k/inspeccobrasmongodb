@@ -10,9 +10,9 @@
 </script>
 
 
-<div class="row">
+<div>
   {{!-- <br /><br /> --}}
-  <div class="row" id="botones">
+  <div class="row center" id="botones">
     <div class="form-group btn-center mx-auto">
       <form action="/mesaentrada/borradofindlistasector" method="POST">
         {{!-- <input type="search" class="form-control" name="sector" placeholder="Buscar x Sector..." autofocus /> --}}
@@ -21,8 +21,8 @@
           <option>Obras Particulares</option>
           <option>Visado</option>
         </select>
-        <div class="form-group">
-          <p></p>
+        <p></p>
+        <div class="form-group">          
           <button class="btn btn-warning btn-block btn-sm" type="submit">
             Buscar Sector Involucrado
           </button>
@@ -31,7 +31,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
       <form action="/mesaentrada/borradofindlistainiciador" method="POST">
-        <input type="search" class="form-control" name="nomyape" placeholder="Buscar x NyApellido..." autofocus />
+        <input size=15 type="search" class="form-control" name="nomyape" placeholder="Buscar x NyApellido..." autofocus />
         <div class="form-group">
           <button class="btn btn-warning btn-block btn-sm" type="submit">
             Buscar Iniciador
@@ -41,7 +41,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
       <form action="/mesaentrada/borradofindlistadni" method="POST">
-        <input id="inputbuscardni" type="search" class="form-control" name="dni" placeholder="Buscar x DNI..." />
+        <input  size=15 id="inputbuscardni" type="search" class="form-control" name="dni" placeholder="Buscar x DNI..." />
         <div class="form-group">
           <button class="btn btn-warning btn-block btn-sm" type="submit">
             Buscar DNI
@@ -51,7 +51,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
       <form action="/mesaentrada/borradofindlistafechaentrada" method="POST">
-        <input id="inputbuscarfecha" type="search" class="form-control" name="fechaingreso"
+        <input  size=15 id="inputbuscarfecha" type="search" class="form-control" name="fechaingreso"
           placeholder="Buscar x Fecha..." />
         <div class="form-group">
           <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -62,7 +62,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
       <form action="/mesaentrada/borradofindlistaexpediente" method="POST">
-        <input id="inputbuscarexpediente" type="search" class="form-control" name="numexpediente"
+        <input  size=15 id="inputbuscarexpediente" type="search" class="form-control" name="numexpediente"
           placeholder="Buscar x Expediente..." />
         <div class="form-group">
           <button class="btn btn-warning btn-block btn-sm" type="submit">
