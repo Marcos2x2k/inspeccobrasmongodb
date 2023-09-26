@@ -6,6 +6,7 @@
       <select name="sector">
         <option>Sub Secretaría</option>
         <option>Obras Particulares</option>
+        <option>Inspección Obras</option>
         <option>Visado</option>
       </select>
       <div class="form-group">
@@ -85,9 +86,9 @@
           <tr>
             {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}}
             <td>{{ sector }}</td>
-            <td>{{ nomyape }}</td>
+            <td style="text-transform: lowercase;">{{ nomyape }}</td>
             <td>{{ dni }}</td>
-            <td>{{ contacto }}</td>
+            <td style="text-transform: lowercase;">{{ contacto }}</td>
             <td>{{ fechaingreso }}</td>
             <td>{{ horaingreso }}</td>
             <td>

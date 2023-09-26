@@ -14,6 +14,8 @@
         document.getElementById('direcfiduciariopropsocio').value = formatToString(writtenName);
         writtenName = document.getElementById('directorobraoperitovisor').value;
         document.getElementById('directorobraoperitovisor').value = formatToString(writtenName);
+        writtenName = document.getElementById('destinoobra').value;
+        document.getElementById('destinoobra').value = formatToString(writtenName);        
     }
     function ShowDomi() {
         var writtenName = document.getElementById('domicilio').value;
@@ -106,7 +108,7 @@
                 </div>
                 <div class="form-group">
                     Destino de obra:
-                    <input name="destinodeobra" class="form-control" placeholder="Destino de obra" type="text"></input>
+                    <input onkeyup="ShowName()" id="destinoobra" name="destinodeobra" class="form-control" placeholder="Destino de obra" type="text"></input>
                 </div>
                 <div class="form-group">
                     (*) Superficie de terreno:

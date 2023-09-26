@@ -1,45 +1,164 @@
+<script>
+
+    function ffechaactual() {
+        var tipo = document.getElementById('fechaingreso');
+        var eye = document.getElementById('botonfecha');
+        if (tipo.type == "date") {
+            tipo.type = "date";
+            eye.class = "btn btn-primary"
+            const fecha = new Date();
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia
+            } else {
+                var diastring = dia
+            }
+            const ano = fecha.getFullYear() + "-"
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = ano + mes + diastring
+            //const fullyear = fecha.toLocaleDateString();
+            tipo.value = fullyear;
+        } else {
+            //tipo.disabled = false;
+            tipo.type = "date";
+            eye.class = "btn btn-secondary"
+        }
+    }
+
+    function fhoraactual() {
+        var tipohora = document.getElementById('horaingreso');
+        var eyehora = document.getElementById('botonhora');
+        if (tipohora.type == "time") {
+            //tipohora.disabled = true;
+            tipohora.type = "text";
+            eyehora.class = "btn btn-primary"
+            const fecha = new Date();
+            const h = fecha.getHours() + ":";
+            const m = fecha.getMinutes();
+            if (m < 10) {
+                const m = "0" + fecha.getMinutes();
+            } else {
+                const m = fecha.getMinutes();
+            }
+            //s = today.getSeconds();
+            const fullhora = h + m // + s
+            //const fullyear = fecha.toLocaleDateString();
+            tipohora.value = fullhora;
+        } else {
+            //tipohora.disabled = false;
+            tipohora.type = "time";
+            //tipohora.value = "--:--"
+            eyehora.class = "btn btn-secondary"
+        }
+    }
+
+    function ShowName() {
+        var writtenName = document.getElementById('nomyape').value;
+        document.getElementById('nomyape').value = formatToString(writtenName);
+    }
+
+    function ShowNameInsp() {
+        var writtenName = document.getElementById('nomyapeinsp').value;
+        document.getElementById('nomyapeinsp').value = formatToString(writtenName);
+    }
+
+    function ShowNameDirOb() {
+        var writtenName = document.getElementById('nomyapedirob').value;
+        document.getElementById('nomyapedirob').value = formatToString(writtenName);
+    }
+
+    function ShowUbic() {
+        var writtenName = document.getElementById('ubic').value;
+        document.getElementById('ubic').value = formatToString(writtenName);
+    }
+
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }
+
+    function ponerminuscula() {
+        let ex = document.getElementById("contacto");
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+    function ponermayuscula() {
+        let ex = document.getElementById("adrema");
+        ex.value = ex.value.toUpperCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+    function ponermayusculaticket() {
+        let ex = document.getElementById("ticket");
+        ex.value = ex.value.toUpperCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+</script>
+
 <div class="col-md-8 mx-auto">
     <div class="card">
         <div class="car-header mx-auto">
             <br />
-            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nuevo Ticket</h3>
+            <h3 style="text-decoration: underline; font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
+                    ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
+                    text-shadow: 2px 2px 5px rgb(90, 88, 88)">Nuevo Ticket</h3>
         </div>
         <div class="card-body">
             <form action="/notes/newtickets" method="POST">
                 <div class="form-group">
                     N° Ticket:
-                    <input style="font-weight: bold; color:green" minlength="0" maxlength="11" type="text"
+                    <input id="ticket" onkeyup="ponermayusculaticket()" style="font-weight: bold; color:green" minlength="0" maxlength="11" type="text"
                         name="numticket" class="form-control" placeholder="0000-0-0000" required autofocus>
                 </div>
                 <div class="form-group">
                     Iniciador (Nombre y Apellido):
-                    <input style="font-weight: bold; color:green" type="text" name="iniciador" class="form-control"
-                        placeholder="Nombre y Apellido">
+                    <input id="nomyape" onkeyup="ShowName()" style="font-weight: bold; color:green" type="text"
+                        name="iniciador" class="form-control" placeholder="Nombre y Apellido">
                 </div>
                 <div class="form-group">
                     Ubicación:
-                    <input style="font-weight: bold; color:green" name="ubicacion" type="text" class="form-control"
-                        placeholder="Ubicación" autofocus></input>
+                    <input id="ubic" onkeyup="ShowUbic()" style="font-weight: bold; color:green" name="ubicacion"
+                        type="text" class="form-control" placeholder="Ubicación" autofocus></input>
                 </div>
                 <div class="form-group">
-                    contacto Celular:
-                    <input style="font-weight: bold; color:green" name="celular" type="text" class="form-control"
-                        placeholder="Celular"></input>
+                    Contacto Celular (sin guiones):
+                    <input type="number" style="font-weight: bold; color:green" name="celular" type="text"
+                        class="form-control" placeholder="Celular"></input>
                 </div>
                 <div class="form-group">
                     contacto E-mail:
-                    <input style="font-weight: bold; color:green" name="email" class="form-control" type="email"
-                        placeholder="E-mail"></input>
+                    <input id="contacto" onkeyup="ponerminuscula()" style="font-weight: bold; color:green" name="email"
+                        class="form-control" type="email" placeholder="E-mail"></input>
                 </div>
                 <div class="form-group">
                     Adrema:
-                    <input style="font-weight: bold; color:green" name="adrema" class="form-control" type="text"
+                    <input id="adrema" onkeyup="ponermayuscula()" style="font-weight: bold; color:green" name="adrema" class="form-control" type="text"
                         placeholder="Adrema"></input>
                 </div>
                 <div class="form-group">
                     Director de Obra:
-                    <input style="font-weight: bold; color:green" name="directordeobra" class="form-control"
-                        placeholder="Director de Obra"></input>
+                    <input id="nomyapedirob" onkeyup="ShowNameDirOb()" style="font-weight: bold; color:green"
+                        name="directordeobra" class="form-control" placeholder="Director de Obra"></input>
                 </div>
                 <div class="form-group">
                     Destino de Obra:
@@ -48,23 +167,23 @@
                 </div>
                 <div class="form-group">
                     Superficie de Terreno:
-                    <input style="font-weight: bold; color:green" name="superficieterreno" class="form-control"
-                        placeholder="Superficie de Terreno"></input>
+                    <input type="number" style="font-weight: bold; color:green" name="superficieterreno"
+                        class="form-control" placeholder="Superficie de Terreno"></input>
                 </div>
                 <div class="form-group">
                     Superficie a Construir:
-                    <input style="font-weight: bold; color:green" name="superficieaconstruir" class="form-control"
-                        placeholder="Superficie a Construir"></input>
+                    <input type="number" style="font-weight: bold; color:green" name="superficieaconstruir"
+                        class="form-control" placeholder="Superficie a Construir"></input>
                 </div>
                 <div class="form-group">
                     Superficie Planta Baja:
-                    <input style="font-weight: bold; color:green" name="supsubptabja" class="form-control"
+                    <input type="number" style="font-weight: bold; color:green" name="supsubptabja" class="form-control"
                         placeholder="Superficie Planta Baja"></input>
                 </div>
                 <div class="form-group">
                     Superficie Planta Alta y Más:
-                    <input style="font-weight: bold; color:green" name="supsubptaaltaymas" class="form-control"
-                        placeholder="Superficie Planta Alta y Más"></input>
+                    <input type="number" style="font-weight: bold; color:green" name="supsubptaaltaymas"
+                        class="form-control" placeholder="Superficie Planta Alta y Más"></input>
                 </div>
                 <div class="form-group">
                     Zona (opcional):
@@ -93,8 +212,8 @@
                 </div>
                 <div class="form-group">
                     Inspector:
-                    <input style="font-weight: bold; color:green" name="inspeccioninspector" class="form-control"
-                        placeholder="Inspector"></input>
+                    <input id="nomyapeinsp" onkeyup="ShowNameInsp()" style="font-weight: bold; color:green"
+                        name="inspeccioninspector" class="form-control" placeholder="Inspector"></input>
                 </div>
                 <div class="form-group">
                     Fecha de Inspector:
@@ -102,14 +221,20 @@
                         class="form-control" placeholder="Fecha de Inspector"></input>
                 </div>
                 <div class="form-group">
-                    Posee Intimaciones (si/no):
-                    <input style="font-weight: bold; color:green" name="intimaciones" class="form-control"
-                        placeholder="intimaciones"></input>
+                    <p>Posee Intimaciones:
+                        <select name="intimaciones">
+                            <option value="No">No</option>
+                            <option value="Si">Si</option>
+                        </select>
+                    </p>
                 </div>
                 <div class="form-group">
-                    Posee Infracciones (si/no):
-                    <input style="font-weight: bold; color:green" name="infracciones" class="form-control"
-                        placeholder="Infracciones"></input>
+                    <p>Posee Infracciones:
+                        <select name="infracciones">
+                            <option value="No">No</option>
+                            <option value="Si">Si</option>
+                        </select>
+                    </p>
                 </div>
                 <div class="form-group">
                     Pase a:
@@ -121,11 +246,11 @@
                     <input type="date" style="font-weight: bold; color:green" name="fechapasea" class="form-control"
                         placeholder="Fecha de Pase a"></input>
                 </div>
-                <div class="form-group">
+                {{!-- <div class="form-group">
                     Usuario Actual:
                     <input style="color:rgb(128, 131, 128)" value="{{user}}" name="user" class="form-control"
                         placeholder="No Definido" disabled></input>
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">
                         Grabar

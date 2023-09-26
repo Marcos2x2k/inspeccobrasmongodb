@@ -82,6 +82,11 @@
         //y.value = y.value.toLowerCase();
     }
 
+    function PonerMayusculaExp() {
+        let ex = document.getElementById("expediente");
+        ex.value = ex.value.toUpperCase();
+    }
+
 </script>
 
 <div class="col-md-8 mx-auto">
@@ -134,13 +139,13 @@
                 </div>
                 <div class="form-group">
                     numexpediente:
-                    <input style="font-weight: bold; color:green" minlength="0" maxlength="11"
+                    <input id="expediente" onkeyup="PonerMayusculaExp()" style="font-weight: bold; color:green" minlength="0" maxlength="11"
                         value="{{mesaentrada.numexpediente}}" type="text" name="numexpediente" class="form-control"
                         placeholder="0000-0-0000">
                 </div>
                 <div class="form-group">
                     Nombre y Apellido:
-                    <input onkeyup="ShowName();" style="font-weight: bold; color:green" minlength="10" maxlength="40"
+                    <input onkeyup="ShowName()" style="font-weight: bold; color:green" minlength="10" maxlength="40"
                         value="{{mesaentrada.nomyape}}" type="text" name="nomyape" id="nomyape" class="form-control"
                         placeholder="Nombre y Apellido" required autofocus>
                 </div>
