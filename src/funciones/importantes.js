@@ -1,10 +1,11 @@
+const express = require('express');
+const router = express.Router();
 
 
 
-
-function ShowName() {
-    var writtenName = document.getElementById('input_name').value;
-    document.getElementById('input_name').value = formatToString(writtenName);
+function ShowName(name) {
+    var writtenName = document.getElementById({name}).value;
+    document.getElementById({name}).value = formatToString(writtenName);
 }
 
 function formatToString(writtenName) {
@@ -32,14 +33,14 @@ function mostrarContrasena() {
     }
 }
 
-function ponerminuscula() {
+function ponerminuscula(letraminuscula) {
     return
-    let ex = document.getElementById("email");
+    let ex = document.getElementById({letraminuscula});
     ex.value = ex.value.toLowerCase();
-    //let y = document.getElementById("adrema");
-    //y.value = y.value.toLowerCase();
 }
 
 
-module.exports = {ponerminuscula, mostrarContrasena, formatToString, ShowName};
+// *** SI O SI LOS MODULE EXPLORTS ***
+module.exports = router;
+// module.exports = {ponerminuscula, mostrarContrasena, formatToString, ShowName};
 //export {ponerminuscula, mostrarContrasena, formatToString, ShowName}

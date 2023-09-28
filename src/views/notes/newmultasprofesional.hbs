@@ -139,11 +139,13 @@
     }
     }
 
-    function ponermayuscula() {
-        let ex = document.getElementById("expediente");
+    function ponermayuscula(mayus) {
+        let ex = document.getElementById(mayus);
         ex.value = ex.value.toUpperCase();
-        let y = document.getElementById("adrema");
-        y.value = y.value.toUpperCase();
+        //let ex = document.getElementById("expediente");
+        //ex.value = ex.value.toUpperCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toUpperCase();
     }
 
     function fmontototal() {
@@ -173,9 +175,11 @@
     }
     }
 
-    function ShowName() {
-        var writtenName = document.getElementById('propietario').value;
-        document.getElementById('propietario').value = formatToString(writtenName);
+    function ShowName(name) {
+        var writtenName = document.getElementById(name).value;
+        document.getElementById(name).value = formatToString(writtenName);
+        //var writtenName = document.getElementById('propietario').value;
+        //document.getElementById('propietario').value = formatToString(writtenName);
     }
     function ShowUbic() {
         var writtenName = document.getElementById('ubicacion').value;
@@ -229,7 +233,7 @@
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Expediente:</label>
-                                    <input onkeyup="ponermayuscula()" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
+                                    <input onkeyup="ponermayuscula('expediente')" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
                             box-sizing: border-box; border: 3px solid #0e0d0d;" value="{{multas.expediente}}"
                                         placeholder="Exped." type="text" name="expediente" id="expediente"
                                         class="form-control" autocomplete="off" autofocus minlength="10"
@@ -240,7 +244,7 @@
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Adrema:</label>
-                                    <input onkeyup="ponermayuscula()" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
+                                    <input onkeyup="ponermayuscula('adrema')" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
                                     box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="Adrema"
                                         name="adrema" type="text" id="adrema" class="form-control" autocomplete="off"
                                         value="{{multas.adrema}}" />
@@ -250,7 +254,7 @@
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Profesional:</label>
-                                    <input onkeyup="ShowName();" style="color:rgb(0, 0, 0); font-weight: bold; width: 100%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                    <input onkeyup="ShowName('propietario');" style="color:rgb(0, 0, 0); font-weight: bold; width: 100%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Nombre y Apellido"
                                         name="propietario" type="text" id="propietario" class="form-control"
                                         autocomplete="off" required value="{{multas.propietario}}" />

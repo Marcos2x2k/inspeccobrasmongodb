@@ -58,10 +58,13 @@
         }
     }
 
-    function ShowName() {
-        var writtenName = document.getElementById('nomyape').value;
-        document.getElementById('nomyape').value = formatToString(writtenName);
+    function ShowName(name) {
+        var writtenName = document.getElementById(name).value;
+        document.getElementById(name).value = formatToString(writtenName);
+        //var writtenName = document.getElementById('nomyape').value;
+        //document.getElementById('nomyape').value = formatToString(writtenName);
     }
+
     function formatToString(writtenName) {
         var tmp = writtenName.split(" ");
         var fullName;
@@ -75,15 +78,15 @@
         return fullName;
     }
 
-    function ponerminuscula() {
-        let ex = document.getElementById("contacto");
+    function ponerminuscula(minus) {
+        let ex = document.getElementById(minus);
         ex.value = ex.value.toLowerCase();
         //let y = document.getElementById("adrema");
         //y.value = y.value.toLowerCase();
     }
 
-    function PonerMayusculaExp() {
-        let ex = document.getElementById("expediente");
+    function PonerMayuscula(mayus) {
+        let ex = document.getElementById(mayus);
         ex.value = ex.value.toUpperCase();
     }
 
@@ -139,13 +142,13 @@
                 </div>
                 <div class="form-group">
                     numexpediente:
-                    <input id="expediente" onkeyup="PonerMayusculaExp()" style="font-weight: bold; color:green" minlength="0" maxlength="11"
+                    <input id="expediente" onkeyup="PonerMayuscula('expediente')" style="font-weight: bold; color:green" minlength="0" maxlength="11"
                         value="{{mesaentrada.numexpediente}}" type="text" name="numexpediente" class="form-control"
                         placeholder="0000-0-0000">
-                </div>
+                </div>y
                 <div class="form-group">
                     Nombre y Apellido:
-                    <input onkeyup="ShowName()" style="font-weight: bold; color:green" minlength="10" maxlength="40"
+                    <input onkeyup="ShowName('nomyape')" style="font-weight: bold; color:green" minlength="10" maxlength="40"
                         value="{{mesaentrada.nomyape}}" type="text" name="nomyape" id="nomyape" class="form-control"
                         placeholder="Nombre y Apellido" required autofocus>
                 </div>
@@ -157,7 +160,7 @@
                 </div>
                 <div class="form-group">
                     contacto E-mail/Celular:
-                    <input onkeyup="ponerminuscula()" style="font-weight: bold; color:green" minlength="0" maxlength="30"
+                    <input onkeyup="ponerminuscula('contacto')" style="font-weight: bold; color:green" minlength="0" maxlength="30"
                         value="{{mesaentrada.contacto}}" name="contacto" id="contacto" class="form-control"
                         placeholder="E-mail/Celular"></input>
                 </div>

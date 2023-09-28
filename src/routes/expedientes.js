@@ -129,7 +129,7 @@ router.get('/expedientes/borradolistado', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
     const rolusuario = req.user.rolusuario;
-    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+    if (rolusuario == "Administrador") {
         const expedientes = await Expediente.find({ $or: [{ borrado: "Si" }, { borrado: "" }] }).lean().limit(100).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/borrados/borradolistexpedientes', { expedientes });
