@@ -94,11 +94,11 @@ router.get('/expedientes', isAuthenticated, async (req, res) => {
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const expedientes = await Expediente.find().lean().limit(200).sort({ numexpediente: 'desc' }); //
+        const expedientes = await Expediente.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/allexpedientesadm', { expedientes });
     } else if (rolusuario == "Inspector") {
-        const expedientes = await Expediente.find().lean().limit(200).sort({ numexpediente: 'desc' }); //
+        const expedientes = await Expediente.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/allexpedientes', { expedientes });
     } else {

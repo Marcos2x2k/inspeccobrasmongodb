@@ -3,6 +3,21 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const TicketSchema = new Schema({
+    borrado:{
+        type: String,
+        required: true,
+        default:"No",
+    },
+    userborrado:{
+        type: String,
+        required: true,
+        default:"Sin Datos",
+    },
+    fechaborrado:{
+        type: String,
+        required: true,
+        default:"Sin Datos",
+    },
     plataforma: {
         type: String,
         require: true
@@ -128,11 +143,6 @@ const TicketSchema = new Schema({
         type: String,
         require: false,
         default: "No Informó"
-    },
-    eliminado: {
-        type: String,
-        require: false,
-        default: "No"
     },
     user: {
         type: String,
