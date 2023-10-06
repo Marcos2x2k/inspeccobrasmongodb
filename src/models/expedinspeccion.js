@@ -58,7 +58,6 @@ const ExpedinspeccionSchema = new Schema({
         require: false,
         default: "Sin Informacion"
     },
-
     informe: {
         type: String,
         require: false,

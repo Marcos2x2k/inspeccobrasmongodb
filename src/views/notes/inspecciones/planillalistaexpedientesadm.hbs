@@ -74,20 +74,28 @@
             {{!-- <td>{{ directorobraoperitovisor }}</td> --}}
             <td style="text-transform: lowercase;">{{ destinodeobra }}</td>
             <td>
+              <a class="dropdown-item" href="/movimientoexpediente/add/{{_id}}"
+                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">
+                Agregar Movimiento
+              </a>
               <a class="dropdown-item" href="/expedientes/list/{{_id}}"
                 style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
                 Info Expediente
               </a>
               <a class="dropdown-item" href="/expedientes/expedconinformeinspeccion/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Informes de Inspec.
-              </a>
+                Informes Inspec.
+              </a>              
             </td>
             <td>
               <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
-                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar Informe</a>
+                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">
+                Agregar Informe
+              </a>
               <a class="dropdown-item " href="/expedientes/edit/{{_id}}"
-                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">Editar</a>
+                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
+                Editar Exped.
+              </a>
               {{!-- <form
                 onSubmit="return confirm('Recuerde que se borrará el expediente pero no sus informes. Desea Borrar?')"
                 style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
@@ -96,12 +104,13 @@
                   Borrar
                 </button>
               </form> --}}
-              <form onSubmit="return confirm('Desea enviar Papelera?')"  style="" action="/expedientes/marcadelete/{{_id}}?_method=PUT" method="POST">
-                    <input type="hidden" name="_method" value="PUT">
-                    <button class="btn btn-danger btn-block btn-sm" type="submit">
-                        Borrar
-                    </button>
-                </form>
+              <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
+                action="/expedientes/marcadelete/{{_id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                  Borrar
+                </button>
+              </form>
             </td>
           </tr>
           </tr>
