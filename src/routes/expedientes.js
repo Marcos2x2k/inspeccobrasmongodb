@@ -66,6 +66,7 @@ router.get('/movimientoexpediente/add/:id', isAuthenticated, async (req, res) =>
 
 
 // Cambio el estado del expediente y agendo el estado nuevo en la base de datos expedentrsalida.js
+// anda con 2 tablas y en una crea nuevo y en otra actualiza
 router.put('/notes/newestadoexpediente', isAuthenticated, async (req, res) => {
     // new estado expediente
     const { borrado, userborrado, fechaborrado, numexpediente, estado, motivoentsal, iniciadornomyape, domicilio, adremaexp,
@@ -78,10 +79,27 @@ router.put('/notes/newestadoexpediente', isAuthenticated, async (req, res) => {
     newExpedentrsalida.user = req.user.id;
     newExpedentrsalida.name = req.user.name;  
     await newExpedentrsalida.save();    
-    await Expediente.update({numexpediente:numexpediente}, { $set: { estado: estado } }, { upsert: false, multi: true })    
-     
+    await Expediente.update({numexpediente:numexpediente}, { $set: { estado: estado } }, { upsert: false, multi: true })         
     req.flash('success_msg', 'Estado de Expediente Modificado Exitosamente');
     res.redirect('/expedientes/listado');
+});
+
+router.get('/expedientes/movimientosestadosexpedientes/:id', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    var id = req.params.id;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        //const mesaentrada = await Mesaentrada.findById(req.params.id).lean() 
+        const expediente = await Expediente.findById(req.params.id).lean()
+        //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
+        var numexpediente = expediente.numexpediente
+        const expedentrsalida = await Expedentrsalida.find({ numexpediente: numexpediente }).lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/planillamovestados', { expedentrsalida, expediente });    
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
 });
 
 router.get('/notes/add/:id', isAuthenticated, async (req, res) => {

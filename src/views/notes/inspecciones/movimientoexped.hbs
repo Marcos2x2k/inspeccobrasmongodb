@@ -76,7 +76,8 @@
                         </div> 
                         <div class="form-group">
                             Motivo de la Entrada/Salida/Etc:
-                            <input style="color:red" type="text" name="motivoentsal" class="form-control" placeholder="Motivo E/S/Etc"
+                            <label>{{expedientes.motivoentsal}}</label>
+                            <input style="color:red, visibility: hidden" type="text" name="motivoentsal" class="form-control" placeholder="Motivo E/S/Etc"
                                 value="{{expedientes.motivoentsal}}">
                         </div>                     
                         <div class="form-group">
@@ -103,12 +104,8 @@
                             Observación:
                             <input style="color:red" type="text" name="observaciones" class="form-control" placeholder="Observación"
                                 value="{{expedientes.observaciones}}" >
-                        </div>                        
-                        <div class="form-group">
-                            user:
-                            <input style="color:red" type="text" name="user" class="form-control" placeholder="user"
-                                value="{{expedientes.name}}" >
-                        </div>
+                        </div>                       
+                        
                         <div class="form-group">
                             <button class="btn btn-primary btn-block" type="submit">
                                 Grabar
