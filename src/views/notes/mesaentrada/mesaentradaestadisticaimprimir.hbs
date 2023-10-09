@@ -79,10 +79,23 @@
                                 <input size=27 id="fechahoy" style="text-align: right;" disabled />
                             </div>
                         </div>
-                        <div id="montototalcobrado">
+                        <div id="montototalcobrado">                            
                             <p style="color:rgb(55, 22, 202); font-weight: bold;">
+                                Turnos Totales Inp-Obras: {{contio}}
+                                <p />
+                            <p style="color:rgb(55, 22, 202); font-weight: bold;">
+                                Turnos Totales Obras-Part: {{contop}}
+                                <p />
+                            <p style="color:rgb(55, 22, 202); font-weight: bold;">
+                                Turnos Totales Visado: {{contvis}}
+                                <p />
+                            <p style="color:rgb(55, 22, 202); font-weight: bold;">
+                                Turnos Totales Sub-Secretaria: {{contsub}}
+                                <p />
+                            <p style="color:red; font-weight: bold;">---------</p>
+                                <p style="color:green; font-weight: bold;">
                                 Turnos Totales Entregados: {{contador}}
-                                <p/>                                
+                                <p />
                         </div>
                         <table class="table table-condensed table-bordered table-striped"
                             style="font-family: Serif; font-size: smaller">
@@ -95,7 +108,7 @@
                                         <td>D.N.I.</td>
                                         <td>Contacto</td>
                                         <td>Fecha/Ingreso</td>
-                                        <td>Hora/Ingreso</td>                                        
+                                        <td>Hora/Ingreso</td>
                                     </tr>
                                 </thead>
                                 {{tablamesaentrada}}
@@ -106,9 +119,10 @@
                             <h5
                                 style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
                                 ============================== ============================== </h5>
-                        </table>                                               
-                        <p style="color:rgb(29, 131, 179)">Filtro realizado por: {{tipofiltro}} </p>                        
-                        <h4 style="color:red; border-radius:70px; box-shadow: 5px 5px 5px black;">Dato Buscado: {{filtro}}</h4>
+                        </table>
+                        <p style="color:rgb(29, 131, 179)">Filtro realizado por: {{tipofiltro}} </p>
+                        <h4 style="color:red; border-radius:70px; box-shadow: 5px 5px 5px black;">Dato Buscado:
+                            {{filtro}}</h4>
                     </div>
                 </div>
             </div>
@@ -117,4 +131,3 @@
 </body>
 
 </html>
-                                    

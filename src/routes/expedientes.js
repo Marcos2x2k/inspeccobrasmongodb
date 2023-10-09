@@ -16,6 +16,10 @@ const Note = require('../models/Note');
 
 // *ZONA PDF* //
 const expedinspeccion = require('../models/expedinspeccion');
+// *ZONA PDF* //
+const pdf = require("html-pdf");
+const User = require('../models/User');
+var pdfoptionsA4 = { format: 'A4' };
 
 // **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
 router.put('/expedientes/listadoborradosenno', isAuthenticated, async (req, res) => {
