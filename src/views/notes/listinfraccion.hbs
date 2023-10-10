@@ -84,7 +84,8 @@
                 <div class="form-group">
                     Observación:
                     <textarea name="observacion" rows="2" cols="50" class="form-control" placeholder="Sin Información"
-                        style="color: #3d0ee7; font-weight: bold; resize: none;" disabled>{{infraccion.observacion}}</textarea>
+                        style="color: #3d0ee7; font-weight: bold; resize: none;"
+                        disabled>{{infraccion.observacion}}</textarea>
                 </div>
                 <div class="form-group">
                     Testigo (AyN):
@@ -125,98 +126,99 @@
                     <img src="{{infraccion.path}}" width="400" style="border-radius:50px;" />
                 </div> --}}
                 {{!-- <img src="{{infraccion.fotoinf}}" width="200" /> <br /><br /> --}}
-              <div class="form-group">
-                        <label style="font-weight:bold">Fotos 1:</label>
-                        <br />
-                        {{!-- <img style="border-radius:30px;" src="{{infraccion.path}}" alt="_Imagen No Cargada"
-                            width="400" /> <br /><br /> --}}
-                        {{!-- <a href="{{infraccion.path}}">Ver Foto en Grande</a> --}}
-                        <a href="{{infraccion.path}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.path}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:bold">Foto 2:</label>
-                        <br />
-                        <a href="{{infraccion.pathdos}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.pathdos}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:bold">Foto 3:</label>
-                        <br />
-                        <a href="{{infraccion.pathtres}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.pathtres}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-                    </div>
-                    <div  id="myDIV" class="form-group">
-                        <label style="font-weight:bold">Foto 4:</label>
-                        <br />
-                        <a href="{{infraccion.pathcuatro}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.pathcuatro}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:bold">Foto 5:</label>
-                        <br />
-                        <a href="{{infraccion.pathcinco}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.pathcinco}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:bold">Foto 6:</label>
-                        <br />
-                        <a href="{{infraccion.pathseis}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.pathseis}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:bold">Foto 7:</label>
-                        <br />
-                        <a href="{{infraccion.pathsiete}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.pathsiete}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:bold">Foto 8:</label>
-                        <br />
-                        <a href="{{infraccion.pathocho}}" target="_blank">
-                            <img style="border-radius:30px;" src="{{infraccion.pathocho}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
-                        </a>
-
-                    </div>
                 <div class="form-group">
-                    ID Usuario. Cargó Infracción
-                    <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                        value="{{infraccion.user}}" style="color: red;" disabled>
+                    <label style="font-weight:bold">Fotos 1:</label>
+                    <br />
+                    {{!-- <img style="border-radius:30px;" src="{{infraccion.path}}" alt="_Imagen No Cargada"
+                        width="400" /> <br /><br /> --}}
+                    {{!-- <a href="{{infraccion.path}}">Ver Foto en Grande</a> --}}
+                    <a href="{{infraccion.path}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.path}}" alt="_Imagen No Cargada" width="250"
+                            height="200">
+                    </a>
                 </div>
                 <div class="form-group">
-                    Fecha y Hora de Carga
-                    <input type="datetime" name="dateinf" class="form-control" placeholder="Sin Información"
-                        value="{{infraccion.dateinf}}" style="color: red;" disabled>
-                </div>
+                    <label style="font-weight:bold">Foto 2:</label>
+                    <br />
+                    <a href="{{infraccion.pathdos}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.pathdos}}" alt="_Imagen No Cargada"
+                            width="250" height="200">
+                    </a>
 
-                <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones/listado"><i
-                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
                 </div>
                 <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones"><i
-                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Cartas</p>
+                    <label style="font-weight:bold">Foto 3:</label>
+                    <br />
+                    <a href="{{infraccion.pathtres}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.pathtres}}" alt="_Imagen No Cargada"
+                            width="250" height="200">
+                    </a>
                 </div>
-            </form>
+                <div id="myDIV" class="form-group">
+                    <label style="font-weight:bold">Foto 4:</label>
+                    <br />
+                    <a href="{{infraccion.pathcuatro}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.pathcuatro}}" alt="_Imagen No Cargada"
+                            width="250" height="200">
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label style="font-weight:bold">Foto 5:</label>
+                    <br />
+                    <a href="{{infraccion.pathcinco}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.pathcinco}}" alt="_Imagen No Cargada"
+                            width="250" height="200">
+                    </a>
+
+                </div>
+                <div class="form-group">
+                    <label style="font-weight:bold">Foto 6:</label>
+                    <br />
+                    <a href="{{infraccion.pathseis}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.pathseis}}" alt="_Imagen No Cargada"
+                            width="250" height="200">
+                    </a>
+
+                </div>
+                <div class="form-group">
+                    <label style="font-weight:bold">Foto 7:</label>
+                    <br />
+                    <a href="{{infraccion.pathsiete}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.pathsiete}}" alt="_Imagen No Cargada"
+                            width="250" height="200">
+                    </a>
+
+                </div>
+                <div class="form-group">
+                    <label style="font-weight:bold">Foto 8:</label>
+                    <br />
+                    <a href="{{infraccion.pathocho}}" target="_blank">
+                        <img style="border-radius:30px;" src="{{infraccion.pathocho}}" alt="_Imagen No Cargada"
+                            width="250" height="200">
+                    </a>
+
+                </div>
         </div>
+        <div class="form-group">
+            ID Usuario. Cargó Infracción
+            <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                value="{{infraccion.user}}" style="color: red;" disabled>
+        </div>
+        <div class="form-group">
+            Fecha y Hora de Carga
+            <input type="datetime" name="dateinf" class="form-control" placeholder="Sin Información"
+                value="{{infraccion.dateinf}}" style="color: red;" disabled>
+        </div>
+
+        <div class="form-group">
+            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones/listado"><i
+                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
+        </div>
+        <div class="form-group">
+            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones"><i
+                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Cartas</p>
+        </div>
+        </form>
     </div>
+</div>
 </div>

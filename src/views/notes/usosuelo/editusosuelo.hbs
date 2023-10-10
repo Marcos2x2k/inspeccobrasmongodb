@@ -1,0 +1,99 @@
+<div class="col-md-7 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Editar Expediente Uso de Suelo</h3>
+        </div>
+        <div class="card-body">
+            <form action="/usosuelo/editusosuelo/{{usosuelo._id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha de Ingreso
+                    <input type="text" name="fechaingreso" class="form-control" placeholder="Expediente"
+                        value="{{usosuelo.fechaingreso}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Hora de Ingreso
+                    <input type="text" name="horaingreso" class="form-control" value="{{usosuelo.horaingreso}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Número de Expediente
+                    <input type="numexpediente" name="numexpediente" class="form-control"
+                        value="{{usosuelo.numexpediente}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Número de Adrema
+                    <input type="numexpediente" name="numexpediente" class="form-control"
+                        value="{{usosuelo.adrema}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Nombre y Apellido:
+                    <input type="text" name="nomyape" class="form-control" placeholder="Nombre y Apellido"
+                        value="{{usosuelo.nomyape}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    D.N.I.
+                    <input type="text" name="dni" class="form-control" placeholder="Documento Nacional Identidad"
+                        value="{{usosuelo.dni}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Contacto
+                    <input type="text" name="contacto" class="form-control" placeholder="Contacto"
+                        value="{{usosuelo.contacto}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Observaciones
+                    <input type="text" name="observaciones" class="form-control" placeholder="Observaciones"
+                        value="{{usosuelo.observaciones}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha Turno Real
+                    <input type="text" name="dateturno" class="form-control" placeholder="Turno fecha Real"
+                        value="{{usosuelo.date}}" disabled>
+                </div>
+                <br />
+                <label style="font-weight:bold">Las Fotos no son Editables!</label>
+                <br />
+                <div>
+                    Foto 1:
+                    <br />
+                    <img style="border-radius:20px;" src="{{usosuelo.path}}" alt="_Imagen no Disponible" width="230"
+                        height="200" />
+                    <br />
+                    <br />
+                    Foto 2:
+                    <br />
+                    <img style="border-radius:20px;" src="{{usosuelo.pathdos}}" alt="_Imagen no Disponible" width="230"
+                        height="200" />
+                    <br />
+                    <br />
+                    Foto 3:
+                    <br />
+                    <img style="border-radius:20px;" src="{{usosuelo.pathtres}}" alt="_Imagen no Disponible" width="230"
+                        height="200" />
+                    <br />
+                </div>
+                <br /><br />
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Usuario que Cargó Inspección
+                    <input type="text" name="user" class="form-control" placeholder="Fecha Pase A"
+                        value="{{usosuelo.name}}" disabled>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Grabar
+                    </button>
+                </div>
+                <div class="form-group">
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/usosuelo/listado"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a>
+                        Volver Listado
+                    </p>
+                    {{!-- <button class="btn btn-primary btn-block" href="/usosuelos">
+                        Volver
+                    </button> --}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

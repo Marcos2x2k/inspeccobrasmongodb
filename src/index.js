@@ -1,7 +1,7 @@
 const express = require ('express');
 const morgan = require('morgan');
 const multer = require('multer');
-const uuid = require('uuid/v4');
+//const uuid = require('uuid/v4');
 const path = require('path');
 const exphbs = require("express-handlebars");
 const methodOverride = require('method-override');
@@ -9,7 +9,6 @@ const session = require('express-session');
 const flash = require ('connect-flash'); // modulo para enviar mensajes de advertencia
 const passport = require('passport');
 // const { format } = require('timeago.js');
-
 
 // Inicilializaciones
 const app = express();
@@ -98,6 +97,7 @@ app.use(require('./routes/users.js'));
 app.use(require('./routes/mesaentrada.js'));
 app.use(require('./routes/liquidaciones.js'));
 app.use(require('./routes/expedientes.js'));
+app.use(require('./routes/usosuelo.js'));
 
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')));
