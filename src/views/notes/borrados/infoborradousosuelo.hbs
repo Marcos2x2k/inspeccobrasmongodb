@@ -3,25 +3,21 @@
     function startTime() {
 
         today = new Date();
-
         h = today.getHours();
-
         m = today.getMinutes();
-
         s = today.getSeconds();
-
         m = checkTime(m);
-
         s = checkTime(s);
-
         document.getElementById(‘reloj’).innerHTML = h +»:»+m +»:»+s;
-
         t = setTimeout(‘startTime()’, 500);
     }
 
-    function checkTime(i) { if (i < 10) { i =»0″ + i; } return i; }
-
-    window.onload = function () { startTime(); }
+    function checkTime(i) {
+        if (i < 10) { i =»0″ + i; } return i;
+    }
+    window.onload = function () {
+        startTime();
+    }
 
 </script>
 
@@ -37,11 +33,31 @@
             </h4>
             <div class="card-body">
                 <form>
-                    <div class="form-group" style="color:grey; font-style:oblique; font-weight: bold;">
-                        N° Identificacion:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{usosuelo._id}}" style="color: grey; font-weight: bold;" disabled>
+                    <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
+                        Usuario que realizo el borrado:
+                        <input type="text" name="userborrado" class="form-control" placeholder="Sin Información"
+                            value="{{usosuelo.userborrado}}" style="color: grey; " disabled>
+                    </div>
+                    <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
+                        Borrado:
+                        <input type="text" name="borrado" class="form-control" placeholder="Sin Información"
+                            value="{{usosuelo.borrado}}" style="color: grey; " disabled>
+                    </div>
+                    <div class="form-group" style="color:black; font-style:oblique;">
+                        Fecha Borrado:
+                        <input type="text" name="fechaborrado" class="form-control" placeholder="Sin Información"
+                            value="{{usosuelo.fechaborrado}}" style="color: grey;" disabled>
                     </div>                    
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Numº Expediente:
+                        <input type="text" name="numexpediente" class="form-control" placeholder="No Especificado"
+                            value="{{ usosuelo.numexpediente }}" style="color: black; font-weight: bold;" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Numº Adrema:
+                        <input type="text" name="adrema" class="form-control" placeholder="No Especificado"
+                            value="{{ usosuelo.adrema }}" style="color: black; font-weight: bold;" disabled>
+                    </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Nombre y Apellido:
                         <input type="text" name="user" class="form-control" placeholder="Sin Información"
@@ -57,16 +73,7 @@
                         <input type="text" name="user" class="form-control" placeholder="Sin Información"
                             value="{{ usosuelo.contacto }}" style="color: black; font-weight: bold;" disabled>
                     </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Numº Expediente:
-                        <input type="text" name="user" class="form-control" placeholder="No Especificado"
-                            value="{{ usosuelo.numexpediente }}" style="color: black; font-weight: bold;" disabled>
-                    </div>
-                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Numº Adrema:
-                        <input type="text" name="user" class="form-control" placeholder="No Especificado"
-                            value="{{ usosuelo.adrema }}" style="color: black; font-weight: bold;" disabled>
-                    </div>
+                    
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Fecha del Expediente:
                         <input type="text" name="user" class="form-control" placeholder="Sin Información"
@@ -109,32 +116,24 @@
                             <img style="border-radius:30px;" src="{{usosuelo.pathtres}}" alt="_Imagen No Cargada"
                                 width="230" height="350">
                         </a>
+                    </div>   
+                    <div class="form-group" style="color:black; font-style:oblique;">
+                        Nombre Cargo Expediente:
+                        <input type="text" name="name" class="form-control" placeholder="Sin Información"
+                            value="{{usosuelo.name}}" style="color: grey;" disabled>
+                    </div>
+                    <div class="form-group" style="color:black; font-style:oblique;">
+                        Datos Exactos Creación del Expediente:
+                        <input type="text" name="dateturno" class="form-control" placeholder="Sin Información"
+                            value="{{usosuelo.dateturno}}" style="color: grey;" disabled>
                     </div>                    
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a
+                            href="/usosuelo/borradolistado"><i class="fas fa-list"
+                                style='font-size:24px;color:blue'></i></a> 
+                                Volver Listado
+                    </p>                    
             </div>
-            {{!-- <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
-                ID Cargo Turno:
-                <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                    value="{{usosuelo.user}}" style="color: grey; font-weight: bold;" disabled>
-            </div> --}}
-            <div class="form-group" style="color:rgb(14, 13, 13); font-style:oblique; font-weight: bold;">
-                Nombre Cargo Expediente:
-                <input type="text" name="name" class="form-control" placeholder="Sin Información"
-                    value="{{usosuelo.name}}" style="color: grey; font-weight: bold;" disabled>
-            </div>
-            <div class="form-group" style="color:rgb(14, 13, 13); font-style:oblique; font-weight: bold;">
-                Datos Exactos Creación Horarios del Expediente:
-                <input type="text" name="dateturno" class="form-control" placeholder="Sin Información"
-                    value="{{usosuelo.dateturno}}" style="color: grey; font-weight: bold;" disabled>
-            </div>
-            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/usosuelo/listado"><i
-                        class="fas fa-list" style='font-size:24px;color:blue'></i></a>
-                Volver Listado
-            </p>
-            {{!-- <button class="btn btn-primary btn-block" href="/notes">
-                Volver
-            </button> --}}
+            </form>
         </div>
-        </form>
     </div>
-</div>
 </div>

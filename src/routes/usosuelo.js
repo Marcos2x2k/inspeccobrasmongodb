@@ -79,7 +79,7 @@ router.post('/notes/usosuelo/newusosuelo/:id', isAuthenticated, async (req, res)
 router.get('/usosuelo', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Uso-de-Suelo") {
         // res.send('Notes from data base');
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         const usosuelo = await Usosuelo.find({ borrado: "No" }).lean().sort({ date: 'asc' });
@@ -94,7 +94,7 @@ router.get('/usosuelo', isAuthenticated, async (req, res) => {
 });
 
 router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, res) => {
-    const ubicacionPlantilla = require.resolve("../views/notes/usosuelo/usosuelo/usosueloestadisticaimprimir.hbs")
+    const ubicacionPlantilla = require.resolve("../views/notes/usosuelo/usosueloestadisticaimprimir.hbs")
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
@@ -206,12 +206,12 @@ router.get('/usosuelo/Estadisticas', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     var contador = 0;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Uso-Suelo" || rolusuario == "Administrador") {
+    if (rolusuario == "Uso-de-Suelo" || rolusuario == "Administrador") {
         const usosuelo = await Usosuelo.find().lean().sort({ date: 'desc' });
         for (let i = 0; i < usosuelo.length; i++) {
             contador = contador + 1
         }
-        res.render('notes/usosuelo/usosuelo/estadisticausosuelo', { usosuelo, contador });
+        res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -222,7 +222,7 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { nomyape, adrema, sector, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador" || rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Administrador" || rolusuario == "Uso-de-Suelo") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
         if (nomyape) {
@@ -237,7 +237,7 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
             for (let i = 0; i < usosuelo.length; i++) {
                 contador = contador + 1
             }
-            res.render('notes/usosuelo/usosuelo/estadisticausosuelo', { usosuelo, contador });
+            res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
         } else if (adrema) {
             var numexpediente = adrema;
             const usosuelo = await Usosuelo.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
@@ -245,7 +245,7 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
             for (let i = 0; i < usosuelo.length; i++) {
                 contador = contador + 1
             }
-            res.render('notes/usosuelo/usosuelo/estadisticausosuelo', { usosuelo, contador });
+            res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
         } else if (sector) {
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
@@ -257,14 +257,14 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
                 for (let i = 0; i < usosuelo.length; i++) {
                     contador = contador + 1
                 }
-                res.render('notes/usosuelo/usosuelo/estadisticausosuelo', { usosuelo, contador });
+                res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
             }
         } else {
             const usosuelo = await Usosuelo.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < usosuelo.length; i++) {
                 contador = contador + 1
             }
-            res.render('notes/usosuelo/usosuelo/estadisticausosuelo', { usosuelo, contador });
+            res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
         }
     } else if (desde && hasta) {
         console.log("DESDE", desde)
@@ -279,7 +279,7 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
         for (let i = 0; i < usosuelo.length; i++) {
             contador = contador + 1
         }
-        res.render('notes/usosuelo/usosuelo/estadisticausosuelo', { usosuelo, contador });
+        res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
         // } else if ((desde && hasta) && sector) {            
         //     var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
         //     const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
@@ -289,7 +289,7 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
         //     for (let i = 0; i < usosuelo.length; i++) {                
         //         contador = contador + 1
         //     }
-        //     res.render('notes/usosuelo/usosuelo/estadisticausosuelo', { usosuelo, contador });
+        //     res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
         // }
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
@@ -300,7 +300,7 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
 router.get('/usosuelo/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Uso-de-Suelo") {
         const usosuelo = await Usosuelo.find({ borrado: "No" }).limit(60).lean().sort({ dateturno: 'desc' });
         res.render('notes/usosuelo/planillalistausosuelo', { usosuelo });
     } else if (rolusuario == "Administrador") {
@@ -347,8 +347,7 @@ router.get('/usosuelo/borradolist/:id', isAuthenticated, async (req, res) => {
 
 router.get('/usosuelo/infoborradolist/:id', isAuthenticated, async (req, res) => {
     const usosuelo = await Usosuelo.findById(req.params.id).lean()
-    // console.log(note.date);
-    res.render('notes/usosuelo/borrados/infoborradousosuelo', { usosuelo })
+    res.render('notes/borrados/infoborradousosuelo', { usosuelo })
 });
 
 
@@ -357,7 +356,7 @@ router.post('/usosuelo/findsector', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { sector } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { sector: { $regex: sector, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
             return res.render("notes/usosuelo/allusosuelo");
@@ -379,7 +378,7 @@ router.post('/usosuelo/findiniciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { nomyape } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { nomyape: { $regex: nomyape, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
             return res.render("notes/usosuelo/allusosuelo");
@@ -401,7 +400,7 @@ router.post('/usosuelo/findlistasector', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { sector } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { sector: { $regex: sector, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
             return res.render("notes/usosuelo/allusosuelo");
@@ -423,7 +422,7 @@ router.post('/usosuelo/findlistainiciador', isAuthenticated, async (req, res) =>
     const rolusuario = req.user.rolusuario;
     const { nomyape } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { nomyape: { $regex: nomyape, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
             return res.render("notes/usosuelo/allusosuelo");
@@ -475,7 +474,7 @@ router.post('/usosuelo/findlistaexpediente', isAuthenticated, async (req, res) =
     const rolusuario = req.user.rolusuario;
     const { numexpediente } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    if (rolusuario == "Uso-Suelo") {
+    if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Expediente')
             return res.render("notes/usosuelo/allusosuelo");
@@ -519,33 +518,33 @@ router.post('/usosuelo/borradofindlistasector', isAuthenticated, async (req, res
     const rolusuario = req.user.rolusuario;
     const { sector } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { sector: { $regex: sector, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    res.render('notes/usosuelo/borrados/borradolistusosuelo', { usosuelo })
+    res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
 router.post('/usosuelo/borradofindlistainiciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { nomyape } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { nomyape: { $regex: nomyape, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    res.render('notes/usosuelo/borrados/borradolistusosuelo', { usosuelo })
+    res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
 router.post('/usosuelo/borradofindlistadni', isAuthenticated, async (req, res) => {
     const { dni } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { dni: { $regex: dni, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    res.render('notes/usosuelo/borrados/borradolistusosuelo', { usosuelo })
+    res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
 router.post('/usosuelo/borradofindlistaexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numexpediente } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    res.render('notes/usosuelo/borrados/borradolistusosuelo', { usosuelo })
+    res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
 router.post('/usosuelo/borradofindlistafechaentrada', isAuthenticated, async (req, res) => {
     const { fechaingreso } = req.body;
     const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { fechaingreso: { $regex: fechaingreso, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
-    res.render('notes/usosuelo/borrados/borradolistusosuelo', { usosuelo })
+    res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
 // **** AGREGAR TURNO A CLIENTE HABITUAL ****

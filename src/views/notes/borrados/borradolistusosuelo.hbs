@@ -83,7 +83,8 @@
         <thead>
           <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
             {{!-- <td style="visibility:collapse;">ID</td> --}}            
-            <td>Nombre y Apellido</td>
+            <td>Expediente</td>
+            <td>Nom y Ape</td>
             <td>D.N.I.</td>
             <td>Contacto</td>
             <td>Fecha/Ingreso</td>
@@ -95,7 +96,8 @@
         <tbody>
           {{#each usosuelo}}
           <tr>
-            {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}}            
+            {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}} 
+            <td style="color:yellowgreen">{{numexpediente}}</td>           
             <td>{{ nomyape }}</td>
             <td>{{ dni }}</td>
             <td>{{ contacto }}</td>
@@ -141,7 +143,7 @@
         <div class="mx-auto">
           <div class="card mx-auto">
             <div class="card-body">
-              <p class"lead" style="color:red; font-weight: bold;"> No existen Expedientes Aun...</p>
+              <p class"lead" style="color:red; font-weight: bold;"> No existen Expedientes Aun o Dato Buscado...</p>
             </div>
           </div>
         </div>

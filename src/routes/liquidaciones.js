@@ -220,7 +220,7 @@ router.get('/multas', isAuthenticated, async (req, res) => {
         const multas = await Multas.find({$and:[{ apercibimientoprofesional: "No" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasusr', { multas });    
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
@@ -253,7 +253,7 @@ router.get('/multasprofesionales', isAuthenticated, async (req, res) => {
         const multas = await Multas.find( {$and:[{apercibimientoprofesional: "Si" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasprofusr', { multas, rolusuario });    
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
@@ -269,7 +269,7 @@ router.get('/multas/imprimirestadisticas', isAuthenticated, async (req, res) => 
         const multas = await Multas.find().lean().sort({ date: 'desc' });
         res.render('notes/multaestadictarmar', { multas });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 })
@@ -292,7 +292,7 @@ router.get('/multas/Estadisticas', isAuthenticated, async (req, res) => {
         }
         res.render('notes/liquidaciones/multaestadisticaadm', { multas, montofinal });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
@@ -350,7 +350,7 @@ router.post('/multas/sacarestadistica', isAuthenticated, async (req, res) => {
             res.render('notes/liquidaciones/multaestadisticaadm', { multas });
         }
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
@@ -449,7 +449,7 @@ router.get('/multas/impresas', isAuthenticated, async (req, res) => {
         const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "No" }] }).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasadmimp', { multas });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
@@ -465,7 +465,7 @@ router.get('/multas/impresasprofesional', isAuthenticated, async (req, res) => {
         const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ date: 'desc' });
         res.render('notes/liquidaciones/allmultasadmprofimp', { multas });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
@@ -488,7 +488,7 @@ router.get('/tasas', isAuthenticated, async (req, res) => {
         const tasas = await Tasas.find({borrado:"No"}).lean().sort({ date: 'desc' });
         res.render('notes/alltasasadm', { tasas });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
@@ -503,7 +503,7 @@ router.get('/tasas/listado', isAuthenticated, async (req, res) => {
         const tasas = await Tasas.find().limit(500).lean().sort({ date: 'desc' });
         res.render('notes/planillalistaticketadm', { tasas });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
     }
 });
