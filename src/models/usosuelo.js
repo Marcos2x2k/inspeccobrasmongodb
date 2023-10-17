@@ -18,25 +18,16 @@ const UsosueloSchema = new Schema({
         required: true,
         default: "Sin Datos",
     },
-    fechaingreso: {
+    fechainicio: {
         type: String,
         require: false
     },
-    horaingreso: {
-        type: String,
-        require: false
-    },
-    numexpediente: {
+    expediente: {
         type: String,
         require: false,
         default: "No Informó"
     },
-    adrema: {
-        type: String,
-        require: false,
-        default: "No Posee Información"
-      },
-    nomyape: {
+    iniciador: {
         type: String,
         require: false,
         default: "No Informó"
@@ -46,40 +37,74 @@ const UsosueloSchema = new Schema({
         require: false,
         default: "No Informó"
     },
+    extracto: {
+        type: String,
+        require: false,
+        default: "No Posee"
+    },
+    motivo: {
+        type: String,
+        require: false,
+        default: "No Posee"
+    },
+    adrema: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    }, 
+    direccion: {
+        type: String,
+        require: false,
+        default: "No Posee"
+    },
     contacto: {
         type: String,
         require: false,
         default: "No Informó"
     },
-    dateturno: {
-        type: Date,
-        default: Date.now
+    profesional: {
+        type: String,
+        require: false,
+        default: "No Informó"
+    },
+    correo: {
+        type: String,
+        require: false,
+        default: "No Informó"
+    },  
+    fechaingresodus: {
+        type: String,
+        require: false
+    },
+    fechaegresodus: {
+        type: String,
+        require: false
     },
     observaciones: {
         type: String,
         require: false,
         default: "No Posee"
-    },
+    },     
     filename: {
         type: String
     },
     path: {
         type: String,
-        // default: "/img/Imagen-no-disponible.png"
+        default: "/img/Imagen-no-disponible.png"
     },
     filenamedos: {
         type: String
     },
     pathdos: {
         type: String,
-        // default: "/img/Imagen-no-disponible.png"
+        default: "/img/Imagen-no-disponible.png"
     },
     filenametres: {
         type: String
     },
     pathtres: {
         type: String,
-        // default: "/img/Imagen-no-disponible.png"
+        default: "/img/Imagen-no-disponible.png"
     },
     user: {
         type: String,

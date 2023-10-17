@@ -36,51 +36,71 @@
                 Uso de Suelo
             </h4>
             <div class="card-body">
-                <form>
-                    <div class="form-group" style="color:grey; font-style:oblique; font-weight: bold;">
-                        N° Identificacion:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{usosuelo._id}}" style="color: grey; font-weight: bold;" disabled>
-                    </div>                    
+                <form>                    
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Fecha Inicio
+                        <input type="text" name="fechainicio" class="form-control" placeholder="Expediente"
+                            value="{{usosuelo.fechainicio}}" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Número de Expediente
+                        <input type="text" name="expediente" class="form-control" value="{{usosuelo.expediente}}"
+                            disabled>
+                    </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Nombre y Apellido:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ usosuelo.nomyape }}" style="color: black; font-weight: bold;" disabled>
+                        <input type="text" name="iniciador" class="form-control" placeholder="Nombre y Apellido"
+                            value="{{usosuelo.iniciador}}" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Documento Nac. de Identidad:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ usosuelo.dni }}" style="color: black; font-weight: bold;" disabled>
+                        D.N.I.
+                        <input type="text" name="dni" class="form-control" placeholder="Documento Nacional Identidad"
+                            value="{{usosuelo.dni}}" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Contacto:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ usosuelo.contacto }}" style="color: black; font-weight: bold;" disabled>
+                        Extracto
+                        <input type="text" name="extracto" class="form-control" placeholder="Contacto"
+                            value="{{usosuelo.extracto}}" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Numº Expediente:
-                        <input type="text" name="user" class="form-control" placeholder="No Especificado"
-                            value="{{ usosuelo.numexpediente }}" style="color: black; font-weight: bold;" disabled>
+                        Motivo
+                        <input type="text" name="motivo" class="form-control" placeholder="Motivo"
+                            value="{{usosuelo.motivo}}" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Numº Adrema:
-                        <input type="text" name="user" class="form-control" placeholder="No Especificado"
-                            value="{{ usosuelo.adrema }}" style="color: black; font-weight: bold;" disabled>
+                        Número de Adrema
+                        <input type="text" name="adrema" class="form-control" value="{{usosuelo.adrema}}" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Fecha del Expediente:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{usosuelo.fechaingreso}}" style="color: black; font-weight: bold;" disabled>
+                        Dirección
+                        <input type="text" name="direccion" class="form-control" placeholder="Dirección"
+                            value="{{usosuelo.direccion}}" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Hora del Expediente:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{usosuelo.horaingreso}}" style="color: black; font-weight: bold;" disabled>
+                        Contacto
+                        <input type="text" name="contacto" class="form-control" placeholder="Contacto"
+                            value="{{usosuelo.contacto}}" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                        Observaciones:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                            value="{{ usosuelo.observaciones }}" style="color: black; font-weight: bold;" disabled>
+                        Profesional
+                        <input type="text" name="profesional" class="form-control" placeholder="Profesional"
+                            value="{{usosuelo.profesional}}" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Fecha Ingreso DUS
+                        <input type="text" name="fechaingresodus" class="form-control" placeholder="Fecha Ingreso DUS"
+                            value="{{usosuelo.fechaingresodus}}" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Fecha Egreso DUS
+                        <input type="text" name="fechaegresodus" class="form-control" placeholder="Fecha Egreso DUS"
+                            value="{{usosuelo.fechaegresodus}}" disabled>
+                    </div>
+                    <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                        Observaciones
+                        <input type="text" name="observaciones"
+                            class="form-control" placeholder="Observaciones" value="{{usosuelo.observaciones}}"
+                            disabled>
                     </div>
                     <div class="form-group">
                         <label style="font-weight:bold">Foto 1:</label>
@@ -100,7 +120,6 @@
                             <img style="border-radius:30px;" src="{{usosuelo.pathdos}}" alt="_Imagen No Cargada"
                                 width="230" height="350">
                         </a>
-
                     </div>
                     <div class="form-group">
                         <label style="font-weight:bold">Foto 3:</label>
@@ -109,7 +128,7 @@
                             <img style="border-radius:30px;" src="{{usosuelo.pathtres}}" alt="_Imagen No Cargada"
                                 width="230" height="350">
                         </a>
-                    </div>                    
+                    </div>
             </div>
             {{!-- <div class="form-group" style="color:black; font-style:oblique; font-weight: bold;">
                 ID Cargo Turno:
@@ -119,12 +138,12 @@
             <div class="form-group" style="color:rgb(14, 13, 13); font-style:oblique; font-weight: bold;">
                 Nombre Cargo Expediente:
                 <input type="text" name="name" class="form-control" placeholder="Sin Información"
-                    value="{{usosuelo.name}}" style="color: grey; font-weight: bold;" disabled>
+                    value="{{usosuelo.name}}" style="color: grey" disabled>
             </div>
             <div class="form-group" style="color:rgb(14, 13, 13); font-style:oblique; font-weight: bold;">
                 Datos Exactos Creación Horarios del Expediente:
                 <input type="text" name="dateturno" class="form-control" placeholder="Sin Información"
-                    value="{{usosuelo.dateturno}}" style="color: grey; font-weight: bold;" disabled>
+                    value="{{usosuelo.dateturno}}" style="color: grey" disabled>
             </div>
             <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/usosuelo/listado"><i
                         class="fas fa-list" style='font-size:24px;color:blue'></i></a>

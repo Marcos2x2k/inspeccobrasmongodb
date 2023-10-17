@@ -27,5 +27,12 @@
             Agregar Borrado y Marcar en No los Campos de Liquidaciones
         </button>
     </form>
+    <form class="btn-block" onSubmit="return confirm('Marcar Borrado en *No* en Todos los Datos Liquidaciones?')"
+        style="" action="/usosuelo/listadoborradosenno?_method=PUT" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <button id="recuperartodosprof" class="btn btn-outline-danger btn-block btn-sm" type="submit">
+            Agregar Borrado y Marcar en No los Campos de Dir. Uso de Suelo
+        </button>
+    </form>
 
 </div>

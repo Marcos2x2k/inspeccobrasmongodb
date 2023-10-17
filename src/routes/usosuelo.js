@@ -20,7 +20,7 @@ const Usosuelo = require('../models/usosuelo')
 // **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
 router.put('/usosuelo/listadoborradosenno', isAuthenticated, async (req, res) => {
     await Usosuelo.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
-    req.flash('success_msg', 'Todos las Multas Marcadas')
+    req.flash('success_msg', 'Todos los Expedientes Marcados')
     res.redirect('/Usosuelo/listado');
 });
 
@@ -33,16 +33,21 @@ router.get('/usosuelo/add/:id', isAuthenticated, (req, res) => {
 
 router.post('/notes/usosuelo/newusosuelo', isAuthenticated, async (req, res) => {
     const newUsosuelo = new Usosuelo();
-    newUsosuelo.fechaingreso = req.body.fechaingreso;
-    newUsosuelo.horaingreso = req.body.horaingreso;
-    newUsosuelo.numexpediente = req.body.numexpediente;
-    newUsosuelo.adrema = req.body.adrema;
-    newUsosuelo.nomyape = req.body.nomyape;
+    newUsosuelo.fechainicio = req.body.fechainicio;
+    newUsosuelo.expediente = req.body.expediente;
+    newUsosuelo.iniciador = req.body.iniciador;
     newUsosuelo.dni = req.body.dni;
+    newUsosuelo.extracto = req.body.extracto;
+    newUsosuelo.motivo = req.body.motivo;
+    newUsosuelo.adrema = req.body.adrema;
+    newUsosuelo.direccion = req.body.direccion;
     newUsosuelo.contacto = req.body.contacto;
-    newUsosuelo.hora = req.body.hora;
-    newUsosuelo.observaciones = req.body.observaciones;    
-    newUsosuelo.date = req.body.date;    
+    newUsosuelo.profesional = req.body.profesional;
+    newUsosuelo.correo = req.body.correo;
+    newUsosuelo.fechaingresodus = req.body.fechaingresodus;
+    newUsosuelo.fechaegresodus = req.body.fechaegresodus;
+    newUsosuelo.observaciones = req.body.observaciones;  
+        
     if (req.files[0]) {
         newUsosuelo.filename = req.files[0].filename;
         newUsosuelo.path = '/img/uploads/' + req.files[0].filename;
@@ -63,11 +68,13 @@ router.post('/notes/usosuelo/newusosuelo', isAuthenticated, async (req, res) => 
 })
 
 router.post('/notes/usosuelo/newusosuelo/:id', isAuthenticated, async (req, res) => {
-    const { fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name } = req.body;
+    const { fechainicio, expediente, iniciador, dni, extracto, motivo,
+        adrema, direccion, contacto, profesional, correo, fechaingresodus, 
+        fechaegresodus, observaciones, user, name } = req.body;
     const newUsosuelo = new Usosuelo({
-        fechaingreso, horaingreso, numexpediente, nomyape, dni,
-        contacto, hora, observaciones, user, name
+        fechainicio, expediente, iniciador, dni, extracto, motivo,
+        adrema, direccion, contacto, profesional, correo, fechaingresodus, 
+        fechaegresodus, observaciones, user, name
     })
     newUsosuelo.user = req.user.id;
     newUsosuelo.name = req.user.name;
@@ -90,8 +97,7 @@ router.get('/usosuelo', isAuthenticated, async (req, res) => {
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
         return res.redirect('/');
-    }
-});
+    }});
 
 router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/usosuelo/usosueloestadisticaimprimir.hbs")
@@ -108,12 +114,12 @@ router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, r
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     var tablausosuelo = "" //await Usosuelo.find().lean().sort({ date: 'desc' });
     //<td>${multas.fecha}</td> este etaba en tablamultas
-    const { nomyape, adrema, sector, desde, hasta } = req.body;
-    if (nomyape) {
-        const dni = nomyape
-        tablausosuelo = await Usosuelo.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: { $regex: dni, $options: "i" } }] }).lean().sort({ date: 'desc' });
-        //tablausosuelo = await Usosuelo.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
-        filtro = nomyape;
+    const { iniciador, adrema, sector, desde, hasta } = req.body;
+    if (iniciador) {
+        const dni = iniciador
+        tablausosuelo = await Usosuelo.find({ $or: [{ iniciador: { $regex: iniciador, $options: "i" } }, { dni: { $regex: dni, $options: "i" } }] }).lean().sort({ date: 'desc' });
+        //tablausosuelo = await Usosuelo.find({ iniciador: { $regex: iniciador, $options: "i" } }).lean();
+        filtro = iniciador;
         tipofiltro = "por Nombre y Apellido/DNI"
         //console.log("Multas Estadistica", multas)
         //contador = 0
@@ -121,8 +127,8 @@ router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, r
         //     contador = i
         // }
     } else if (adrema) {
-        const numexpediente = adrema;
-        tablausosuelo = await Usosuelo.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+        const expediente = adrema;
+        tablausosuelo = await Usosuelo.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
         filtro = adrema;
         tipofiltro = "por Adrema"
         //contador = 0
@@ -173,11 +179,11 @@ router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, r
         contador += 1
         tabla += `<tr>    
     <td>${usosuelo.sector}</td>
-    <td>${usosuelo.numexpediente}</td>
-    <td>${usosuelo.nomyape}</td>
+    <td>${usosuelo.expediente}</td>
+    <td>${usosuelo.iniciador}</td>
     <td>${usosuelo.dni}</td>
     <td>${usosuelo.contacto}</td>
-    <td>${usosuelo.fechaingreso}</td>
+    <td>${usosuelo.fechaingresodus}</td>
     <td>${usosuelo.horaingreso}</td>
     </tr>`;
     }
@@ -220,27 +226,27 @@ router.get('/usosuelo/Estadisticas', isAuthenticated, async (req, res) => {
 
 router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { nomyape, adrema, sector, desde, hasta } = req.body;
+    const { iniciador, adrema, sector, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Uso-de-Suelo") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
-        if (nomyape) {
+        if (iniciador) {
             var dni = "";
-            if (typeof nomyape == 'number') {
-                dni = parseInt(nomyape)
+            if (typeof iniciador == 'number') {
+                dni = parseInt(iniciador)
             } else {
                 dni = ""
             }
-            const usosuelo = await Usosuelo.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: dni }] }).lean().sort({ date: 'desc' });
+            const usosuelo = await Usosuelo.find({ $or: [{ iniciador: { $regex: iniciador, $options: "i" } }, { dni: dni }] }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (let i = 0; i < usosuelo.length; i++) {
                 contador = contador + 1
             }
             res.render('notes/usosuelo//estadisticausosuelo', { usosuelo, contador });
         } else if (adrema) {
-            var numexpediente = adrema;
-            const usosuelo = await Usosuelo.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+            var expediente = adrema;
+            const usosuelo = await Usosuelo.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
             //const usosuelo = await Usosuelo.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < usosuelo.length; i++) {
                 contador = contador + 1
@@ -376,8 +382,8 @@ router.post('/usosuelo/findsector', isAuthenticated, async (req, res) => {
 });
 router.post('/usosuelo/findiniciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { nomyape } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { nomyape: { $regex: nomyape, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { iniciador } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { iniciador: { $regex: iniciador, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
@@ -420,8 +426,8 @@ router.post('/usosuelo/findlistasector', isAuthenticated, async (req, res) => {
 });
 router.post('/usosuelo/findlistainiciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { nomyape } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { nomyape: { $regex: nomyape, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { iniciador } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { iniciador: { $regex: iniciador, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
@@ -461,8 +467,8 @@ router.post('/usosuelo/findlistadni', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/usosuelo/findexpediente', isAuthenticated, async (req, res) => {
-    const { numexpediente } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { expediente } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     if (!usosuelo) {
         req.flash('success_msg', 'cargue un Número de Expediente')
         return res.render("notes/usosuelo/allusosuelo");
@@ -472,8 +478,8 @@ router.post('/usosuelo/findexpediente', isAuthenticated, async (req, res) => {
 });
 router.post('/usosuelo/findlistaexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { numexpediente } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { expediente } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     if (rolusuario == "Uso-de-Suelo") {
         if (!usosuelo) {
             req.flash('success_msg', 'cargue Expediente')
@@ -493,8 +499,8 @@ router.post('/usosuelo/findlistaexpediente', isAuthenticated, async (req, res) =
     }
 });
 router.post('/usosuelo/findfechaentrada', isAuthenticated, async (req, res) => {
-    const { fechaingreso } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { fechaingreso: { $regex: fechaingreso, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { fechaingresodus } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { fechaingresodus: { $regex: fechaingresodus, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     if (!usosuelo) {
         req.flash('success_msg', 'cargue Fecha Ingreso')
         return res.render("notes/usosuelo/allusosuelo");
@@ -503,10 +509,21 @@ router.post('/usosuelo/findfechaentrada', isAuthenticated, async (req, res) => {
     }
 });
 router.post('/usosuelo/findlistafechaentrada', isAuthenticated, async (req, res) => {
-    const { fechaingreso } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { fechaingreso: { $regex: fechaingreso, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { fechaingresodus } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { fechaingresodus: { $regex: fechaingresodus, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     if (!usosuelo) {
         req.flash('success_msg', 'cargue Fecha Ingreso')
+        return res.render("notes/usosuelo/allusosuelo");
+    } else {
+        res.render('notes/usosuelo/planillalistausosuelo', { usosuelo })
+    }
+});
+
+router.post('/usosuelo/findlistafechasalida', isAuthenticated, async (req, res) => {
+    const { fechaegresodus } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "No" }, { fechaegresodus: { $regex: fechaegresodus, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    if (!usosuelo) {
+        req.flash('success_msg', 'cargue Fecha Egreso')
         return res.render("notes/usosuelo/allusosuelo");
     } else {
         res.render('notes/usosuelo/planillalistausosuelo', { usosuelo })
@@ -523,8 +540,8 @@ router.post('/usosuelo/borradofindlistasector', isAuthenticated, async (req, res
 
 router.post('/usosuelo/borradofindlistainiciador', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { nomyape } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { nomyape: { $regex: nomyape, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { iniciador } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { iniciador: { $regex: iniciador, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
@@ -536,24 +553,26 @@ router.post('/usosuelo/borradofindlistadni', isAuthenticated, async (req, res) =
 
 router.post('/usosuelo/borradofindlistaexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { numexpediente } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { expediente } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
 router.post('/usosuelo/borradofindlistafechaentrada', isAuthenticated, async (req, res) => {
-    const { fechaingreso } = req.body;
-    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { fechaingreso: { $regex: fechaingreso, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
+    const { fechaingresodus } = req.body;
+    const usosuelo = await Usosuelo.find({ $and: [{ borrado: "Si" }, { fechaingresodus: { $regex: fechaingresodus, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })
     res.render('notes/borrados/borradolistusosuelo', { usosuelo })
 });
 
 // **** AGREGAR TURNO A CLIENTE HABITUAL ****
 router.put('/notes/usosuelo/editaddusosuelo/:id', isAuthenticated, async (req, res) => {
-    const { fechaingreso, horaingreso, numexpediente,
-        nomyape, dni, observaciones, contacto, dateturno } = req.body
+    const { fechainicio, expediente, iniciador, dni, extracto, motivo,
+        adrema, direccion, contacto, profesional, correo, fechaingresodus, 
+        fechaegresodus, observaciones, user, name } = req.body
     await Usosuelo.findByIdAndUpdate(req.params.id, {
-        fechaingreso, horaingreso, numexpediente,
-        nomyape, dni, contacto, dateturno
+        fechainicio, expediente, iniciador, dni, extracto, motivo,
+        adrema, direccion, contacto, profesional, correo, fechaingresodus, 
+        fechaegresodus, observaciones, user, name
     });
     req.flash('success_msg', 'Turno nuevo Agregado')
     res.redirect('/usosuelo/listado');
@@ -561,11 +580,13 @@ router.put('/notes/usosuelo/editaddusosuelo/:id', isAuthenticated, async (req, r
 
 // ** SECTOR EDITAR **
 router.put('/usosuelo/editusosuelo/:id', isAuthenticated, async (req, res) => {
-    const { fechaingreso, horaingreso, numexpediente, adrema,
-        nomyape, dni, observaciones, contacto, dateturno } = req.body
+    const { fechainicio, expediente, iniciador, dni, extracto, motivo,
+        adrema, direccion, contacto, profesional, correo, fechaingresodus, 
+        fechaegresodus, observaciones, user, name } = req.body
     await Usosuelo.findByIdAndUpdate(req.params.id, {
-        fechaingreso, horaingreso, numexpediente, adrema,
-        nomyape, dni, observaciones, contacto, dateturno
+        fechainicio, expediente, iniciador, dni, extracto, motivo,
+        adrema, direccion, contacto, profesional, correo, fechaingresodus, 
+        fechaegresodus, observaciones, user, name
     });
     req.flash('success_msg', 'Expediente Actualizado')
     res.redirect('/usosuelo/listado');

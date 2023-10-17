@@ -84,11 +84,11 @@
           <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
             {{!-- <td style="visibility:collapse;">ID</td> --}}            
             <td>Expediente</td>
-            <td>Nom y Ape</td>
+            <td>Iniciador</td>
             <td>D.N.I.</td>
             <td>Contacto</td>
             <td>Fecha/Ingreso</td>
-            <td>Hora/Ingreso</td>
+            <td>Fecha/Egreso</td>
             <td>Opciones</td>
             <td>Suplementario</td>
           </tr>
@@ -97,12 +97,12 @@
           {{#each usosuelo}}
           <tr>
             {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}} 
-            <td style="color:yellowgreen">{{numexpediente}}</td>           
-            <td>{{ nomyape }}</td>
+            <td style="color:yellowgreen">{{expediente}}</td>           
+            <td>{{ iniciador }}</td>
             <td>{{ dni }}</td>
             <td>{{ contacto }}</td>
-            <td>{{ fechaingreso }}</td>
-            <td>{{ horaingreso }}</td>
+            <td>{{ fechaingresodus }}</td>
+            <td>{{ fechaegresodus }}</td>
             <td>
               <a class="dropdown-item" href="/usosuelo/infoborradolist/{{_id}}"
                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
