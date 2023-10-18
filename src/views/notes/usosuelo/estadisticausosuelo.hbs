@@ -4,7 +4,7 @@
         const seleccion = document.getElementById('datoestadistico');
         const x = document.getElementById("armarestadistica")
         //const imp = document.getElementById("imprimiresadistica")
-        const p = document.getElementById("nomyape")
+        const p = document.getElementById("iniciador")
         const a = document.getElementById("adrema")
         const na = document.getElementById("direccion")
         const fd = document.getElementById("desde")
@@ -133,7 +133,7 @@
         const selecciono = document.getElementById('datoestadisticoo');
         //const xo = document.getElementById("armarestadisticao")
         const impo = document.getElementById("imprimiresadisticao")
-        const po = document.getElementById("nomyapeo")
+        const po = document.getElementById("iniciadoro")
         const ao = document.getElementById("adremao")
         const nao = document.getElementById("direcciono")
         const fdo = document.getElementById("desdeo")
@@ -278,7 +278,7 @@
     function actualizar() {
         location.reload(true)
     }
-    // Función para actualizar cada 4 segundos(4000 milisegundos)
+    // Función para actualizar cada 5 segundos(5000 milisegundos)
     function limpiarpagina() {
         setInterval("actualizar()", 5000);
     }
@@ -288,11 +288,11 @@
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <div style="color: rgb(172, 214, 22);text-shadow: 1px 1px 2px black">
-            <h5>Uso de Suelo - ESTADISTICAS (***NO DISPONIBLE TODAVIA***)</h5>
+            <h5>Uso de Suelo - ESTADISTICAS</h5>
         </div>
         <label style="font-weight: bold; color:rgb(252, 93, 2)" for="formfiltro"></label>
         <select style="text-align:center;background-color: #112fda;" name="formfiltro" id="formfiltro"
-            onclick="selectfiltro()" disabled>
+            onclick="selectfiltro()">
             <option value=0> Busqueda filtro </option>
             <option value=1> Imprimir/Descargar Busqueda filtro </option>
             {{!-- <option value=2>Imprimir/Descargar Busqueda filtro</option> --}}
@@ -300,22 +300,22 @@
         <p></p>
         <form action="/usosuelo/sacarestadistica" method="POST" id="formdatoestadistico">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadistico">Selección:</label>
-            <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()" disabled>
+            <select name="datoestadistico" id="datoestadistico" onclick="selecdatoestadistico()">
                 <option value=0>Elija Filtro de Estadistica</option>
                 <option value=1>por Propietario/dni</option>
                 <option value=2>por Exp/Adrema</option>
-                <option value=2>por Dirección</option>
+                <option value=3>por Dirección</option>
                 <option value=4>por Fechas</option>
             </select>
             <br />
-            <input class="pl-3" type="text" id="nomyape" name="nomyape" placeholder="Propietario/DNI..." disabled />
+            <input class="pl-3" type="text" id="iniciador" name="iniciador" placeholder="Propietario/DNI..." disabled />
             <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Expediente/Adrema..." disabled />
-            <input class="pl-3" type="text" id="direccion" name="direccion" placeholder="Dirección..." disabled />            
+            <input class="pl-3" type="text" id="direccion" name="direccion" placeholder="Dirección..." disabled />
             <input class="pl-3" type="text" size="14" id="desde" name="desde" placeholder="Desde..." disabled />
             <input class="pl-3" type="text" size="14" id="hasta" name="hasta" placeholder="Hasta..." disabled />
             <p></p>
             <div class="form-group">
-                <button style="visibility: hidden" id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
+                <button style="" id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
                     Armar Estadistica...
                 </button>
             </div>
@@ -326,14 +326,14 @@
             <select name="datoestadisticoo" id="datoestadisticoo" onclick="selecdatoestadisticoo()">
                 <option value=0>Elija Filtro de Estadistica</option>
                 <option value=1>por Propietario/dni</option>
-                <option value=2>por Adrema</option>
-                <option value=2>por Dirección</option>
+                <option value=2>por Exp/Adrema</option>
+                <option value=3>por Dirección</option>
                 <option value=4>por Fechas</option>
             </select>
             <br />
-            <input class="pl-3" type="text" id="nomyapeo" name="nomyape" placeholder="Propietario/DNI..." disabled />
+            <input class="pl-3" type="text" id="iniciadoro" name="iniciador" placeholder="Propietario/DNI..." disabled />
             <input class="pl-3" type="text" id="adremao" name="adrema" placeholder="Expediente/Adrema..." disabled />
-            <input class="pl-3" type="text" id="direccion" name="direccion" placeholder="Dirección..." disabled />            
+            <input class="pl-3" type="text" id="direcciono" name="direcciono" placeholder="Dirección..." disabled />
             <input class="pl-3" type="text" size="14" id="desdeo" name="desde" placeholder="Desde..." disabled />
             <input class="pl-3" type="text" size="14" id="hastao" name="hasta" placeholder="Hasta..." disabled />
             <p></p>
@@ -364,7 +364,7 @@
                         <td>D.N.I.</td>
                         <td>Contacto</td>
                         <td>Fecha/Ingreso</td>
-                        <td>Hora/Ingreso</td>
+                        <td>Fecha/Egreso</td>
                         <td>Opciones</td>
                         {{!-- <td>Suplementario</td> --}}
                     </tr>
@@ -377,17 +377,21 @@
                                 value=''
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
                         </td> --}}
-                        <td>{{ numexpediente }}</td>
-                        <td>{{ nomyape }}</td>
+                        <td>{{ expediente }}</td>
+                        <td style="text-transform: lowercase;">{{ iniciador }}</td>
                         <td>{{ dni }}</td>
                         <td>{{ contacto }}</td>
-                        <td>{{ fechaingreso }}</td>
-                        <td>{{ horaingreso }}</td>
+                        <td style="text-transform: lowercase;">{{ fechaingresodus }}</td>
+                        <td style="text-transform: lowercase;">{{ fechaegresodus }}</td>
                         <td>
-                            <a class="dropdown-item" href="/usosuelo/add/{{_id}}"
-                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a>
+                            {{!-- <a class="dropdown-item" href="/usosuelo/add/{{_id}}"
+                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">
+                                Agregar
+                            </a> --}}
                             <a class="dropdown-item" href="/usosuelo/list/{{_id}}"
-                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">
+                                Info
+                            </a>
                         </td>
                         {{!-- <td> --}}
                             {{!--
@@ -422,7 +426,5 @@
                         <h4 />
             </div>
         </div>
-
     </div>
-
 </div>
