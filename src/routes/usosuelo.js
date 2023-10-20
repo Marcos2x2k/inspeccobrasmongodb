@@ -100,6 +100,62 @@ router.get('/usosuelo', isAuthenticated, async (req, res) => {
     }
 });
 
+router.post('/usosuelo/imprimirlist/:id', isAuthenticated, async (req, res) => {
+    const ubicacionPlantilla = require.resolve("../views/notes/usosuelo/imprimirlistusosuelo.hbs")
+    var fstemp = require('fs');
+    let tabla = "";    
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    const tablausosuelo = await Usosuelo.findById(req.params.id).lean().sort();
+
+    const usosuelo = tablausosuelo
+    if (usosuelo.direccion === undefined || usosuelo.direccion === "") {
+        usosuelo.direccion = "Sin Datos"
+    } else if (usosuelo.expediente === undefined || usosuelo.expediente === "") {
+        usosuelo.expediente = "Sin Datos"
+    } else if (usosuelo.iniciador === undefined || usosuelo.iniciador === "") {
+        usosuelo.iniciador = "Sin Datos"
+    } else if (usosuelo.contacto === undefined || usosuelo.contacto === "") {
+        usosuelo.contacto = "Sin Datos"
+    } else if (usosuelo.fechaingresodus === undefined || usosuelo.fechaingresodus === "") {
+        usosuelo.fechaingresodus = "Sin Datos"
+    } else if (usosuelo.fechaegresodus === undefined || usosuelo.fechaegresodus === "") {
+        usosuelo.fechaegresodus = "Sin Datos"
+    }
+    tabla += `<tr>
+    <td style="text-transform: lowercase;">-</td>
+    <td style="text-transform: lowercase;">${usosuelo.fechaingresodus}</td>
+    <td style="text-transform: lowercase;">${usosuelo.fechaegresodus}</td>
+    <td style="text-transform: lowercase;">-</td>
+    </tr>`;
+    const fechainicio = usosuelo.fechainicio;
+    const iniciador = usosuelo.iniciador;
+    const expediente = usosuelo.expediente;
+    const contacto = usosuelo.contacto;   
+    const path = "/src/public"+usosuelo.path;
+    const pathdos = usosuelo.pathdos;
+
+    contenidoHtml = contenidoHtml.replace("{{tablausosuelo}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{iniciador}}", iniciador, );
+    contenidoHtml = contenidoHtml.replace("{{expediente}}", expediente);
+    contenidoHtml = contenidoHtml.replace("{{fechainicio}}", fechainicio);
+    contenidoHtml = contenidoHtml.replace("{{contacto}}", contacto);
+    contenidoHtml = contenidoHtml.replace("{{path}}", path);
+    contenidoHtml = contenidoHtml.replace("{{pathdos}}", pathdos);
+    //contenidoHtml = contenidoHtml.replace("{{path}}", path);
+    //contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
+    //contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);    
+
+    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
+        if (error) {
+            res.end("Error creando PDF: " + error)
+        } else {
+            req.flash('success_msg', 'Uso Suelo Lista impresa')
+            res.setHeader("Content-Type", "application/pdf");
+            stream.pipe(res);
+        }
+    });
+})
+
 router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/usosuelo/usosueloestadisticaimprimir.hbs")
     //const puerto = "172.25.2.215";
@@ -164,6 +220,8 @@ router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, r
     }
     for (const usosuelo of tablausosuelo) {
         // Y concatenar las multas 
+        contador += 1
+
         if (usosuelo.direccion === undefined || usosuelo.direccion === "") {
             usosuelo.direccion = "Sin Datos"
         } else if (usosuelo.expediente === undefined || usosuelo.expediente === "") {
@@ -177,8 +235,6 @@ router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, r
         } else if (usosuelo.fechaegresodus === undefined || usosuelo.fechaegresodus === "") {
             usosuelo.fechaegresodus = "Sin Datos"
         }
-
-        contador += 1
         tabla += `<tr>    
     <td style="text-transform: lowercase;">${usosuelo.direccion}</td>
     <td style="text-transform: lowercase;">${usosuelo.expediente}</td>
@@ -192,8 +248,8 @@ router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, r
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
     contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);
-
     //contenidoHtml = contenidoHtml.replace("{{multas}}");    
+
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)

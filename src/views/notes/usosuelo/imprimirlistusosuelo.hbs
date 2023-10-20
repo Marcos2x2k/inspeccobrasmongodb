@@ -49,7 +49,7 @@
                                     src="https://ciudaddecorrientes.gov.ar/sites/default/themes/ciudaddecorrientes/logo.png" />
                                 <img style=" text-align: center; display: grid; justify-content: center;font-family: Garamond"
                                     width="100"
-                                    src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />
+                                    src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />                                
                             </div>
                             <div
                                 style=" text-align: center; display: grid; justify-content: center; font-family: Garamond">
@@ -71,17 +71,28 @@
                             class="card-body">
                             <p
                                 style="background:#706f6e; color:rgb(0, 0, 0); font-weight:bold; border:2px solid #121213; margin: 20px; margin-bottom:1px; text-align:center; font-size:16px;">
-                                EXPEDIENTES DUS (ESTADISTICA)</p>
-                            <!-- <h5 style="font-family: Times New Roman, Times, serif; text-align: center;">LIQUIDACIONES DE INFRACCIONES</h5> -->
-                            </br>
+                                EXPEDIENTES DUS
+                            </p>
                             <button id="botonfecha" onclick="fechahoy()">poner fecha</button>
                             <div style="font-family: Arial, Helvetica, sans-serif; text-align: right; margin:20px">
-                                <input size=27 id="fechahoy" style="text-align: right;" disabled />
+                                <input size=30 id="fechahoy" style="text-align: left;" disabled />
                             </div>
                         </div>
+                        <h5 style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
+                            ============================== ==============================
+                        </h5>
                         <div id="montototalcobrado">
                             <p style="color:green; font-weight: bold;">
-                                Expedientes Totales: {{contador}}
+                                Iniciador Expedientes: {{iniciador}}
+                                <p />
+                            <p style="color:green; font-weight: bold;">
+                                Contacto: {{contacto}}
+                                <p />
+                            <p style="color:green; font-weight: bold;">
+                                Fecha de Inicio de Expedientes: {{fechainicio}}
+                                <p />
+                            <p style="color:green; font-weight: bold;">
+                                N° Expediente: {{expediente}}
                                 <p />
                         </div>
                         <table class="table table-condensed table-bordered table-striped"
@@ -89,27 +100,30 @@
                             <tbody>
                                 <thead>
                                     <tr style="background-color: rgb(226, 222, 226)">
-                                        <td>Dirección</td>
-                                        <td>Expediente</td>
-                                        <td>Iniciador</td>
-                                        <td>Contacto</td>
+                                        <td></td>
                                         <td>Fecha/Ingreso</td>
                                         <td>Fecha/Egreso</td>
+                                        <td></td>
                                     </tr>
                                 </thead>
                                 {{tablausosuelo}}
-                                
                             <tfoot>
                             </tfoot>
-                            
+
                             </tbody>
                             <h5
                                 style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
-                                ============================== ============================== </h5>
+                                ============================== ==============================
+                            </h5>
                         </table>
-                        <p style="color:rgb(29, 131, 179)">Filtro realizado por: {{tipofiltro}} </p>
-                        <h4 style="color:red; border-radius:70px; box-shadow: 5px 5px 5px black;">Dato Buscado:
-                            {{filtro}}</h4>
+                        <p> prueba de path: {{path}}</p>
+                        <img width="230" height="350" src="{{path}}" />
+                        <p>------</p>
+                        <p>------</p>
+                        <p>------</p>
+                        <p>------</p>
+                        <p> prueba de path: {{pathdos}}</p>
+                        <image width="230" height="350" src="/src/public/img/AMIGABLE.png" />
                     </div>
                 </div>
             </div>

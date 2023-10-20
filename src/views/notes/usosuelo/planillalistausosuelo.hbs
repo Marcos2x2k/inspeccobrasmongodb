@@ -87,13 +87,17 @@
                         <td style="text-transform: lowercase;">{{ contacto }}</td>
                         <td style="text-transform: lowercase;">{{ fechaingresodus }}</td>
                         <td style="text-transform: lowercase;">{{ fechaegresodus }}</td>
-                        <td>
-                            {{!-- <a class="dropdown-item" href="/usosuelo/add/{{_id}}"
-                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                                Agregar
-                            </a> --}}
+                        <td>                            
                             <a class="dropdown-item" href="/usosuelo/list/{{_id}}"
-                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info
+                            </a>                            
+                            <form onSubmit="return confirm('Desea Imprimir?')" style=""
+                                action="/usosuelo/imprimirlist/{{_id}}?_method=POST" method="POST" target="_blank" >
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                                    Imprimir
+                                </button>
+                            </form>
                         </td>
                         <td>
 
