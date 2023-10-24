@@ -71,6 +71,16 @@ const UsosueloSchema = new Schema({
         type: String,
         require: false,
         default: "No Informó"
+    },
+    fechaenviocorreo: {
+        type: String,
+        require: false,
+        default: "No Informó"
+    },
+    extractocorreo: {
+        type: String,
+        require: false,
+        default: "No Informó"
     },  
     fechaingresodus: {
         type: String,

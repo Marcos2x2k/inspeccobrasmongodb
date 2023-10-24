@@ -44,6 +44,8 @@ router.post('/notes/usosuelo/newusosuelo', isAuthenticated, async (req, res) => 
     newUsosuelo.contacto = req.body.contacto;
     newUsosuelo.profesional = req.body.profesional;
     newUsosuelo.correo = req.body.correo;
+    newUsosuelo.fechaenviocorreo = req.body.correo;
+    newUsosuelo.extractocorreo = req.body.correo;
     newUsosuelo.fechaingresodus = req.body.fechaingresodus;
     newUsosuelo.fechaegresodus = req.body.fechaegresodus;
     newUsosuelo.observaciones = req.body.observaciones;
@@ -69,12 +71,12 @@ router.post('/notes/usosuelo/newusosuelo', isAuthenticated, async (req, res) => 
 
 router.post('/notes/usosuelo/newusosuelo/:id', isAuthenticated, async (req, res) => {
     const { fechainicio, expediente, iniciador, dni, extracto, motivo,
-        adrema, direccion, contacto, profesional, correo, fechaingresodus,
-        fechaegresodus, observaciones, user, name } = req.body;
+        adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
+        fechaingresodus, fechaegresodus, observaciones, user, name } = req.body;
     const newUsosuelo = new Usosuelo({
         fechainicio, expediente, iniciador, dni, extracto, motivo,
-        adrema, direccion, contacto, profesional, correo, fechaingresodus,
-        fechaegresodus, observaciones, user, name
+        adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
+        fechaingresodus, fechaegresodus, observaciones, user, name
     })
     newUsosuelo.user = req.user.id;
     newUsosuelo.name = req.user.name;
@@ -104,46 +106,56 @@ router.post('/usosuelo/imprimirlist/:id', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/usosuelo/imprimirlistusosuelo.hbs")
     var fstemp = require('fs');
     let tabla = "";    
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');   
     const tablausosuelo = await Usosuelo.findById(req.params.id).lean().sort();
 
-    const usosuelo = tablausosuelo
-    if (usosuelo.direccion === undefined || usosuelo.direccion === "") {
-        usosuelo.direccion = "Sin Datos"
-    } else if (usosuelo.expediente === undefined || usosuelo.expediente === "") {
-        usosuelo.expediente = "Sin Datos"
-    } else if (usosuelo.iniciador === undefined || usosuelo.iniciador === "") {
-        usosuelo.iniciador = "Sin Datos"
-    } else if (usosuelo.contacto === undefined || usosuelo.contacto === "") {
-        usosuelo.contacto = "Sin Datos"
-    } else if (usosuelo.fechaingresodus === undefined || usosuelo.fechaingresodus === "") {
-        usosuelo.fechaingresodus = "Sin Datos"
-    } else if (usosuelo.fechaegresodus === undefined || usosuelo.fechaegresodus === "") {
-        usosuelo.fechaegresodus = "Sin Datos"
-    }
+    const usosuelo = tablausosuelo    
+
     tabla += `<tr>
     <td style="text-transform: lowercase;">-</td>
     <td style="text-transform: lowercase;">${usosuelo.fechaingresodus}</td>
     <td style="text-transform: lowercase;">${usosuelo.fechaegresodus}</td>
     <td style="text-transform: lowercase;">-</td>
     </tr>`;
-    const fechainicio = usosuelo.fechainicio;
-    const iniciador = usosuelo.iniciador;
-    const expediente = usosuelo.expediente;
-    const contacto = usosuelo.contacto;   
-    const path = "/src/public"+usosuelo.path;
-    const pathdos = usosuelo.pathdos;
+    if (usosuelo.direccion === undefined || usosuelo.direccion === "") {
+        usosuelo.direccion = "Sin Datos"} 
+    if (usosuelo.expediente === undefined || usosuelo.expediente === "") {
+        usosuelo.expediente = "Sin Datos"} 
+    if (usosuelo.iniciador === undefined || usosuelo.iniciador === "") {
+        usosuelo.iniciador = "Sin Datos"} 
+    if (usosuelo.contacto === undefined || usosuelo.contacto === "") {
+        usosuelo.contacto = "Sin Datos"} 
+    if (usosuelo.fechaingresodus === undefined || usosuelo.fechaingresodus === "") {
+        usosuelo.fechaingresodus = "Sin Datos"} 
+    if (usosuelo.fechaegresodus === undefined || usosuelo.fechaegresodus === "") {
+        usosuelo.fechaegresodus = "Sin Datos"} 
+    if (usosuelo.fechaenviocorreo === undefined || usosuelo.fechaenviocorreo === "") {
+        usosuelo.fechaenviocorreo = "Sin Datos" } 
+    if (usosuelo.extractocorreo === undefined || usosuelo.extractocorreo === "") {
+        usosuelo.extractocorreo = "Sin Datos"} 
+    const fechainicio = usosuelo.fechainicio
+    const expediente = usosuelo.expediente
+    const iniciador = usosuelo.iniciador
+    const contacto = usosuelo.contacto
+    const fechaingresodus = usosuelo.fechaingresodus
+    const fechaegresodus = usosuelo.fechaegresodus
+    const fechaenviocorreo = usosuelo.fechaenviocorreo
+    const extractocorreo = usosuelo.extractocorreo
+    // ** TENER EN CUENTA CAMBIAR EL HOST DEPENDIENDO EL SERVIDOR SINO, NO ANDAN IMAGENES EN PDF **
+    const path = "http://madago:8080"+usosuelo.path;  
+    const pathdos = "http://madago:8080"+usosuelo.pathdos;    
+    const pathtres = "http://madago:8080"+usosuelo.pathtres;  
 
     contenidoHtml = contenidoHtml.replace("{{tablausosuelo}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{iniciador}}", iniciador, );
     contenidoHtml = contenidoHtml.replace("{{expediente}}", expediente);
     contenidoHtml = contenidoHtml.replace("{{fechainicio}}", fechainicio);
-    contenidoHtml = contenidoHtml.replace("{{contacto}}", contacto);
+    contenidoHtml = contenidoHtml.replace("{{contacto}}", contacto); 
+    contenidoHtml = contenidoHtml.replace("{{fechaenviocorreo}}", fechaenviocorreo); 
+    contenidoHtml = contenidoHtml.replace("{{extractocorreo}}", extractocorreo);     
     contenidoHtml = contenidoHtml.replace("{{path}}", path);
     contenidoHtml = contenidoHtml.replace("{{pathdos}}", pathdos);
-    //contenidoHtml = contenidoHtml.replace("{{path}}", path);
-    //contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
-    //contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);    
+    contenidoHtml = contenidoHtml.replace("{{pathtres}}", pathtres);
 
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {

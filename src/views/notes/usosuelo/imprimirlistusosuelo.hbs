@@ -1,9 +1,9 @@
 <script>
 
     window.onload = function () {
-        document.getElementById('botonfecha').click();
+        document.getElementById('botonfecha').click(); 
     }
-    lp
+
     function fechahoy() {
         var meses = [
             "Enero", "Febrero", "Marzo",
@@ -49,7 +49,7 @@
                                     src="https://ciudaddecorrientes.gov.ar/sites/default/themes/ciudaddecorrientes/logo.png" />
                                 <img style=" text-align: center; display: grid; justify-content: center;font-family: Garamond"
                                     width="100"
-                                    src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />                                
+                                    src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />
                             </div>
                             <div
                                 style=" text-align: center; display: grid; justify-content: center; font-family: Garamond">
@@ -94,6 +94,12 @@
                             <p style="color:green; font-weight: bold;">
                                 N° Expediente: {{expediente}}
                                 <p />
+                                <p style="color:green; font-weight: bold;">
+                                Fecha Envio de Correo: {{fechaenviocorreo}}
+                                <p />
+                                <p style="color:green; font-weight: bold;">
+                                Extracto Correo: {{extractocorreo}}
+                                <p />
                         </div>
                         <table class="table table-condensed table-bordered table-striped"
                             style="font-family: Serif; font-size: smaller">
@@ -116,14 +122,13 @@
                                 ============================== ==============================
                             </h5>
                         </table>
-                        <p> prueba de path: {{path}}</p>
-                        <img width="230" height="350" src="{{path}}" />
-                        <p>------</p>
-                        <p>------</p>
-                        <p>------</p>
-                        <p>------</p>
-                        <p> prueba de path: {{pathdos}}</p>
-                        <image width="230" height="350" src="/src/public/img/AMIGABLE.png" />
+                        
+                        <img style="border-radius:30px;" width="230" height="370" src="{{path}}" onerror="this.style.display='none'"> 
+                        
+                        <img style="border-radius:30px;" width="230" height="370" src="{{pathdos}}" onerror="this.style.display='none'">
+                        
+                        <img style="border-radius:30px;" width="230" height="370" src="{{pathtres}}" onerror="this.style.display='none'">                        
+
                     </div>
                 </div>
             </div>
