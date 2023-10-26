@@ -3,7 +3,7 @@
     window.onload = function () {
         document.getElementById('botonfecha').click(); 
     }
-
+    lp
     function fechahoy() {
         var meses = [
             "Enero", "Febrero", "Marzo",
@@ -71,7 +71,7 @@
                             class="card-body">
                             <p
                                 style="background:#706f6e; color:rgb(0, 0, 0); font-weight:bold; border:2px solid #121213; margin: 20px; margin-bottom:1px; text-align:center; font-size:16px;">
-                                EXPEDIENTES DUS
+                                EXPEDIENTE DUS
                             </p>
                             <button id="botonfecha" onclick="fechahoy()">poner fecha</button>
                             <div style="font-family: Arial, Helvetica, sans-serif; text-align: right; margin:20px">
@@ -79,25 +79,25 @@
                             </div>
                         </div>
                         <h5 style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
-                            ============================== ==============================
+                            ======================= =======================
                         </h5>
                         <div id="montototalcobrado">
-                            <p style="color:green; font-weight: bold;">
+                            <p style="font-weight: bold;">
                                 Iniciador Expedientes: {{iniciador}}
                                 <p />
-                            <p style="color:green; font-weight: bold;">
+                            <p style="font-weight: bold;">
                                 Contacto: {{contacto}}
                                 <p />
-                            <p style="color:green; font-weight: bold;">
+                            <p style="">
                                 Fecha de Inicio de Expedientes: {{fechainicio}}
                                 <p />
-                            <p style="color:green; font-weight: bold;">
+                            <p style="font-weight: bold;">
                                 N° Expediente: {{expediente}}
                                 <p />
-                                <p style="color:green; font-weight: bold;">
+                                <p style="">
                                 Fecha Envio de Correo: {{fechaenviocorreo}}
                                 <p />
-                                <p style="color:green; font-weight: bold;">
+                                <p style="">
                                 Extracto Correo: {{extractocorreo}}
                                 <p />
                         </div>
@@ -107,8 +107,8 @@
                                 <thead>
                                     <tr style="background-color: rgb(226, 222, 226)">
                                         <td></td>
-                                        <td>Fecha/Ingreso</td>
-                                        <td>Fecha/Egreso</td>
+                                        <td style="font-weight: bold;">Fecha/Ingreso</td>
+                                        <td style="font-weight: bold;">Fecha/Egreso</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -117,10 +117,7 @@
                             </tfoot>
 
                             </tbody>
-                            <h5
-                                style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
-                                ============================== ==============================
-                            </h5>
+                            
                         </table>
                         
                         <img style="border-radius:30px;" width="230" height="370" src="{{path}}" onerror="this.style.display='none'"> 

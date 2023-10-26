@@ -105,11 +105,11 @@ router.get('/usosuelo', isAuthenticated, async (req, res) => {
 router.post('/usosuelo/imprimirlist/:id', isAuthenticated, async (req, res) => {
     const ubicacionPlantilla = require.resolve("../views/notes/usosuelo/imprimirlistusosuelo.hbs")
     var fstemp = require('fs');
-    let tabla = "";    
-    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');   
+    let tabla = "";
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const tablausosuelo = await Usosuelo.findById(req.params.id).lean().sort();
 
-    const usosuelo = tablausosuelo    
+    const usosuelo = tablausosuelo
 
     tabla += `<tr>
     <td style="text-transform: lowercase;">-</td>
@@ -118,21 +118,29 @@ router.post('/usosuelo/imprimirlist/:id', isAuthenticated, async (req, res) => {
     <td style="text-transform: lowercase;">-</td>
     </tr>`;
     if (usosuelo.direccion === undefined || usosuelo.direccion === "") {
-        usosuelo.direccion = "Sin Datos"} 
+        usosuelo.direccion = "Sin Datos"
+    }
     if (usosuelo.expediente === undefined || usosuelo.expediente === "") {
-        usosuelo.expediente = "Sin Datos"} 
+        usosuelo.expediente = "Sin Datos"
+    }
     if (usosuelo.iniciador === undefined || usosuelo.iniciador === "") {
-        usosuelo.iniciador = "Sin Datos"} 
+        usosuelo.iniciador = "Sin Datos"
+    }
     if (usosuelo.contacto === undefined || usosuelo.contacto === "") {
-        usosuelo.contacto = "Sin Datos"} 
+        usosuelo.contacto = "Sin Datos"
+    }
     if (usosuelo.fechaingresodus === undefined || usosuelo.fechaingresodus === "") {
-        usosuelo.fechaingresodus = "Sin Datos"} 
+        usosuelo.fechaingresodus = "Sin Datos"
+    }
     if (usosuelo.fechaegresodus === undefined || usosuelo.fechaegresodus === "") {
-        usosuelo.fechaegresodus = "Sin Datos"} 
+        usosuelo.fechaegresodus = "Sin Datos"
+    }
     if (usosuelo.fechaenviocorreo === undefined || usosuelo.fechaenviocorreo === "") {
-        usosuelo.fechaenviocorreo = "Sin Datos" } 
+        usosuelo.fechaenviocorreo = "Sin Datos"
+    }
     if (usosuelo.extractocorreo === undefined || usosuelo.extractocorreo === "") {
-        usosuelo.extractocorreo = "Sin Datos"} 
+        usosuelo.extractocorreo = "Sin Datos"
+    }
     const fechainicio = usosuelo.fechainicio
     const expediente = usosuelo.expediente
     const iniciador = usosuelo.iniciador
@@ -142,17 +150,17 @@ router.post('/usosuelo/imprimirlist/:id', isAuthenticated, async (req, res) => {
     const fechaenviocorreo = usosuelo.fechaenviocorreo
     const extractocorreo = usosuelo.extractocorreo
     // ** TENER EN CUENTA CAMBIAR EL HOST DEPENDIENDO EL SERVIDOR SINO, NO ANDAN IMAGENES EN PDF **
-    const path = "http://madago:8080"+usosuelo.path;  
-    const pathdos = "http://madago:8080"+usosuelo.pathdos;    
-    const pathtres = "http://madago:8080"+usosuelo.pathtres;  
+    const path = "http://madago:8080" + usosuelo.path;
+    const pathdos = "http://madago:8080" + usosuelo.pathdos;
+    const pathtres = "http://madago:8080" + usosuelo.pathtres;
 
     contenidoHtml = contenidoHtml.replace("{{tablausosuelo}}", tabla);
-    contenidoHtml = contenidoHtml.replace("{{iniciador}}", iniciador, );
+    contenidoHtml = contenidoHtml.replace("{{iniciador}}", iniciador,);
     contenidoHtml = contenidoHtml.replace("{{expediente}}", expediente);
     contenidoHtml = contenidoHtml.replace("{{fechainicio}}", fechainicio);
-    contenidoHtml = contenidoHtml.replace("{{contacto}}", contacto); 
-    contenidoHtml = contenidoHtml.replace("{{fechaenviocorreo}}", fechaenviocorreo); 
-    contenidoHtml = contenidoHtml.replace("{{extractocorreo}}", extractocorreo);     
+    contenidoHtml = contenidoHtml.replace("{{contacto}}", contacto);
+    contenidoHtml = contenidoHtml.replace("{{fechaenviocorreo}}", fechaenviocorreo);
+    contenidoHtml = contenidoHtml.replace("{{extractocorreo}}", extractocorreo);
     contenidoHtml = contenidoHtml.replace("{{path}}", path);
     contenidoHtml = contenidoHtml.replace("{{pathdos}}", pathdos);
     contenidoHtml = contenidoHtml.replace("{{pathtres}}", pathtres);
@@ -248,12 +256,14 @@ router.post('/usosuelo/descargarestadisticamesa', isAuthenticated, async (req, r
             usosuelo.fechaegresodus = "Sin Datos"
         }
         tabla += `<tr>    
+        <td style="text-transform: lowercase;">-</td>
     <td style="text-transform: lowercase;">${usosuelo.direccion}</td>
     <td style="text-transform: lowercase;">${usosuelo.expediente}</td>
     <td style="text-transform: lowercase;">${usosuelo.iniciador}</td>    
     <td style="text-transform: lowercase;">${usosuelo.contacto}</td>
     <td style="text-transform: lowercase;">${usosuelo.fechaingresodus}</td>
     <td style="text-transform: lowercase;">${usosuelo.fechaegresodus}</td>
+    <td style="text-transform: lowercase;">-</td>
     </tr>`;
     }
     contenidoHtml = contenidoHtml.replace("{{tablausosuelo}}", tabla);
@@ -297,13 +307,14 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
         if (iniciador) {
-            var dni = "";
-            if (typeof iniciador == 'number') {
-                dni = parseInt(iniciador)
-            } else {
-                dni = ""
-            }
-            const usosuelo = await Usosuelo.find({ $or: [{ iniciador: { $regex: iniciador, $options: "i" } }, { dni: dni }] }).lean().sort({ date: 'desc' });
+            // var dni = "";
+            // if (typeof iniciador === 'number') {
+            //     dni = parseInt(iniciador)
+            // } else {
+            //     dni = ""
+            // }
+            // ** busca por iniciador o dni sin parseint **
+            const usosuelo = await Usosuelo.find({ $or: [{ iniciador: { $regex: iniciador, $options: "i" } }, { dni: iniciador }] }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (let i = 0; i < usosuelo.length; i++) {
                 contador = contador + 1
@@ -311,7 +322,7 @@ router.post('/usosuelo/sacarestadistica', isAuthenticated, async (req, res) => {
             res.render('notes/usosuelo/estadisticausosuelo', { usosuelo, contador });
         } else if (adrema) {
             var expediente = adrema;
-            const usosuelo = await Usosuelo.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+            const usosuelo = await Usosuelo.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: adrema, $options: "i" } }] }).lean().sort({ date: 'desc' });
             //const usosuelo = await Usosuelo.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < usosuelo.length; i++) {
                 contador = contador + 1
@@ -619,12 +630,12 @@ router.post('/usosuelo/borradofindlistafechaentrada', isAuthenticated, async (re
 // **** AGREGAR TURNO A CLIENTE HABITUAL ****
 router.put('/notes/usosuelo/editaddusosuelo/:id', isAuthenticated, async (req, res) => {
     const { fechainicio, expediente, iniciador, dni, extracto, motivo,
-        adrema, direccion, contacto, profesional, correo, fechaingresodus,
-        fechaegresodus, observaciones, user, name } = req.body
+        adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
+        fechaingresodus, fechaegresodus, observaciones, user, name } = req.body
     await Usosuelo.findByIdAndUpdate(req.params.id, {
         fechainicio, expediente, iniciador, dni, extracto, motivo,
-        adrema, direccion, contacto, profesional, correo, fechaingresodus,
-        fechaegresodus, observaciones, user, name
+        adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
+        fechaingresodus, fechaegresodus, observaciones, user, name
     });
     req.flash('success_msg', 'Turno nuevo Agregado')
     res.redirect('/usosuelo/listado');
@@ -633,12 +644,12 @@ router.put('/notes/usosuelo/editaddusosuelo/:id', isAuthenticated, async (req, r
 // ** SECTOR EDITAR **
 router.put('/usosuelo/editusosuelo/:id', isAuthenticated, async (req, res) => {
     const { fechainicio, expediente, iniciador, dni, extracto, motivo,
-        adrema, direccion, contacto, profesional, correo, fechaingresodus,
-        fechaegresodus, observaciones, user, name } = req.body
+        adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
+        fechaingresodus, fechaegresodus, observaciones, user, name } = req.body
     await Usosuelo.findByIdAndUpdate(req.params.id, {
         fechainicio, expediente, iniciador, dni, extracto, motivo,
-        adrema, direccion, contacto, profesional, correo, fechaingresodus,
-        fechaegresodus, observaciones, user, name
+        adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
+        fechaingresodus, fechaegresodus, observaciones, user, name
     });
     req.flash('success_msg', 'Expediente Actualizado')
     res.redirect('/usosuelo/listado');

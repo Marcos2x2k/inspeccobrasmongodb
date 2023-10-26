@@ -28,7 +28,6 @@ router.get ('/users/11vvsOpmo90W', (req, res) => {
         return res.redirect('/');
     }
     // res.render ('users/signup');
-
 });
 
 // *** cuando se borra el registro admin **

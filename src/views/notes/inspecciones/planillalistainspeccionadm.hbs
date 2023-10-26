@@ -74,8 +74,6 @@
                         <td>Adrema</td>
                         <td>Fecha-Inspec.</td>
                         <td>Inspector</td>
-                        <td>N° Intimaciones</td>
-                        <td>N° Infracciones</td>
                         <td>+Datos</td>
                         <td>Opciones</td>
 
@@ -93,8 +91,6 @@
                         <td>{{ adrema }}</td>
                         <td>{{ fechaentradinspec }}</td>
                         <td>{{ inspector }}</td>
-                        <td>{{ intimacion }}</td>
-                        <td>{{ infraccion }}</td>
                         <td>
                             <a class="dropdown-item" href="/intimaciones/add/{{_id}}"
                                 style="color:rgb(24, 211, 71);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar
@@ -129,6 +125,8 @@
                             </div>
                         </div>
                     </div>
+                    {{!-- BOTON PARA IR ATRAS DESDE EL DOM DE JAVA --}}
+                    {{!-- <a href="javascript:window.history.back();">&laquo; Volver Menu atrás</a> --}}
                     <script>
                         desabilitar()
                     </script>
