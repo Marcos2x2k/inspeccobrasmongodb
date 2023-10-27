@@ -155,16 +155,19 @@ router.post('/mesaentrada/descargarestadisticamesa', isAuthenticated, async (req
             contsub += 1
         }
         contador += 1
-        tabla += `<tr>    
-    <td>${mesaentrada.sector}</td>
-    <td>${mesaentrada.numexpediente}</td>
-    <td>${mesaentrada.nomyape}</td>
-    <td>${mesaentrada.dni}</td>
-    <td>${mesaentrada.contacto}</td>
-    <td>${mesaentrada.fechaingreso}</td>
-    <td>${mesaentrada.horaingreso}</td>
+        tabla += `<tr>   
+        <td>-</td> 
+    <td style="text-transform: lowercase;">${mesaentrada.sector}</td>
+    <td style="text-transform: lowercase;">${mesaentrada.numexpediente}</td>
+    <td style="text-transform: lowercase;">${mesaentrada.nomyape}</td>
+    <td style="text-transform: lowercase;">${mesaentrada.dni}</td>
+    <td style="text-transform: lowercase;">${mesaentrada.contacto}</td>
+    <td style="text-transform: lowercase;">${mesaentrada.fechaingreso}</td>
+    <td style="text-transform: lowercase;">${mesaentrada.horaingreso}</td>
+    <td>-</td>
     </tr>`;
     }
+    contador = contador-2;
     contenidoHtml = contenidoHtml.replace("{{tablamesaentrada}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
@@ -210,13 +213,13 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
         if (nomyape) {
-            var dni = "";
-            if (typeof nomyape == 'number') {
-                dni = parseInt(nomyape)
-            } else {
-                dni = ""
-            }
-            const mesaentrada = await Mesaentrada.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: dni }] }).lean().sort({ date: 'desc' });
+            // var dni = "";
+            // if (typeof nomyape == 'number') {
+            //     dni = parseInt(nomyape)
+            // } else {
+            //     dni = ""
+            // }
+            const mesaentrada = await Mesaentrada.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: nomyape }] }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (let i = 0; i < mesaentrada.length; i++) {
                 contador = contador + 1

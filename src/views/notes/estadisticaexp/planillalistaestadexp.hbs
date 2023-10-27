@@ -1,0 +1,103 @@
+<div class="row">
+    {{!-- <br /><br /> --}}
+    <div class="form-group btn-center mx-auto">
+        <form action="/estadisticas/findlistainiciador" method="POST">
+            <input type="search" class="form-control" name="iniciador" placeholder="Buscar x NyApellido..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Iniciador
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/estadisticas/findlistadni" method="POST">
+            <input type="search" class="form-control" name="dni" placeholder="Buscar x DNI..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar DNI
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/estadisticas/findlistafechaentrada" method="POST">
+            <input type="search" class="form-control" name="fechaingresodus" placeholder="Buscar x Fecha Ingreso..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Fecha Ingreso
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/estadisticas/findlistafechasalida" method="POST">
+            <input type="search" class="form-control" name="fechaegresodus" placeholder="Buscar x Fecha Egreso..." autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Fecha Egreso
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="form-group btn-center mx-auto">
+        <form action="/estadisticas/findlistaexpediente" method="POST">
+            <input type="search" class="form-control" name="expediente" placeholder="Buscar x Expediente..."
+                autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Expediente
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <a href="/estadisticas/add" class="btn btn-success btn-block">Agregar Estadistica!</a>
+    <a href="/estadisticas/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+    {{!-- <br /> --}}
+    <div class="form-group btn-center mx-auto">
+        {{!-- <br /> --}}
+        {{!-- <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
+            LISTADO DE MESA DE ENTRADA</h5> --}}
+        <br />
+        <div class="form-group btn-center mx-auto">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
+                        {{!-- <td style="visibility:collapse;">ID</td> --}}
+                        <td>N° Estadistica</td>
+                        <td>Fecha Estadistica</td>
+                        <td>Hora Estadist.</td>
+                        <td>Opciones</td>
+                        <td>Suplementario</td>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each estadisticas}}
+                    <tr>
+                        {{!-- <td style="visibility:collapse;">{{ _id }}</td> --}}
+                        <td>{{ estadisticanum }}</td>
+                        <td>{{ fechaestadistica }}</td>
+                        <td style="text-transform: lowercase;">{{ horaestadistica }}</td>                                               
+                        <td>                            
+                            <a class="dropdown-item" href="/estadisticas/list/{{_id}}"
+                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info
+                            </a>
+                        </td>
+                        <td>
+                            <a class="dropdown-item" href="/estadisticas/edit/{{_id}}"
+                                style="color:rgb(165, 196, 28)">Editar</a>
+                            <form onSubmit="return confirm('Desea enviar a Papelera?')" style=""
+                                action="/estadisticas/marcadelete/{{_id}}?_method=PUT" method="POST">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                                    Borrar
+                                </button>
+                            </form>                           
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>

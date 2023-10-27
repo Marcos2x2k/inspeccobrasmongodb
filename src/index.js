@@ -98,6 +98,7 @@ app.use(require('./routes/mesaentrada.js'));
 app.use(require('./routes/liquidaciones.js'));
 app.use(require('./routes/expedientes.js'));
 app.use(require('./routes/usosuelo.js'));
+app.use(require('./routes/estadisticas.js'));
 
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')));

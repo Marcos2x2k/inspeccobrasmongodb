@@ -8,14 +8,14 @@
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Sector Actual:
-                    <input type="text" class="form-control" placeholder="Sin Información"
-                        value="{{mesaentrada.sector}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                    <input type="text" class="form-control" placeholder="Sin Información" value="{{mesaentrada.sector}}"
+                        style="color: #3d0ee7; font-weight: bold;" disabled>
                 </div>
                 <div class="form-group">
                     <p style="color:brown; font-style:oblique; font-weight: bold;">Cambiar el Sector?
                         <select name="sector">
                             <option value="{{mesaentrada.sector}}">{{mesaentrada.sector}}</option>
-                            <option value="Inspección Obras">Inspección Obras</option>                            
+                            <option value="Inspección Obras">Inspección Obras</option>
                             <option value="Obras Particulares">Obras Particulares</option>
                             <option value="Visado">Visado</option>
                             <option value="Sub Secretaria">Sub Secretaría</option>
@@ -77,11 +77,16 @@
                         Grabar
                     </button>
                 </div>
-                <div class="form-group">
+                <br />
+                <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                    &laquo; Volver Atrás
+                </a>
+                <br /><br />
+                {{!-- <div class="form-group">
                     <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/mesaentrada"><i
                                 class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Tarjetas</p>
                     <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/mesaentrada/listado"><i
-                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p> --}}
                     {{!-- <button class="btn btn-primary btn-block" href="/mesaentradas">
                         Volver
                     </button> --}}
