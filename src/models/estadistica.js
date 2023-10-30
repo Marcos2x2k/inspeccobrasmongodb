@@ -3,6 +3,21 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const EstadisticaSchema = new Schema({
+        borrado: {
+                type: String,
+                required: true,
+                default: "No",
+        },
+        userborrado: {
+                type: String,
+                required: true,
+                default: "Sin Datos",
+        },
+        fechaborrado: {
+                type: String,
+                required: true,
+                default: "Sin Datos",
+        },
         estadisticanum: {
                 type: String,
                 require: true,
@@ -71,11 +86,6 @@ const EstadisticaSchema = new Schema({
         pathocho: {
                 type: String,
                 // default: "/img/Imagen-no-disponible.png"
-        },
-        eliminado: {
-                type: String,
-                require: false,
-                default: "No"
         },
         // originalname: {
         //         type: String

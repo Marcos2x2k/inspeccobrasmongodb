@@ -104,7 +104,7 @@ router.post('/notes/newestadisticas', isAuthenticated, async (req, res) => {
     await newEstadistica.save();
     req.flash('success_msg', 'Estadistica Creada Exitosamente');
     // console.log (newNote)
-    res.redirect('/estadisticas');
+    res.redirect('/estadisticas/listado');
     // await Estadistica.save();
     // res.redirect('/');
 });
@@ -112,6 +112,53 @@ router.post('/notes/newestadisticas', isAuthenticated, async (req, res) => {
 router.get('/estadisticas/edit/:id', isAuthenticated, async (req, res) => {
     const estadistica = await Estadistica.findById(req.params.id).lean()
     res.render('notes/editestadistica', { estadistica })
+});
+
+
+// ** SECTOR DELETE **
+
+router.put('/estadisticas/marcadelete/:id', isAuthenticated, async (req, res) => {
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const borrado = "Si";
+    const fechaborrado = new Date();
+    const userborrado = req.user.name;
+    await Estadistica.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Turno a Papelera Reciclaje')
+    res.redirect('/estadisticas/listado');
+    // await estadistica.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/estadisticas/listado')
+});
+
+router.put('/estadisticas/recuperarlistado', isAuthenticated, async (req, res) => {
+    //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
+    await Estadistica.updateMany({ borrado: 'Si' }, { borrado: "No", fechaborrado: "Recuperado" });
+    req.flash('success_msg', 'todos los datos de Mesa de Entradas recuperados')
+    res.redirect('/estadisticas/listado');
+    // await estadistica.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/estadisticas/listado')
+});
+
+router.put('/estadisticas/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const borrado = "No";
+    const fechaborrado = "Restaurado";
+    const userborrado = req.user.name;
+    await Estadistica.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Turno Restaurado')
+    res.redirect('/estadisticas/borradolistado');
+    // await estadistica.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/estadisticas/listado')
 });
 
 router.delete('/estadisticas/delete/:id', isAuthenticated, async (req, res) => {

@@ -1,21 +1,22 @@
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <form action="/notes/findnumestadistica" method="POST">
-            <input  type="search" class="form-control" name="estadisticanum" placeholder="Buscar x Nº Estadistica..." autofocus/>
+            <input type="search" class="form-control" name="estadisticanum" placeholder="Buscar x Nº Estadistica..."
+                autofocus />
             <div class="form-group">
-                        <button class="btn btn-warning btn-block btn-sm" type="submit">
-                            Buscar Nº Estadistica
-                        </button>                        
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Nº Estadistica
+                </button>
             </div>
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/notes/findfechaestadistica" method="POST">
-            <input  type="date" class="form-control" name="fechaestadistica" placeholder="Buscar x Fecha..." autofocus/>
+            <input type="date" class="form-control" name="fechaestadistica" placeholder="Buscar x Fecha..." autofocus />
             <div class="form-group">
-                        <button class="btn btn-warning btn-block btn-sm" type="submit">
-                            Buscar Fecha Estadistica
-                        </button>                        
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Fecha Estadistica
+                </button>
             </div>
         </form>
     </div>
@@ -41,8 +42,9 @@
                 <p style="color:brown; font-style:oblique; font-weight: bold;"
                     class="text-dark display-5 card-title d-flex justify-content-between align-items-center">Fecha
                     Estadistica:</p>
-                    <input style="color:rgb(34, 32, 32);font-weight: bold;" type="date" value="{{fechaestadistica}}" disabled></input>
-                    {{!-- <p>{{fechaestadistica}}</p> --}}
+                <input style="color:rgb(34, 32, 32);font-weight: bold;" type="date" value="{{fechaestadistica}}"
+                    disabled></input>
+                {{!-- <p>{{fechaestadistica}}</p> --}}
                 {{!-- <p>{{ fechaestadistica }}</p> --}}
                 {{!-- <p>{{ date }}</p>--}}
                 <p style="color:brown; font-style:oblique; font-weight: bold;"
@@ -60,12 +62,15 @@
 
                 <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/estadisticas/list/{{_id}}"><i
                             class="fas fa-list" style='font-size:24px;color:blue'></i></a> Info Completa</p>
-                <form style="box-shadow: 3px 4px;" action="/estadisticas/delete/{{_id}}?_method=DELETE" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button class="btn btn-danger btn-block btn-sm" type="submit"> {{!--disabled --}}
+                
+                <form onSubmit="return confirm('Desea enviar a Papelera?')" style=""
+                    action="/estadisticas/marcadelete/{{_id}}?_method=PUT" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Borrar
                     </button>
                 </form>
+
                 {{!-- {{/if}} --}}
             </div>
         </div>
