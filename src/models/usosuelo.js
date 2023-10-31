@@ -94,6 +94,11 @@ const UsosueloSchema = new Schema({
         type: String,
         require: false,
         default: "No Posee"
+    },  
+    antecedentes: {
+        type: String,
+        require: false,
+        default: "No Posee"
     },     
     filename: {
         type: String

@@ -49,6 +49,7 @@ router.post('/notes/usosuelo/newusosuelo', isAuthenticated, async (req, res) => 
     newUsosuelo.fechaingresodus = req.body.fechaingresodus;
     newUsosuelo.fechaegresodus = req.body.fechaegresodus;
     newUsosuelo.observaciones = req.body.observaciones;
+    newUsosuelo.antecedentes = req.body.antecedentes;
 
     if (req.files[0]) {
         newUsosuelo.filename = req.files[0].filename;
@@ -72,11 +73,11 @@ router.post('/notes/usosuelo/newusosuelo', isAuthenticated, async (req, res) => 
 router.post('/notes/usosuelo/newusosuelo/:id', isAuthenticated, async (req, res) => {
     const { fechainicio, expediente, iniciador, dni, extracto, motivo,
         adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
-        fechaingresodus, fechaegresodus, observaciones, user, name } = req.body;
+        fechaingresodus, fechaegresodus, observaciones, antecedentes, user, name } = req.body;
     const newUsosuelo = new Usosuelo({
         fechainicio, expediente, iniciador, dni, extracto, motivo,
         adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
-        fechaingresodus, fechaegresodus, observaciones, user, name
+        fechaingresodus, fechaegresodus, observaciones, antecedentes, user, name
     })
     newUsosuelo.user = req.user.id;
     newUsosuelo.name = req.user.name;
@@ -631,11 +632,11 @@ router.post('/usosuelo/borradofindlistafechaentrada', isAuthenticated, async (re
 router.put('/notes/usosuelo/editaddusosuelo/:id', isAuthenticated, async (req, res) => {
     const { fechainicio, expediente, iniciador, dni, extracto, motivo,
         adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
-        fechaingresodus, fechaegresodus, observaciones, user, name } = req.body
+        fechaingresodus, fechaegresodus, observaciones, antecedentes, user, name } = req.body
     await Usosuelo.findByIdAndUpdate(req.params.id, {
         fechainicio, expediente, iniciador, dni, extracto, motivo,
         adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
-        fechaingresodus, fechaegresodus, observaciones, user, name
+        fechaingresodus, fechaegresodus, observaciones, antecedentes,user, name
     });
     req.flash('success_msg', 'Turno nuevo Agregado')
     res.redirect('/usosuelo/listado');
@@ -645,11 +646,11 @@ router.put('/notes/usosuelo/editaddusosuelo/:id', isAuthenticated, async (req, r
 router.put('/usosuelo/editusosuelo/:id', isAuthenticated, async (req, res) => {
     const { fechainicio, expediente, iniciador, dni, extracto, motivo,
         adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
-        fechaingresodus, fechaegresodus, observaciones, user, name } = req.body
+        fechaingresodus, fechaegresodus, observaciones, antecedentes, user, name } = req.body
     await Usosuelo.findByIdAndUpdate(req.params.id, {
         fechainicio, expediente, iniciador, dni, extracto, motivo,
         adrema, direccion, contacto, profesional, correo, fechaenviocorreo, extractocorreo,
-        fechaingresodus, fechaegresodus, observaciones, user, name
+        fechaingresodus, fechaegresodus, observaciones, antecedentes, user, name
     });
     req.flash('success_msg', 'Expediente Actualizado')
     res.redirect('/usosuelo/listado');

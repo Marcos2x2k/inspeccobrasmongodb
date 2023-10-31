@@ -1,5 +1,16 @@
 <div class="row">
     {{!-- <br /><br /> --}}
+     <div class="form-group btn-center mx-auto">
+        <form action="/usosuelo/findlistaexpediente" method="POST">
+            <input type="search" class="form-control" name="expediente" placeholder="Buscar x Expediente..."
+                autofocus />
+            <div class="form-group">
+                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                    Buscar Expediente
+                </button>
+            </div>
+        </form>
+    </div>
     <div class="form-group btn-center mx-auto">
         <form action="/usosuelo/findlistainiciador" method="POST">
             <input type="search" class="form-control" name="iniciador" placeholder="Buscar x NyApellido..." autofocus />
@@ -39,18 +50,7 @@
                 </button>
             </div>
         </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
-        <form action="/usosuelo/findlistaexpediente" method="POST">
-            <input type="search" class="form-control" name="expediente" placeholder="Buscar x Expediente..."
-                autofocus />
-            <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
-                    Buscar Expediente
-                </button>
-            </div>
-        </form>
-    </div>
+    </div>   
 
     <a href="/usosuelo/add" class="btn btn-success btn-block">Agregar Expediente Uso de Suelo!</a>
     <a href="/usosuelo/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
