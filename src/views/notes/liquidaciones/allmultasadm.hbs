@@ -99,6 +99,9 @@
                         <td>
                             <a class="dropdown-item" href="/multas/list/{{_id}}"
                                 style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+                        
+                            <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
+                                style="color:rgb(179, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">ReImprimir</a>
                         </td>
                         <td>
                             <a class="dropdown-item" href="/multas/add/{{_id}}"
@@ -110,11 +113,7 @@
                                     Borrar ADM
                                 </button>
                             </form>
-                        </td>
-                        {{!-- <td>
-                            <a class="dropdown-item" href="/multas/reimprimirfactura/{{_id}}"
-                                style="color:rgb(123, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black">ReImprimir</a>
-                        </td> --}}
+                        </td>                       
 
                     </tr>
                     {{else}}

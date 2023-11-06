@@ -12,6 +12,12 @@ const { isAuthenticated } = require('../helpers/auth')
 const Multas = require('../models/Multas')
 const Tasas = require('../models/Tasas')
 
+// *ZONA PDF* //
+const pdf = require("html-pdf");
+const User = require('../models/User');
+var pdfoptionsA4 = { format: 'A4' };
+
+
 // **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
 router.put('/multas/listadoborradosenno', isAuthenticated, async (req, res) => {
     await Multas.update({}, { $set: { borrado: "No" } }, { upsert: false, multi: true })
@@ -78,7 +84,8 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
         // Y concatenar las multas                    
-        tabla += `<tr>    
+        tabla += `<tr>  
+    <td></td>  
     <td>${multas.numacta}</td>
     <td>${multas.propietario}</td>
     <td>${multas.ubicacion}</td>
@@ -87,7 +94,8 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.sancionprof}</td>
     <td>${multas.sancionprorc}</td>
     <td>${multas.montototal}</td>
-    <td>${multas.infraccionoparalizacion}</td>    
+    <td>${multas.infraccionoparalizacion}</td>   
+    <td></td> 
     </tr>`;
     }
     // console.log("MULTAS", tablamultas)
@@ -117,7 +125,8 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
         // Y concatenar las multas                    
-        tabla += `<tr>    
+        tabla += `<tr>  
+        <td></td>  
     <td>${multas.numacta}</td>
     <td>${multas.propietario}</td>
     <td>${multas.ubicacion}</td>
@@ -126,7 +135,8 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     <td>${multas.sancionprof}</td>
     <td>${multas.sancionprorc}</td>
     <td>${multas.montototal}</td>
-    <td>${multas.infraccionoparalizacion}</td>    
+    <td>${multas.infraccionoparalizacion}</td> 
+    <td></td>   
     </tr>`;
     }
     // console.log("MULTAS", tablamultas)
@@ -168,7 +178,7 @@ router.get('/multas/addtasas', isAuthenticated, (req, res) => {
 router.post("/notes/newmultas", isAuthenticated, async (req, res) => {
     const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
         tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
-        reiteracion, user, name, date} = req.body;
+        reiteracion, user, name, date } = req.body;
 
     const newMultas = new Multas({
         fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
@@ -217,8 +227,8 @@ router.get('/multas', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({$and:[{ apercibimientoprofesional: "No" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasusr', { multas });    
+        const multas = await Multas.find({ $and: [{ apercibimientoprofesional: "No" }, { borrado: "No" }] }).lean().sort({ date: 'desc' });
+        res.render('notes/liquidaciones/allmultasusr', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
@@ -230,8 +240,8 @@ router.get('/multas/borradolistado', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find({borrado:"Si"}).lean().sort({ date: 'desc' });
-        res.render('notes/borrados/borradolistliquidaciones', { multas });    
+        const multas = await Multas.find({ borrado: "Si" }).lean().sort({ date: 'desc' });
+        res.render('notes/borrados/borradolistliquidaciones', { multas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO/AREA PAPELERA LIQUIDACIONES')
         return res.redirect('/');
@@ -250,8 +260,8 @@ router.get('/multasprofesionales', isAuthenticated, async (req, res) => {
     //const user = await Multas.find().lean().sort();
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const multas = await Multas.find( {$and:[{apercibimientoprofesional: "Si" },{borrado:"No"}]}).lean().sort({ date: 'desc' });
-        res.render('notes/liquidaciones/allmultasprofusr', { multas, rolusuario });    
+        const multas = await Multas.find({ $and: [{ apercibimientoprofesional: "Si" }, { borrado: "No" }] }).lean().sort({ date: 'desc' });
+        res.render('notes/liquidaciones/allmultasprofusr', { multas, rolusuario });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
         return res.redirect('/');
@@ -482,10 +492,10 @@ router.get('/tasas', isAuthenticated, async (req, res) => {
     if (rolusuario == "Liquidaciones") {
         // res.send('Notes from data base');
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const tasas = await Tasas.find({borrado:"No"}).lean().sort({ date: 'desc' });
+        const tasas = await Tasas.find({ borrado: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/alltasasadm', { tasas });
     } else if (rolusuario == "Administrador") {
-        const tasas = await Tasas.find({borrado:"No"}).lean().sort({ date: 'desc' });
+        const tasas = await Tasas.find({ borrado: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/alltasasadm', { tasas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS/LIQUIDACIONES')
@@ -534,145 +544,150 @@ router.get('/multasprofesional/list/:id', isAuthenticated, async (req, res) => {
 router.post('/multa/findpropietario', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { propietario } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"No"},{ propietario: { $regex: propietario, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "No" }, { propietario: { $regex: propietario, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
+            return res.render("notes/liquidaciones/allmultasusr");
         } else {
             res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } 
+    }
 });
+
 router.post('/multa/findnumacta', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numacta } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"No"},{ numacta: { $regex: numacta, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "No" }, { numacta: { $regex: numacta, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
+            return res.render("notes/liquidaciones/allmultasusr");
         } else {
             res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } 
+    }
 });
+
 router.post('/multa/findubicacion', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { ubicacion } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"No"},{ ubicacion: { $regex: ubicacion, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "No" }, { ubicacion: { $regex: ubicacion, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
+            return res.render("notes/liquidaciones/allmultasusr");
         } else {
             res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } 
+    }
 });
+
 router.post('/multa/findexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { expediente } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"No"},{ expediente: { $regex: expediente, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "No" }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
+            return res.render("notes/liquidaciones/allmultasusr");
         } else {
             res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } 
+    }
 });
-
 
 // *** BUSCAR LIQUIDACIONES O MULTAS BORRADAS ***
 router.post('/multa/borradofindpropietario', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { propietario } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"Si"},{ propietario: { $regex: propietario, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "Si" }, { propietario: { $regex: propietario, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/allmultasusr");   
+            return res.render("notes/liquidaciones/allmultasusr");
         } else {
             res.render('notes/borrados/borradolistliquidaciones', { multas })
         }
-    } 
+    }
 });
+
 router.post('/multa/borradofindnumacta', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numacta } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"Si"},{ numacta: { $regex: numacta, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "Si" }, { numacta: { $regex: numacta, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/borrados/borradolistliquidaciones");   
+            return res.render("notes/borrados/borradolistliquidaciones");
         } else {
             res.render('notes/borrados/borradolistliquidaciones', { multas })
         }
-    } 
+    }
 });
+
 router.post('/multa/borradofindubicacion', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { ubicacion } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"Si"},{ ubicacion: { $regex: ubicacion, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "Si" }, { ubicacion: { $regex: ubicacion, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/borrados/borradolistliquidaciones");   
+            return res.render("notes/borrados/borradolistliquidaciones");
         } else {
             res.render('notes/borrados/borradolistliquidaciones', { multas })
         }
-    } 
+    }
 });
+
 router.post('/multa/borradofindexpediente', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { expediente } = req.body;
-    const multas = await Multas.find({$and:[{borrado:"Si"},{ expediente: { $regex: expediente, $options: "i" }}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ borrado: "Si" }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/borrados/borradolistliquidaciones");   
+            return res.render("notes/borrados/borradolistliquidaciones");
         } else {
             res.render('notes/borrados/borradolistliquidaciones', { multas })
         }
-    } 
+    }
 });
 
 router.post('/multa/findnumactaborrado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numacta } = req.body;
-    const multas = await Multas.find({$and:[{ numacta: { $regex: numacta, $options: "i" }},{borrado:"Si"}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ numacta: { $regex: numacta, $options: "i" } }, { borrado: "Si" }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/borrados/borradolistliquidaciones");   
+            return res.render("notes/liquidaciones/borrados/borradolistliquidaciones");
         } else {
             res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } 
+    }
 });
 
 // **** SECTOR DELETE ****
 router.post('/multa/findexpedienteborrado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { expediente } = req.body;
-    const multas = await Multas.find({$and:[{ expediente: { $regex: expediente, $options: "i" }},{borrado:"Si"}]}).lean().sort({ date: 'desc' })
+    const multas = await Multas.find({ $and: [{ expediente: { $regex: expediente, $options: "i" } }, { borrado: "Si" }] }).lean().sort({ date: 'desc' })
     if (rolusuario == "Liquidaciones" || rolusuario == "Administrador") {
         if (!multas) {
             req.flash('success_msg', 'Cargue Número Acta')
-            return res.render("notes/liquidaciones/borrados/borradolistliquidaciones");   
+            return res.render("notes/liquidaciones/borrados/borradolistliquidaciones");
         } else {
             res.render('notes/liquidaciones/allmultasusr', { multas })
         }
-    } 
+    }
 });
 
 router.put('/multas/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();    
     //await Multas.updateMany({ _id: "id" });  
     //Busco el id y le sumo 1 a veces impreso
-    const borrado = "No";    
+    const borrado = "No";
     const fechaborrado = "Restaurado";
     const userborrado = req.user.name;
     await Multas.findByIdAndUpdate(req.params.id, {
@@ -695,7 +710,7 @@ router.put('/multas/marcadelete/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();    
     //await Multas.updateMany({ _id: "id" });  
     //Busco el id y le sumo 1 a veces impreso
-    const borrado = "Si";    
+    const borrado = "Si";
     const fechaborrado = new Date();
     const userborrado = req.user.name;
     await Multas.findByIdAndUpdate(req.params.id, {
@@ -708,10 +723,9 @@ router.put('/multas/marcadelete/:id', isAuthenticated, async (req, res) => {
     // res.redirect('/mesaentrada/listado')
 });
 
-
-router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {         
+router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {
     //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
-    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"No" }, { borrado: "No", fechaborrado:"Recuperado"});
+    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional: "No" }, { borrado: "No", fechaborrado: "Recuperado" });
     req.flash('success_msg', 'todos los datos de liquidación de Propietarios recuperados')
     res.redirect('/multas/borradolistado');
     // await Mesaentrada.findByIdAndDelete(req.params.id);
@@ -719,9 +733,9 @@ router.put('/multas/recuperarlistado', isAuthenticated, async (req, res) => {
     // res.redirect('/mesaentrada/listado')
 });
 
-router.put('/multas/recuperarlistadoprop', isAuthenticated, async (req, res) => {         
+router.put('/multas/recuperarlistadoprop', isAuthenticated, async (req, res) => {
     //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
-    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"No" }, { borrado: "No", fechaborrado:"Recuperado"});
+    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional: "No" }, { borrado: "No", fechaborrado: "Recuperado" });
     req.flash('success_msg', 'todos los datos de liquidación de propietarios recuperados')
     res.redirect('/multas/borradolistado');
     // await Mesaentrada.findByIdAndDelete(req.params.id);
@@ -729,9 +743,9 @@ router.put('/multas/recuperarlistadoprop', isAuthenticated, async (req, res) => 
     // res.redirect('/mesaentrada/listado')
 });
 
-router.put('/multas/recuperarlistadoprof', isAuthenticated, async (req, res) => {         
+router.put('/multas/recuperarlistadoprof', isAuthenticated, async (req, res) => {
     //await Multas.updateMany({ borrado: "Si", fechaborrado: new Date(), userborrado:req.user.name});    
-    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional:"Si" }, { borrado: "No", fechaborrado:"Recuperado"});
+    await Multas.updateMany({ borrado: 'Si', apercibimientoprofesional: "Si" }, { borrado: "No", fechaborrado: "Recuperado" });
     req.flash('success_msg', 'todos los datos de liquidación de profesionales recuperados')
     res.redirect('/multas/borradolistado');
     // await Mesaentrada.findByIdAndDelete(req.params.id);
@@ -749,7 +763,7 @@ router.put('/tasas/marcadelete/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();    
     //await Multas.updateMany({ _id: "id" });  
     //Busco el id y le sumo 1 a veces impreso
-    const borrado = "Si";    
+    const borrado = "Si";
     const fechaborrado = new Date();
     const userborrado = req.user.name;
     await Tasas.findByIdAndUpdate(req.params.id, {

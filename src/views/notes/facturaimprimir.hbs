@@ -4,7 +4,7 @@
         document.getElementById('botonfecha').click();
     }
 
-    function fecha(){
+    function fecha() {
         var meses = [
             "Enero", "Febrero", "Marzo",
             "Abril", "Mayo", "Junio", "Julio",
@@ -15,9 +15,9 @@
         var dia = date.getDate();
         var mes = date.getMonth();
         var yyy = date.getFullYear();
-        var fecha = 'Corrientes, '+dia + ' de ' + meses[mes] + ' de ' + yyy;        
+        var fecha = 'Corrientes, ' + dia + ' de ' + meses[mes] + ' de ' + yyy;
         document.getElementById("fechahoy").value = fecha;
-        document.getElementById("botonfecha").hidden =  true;
+        document.getElementById("botonfecha").hidden = true;
     }
 </script>
 
@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div class="container-fluid">        
+    <div class="container-fluid">
         <div class="row"
             style="background:#706f6e; color:rgb(0, 0, 0); font-weight:bold; padding:1px; margin-top:10px; margin-bottom:1px; text-align:center; font-size:16px;">
             <!-- border:1px solid #121213 -->
@@ -45,10 +45,10 @@
                             <div
                                 style=" text-align: center; display: grid; justify-content: center;font-family: Garamond">
                                 <img style=" text-align: center; display: grid; justify-content: center;font-family: Garamond"
-                                    width="250" height="95"
+                                    width="240" height="80"
                                     src="https://ciudaddecorrientes.gov.ar/sites/default/themes/ciudaddecorrientes/logo.png" />
                                 <img style=" text-align: center; display: grid; justify-content: center;font-family: Garamond"
-                                    width="100"
+                                    width="90"
                                     src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />
                             </div>
                             <div
@@ -80,11 +80,10 @@
                             </br>
                             <button id="botonfecha" onclick="fecha()">poner fecha</button>
                             <div style="font-family: Arial, Helvetica, sans-serif; text-align: right; margin:20px">
-                                <input size=27 id="fechahoy" style="text-align: right;" disabled/>
+                                <input size=33 id="fechahoy" style="text-align: right;" disabled />
                             </div>
                             <div style="font-family: Arial, Helvetica, sans-serif; text-align:left;">
-                                
-                                <h4>214/2022</h4>
+
                                 <h4> A la Administración del tribunal de faltas:</h4>
                                 </br>
                                 <h5> S_______/________D:</h5>
@@ -103,12 +102,14 @@
                             <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.5. MULTAS
                                 AL PROPIETARIO</h5>
                         </div>
-                        
-                        <table class="table table-condensed table-bordered table-striped"
-                            style="font-family: Serif; font-size: smaller">
+
+                        <table class="table table-sm"
+                            style="font-family: Sans-serif; font-size: small">
                             <tbody>
+                                
                                 <thead>
-                                    <tr style="background-color: rgb(226, 222, 226)">                                        
+                                    <tr style="background-color: rgb(226, 222, 226); font-family: cursive">
+                                        <td>-</td>
                                         <td>Acta</td>
                                         <td>Propietario</td>
                                         <td>Ubicación</td>
@@ -118,6 +119,7 @@
                                         <td>% Sanción</td>
                                         <td>Monto Total</td>
                                         <td>Infracción/Paralización</td>
+                                        <td>-</td>
                                     </tr>
                                 </thead>
                                 {{tablamultas}}
@@ -132,11 +134,19 @@
                                     <td>{{ montototal }}</td>
                                 </tr> -->
                             </tfoot>
+                            <div id="pageFooter" style="border-top: 1px solid #ddd; padding-top: 5px;">
+                                <br /><br /><br /><br /><br /><br />
+                                <br /><br /><br /><br /><br /><br />
+                                <p
+                                    style="color: #666; margin: 0; padding-bottom: 5px; text-align: right; font-family: sans-serif; font-size: .65em">
+                                    Página {{page}} de {{pages}}
+                                </p>
+                            </div>
                             </tbody>
 
                             <h5
                                 style="display: grid; justify-content: center;font-family: Garamond; text-align: center;">
-                                ============================== ============================== </h5>                                
+                                ============================== ============================== </h5>
                         </table>
                     </div>
                 </div>
@@ -144,4 +154,5 @@
         </div>
     </div>
 </body>
+
 </html>
