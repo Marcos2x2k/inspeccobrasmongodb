@@ -36,16 +36,16 @@
 </script>
 
 <div class="row">
-    
+
     <div class="form-group btn-center mx-auto">
         <div class="card">
             <div class="card-body">
                 <div style="color:black" class="form-group">
-                    <div style="display: flex; justify-content: center">
-                        <img style="align=center;" width="250" height="95"
-                            src="https://ciudaddecorrientes.gov.ar/sites/default/themes/ciudaddecorrientes/logo.png" />
-                        <img style="align: right" width="100"
-                            src="https://ciudaddecorrientes.gov.ar/sites/default/files/escudo_municipalidad_nuevo-01_2.png" />
+                    <div style=" text-align: center; display: grid; justify-content: center;font-family: Garamond">
+                        <img style=" text-align: center; display: grid; justify-content: center;font-family: Garamond"
+                            width="220" height="70" src="http://madago:8080/css/img/logomunicipalidad.png" />
+                        <img style=" text-align: center; display: grid; justify-content: center;font-family: Garamond"
+                            width="70" src="http://madago:8080/css/img/escudomunicipalidad.png" />
                     </div>
                     <div style="display: grid; justify-content: center; font-family: Garamond; text-align: center;">
                         <h5 style="">MUNICIPALIDAD DE LA CUIDAD DE CORRIENTES</h5>
@@ -83,11 +83,12 @@
                     <p style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Corresponde la Aplicación
                         de la Ordenanza
                         5689/12</p>
-                    <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.4. SANCIONES A PROFESIONALES                        
+                    <h5 style="font-family: Arial, Helvetica, sans-serif; text-align: center;">Art.1.6.4. SANCIONES A
+                        PROFESIONALES
                     </h5>
                 </div>
 
-                <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">                    
+                <table id="tablafacturas" class="table table-striped" style="font-family: Serif;">
                     <thead>
                         <tr style="background-color: rgb(117, 114, 117)">
                             {{!-- <td>Fecha</td> --}}
@@ -134,14 +135,21 @@
                         {{/each}}
                     </tbody>
                 </table>
-                <form  action="/multas/impresasprofesional" method="GET"> {{!-- onSubmit="return confirm('Volver a Multas No-Impresas?')" --}}
+                <form action="/multas/impresasprofesional" method="GET"> {{!-- onSubmit="return confirm('Volver a Multas
+                    No-Impresas?')" --}}
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-warning btn-block btn-sm" type="submit">
                         Volver a Multas No-Impresas
                     </button>
                 </form>
-                <p></p>
-                <form onSubmit="return confirm('Volver a Todas las Multas?')" action="/multasprofesionales" method="GET">
+                <p><p></p>
+                    <a href="/multas/impresasprofesional" class="btn btn-success btn-block btn-sm">Listar No-Impresas
+                        para
+                        Ver/Descargar/Imprimir
+                    </a>
+                </p>
+                <form onSubmit="return confirm('Volver a Todas las Multas?')" action="/multasprofesionales"
+                    method="GET">
                     <input type="hidden" name="_method" value="GET">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Volver a Multas a Profesionales

@@ -12,7 +12,8 @@ const { isAuthenticated } = require('../helpers/auth')
 // *ZONA PDF* //
 const pdf = require("html-pdf");
 const User = require('../models/User');
-var pdfoptionsA4 = { format: 'A4' };
+//var pdfoptionsA4 = { format: 'A4' };
+var pdfoptionsA4 = { format: 'A4', border:{top:'50px',bottom:'50px',left:'20px',right:'20px'}};
 
 // tengo que requerir los modelos para que mongoose me cree las tablas
 const Usosuelo = require('../models/usosuelo')
@@ -150,6 +151,7 @@ router.post('/usosuelo/imprimirlist/:id', isAuthenticated, async (req, res) => {
     const fechaegresodus = usosuelo.fechaegresodus
     const fechaenviocorreo = usosuelo.fechaenviocorreo
     const extractocorreo = usosuelo.extractocorreo
+    
     // ** TENER EN CUENTA CAMBIAR EL HOST DEPENDIENDO EL SERVIDOR SINO, NO ANDAN IMAGENES EN PDF **
     const path = "http://madago:8080" + usosuelo.path;
     const pathdos = "http://madago:8080" + usosuelo.pathdos;

@@ -15,7 +15,8 @@ const Tasas = require('../models/Tasas')
 // *ZONA PDF* //
 const pdf = require("html-pdf");
 const User = require('../models/User');
-var pdfoptionsA4 = { format: 'A4' };
+var pdfoptionsA4 = { format: 'A4', border: { top: '50px', bottom: '50px', left: '20px', right: '20px' } };
+//var pdfoptionsA4 = { format: 'A4', border:{top:'50px',bottom:'50px',left:'20px',right:'20px'} };
 
 
 // **esto es para agregar campo borrado a todos los q no tienen borrado marcado**
@@ -69,7 +70,7 @@ router.get('/multas/reimprimirfacturaprofesional/:id', isAuthenticated, async (r
         impreso, fechaimpreso, reimpreso,
         fechareimpreso, vecesreimpreso
     });
-    req.flash('success_msg', 'Re-Impresión actualizada')
+    req.flash('success_msg', 'Re-Impresión Prof. actualizada')
     res.redirect('/multasprofesionales');
 });
 
@@ -83,18 +84,19 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
 
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
-        // Y concatenar las multas                    
+        // Y concatenar las multas
+        if (multas.infraccionoparalizacion == "Infracción/Paralización") {
+            multas.infraccionoparalizacion = "infrac/paraliz"
+        }                       
         tabla += `<tr>  
     <td></td>  
     <td>${multas.numacta}</td>
-    <td>${multas.propietario}</td>
+    <td style="text-transform: uppercase;">${multas.propietario}</td>
     <td>${multas.ubicacion}</td>
-    <td>${multas.inciso}</td>
-    <td>${multas.formulamulta}</td>
-    <td>${multas.sancionprof}</td>
-    <td>${multas.sancionprorc}</td>
+    <td style="text-transform: uppercase;">${multas.inciso}</td>
+    <td style="text-transform: uppercase;">${multas.formulamulta}</td>    
     <td>${multas.montototal}</td>
-    <td>${multas.infraccionoparalizacion}</td>   
+    <td style="text-transform: lowercase;">${multas.infraccionoparalizacion}</td>       
     <td></td> 
     </tr>`;
     }
@@ -121,10 +123,12 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     let tabla = "";
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     const tablamultas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'Si' }] }).lean().sort({ propietario: 'desc' });
-
     //<td>${multas.fecha}</td> este etaba en tablamultas
     for (const multas of tablamultas) {
-        // Y concatenar las multas                    
+        // Y concatenar las multas    
+        if (multas.infraccionoparalizacion == "Infracción/Paralización") {
+            multas.infraccionoparalizacion = "infrac/paraliz"
+        }                     
         tabla += `<tr>  
         <td></td>  
     <td>${multas.numacta}</td>
@@ -137,13 +141,15 @@ router.get('/descargarfacturaprofesional', isAuthenticated, async (req, res) => 
     <td>${multas.montototal}</td>
     <td>${multas.infraccionoparalizacion}</td> 
     <td></td>   
-    </tr>`;
+    </tr>`;        
     }
     // console.log("MULTAS", tablamultas)
     // console.log("TABLA", tabla)
     contenidoHtml = contenidoHtml.replace("{{tablamultas}}", tabla);
     //contenidoHtml = contenidoHtml.replace("{{multas}}");
     await Multas.updateMany({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'Si' }] }, { impreso: "Si", fechaimpreso: new Date() });
+    //pdf.create(html, { orientation: 'landscape', type: 'pdf', timeout: '100000' })
+    //pdf.create(inputHtml, {file: outputPath, width: '210mm', height: '297mm', border: '10mm', timeout: 30000}
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
