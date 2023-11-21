@@ -431,8 +431,6 @@ router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     }
 });
 
-
-
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -1045,16 +1043,6 @@ router.put('/notes/editinfraccion/:id', isAuthenticated, async (req, res) => {
     req.flash('success_msg', 'Infraccion actualizada')
     res.redirect('/infracciones');
 });
-
-router.put('/notes/editestadistica/:id', isAuthenticated, async (req, res) => {
-    const { estadisticanum, fechaestadistica, horaestadistica } = req.body
-    await Estadistica.findByIdAndUpdate(req.params.id, {
-        estadisticanum, fechaestadistica, horaestadistica
-    });
-    req.flash('success_msg', 'Estadistica actualizada')
-    res.redirect('/estadisticas');
-});
-
 
 // **** SECTOR DELETE ****
 

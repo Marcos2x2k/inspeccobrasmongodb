@@ -58,7 +58,9 @@ router.post('/notes/newestadisticas', isAuthenticated, async (req, res) => {
     const newEstadistica = new Estadistica();
     newEstadistica.estadisticanum = req.body.estadisticanum;
     newEstadistica.fechaestadistica = req.body.fechaestadistica;
-    newEstadistica.horaestadistica = req.body.horaestadistica;
+    newEstadistica.numexpediente = req.body.numexpediente;
+    newEstadistica.iniciadornomyape = req.body.iniciadornomyape
+    newEstadistica.domicilio = req.body.domicilio
     if (req.files[0]) {
         // const file = req.files[0]        
         // req.files[0].nameest='Estadistica'        
@@ -114,9 +116,16 @@ router.get('/estadisticas/edit/:id', isAuthenticated, async (req, res) => {
     res.render('notes/editestadistica', { estadistica })
 });
 
+router.put('/notes/editestadistica/:id', isAuthenticated, async (req, res) => {
+    const { estadisticanum, fechaestadistica, numexpediente, iniciadornomyape, domicilio} = req.body
+    await Estadistica.findByIdAndUpdate(req.params.id, {
+        estadisticanum, fechaestadistica, numexpediente, iniciadornomyape, domicilio
+    });
+    req.flash('success_msg', 'Estadistica actualizada')
+    res.redirect('/estadisticas/listado');
+});
 
 // ** SECTOR DELETE **
-
 router.put('/estadisticas/marcadelete/:id', isAuthenticated, async (req, res) => {
     //const fechaimpresohoy = new Date();    
     //await Multas.updateMany({ _id: "id" });  

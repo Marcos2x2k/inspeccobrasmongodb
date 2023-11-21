@@ -27,9 +27,17 @@ const EstadisticaSchema = new Schema({
                 require: false,
                 default: Date.now
         },
-        horaestadistica: {
+        numexpediente: {
                 type: String,
-                default: Date.now
+                require: false,
+        },
+        iniciadornomyape: {
+                type: String,
+                require: false,
+        },
+        domicilio: {
+                type: String,
+                require: false,
         },
         filename: {
                 type: String
