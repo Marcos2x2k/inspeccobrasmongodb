@@ -10,6 +10,7 @@ const { isAuthenticated } = require('../helpers/auth')
 
 // tengo que requerir los modelos para que mongoose me cree las tablas
 const Estadistica = require('../models/Estadistica')
+const Expediente = require('../models/Expediente')
 
 router.get('/estadisticas/list/:id', isAuthenticated, async (req, res) => {
     const estadistica = await Estadistica.findById(req.params.id).lean()
@@ -34,8 +35,14 @@ router.get('/estadisticas/listado', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const estadisticas = await Estadistica.find({ borrado: "No" }).lean().sort({ date: 'asc' });
-        res.render('notes/estadisticaexp/planillalistaestadexp', { estadisticas });
+        //const estadisticas = await Estadistica.find({ borrado: "No" }).lean().sort({ date: 'asc' });
+        //const tablamultas = await Multas.find({ $and: [{ impreso: 'No' }, { apercibimientoprofesional: 'Si' }] }).lean().sort({ propietario: 'desc' });
+        //const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ numexpediente: 'desc' }); // temporal poner el d arriba despues
+        //const expedientes = await Expediente.find({ borrado: "No" }).lean().limit(100).sort({ date: 'desc' }); //
+        // condicional mongo { numexpediente: {$exists: true, $not: {$size: 0}} 
+        const expedientesretenidos = await Expediente.find({ $and: [{ numexpediente: {$exists: true} }, { borrado: "No" }, { estado: { $regex: "ent", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });
+        const expedientesentradas = await Expediente.find({ $and: [{ numexpediente: {$exists: true} }, { borrado: "No" }, { borrado: "No" }, { estado:  { $regex: "p/in", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/estadisticaexp/planillalistaestadexp', { expedientesretenidos, expedientesentradas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA ESTADISTICAS')
         return res.redirect('/');
@@ -117,7 +124,7 @@ router.get('/estadisticas/edit/:id', isAuthenticated, async (req, res) => {
 });
 
 router.put('/notes/editestadistica/:id', isAuthenticated, async (req, res) => {
-    const { estadisticanum, fechaestadistica, numexpediente, iniciadornomyape, domicilio} = req.body
+    const { estadisticanum, fechaestadistica, numexpediente, iniciadornomyape, domicilio } = req.body
     await Estadistica.findByIdAndUpdate(req.params.id, {
         estadisticanum, fechaestadistica, numexpediente, iniciadornomyape, domicilio
     });
