@@ -11,6 +11,7 @@ const { isAuthenticated } = require('../helpers/auth')
 // tengo que requerir los modelos para que mongoose me cree las tablas
 const Estadistica = require('../models/Estadistica')
 const Expediente = require('../models/Expediente')
+const Expedentrsalida = require('../models/expedentrsalida')
 
 router.get('/estadisticas/list/:id', isAuthenticated, async (req, res) => {
     const estadistica = await Estadistica.findById(req.params.id).lean()
@@ -40,10 +41,13 @@ router.get('/estadisticas/listado', isAuthenticated, async (req, res) => {
         //const multas = await Multas.find({ $and: [{ impreso: "No" }, { apercibimientoprofesional: "Si" }] }).lean().sort({ numexpediente: 'desc' }); // temporal poner el d arriba despues
         //const expedientes = await Expediente.find({ borrado: "No" }).lean().limit(100).sort({ date: 'desc' }); //
         // condicional mongo { numexpediente: {$exists: true, $not: {$size: 0}} 
-        const expedientesretenidos = await Expediente.find({ $and: [{ numexpediente: {$exists: true} }, { borrado: "No" }, { estado: { $regex: "ent", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });
-        const expedientesentradas = await Expediente.find({ $and: [{ numexpediente: {$exists: true} }, { borrado: "No" }, { borrado: "No" }, { estado:  { $regex: "p/in", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });
-        res.render('notes/estadisticaexp/planillalistaestadexp', { expedientesretenidos, expedientesentradas });
-    } else {
+        const expedientesretenidos = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }, { estado: { $regex: "ent", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });
+        const expedientesentradas = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }, { estado: { $regex: "p/in", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });        
+        const Expedientes = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }] }).lean().sort({ numexpediente: 'desc' });                
+        const Movimientosexpedientes = await Expedentrsalida.findfind({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }] }).lean().sort({ numexpediente: 'desc' });              
+        res.render('notes/estadisticaexp/planillalistaestadexp', { expedientesretenidos, expedientesentradas, Movimientosexpedientes });
+    }
+    else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA ESTADISTICAS')
         return res.redirect('/');
     }

@@ -66,10 +66,10 @@ router.get('/mesaentrada', isAuthenticated, async (req, res) => {
     if (rolusuario == "Mesa-Entrada") {
         // res.send('Notes from data base');
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
-        const mesaentradas = await Mesaentrada.find({ borrado: "No" }).lean().sort({ date: 'asc' });
+        const mesaentradas = await Mesaentrada.find({ borrado: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/allmesaentrada', { mesaentradas });
     } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find({ borrado: "No" }).lean().sort({ date: 'asc' });
+        const mesaentradas = await Mesaentrada.find({ borrado: "No" }).lean().sort({ date: 'desc' });
         res.render('notes/allmesaentrada', { mesaentradas });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')

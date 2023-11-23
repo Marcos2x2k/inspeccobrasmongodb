@@ -16,7 +16,6 @@ const Note = require('../models/Note');
 
 // *ZONA PDF* //
 const expedinspeccion = require('../models/expedinspeccion');
-// *ZONA PDF* //
 const pdf = require("html-pdf");
 const User = require('../models/User');
 var pdfoptionsA4 = { format: 'A4' };
@@ -67,7 +66,6 @@ router.get('/movimientoexpediente/add/:id', isAuthenticated, async (req, res) =>
         return res.redirect('/');
     }    
 });
-
 
 // Cambio el estado del expediente y agendo el estado nuevo en la base de datos expedentrsalida.js
 // anda con 2 tablas y en una crea nuevo y en otra actualiza
