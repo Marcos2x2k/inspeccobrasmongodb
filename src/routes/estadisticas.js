@@ -42,10 +42,21 @@ router.get('/estadisticas/listado', isAuthenticated, async (req, res) => {
         //const expedientes = await Expediente.find({ borrado: "No" }).lean().limit(100).sort({ date: 'desc' }); //
         // condicional mongo { numexpediente: {$exists: true, $not: {$size: 0}} 
         const expedientesretenidos = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }, { estado: { $regex: "ent", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });
-        const expedientesentradas = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }, { estado: { $regex: "p/in", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });        
-        const Expedientes = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }] }).lean().sort({ numexpediente: 'desc' });                
-        const Movimientosexpedientes = await Expedentrsalida.findfind({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }] }).lean().sort({ numexpediente: 'desc' });              
-        res.render('notes/estadisticaexp/planillalistaestadexp', { expedientesretenidos, expedientesentradas, Movimientosexpedientes });
+        const expedientesentradas = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }, { estado: { $regex: "p/in", $options: "i" } }] }).lean().sort({ numexpediente: 'desc' });
+        //const Expedientes = await Expediente.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }] }).lean().sort({ numexpediente: 'desc' });
+        //const Movimientosexpedientes = await Expedientes.find({ $and: [{ numexpediente: { $exists: true } }, { borrado: "No" }] }).lean().sort({ numexpediente: 'desc' });
+        // let tabla = "";
+        // for (const pruexpedientesretenidos of expedientesentradas) {
+            // Y concatenar las multas
+            // if (multas.infraccionoparalizacion == "Infracción/Paralización") {
+            //     multas.infraccionoparalizacion = "infrac/paraliz"
+            // }
+        //     tabla += `${pruexpedientesretenidos.numexpediente},
+        //     ${pruexpedientesretenidos.iniciadornomyape}, 
+        //     ${pruexpedientesretenidos.domicilio} `;
+        // }        
+        res.render('notes/estadisticaexp/planillalistaestadexp', { expedientesretenidos, expedientesentradas});
+
     }
     else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA ESTADISTICAS')
