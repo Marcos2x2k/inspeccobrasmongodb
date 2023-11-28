@@ -87,7 +87,9 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
         // Y concatenar las multas
         if (multas.infraccionoparalizacion == "Infracción/Paralización") {
             multas.infraccionoparalizacion = "infrac/paraliz"
-        }                       
+        }                 
+        var montototalcondecimales = multas.montototal        
+        var montototalccc = montototalcondecimales.toLocaleString("es-ES")              
         tabla += `<tr>  
     <td></td>  
     <td>${multas.numacta}</td>
@@ -95,7 +97,7 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td>${multas.ubicacion}</td>
     <td style="text-transform: uppercase;">${multas.inciso}</td>
     <td style="text-transform: uppercase;">${multas.formulamulta}</td>    
-    <td>${multas.montototal}</td>
+    <td>${montototalccc}</td>
     <td style="text-transform: lowercase;">${multas.infraccionoparalizacion}</td>       
     <td></td> 
     </tr>`;
@@ -536,6 +538,12 @@ router.get('/multasprofesional/add/:id', isAuthenticated, async (req, res) => {
     res.render('notes/newmultasprofesional', { multas, tasaactual })
 });
 
+// ***** Aca los GET para EDITAR ******
+router.get('/multas/edit/:id', isAuthenticated, async (req, res) => {
+    const multas = await Multas.findById(req.params.id).lean()
+    res.render('notes/liquidaciones/editmultas', { multas })    
+});
+
 router.get('/multas/list/:id', isAuthenticated, async (req, res) => {
     const multas = await Multas.findById(req.params.id).lean()
     res.render('notes/listmultas', { multas })
@@ -689,10 +697,21 @@ router.post('/multa/findexpedienteborrado', isAuthenticated, async (req, res) =>
     }
 });
 
-router.put('/multas/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
-    //const fechaimpresohoy = new Date();    
-    //await Multas.updateMany({ _id: "id" });  
-    //Busco el id y le sumo 1 a veces impreso
+// ** SECTOR EDITAR **
+router.put('/multas/editmultas/:id', isAuthenticated, async (req, res) => {
+    const { fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
+        reiteracion, user, name, date } = req.body
+    await Multas.findByIdAndUpdate(req.params.id, {
+        fecha, acta, numacta, expediente, adrema, inciso, propietario, ubicacion, infraccionoparalizacion,
+        tcactual, formulamulta, montototal, observaciones, apercibimientoprofesional, sancionprof, sancionprorc,
+        reiteracion, user, name, date
+    });    
+    req.flash('success_msg', 'Multa Actualizada')
+    res.redirect('/multas');
+});
+
+router.put('/multas/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {    
     const borrado = "No";
     const fechaborrado = "Restaurado";
     const userborrado = req.user.name;
