@@ -86,7 +86,7 @@
         document.getElementById("valor3").value = idvalor3;
 
         var montototaldosdecimales = MontoTotal //PRUEBA CON SEPARADOR MILES
-        var separadoconmiles = montototaldosdecimales.toLocaleString("es-ES")
+        var separadoconmiles = montototaldosdecimales//.toLocaleString("es-ES")
 
         document.getElementById("resultado").value = separadoconmiles
         //document.getElementById("resultado").value = montototaldosdecimales
@@ -722,7 +722,7 @@
     var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
 
     var montototaldosdecimales = MontoTotal //PRUEBA CON SEPARADOR MILES
-    var separadoconmiles = montototaldosdecimales.toLocaleString("es-ES")
+    var separadoconmiles = montototaldosdecimales//.toLocaleString("es-ES")
 
     document.getElementById("resultado").value = separadoconmiles
     var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
@@ -1007,7 +1007,7 @@
                                     </label>
                                     <input type="text" name="montototal" id="resultado" style="color:red; 
                                     width: 200%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 2px solid #000000; font-weight: bold;" placeholder="0.00">
+                                    border-box; border: 2px solid #000000; font-weight: bold;" placeholder="0.00" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
