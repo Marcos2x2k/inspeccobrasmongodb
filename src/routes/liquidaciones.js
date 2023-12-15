@@ -320,9 +320,8 @@ router.get('/multas', isAuthenticated, async (req, res) => {
         var tablamultas = await Multas.find({ $and: [{ apercibimientoprofesional: "No" }, { borrado: "No" }] }).lean().sort({ date: 'desc' });
 
         for (var multas of tablamultas) {
-
-            multas = tablamultas;
-            var pricestring =  toString(multas.montototal)
+            
+            var pricestring =  multas.montototal
             var price = pricestring;
             //var pricearray = ["1434555555", "14345555.5", "14345555.55", "14345555.555", "14345555.0000", "14345555.505"];
             //var price = pricearray[5];         
@@ -399,11 +398,17 @@ router.get('/multas', isAuthenticated, async (req, res) => {
                     montototalcondecimalesstring = montototalcondecimales + "0";
                     console.log("monto total con decimales", montototalcondecimalesstring);
                 }
-            }
+            }   
+
+            multas.montototal = montototalcondecimalesstring;                 
+            multas = tablamultas
+                   
+            //console.log("multas monto total string: ", montototalcondecimalesstring)            
+            console.log("multas: ", multas.montototal)
+            console.log("multas tablamultas: ", tablamultas.montototal)
+            //tabla += {
+            //}
             
-            multas.montototal = montototalcondecimalesstring            
-            console.log("multas monto total string: ", montototalcondecimalesstring)            
-            console.log("multas: ", multas)
         }
         res.render('notes/liquidaciones/allmultasusr', { multas });
     } else {

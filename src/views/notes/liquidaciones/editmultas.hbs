@@ -1,12 +1,10 @@
 <script>
 
 
-    function agregarSeparadorMiles(numero) {
-        
+    function agregarSeparadorMiles(numero) {        
         let montototal = document.getElementById(numero).value     
         var total = parseFloat(montototal)         
-        document.getElementById('montototal').value = total.toLocaleString('es-ES');
-
+        document.getElementById('montototalvalorreal').value = total.toLocaleString('es-ES');
     }
 
     function ponermayuscula(mayus) {
@@ -116,10 +114,13 @@
                 </div>
 
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                    Monto Total Cobrado:
-                    <input type="number" id="montototal" name="montototal" 
-                        class="form-control" step="0.01" placeholder="{{multas.montototal}}"
-                        style="color: grey; font-weight: bold;"/>                    
+                    Monto Total Cobrado: (${{multas.montototal}})
+                    <p style="color:black">( Al Colocar nuevo monto,el punto es para decimal!)</p>
+                    <input style="border: 0; width: 135px;border-radius: 5px; background-color: grey" id="montototalvalorreal" name="montototalvalorreal" readonly>(aqui refleja monto con puntos y decimales)</input>
+                    <p></p>
+                    <input onkeyup="agregarSeparadorMiles('montototal')" style="color: red; font-weight: bold;" type="number" 
+                    id="montototal" step="0.01" name="montototal" class="form-control" 
+                    placeholder="{{multas.montototal}}"/>                    
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Infracción/Infracción y Paralización:
