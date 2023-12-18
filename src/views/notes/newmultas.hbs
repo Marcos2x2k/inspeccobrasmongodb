@@ -1,4 +1,5 @@
-<script>
+<script>    
+
     function ffechaactual() {
         var tipo = document.getElementById('fecha');
         var eye = document.getElementById('botonfecha');
@@ -20,14 +21,11 @@
                 var diastring = dia
             }
             const ano = fecha.getFullYear() + "-"
-            //const fullyear = fecha.toLocaleDateString();
             const fullyear = ano + mes + diastring
-            //const fullyear = fecha.toLocaleDateString();
             tipo.value = fullyear;
         } else {
             //tipo.disabled = false;
             tipo.type = "date";
-            
             eye.class = "btn btn-secondary"
         }
     }
@@ -58,60 +56,72 @@
         }
     }
 
-
-
     function selectprofesional() {
         var selectsancion = document.getElementById("profesional")
-        var procentajeprof = document.getElementById("porcentajeprofesional")
-        var tc = 0
+        var porcentajeprof = document.getElementById("porcentajeprofesional")
         tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
     if (selectsancion.selectedIndex == 0) {
-        procentajeprof.enabled = false;
-        procentajeprof.value = "0%"
+        porcentajeprof.disabled = true;
+        porcentajeprof.value = "0"
+        porcentajeprof.color = "black"
         idvalor3 = tcprofesional
         var idvalor1 = document.getElementById("valor1").value;
         var idvalor2 = document.getElementById("valor2").value;
         var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
         var montototaldosdecimales = MontoTotal.toFixed(2)
-
         document.getElementById("valor1").value = idvalor1;
         document.getElementById("valor2").value = idvalor2;
         document.getElementById("valor3").value = idvalor3;
         document.getElementById("resultado").value = montototaldosdecimales
-
-    } else if (selectsancion.selectedIndex == 1) {
-        procentajeprof.enabled = true;
-        procentajeprof.value = "200%"
+    } else {
+        porcentajeprof.disabled = false;
+        porcentajeprof.value = "200"
+        porcentajeprof.color = "green"
         idvalor3 = tcprofesional * 2;
         var idvalor1 = document.getElementById("valor1").value;
         var idvalor2 = document.getElementById("valor2").value;
         var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
-        var montototaldosdecimales = MontoTotal.toFixed(2)
-
+        var montototaldosdecimales = MontoTotal//.toFixed(2)
         document.getElementById("valor1").value = idvalor1;
         document.getElementById("valor2").value = idvalor2;
         document.getElementById("valor3").value = idvalor3;
-        document.getElementById("resultado").value = montototaldosdecimales
+
+        var montototaldosdecimales = MontoTotal //PRUEBA CON SEPARADOR MILES
+        var separadoconmiles = montototaldosdecimales//.toLocaleString("es-ES")
+
+        document.getElementById("resultado").value = separadoconmiles
+        //document.getElementById("resultado").value = montototaldosdecimales
     }
     }
+    function clickselectreiteracion() {
+        var selreiteracion = document.getElementById("selectreiteracion")
+        var reiteracionm = document.getElementById("reiteracionmarca")
+        if (selreiteracion.selectedIndex == 0) {
+            reiteracionm.style.display = "none";
+            reiteracionm.disabled = true;
+            reiteracionm.value = ""
+        } else if (selreiteracion.selectedIndex == 1 || selreiteracion.selectedIndex == 2 || selreiteracion.selectedIndex == 3 || selreiteracion.selectedIndex == 4 || selreiteracion.selectedIndex == 5) {
+            reiteracionm.style.display = "block";
+            reiteracionm.disabled = true;
+            reiteracionm.value = "Reiteración Agregada!";
+        }
+    }
+
+    function seleccionarinfparaliz() {
+        var infraccionoparalizacion = document.getElementById("infraccionoparalizacion")
+        var labelinfparaliz = document.getElementById("labelinfparaliz")
+        if (infraccionoparalizacion.selectedIndex == 0) {
+            labelinfparaliz.innerHTML = 'INFRACCIÓN';
+        } else if (infraccionoparalizacion.selectedIndex == 1) {
+            labelinfparaliz.innerHTML = 'INFRACCIÓN y PARALIZACIÓN';
+        }
+    }
+
     function seleccionarinciso() {
-        //const Tasas = require('../models/Tasas')
         var seleccion = document.getElementById('incisos');
         //con o sin sansion
         var tc = parseInt({{ tasaactual.tasaconstruccion }})
-    //const tcfind = await Tasas.find().sort({_id:-1}).lean();
-    //var tc = await Task.forEach(tcfind.tasaconstruccion);
-    //var tc = tcfind.tasaconstruccion;
-    //const tc = await Tasas.find.lean().sort({ date: 'desc' })
-    //var tcpru = parseInt(tc.tasaconstruccion)
-    //console.log("TASA PRUEBA",tcpru)
 
-
-    //var selectsancion = document.getElementById("profesional")
-    //if (selectsancion.selectedIndex == 1) {
-    //    tc = tc * 2
-    //}
-    //var tc = "52000"
     document.getElementById("volverlistado").style.visibility = "hidden";
     if ((seleccion.selectedIndex == 1)) {
         document.getElementById("acta").value = "INCISO A) 1)";
@@ -314,11 +324,11 @@
         document.getElementById("valor1").value = 1;
         document.getElementById("valor1").disabled = 1;
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * tc;
+        document.getElementById("acta").value = "INCISO D)";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         document.getElementById("grabar").style.display = "block";
         if (x.style.display === "none") {
@@ -332,10 +342,10 @@
         document.getElementById("valor3").value = tc;
         document.getElementById("resultado").value = 1 * tc;
         document.getElementById("acta").value = "INCISO E)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
         document.getElementById("labelvalor1a").style.display = 'none'
-        document.getElementById("valor2").value = "2";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         document.getElementById("grabar").style.display = "block";
         if (x.style.display === "none") {
@@ -363,13 +373,13 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 17)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * 0.002 * tc;
+        document.getElementById("acta").value = "INCISO G)";
+        document.getElementById("formulamulta").value = "S.C.*0,002*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.002";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -377,13 +387,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 18)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.4 * tc
+        document.getElementById("acta").value = "INCISO H)";
+        document.getElementById("formulamulta").value = "0.4*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.4";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -391,13 +404,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 19)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.5 * tc
+        document.getElementById("acta").value = "INCISO I)";
+        document.getElementById("formulamulta").value = "0.5*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.5";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -405,13 +421,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 20)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * tc
+        document.getElementById("acta").value = "INCISO J)";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -419,13 +438,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 21)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * tc
+        document.getElementById("acta").value = "INCISO K)";
+        document.getElementById("formulamulta").value = "1*TC/5*TC/5*TC/S.C.*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -433,13 +455,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 22)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * tc
+        document.getElementById("acta").value = "INCISO L)";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -447,13 +472,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 23)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * tc
+        document.getElementById("acta").value = "INCISO LL)";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -461,12 +489,15 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 24)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
+        document.getElementById("resultado").value = 2 * tc
+        document.getElementById("acta").value = "INCISO M)";
+        document.getElementById("formulamulta").value = "2*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
         document.getElementById("valor2").value = "2";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
@@ -475,13 +506,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 25)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.4 * tc
+        document.getElementById("acta").value = "INCISO N)";
+        document.getElementById("formulamulta").value = "0.4*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.4";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -489,13 +523,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 26)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.3 * tc
+        document.getElementById("acta").value = "INCISO Ñ)";
+        document.getElementById("formulamulta").value = "0.3*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.3";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -503,13 +540,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 27)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.25 * tc
+        document.getElementById("acta").value = "INCISO O)";
+        document.getElementById("formulamulta").value = "0.25*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.25";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -517,13 +557,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 28)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.2 * tc
+        document.getElementById("acta").value = "INCISO P)";
+        document.getElementById("formulamulta").value = "0.2*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.2";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -531,13 +574,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 29)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * tc
+        document.getElementById("acta").value = "INCISO Q)";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -545,13 +591,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 30)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.5 * tc
+        document.getElementById("acta").value = "INCISO R)";
+        document.getElementById("formulamulta").value = "0.5 a 1.3*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.5";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -559,13 +608,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 31)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.4 * tc
+        document.getElementById("acta").value = "INCISO S)";
+        document.getElementById("formulamulta").value = "0.4*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.4";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -573,13 +625,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 32)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 1 * tc
+        document.getElementById("acta").value = "INCISO T)";
+        document.getElementById("formulamulta").value = "1*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "1";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -587,13 +642,16 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 33)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.5 * tc
+        document.getElementById("acta").value = "INCISO U)";
+        document.getElementById("formulamulta").value = "0.5 a 2 *TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.5";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -601,13 +659,33 @@
             x.style.display = "none";
         }
     } else if ((seleccion.selectedIndex == 34)) {
-        document.getElementById("valor1").value = 0;
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
         document.getElementById("valor3").value = tc;
-        document.getElementById("resultado").value = "0.00"
-        document.getElementById("acta").value = "INCISO B) 1.2.2)";
-        document.getElementById("formulamulta").value = "SIDEAP Pu*2*TC";
-        document.getElementById('labelvalor1').innerHTML = "SIDEAPPu";
-        document.getElementById("valor2").value = "2";
+        document.getElementById("resultado").value = 0.4 * tc
+        document.getElementById("acta").value = "INCISO V)";
+        document.getElementById("formulamulta").value = "0.4*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.4";
+        var x = document.getElementById("cardinciso");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    } else if ((seleccion.selectedIndex == 35)) {
+        document.getElementById("valor1").value = 1;
+        document.getElementById("valor1").hidden = "true";
+        document.getElementById("labelvalor1").hidden = "true";
+        document.getElementById("labelvalor1a").hidden = "true";
+        document.getElementById("valor3").value = tc;
+        document.getElementById("resultado").value = 0.4 * tc
+        document.getElementById("acta").value = "INCISO W)";
+        document.getElementById("formulamulta").value = "0.4*TC";
+        document.getElementById('labelvalor1').innerHTML = "Valor";
+        document.getElementById("valor2").value = "0.4";
         var x = document.getElementById("cardinciso");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -617,33 +695,55 @@
     }
     }
 
-    function ponermayuscula() {
-        let ex = document.getElementById("expediente");
+    function ponermayuscula(mayus) {
+        let ex = document.getElementById(mayus);
         ex.value = ex.value.toUpperCase();
-        let y = document.getElementById("adrema");
-        y.value = y.value.toUpperCase();
+        //let ex = document.getElementById("expediente");
+        //ex.value = ex.value.toUpperCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toUpperCase();
     }
 
     function fmontototal() {
-        var idvalor1 = document.getElementById("valor1").value;
-        var idvalor2 = document.getElementById("valor2").value;
-        var idvalor3 = document.getElementById("valor3").value;
-        var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
-        var montototaldosdecimales = MontoTotal.toFixed(2)
-        document.getElementById("resultado").value = montototaldosdecimales
-        var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
-        document.getElementById("observacionesmas").value = observacionesmas
-        if (MontoTotal > 0) {
-            document.getElementById("grabar").style.display = "block";
-        } else {
-            document.getElementById("grabar").style.display = "none";
-        }
+        //number.toLocaleString("es-ES")
+        var selectsancion = document.getElementById("profesional")
+        tcprofesional = parseInt({{ tasaactual.tasaconstruccion }})
+    if (selectsancion.selectedIndex == 1) {
+        var porcentaje = parseFloat(document.getElementById("porcentajeprofesional").value);
+        var calculoporcentaje = tcprofesional / 100 * porcentaje
+        console.log("porcentaje", porcentaje)
+        console.log("calculoporcentaje", calculoporcentaje)
+        document.getElementById("valor3").value = calculoporcentaje;
+    } else {
+        document.getElementById("valor3").value = tcprofesional
     }
+    var idvalor1 = document.getElementById("valor1").value;
+    var idvalor2 = document.getElementById("valor2").value;
+    var idvalor3 = document.getElementById("valor3").value;
+    var MontoTotal = parseFloat(idvalor1) * parseFloat(idvalor2) * parseFloat(idvalor3)
+
+    var montototaldosdecimales = MontoTotal //PRUEBA CON SEPARADOR MILES
+    var separadoconmiles = montototaldosdecimales//.toLocaleString("es-ES")
+
+    document.getElementById("resultado").value = separadoconmiles
+    var observacionesmas = idvalor1 + "*" + idvalor2 + "*" + idvalor3
+    document.getElementById("observacionesmas").value = observacionesmas
+    if (MontoTotal > 0) {
+        document.getElementById("grabar").style.display = "block";
+    } else {
+        document.getElementById("grabar").style.display = "none";
+    }
+    }
+
     function ShowName() {
         var writtenName = document.getElementById('propietario').value;
         document.getElementById('propietario').value = formatToString(writtenName);
     }
 
+    function ShowUbic() {
+        var writtenName = document.getElementById('ubicacion').value;
+        document.getElementById('ubicacion').value = formatToString(writtenName);
+    }
     function formatToString(writtenName) {
         var tmp = writtenName.split(" ");
         var fullName;
@@ -656,6 +756,7 @@
         })
         return fullName;
     }
+
 </script>
 
 <div style="max-width: 95%" class="col-md-8 mx-auto">
@@ -668,9 +769,8 @@
                         <h3 style="font-weight: bold; width: auto; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
                     ; color:rgb(24, 24, 26); font-weight: bold; border-radius: 6px;
                     text-shadow: 2px 2px 5px rgb(90, 88, 88)">
-                            ACTA DE LIQUIDACIÓN
+                            Acta Liquidación / Sanción Propietarios
                         </h3>
-
                         {{!--
                         <h4 style="color:rgb(65, 65, 124); text-decoration:underline; font-weight: bold;">
                             Se aplicarán multas
@@ -691,7 +791,7 @@
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Expediente:</label>
-                                    <input onkeyup="ponermayuscula()" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
+                                    <input onkeyup="ponermayuscula('expediente')" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
                             box-sizing: border-box; border: 3px solid #0e0d0d;" value="{{multas.expediente}}"
                                         placeholder="Exped." type="text" name="expediente" id="expediente"
                                         class="form-control" autocomplete="off" autofocus minlength="10"
@@ -702,7 +802,7 @@
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Adrema:</label>
-                                    <input onkeyup="ponermayuscula()" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
+                                    <input onkeyup="ponermayuscula('adrema')" style="width: 100%;padding: 12px 20px; margin: 0px 0; 
                                     box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="Adrema"
                                         name="adrema" type="text" id="adrema" class="form-control" autocomplete="off"
                                         value="{{multas.adrema}}" />
@@ -722,7 +822,7 @@
                                 <div class="form-outline">
                                     <label style="font-weight: bold; color:black" class="form-label"
                                         for="typeText">Ubicación:</label>
-                                    <input onkeyup="ponermayuscula()" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
+                                    <input onkeyup="ShowUbic();" style="width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
                                                 border-box; border: 3px solid #0e0d0d;" placeholder="Ubicación"
                                         name="ubicacion" type="text" id="ubicacion" class="form-control"
                                         autocomplete="off" required maxlength="40" value="{{multas.ubicacion}}" />
@@ -733,9 +833,10 @@
                         <p style="color:rgb(18, 214, 50);text-shadow: #CCC 1px 0 10px;">Tasa de Construcción Actual: $
                             {{tasaactual.tasaconstruccion}}</p>
                         <br>
-                        <label style="font-weight: bold; color:black" for="incisos">Selecciones tipo
+                        <label style="font-weight: bold; color:black" for="incisos">Seleccione tipo
                             infración:</label>
-                        <select name="infraccionoparalizacion" id="infraccionoparalizacion">
+                        <select name="infraccionoparalizacion" id="infraccionoparalizacion"
+                            onclick="seleccionarinfparaliz()">
                             <option value="Infracción">Infracción</option>
                             <option value="Infracción/Paralización">Infracción/Paralización</option>
                         </select>
@@ -788,14 +889,14 @@
                     <div id="cardinciso" class="card-body mx-auto"
                         style="display:none; max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
 
-                        <label style="font-weight: bold;text-shadow: 2px 2px 5px rgb(134, 133, 133)">INFRACCIÓN Y
-                            PARALIZACIÓN</label>
+                        <label id="labelinfparaliz"
+                            style="font-weight: bold;text-shadow: 2px 2px 5px rgb(134, 133, 133)">INFRACCIÓN</label>
                         <br />
                         <input name="acta" id="acta" style="font-weight: bold; width: 21%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                                border: 2px solid #cc0e0e; color:rgb(24, 24, 26); border-radius: 4px;"
-                            value="INCISO A) 1)" readonly>
+                                border: 2px solid #cc0e0e; color:rgb(24, 24, 26); border-radius: 4px;" value=""> {{!--
+                        readonly> --}}
                         <input name="formulamulta" id="formulamulta" style="color:blue;font-weight: bold;"
-                            value="SCSp x 0,15 x TC" readonly>
+                            value="SCSp x 0,15 x TC">
 
                         <div class="col-md-3">
                             <div class="form-outline">
@@ -823,22 +924,41 @@
                             border-box; border: 3px solid #0e0d0d;" placeholder="numacta" type="text" id="idnumacta"
                                     name="numacta" class="form-control" autocomplete="off" required>
                             </div>
+                            {{!-- SANCION PROFRESIONALES --}}
+                            <label style="font-weight: bold; color:rgb(0, 0, 0)" for="incisos">- Tipo de
+                                Sanción:</label>
+                            <br />
+                            <select name="sancionprof" id="profesional" onclick="selectprofesional()">
+                                <option value="sin Sancion">Sin Sanción</option>
+                                {{!-- <option value="Sancion-Profesional">Sanción Profesional</option> --}}
+                                <option value="deInterés-valorHistórico">Sanción Interes/Historico/Etc</option>
+                            </select>
+                            <br />
+                            <input onkeyup="fmontototal()" type="number" style="color: rgb(0, 0, 0)" name="sancionprorc"
+                                id="porcentajeprofesional" value="0" min="1" max="999" disabled>%</input>
+                            {{!-- REITERACIONES --}}
+                            <label style="font-weight: bold; color:rgb(5, 5, 5)" for="incisos">- Reiteraciones:</label>
+                            <br />
+                            <select name="reiteracion" id="selectreiteracion" onclick="clickselectreiteracion()">
+                                <option value="">Sin Reiteración</option>
+                                <option value="1° Reiteración">1°</option>
+                                <option value="2° Reiteración">2°</option>
+                                <option value="3° Reiteración">3°</option>
+                                <option value="4° Reiteración">4°</option>
+                                <option value="+4° Reiteración">5°/más</option>
+                            </select>
+                            <p></p>
+                            <input type="text" style="color: green; width:200px; display: none;" name="reiteracionmarca"
+                                id="reiteracionmarca" />
                         </div>
-                        <label style="font-weight: bold; color:rgb(235, 11, 11)" for="incisos">1.6.4)Sanción a
-                            Profesionales:</label>
-                        <br>
-                        <select name="profesionals" id="profesional" onclick="selectprofesional()">
-                            <option value="sinsancion">Sin Sanción</option>
-                            <option value="consancion">Con Sanción</option>
-                        </select>
-                        <input style="color: red" id="porcentajeprofesional" value="0%" disabled />
                         <div class="row my-2">
                             <div class="col-md-1">
                                 <div class="form-outline">
                                     <label id="labelvalor1" style="color:blue;font-weight: bold;" class=""
                                         for="typeText">SCSp</label>
-                                    <input name="scsp" onkeyup="fmontototal()" style="font-weight: bold; color:black"
-                                        type="number" min="0" id="valor1" value="0" required>
+                                    <input name="scsp" onkeyup="fmontototal()"
+                                        style="font-weight: bold; color:rgb(236, 10, 10)" type="number" min="0"
+                                        id="valor1" value="0" required>
                                 </div>
                             </div>
                             <div class="col-md-1">
@@ -887,8 +1007,8 @@
                                         Monto Total
                                     </label>
                                     <input type="text" name="montototal" id="resultado" style="color:red; 
-                                    width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 2px solid #000000;" placeholder="0.00">
+                                    width: 200%;padding: 1px 20px; margin: 0px 0; box-sizing: 
+                                    border-box; border: 2px solid #000000; font-weight: bold;" placeholder="0.00" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -912,623 +1032,3 @@
         </div>
     </div>
 </div>
-
-{{!-- INCISO B 1 2 1
-<div class="card">
-    <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-        <div>
-            <p style="font-weight: bold; width: 19%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                        border: 2px solid #cc0e0e; color:rgb(24, 24, 26); 
-                        font-weight: bold; border-radius: 4px;">
-                INCISO B) 1.2.1)
-            </p>
-            <p style="color:blue;font-weight: bold;">
-                MULTA=SE*0,2*TC
-            </p>
-        </div>
-        <div class="row my-3">
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Acta:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                                box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                        id="acta" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Adrema:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                        class="form-control" autocomplete="off" />
-
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Expediente:</label>
-                    <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                        id="expediente" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-        </div>
-        <form method="POST"
-            oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-            <div class="row my-3">
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="" for="typeText">
-                            SE
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" min="0" id="valor1" value="1">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor</label>
-                        <input style="font-weight: bold; color:black" type="number" value="0.2" step="0.01" min="0"
-                            id="valor2">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">
-                            T.C.
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" step="10400.00" min="0" id="valor3"
-                            value="52000">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                            Pagar</label><br />
-                        <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                            type="number" step=".01">10400.00</output>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="card">
-    <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-        <div>
-            <p style="font-weight: bold; width: 19%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                        border: 2px solid #cc0e0e; color:rgb(24, 24, 26); 
-                        font-weight: bold; border-radius: 4px;">
-                INCISO B) 1.2.2)
-            </p>
-            <p style="color:blue;font-weight: bold;">
-                MULTA=SIDEAP*1,5*TC
-            </p>
-        </div>
-        <div class="row my-3">
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Acta:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                                box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                        id="acta" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Adrema:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                        class="form-control" autocomplete="off" />
-
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Expediente:</label>
-                    <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                        id="expediente" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-        </div>
-        <form method="POST"
-            oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-            <div class="row my-3">
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="" for="typeText">
-                            SIDEAP
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" min="0" id="valor1" value="1">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor</label>
-                        <input style="font-weight: bold; color:black" type="number" value="0.15" step="0.01" min="0"
-                            id="valor2">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">
-                            T.C.
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" step="52000" min="0" id="valor3"
-                            value="52000">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                            Pagar</label><br />
-                        <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                            type="number" step=".01">7800.00</output>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="card">
-    <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-        <div>
-            <p style="font-weight: bold; width: 19%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                        border: 2px solid #cc0e0e; color:rgb(24, 24, 26); 
-                        font-weight: bold; border-radius: 4px;">
-                INCISO B) 1.2.3)
-            </p>
-            <p style="color:blue;font-weight: bold;">
-                MULTA=SI*1.5*TC
-            </p>
-        </div>
-        <div class="row my-3">
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Acta:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                                box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                        id="acta" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Adrema:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                        class="form-control" autocomplete="off" />
-
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Expediente:</label>
-                    <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                        id="expediente" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-        </div>
-        <form method="POST"
-            oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-            <div class="row my-3">
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="" for="typeText">
-                            SI
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" min="0" id="valor1" value="1">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor</label>
-                        <input style="font-weight: bold; color:black" type="number" value="0.15" step="0.01" min="0"
-                            id="valor2">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">
-                            T.C.
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" step="52000" min="0" id="valor3"
-                            value="52000">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                            Pagar</label><br />
-                        <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                            type="number" step=".01">7800.00</output>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="card">
-    <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-        <div>
-            <p style="font-weight: bold; width: 22%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                        border: 2px solid #cc0e0e; color:rgb(24, 24, 26); 
-                        font-weight: bold; border-radius: 4px;">
-                INCISO B) 1.3)1,3,1)
-            </p>
-            <p style="color:blue;font-weight: bold;">
-                MULTA=SE*2*TC
-            </p>
-        </div>
-        <div class="row my-3">
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Acta:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                                box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                        id="acta" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Adrema:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                        class="form-control" autocomplete="off" />
-
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Expediente:</label>
-                    <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                        id="expediente" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-        </div>
-        <form method="POST"
-            oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-            <div class="row my-3">
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="" for="typeText">
-                            SE
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" min="0" id="valor1" value="1">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor</label>
-                        <input style="font-weight: bold; color:black" type="number" value="2" step="0.01" min="0"
-                            id="valor2">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">
-                            T.C.
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" step="1" min="0" id="valor3"
-                            value="104000.00">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                            Pagar</label><br />
-                        <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                            type="number" step=".01">104000.00</output>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="card">
-    <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-        <div>
-            <p style="font-weight: bold; width: 19%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                        border: 2px solid #cc0e0e; color:rgb(24, 24, 26); 
-                        font-weight: bold; border-radius: 4px;">
-                INCISO B) 1.3.2)
-            </p>
-            <p style="color:blue;font-weight: bold;">
-                MULTA= SIDEAP *3*TC o SIDEAP Pu. x 4 x TC
-            </p>
-        </div>
-        <div class="row my-3">
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Acta:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                                box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                        id="acta" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Adrema:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                        class="form-control" autocomplete="off" />
-
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Expediente:</label>
-                    <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                        id="expediente" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-        </div>
-        <form method="POST"
-            oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-            <div class="row my-3">
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="" for="typeText">
-                            SIDEAP
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" min="0" id="valor1" value="1">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor</label>
-                        <input style="font-weight: bold; color:black" type="number" value="3" step="0.01" min="0"
-                            id="valor2">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">
-                            T.C.
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" step="52000" min="0" id="valor3"
-                            value="52000">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                            Pagar</label><br />
-                        <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                            type="number" step=".01">156000.00</output>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <form method="POST"
-            oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-            <div class="row my-3">
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="" for="typeText">
-                            SIDEAPpu
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" min="0" id="valor1" value="1">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor</label>
-                        <input style="font-weight: bold; color:black" type="number" value="4" step="0.01" min="0"
-                            id="valor2">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">
-                            T.C.
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" step="52000" min="0" id="valor3"
-                            value="52000">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                            Pagar</label><br />
-                        <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                            type="number" step=".01">208000.00</output>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="card">
-    <div class="car-header mx-auto" style="max-width: 95%; padding: 10px; border: 5px solid gray; margin: 0;">
-        <div>
-            <p style="font-weight: bold; width: 19%; padding: 1px 20px; margin: 0px 0; box-sizing: border-box; 
-                        border: 2px solid #cc0e0e; color:rgb(24, 24, 26); 
-                        font-weight: bold; border-radius: 4px;">
-                INCISO B) 1.3.3)
-            </p>
-            <p style="color:blue;font-weight: bold;">
-                MULTA=SI*4*TC
-            </p>
-        </div>
-        <div class="row my-3">
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Acta:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; 
-                                box-sizing: border-box; border: 3px solid #0e0d0d;" placeholder="N° Acta" type="text"
-                        id="acta" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Adrema:</label>
-                    <input style="font-weight: bold; width: 90%;padding: 12px 20px; margin: 0px 0; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Adrema" type="text" id="adrema"
-                        class="form-control" autocomplete="off" />
-
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-outline">
-                    <label style="font-weight: bold; color:black" class="form-label" for="typeText">Expediente:</label>
-                    <input style="font-weight: bold; width: 110%;padding: 12px 20px; margin: 1px 5; box-sizing: 
-                                border-box; border: 3px solid #0e0d0d;" placeholder="Expediente" type="text"
-                        id="expediente" class="form-control" autocomplete="off" />
-                </div>
-            </div>
-        </div>
-        <form method="POST"
-            oninput="resultado.value=(parseFloat(valor1.value)*parseFloat(valor2.value)*parseFloat(valor3.value)).toFixed(2)">
-            <div class="row my-3">
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="" for="typeText">
-                            SI
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" min="0" id="valor1" value="1">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue;font-weight: bold;" class="form-label" for="typeText">Valor</label>
-                        <input style="font-weight: bold; color:black" type="number" value="4" step="0.01" min="0"
-                            id="valor2">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">*</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">
-                            T.C.
-                        </label>
-                        <input style="font-weight: bold; color:black" type="number" step="52000" min="0" id="valor3"
-                            value="52000">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="" for="typeText">=</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-outline">
-                        <label style="color:blue; font-weight: bold;" class="form-label" for="typeText">Monto a
-                            Pagar</label><br />
-                        <output style="color:red; font-weight: bold; width: 105%;padding: 1px 20px; margin: 0px 0; box-sizing: 
-                                    border-box; border: 1px solid #000000;" name="resultado" for="valor1 valor2 valor3"
-                            type="number" step=".01">208000.00</output>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
---}}

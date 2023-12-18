@@ -3,6 +3,21 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const MesaentradaSchema = new Schema({
+    borrado:{
+        type: String,
+        required: true,
+        default:"No",
+    },
+    userborrado:{
+        type: String,
+        required: true,
+        default:"Sin Datos",
+    },
+    fechaborrado:{
+        type: String,
+        required: true,
+        default:"Sin Datos",
+    },
     sector: {
         type: String,
         require: false
@@ -58,8 +73,10 @@ const MesaentradaSchema = new Schema({
         require: false,
         default: "Administrador"
     },
-    date: {type: Date, 
-        default: Date.now},
+    date: {
+        type: Date, 
+        default: Date.now
+    },
 });
 
 module.exports = mongoose.model("Mesaentrada", MesaentradaSchema);

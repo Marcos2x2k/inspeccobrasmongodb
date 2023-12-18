@@ -4,7 +4,27 @@ const paginate = require('mongoose-paginate-v2');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 ExpedienteSchema = new Schema({
+  borrado: {
+    type: String,
+    required: true,
+    default: "No",
+  },
+  userborrado: {
+    type: String,
+    required: true,
+    default: "Sin Datos",
+  },
+  fechaborrado: {
+    type: String,
+    required: true,
+    default: "Sin Datos",
+  },
   estado: {
+    type: String,
+    require: false,
+    default: "No Posee Información"
+  },
+  motivoentsal: {
     type: String,
     require: false,
     default: "No Posee Información"
@@ -54,16 +74,17 @@ ExpedienteSchema = new Schema({
     require: false,
     default: "No Posee Información"
   },
-  // zona:{ 
-  //   type: String,
-  //   allowNull: true
-  // },
   superficieterreno: {
     type: String,
     require: false,
     default: "No Posee Información"
   },
   superficieaconstruir: {
+    type: String,
+    require: false,
+    default: "No Posee Información"
+  },
+  superficieademoler: {
     type: String,
     require: false,
     default: "No Posee Información"
@@ -87,6 +108,35 @@ ExpedienteSchema = new Schema({
     type: String,
     require: false,
     default: "No Posee Información"
+  },
+  selecpermisoedificacion: {
+    type: String,
+    require: false,
+    default: "No"
+  },
+  permisoedificacionnumero: {
+    type: String,
+    require: false,
+    default: "No Posee Información"
+  },
+  fechapermisoedificacion: {
+    type: String,
+    require: false,
+  },
+  selecpermisodemolicion: {
+    type: String,
+    require: false,
+    default: "No"
+  },
+  permisodemolicionnumero: {
+    type: String,
+    require: false,
+    default: "No Posee Información"
+  },
+  fechapermisodemolicion: {
+    type: String,
+    require: false,
+    default: "No"
   },
   fotoexpediente: {
     type: String,
@@ -167,20 +217,21 @@ ExpedienteSchema = new Schema({
   pathocho: {
     type: String,
     // default: "/img/Imagen-no-disponible.png"
-  },
-  // este user sirve para vincular las cuentas
+  },  
   user: {
     type: String,
     require: false,
     default: "Administrador"
-},
-name: {
+  },
+  name: {
     type: String,
     require: false,
     default: "Administrador"
-},
-date: {type: Date, 
-    default: Date.now},
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 ExpedienteSchema.plugin(paginate);

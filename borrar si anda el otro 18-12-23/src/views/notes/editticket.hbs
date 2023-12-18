@@ -1,0 +1,142 @@
+<div class="col-md-7 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Editar Ticket</h3>
+        </div>
+        <div class="card-body">
+            <form action="/notes/editticket/{{ticket._id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    N° Ticket:
+                    <input type="text" name="numticket" class="form-control" placeholder="Sin Información"
+                        value="{{ticket.numticket}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Iniciador
+                    <input type="text" name="iniciador" class="form-control" placeholder="Iniciador"
+                        value="{{ticket.iniciador}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Ubicación
+                    <input type="text" name="ubicacion" class="form-control" placeholder="Ubicación"
+                        value="{{ticket.ubicacion}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Celular
+                    <input type="text" name="celular" class="form-control" placeholder="Celular"
+                        value="{{ticket.celular}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    E-mail
+                    <input type="text" name="email" class="form-control" placeholder="Correo Electrónico"
+                        value="{{ticket.email}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Adrema:
+                    <input type="text" name="adrema" class="form-control" placeholder="Adrema"
+                        value="{{ticket.adrema}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Director de obra:
+                    <input type="text" name="directordeobra" class="form-control" placeholder="Director de Obra"
+                        value="{{ticket.directordeobra}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Destino de Obra:
+                    <input type="text" name="destinodeobra" class="form-control" placeholder="Destino de Obra"
+                        value="{{ticket.destinodeobra}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Superficie del terreno:
+                    <input type="number" name="superficieterreno" class="form-control" placeholder="Superficie del Terreno" 
+                        value="{{ticket.superficieterreno}}">
+                </div>                
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Superficie a construir:
+                    <input type="number" name="superficieaconstruir" class="form-control" placeholder="Superficie a Construir" 
+                        value="{{ticket.superficieaconstruir}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Superficie Planta Baja:
+                    <input type="number" name="supsubptabja" class="form-control" placeholder="Superficie Planta Baja"
+                        value="{{ticket.supsubptabja}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Superficie Planta Alta y más:
+                    <input type="number" name="supsubptaaltaymas" class="form-control" placeholder="Superficie Planta Alta y más" 
+                    value="{{ticket.supsubptaaltaymas}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Zona:
+                    <input type="text" name="zona" class="form-control" placeholder="Zona" 
+                        value="{{ticket.zona}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Observaciones:
+                    <input type="text" name="observaciones" class="form-control" placeholder="Observaciones"
+                        value="{{ticket.observaciones}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Permiso de Obra:
+                    <input type="text" name="permisoobra" class="form-control" placeholder="Permiso de Obra"
+                        value="{{ticket.permisoobra}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Acta de Infracción:
+                    <input type="text" name="actainfraccion" class="form-control" placeholder="Acta de Infracción"
+                        value="{{ticket.actainfraccion}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha Entrada a Inspecciones:
+                    <input type="date" name="fechaentradainspecciones" class="form-control" placeholder="Fecha Entrada a Inspecciones" 
+                        value="{{ticket.fechaentradainspecciones}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Inspector realizó Inspección:
+                    <input type="text" name="inspeccioninspector" class="form-control" placeholder="Inspector realizó Inspección" 
+                        value="{{ticket.inspeccioninspector}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha de Inspección:
+                    <input type="date" name="inspeccionfecha" class="form-control" placeholder="Fecha de Inspección"
+                        value="{{ticket.inspeccionfecha}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Posee Intimaciones:
+                    <input type="text" name="intimaciones" class="form-control" placeholder="Intimaciones"
+                        value="{{ticket.intimaciones}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Posee Infracciones:
+                    <input type="text" name="infracciones" class="form-control" placeholder="Infracciones"
+                        value="{{ticket.infracciones}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Pase a:
+                    <input type="text" name="pasea" class="form-control" placeholder="Pase a"
+                        value="{{ticket.pasea}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha del Pase a:
+                    <input type="date" name="fechapasea" class="form-control" placeholder="Fecha del Pase a"
+                        value="{{ticket.fechapasea}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Usuario Cargo Alta:
+                    <input type="text" name="name" class="form-control" placeholder="Fecha del Pase a"
+                        value="{{ticket.name}}" disabled>
+                </div> 
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Grabar
+                    </button>
+                </div>
+                <div class="form-group">
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/ticket/listado"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

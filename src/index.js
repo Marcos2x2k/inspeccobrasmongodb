@@ -1,7 +1,7 @@
 const express = require ('express');
 const morgan = require('morgan');
 const multer = require('multer');
-const uuid = require('uuid/v4');
+//const uuid = require('uuid/v4');
 const path = require('path');
 const exphbs = require("express-handlebars");
 const methodOverride = require('method-override');
@@ -9,7 +9,6 @@ const session = require('express-session');
 const flash = require ('connect-flash'); // modulo para enviar mensajes de advertencia
 const passport = require('passport');
 // const { format } = require('timeago.js');
-
 
 // Inicilializaciones
 const app = express();
@@ -91,10 +90,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
-app.use(require('./routes/index.js'))
-app.use(require('./routes/notes.js'))
-app.use(require('./routes/users.js'))
+// Routes aca defino las Rutas que utilizo
+app.use(require('./routes/index.js'));
+app.use(require('./routes/notes.js'));
+app.use(require('./routes/users.js'));
+app.use(require('./routes/mesaentrada.js'));
+app.use(require('./routes/liquidaciones.js'));
+app.use(require('./routes/expedientes.js'));
+app.use(require('./routes/usosuelo.js'));
+app.use(require('./routes/estadisticas.js'));
 
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -129,7 +133,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 const port = 8080;
 //aquí va tu ip de mi pc o servidor q tenga el sistema
 //const IP = "172.25.2.119";
-const IP = "172.25.2.215" // PC DOC
+// const IP = "172.25.2.215" // Mi PC
+const IP ="MADaGo";
 
 //app.listen(app.get('port'), () => {
 app.listen(port, () => {

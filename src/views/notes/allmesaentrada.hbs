@@ -113,13 +113,12 @@
                 <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/mesaentrada/list/{{_id}}"><i
                             class="fas fa-list" style='font-size:24px;color:blue'></i></a> Info Suplementaria</p>
 
-                {{!-- <form style="box-shadow: 3px 4px;" action="/mesaentrada/delete/{{_id}}?_method=DELETE"
-                    method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
+                <form onSubmit="return confirm('Desea enviar Papelera?')"  style="box-shadow: 3px 4px;" action="/mesaentrada/marcadelete/{{_id}}?_method=PUT" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         Borrar
                     </button>
-                </form> --}}
+                </form>
                 {{!-- {{/if}}
             </div>
         </div>

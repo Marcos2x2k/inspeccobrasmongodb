@@ -9,103 +9,118 @@
                 <div class="form-group">
                     Estadistica Nº:
                     <input type="text" name="numinspeccion" class="form-control" placeholder="Sin Información"
-                        value="{{estadistica.estadisticanum}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                        value="{{estadistica.estadisticanum}}" style="black; font-weight: bold;" disabled/>
                 </div>
                 <div class="form-group">
                     Fecha Estadistica:
                     <input type="date" name="expediente" class="form-control" placeholder="Sin Información"
-                        value="{{estadistica.fechaestadistica}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                        value="{{estadistica.fechaestadistica}}" style="black; font-weight: bold;" disabled/>
                 </div>
                 <div class="form-group">
-                    Hora estadistica:
-                    <input type="time" name="horaestadistica" class="form-control"
-                        style="color: #3d0ee7; font-weight: bold;" value="{{estadistica.horaestadistica}}" disabled>
+                    Numero Expediente:
+                    <input type="text" name="numexpediente" class="form-control"
+                        style="black; font-weight: bold;" value="{{estadistica.numexpediente}}" disabled />
+                    Nombre y Apellido:
+                    <input type="text" name="iniciadornomyape" class="form-control"
+                        style="black; font-weight: bold;" value="{{estadistica.iniciadornomyape}}" disabled />
+                    Domicilio:
+                    <input type="text" name="domicilio" class="form-control"
+                        style="black; font-weight: bold;" value="{{estadistica.domicilio}}" disabled />
+
+                    <p></p>
+                    <p>------------------------------------------------------</p>
                     <div class="form-group">
                         ID Usuario Cargó Estadistica
                         <input type="text" name="name" class="form-control" placeholder="Sin Información"
-                            value="{{estadistica.user}}" style="color: red;" disabled>
+                            value="{{estadistica.user}}" style="color: grey;" disabled>
                     </div>
                     <div class="form-group">
                         Fecha
-                        <input type="date" name="fechapasea" class="form-control" placeholder="Sin Información"
-                            value="{{estadistica.dateest}}" style="color: red;" disabled>
+                        <input type="text" name="date" class="form-control" placeholder="Sin Información"
+                            value="{{estadistica.date}}" style="color: grey;" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Fotos 1:</label>
+                        {{!-- <label>Fotos 1:</label> --}}
                         <br />
                         {{!-- <img style="border-radius:30px;" src="{{estadistica.path}}" alt="_Imagen No Cargada"
                             width="400" /> <br /><br /> --}}
                         {{!-- <a href="{{estadistica.path}}">Ver Foto en Grande</a> --}}
                         <a href="{{estadistica.path}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.path}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none'">
                         </a>
                     </div>
                     <div class="form-group">
-                        <label>Foto 2:</label>
+                        {{!-- <label>Foto 2:</label> --}}
                         <br />
                         <a href="{{estadistica.pathdos}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.pathdos}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none';">
                         </a>
 
                     </div>
                     <div class="form-group">
-                        <label>Foto 3:</label>
+                        {{!-- <label>Foto 3:</label> --}}
                         <br />
                         <a href="{{estadistica.pathtres}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.pathtres}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none'">
                         </a>
                     </div>
-                    <div  id="myDIV" class="form-group">
-                        <label>Foto 4:</label>
+                    <div id="myDIV" class="form-group">
+                        {{!-- <label>Foto 4:</label> --}}
                         <br />
                         <a href="{{estadistica.pathcuatro}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.pathcuatro}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none'">
                         </a>
                     </div>
                     <div class="form-group">
-                        <label>Foto 5:</label>
+                        {{!-- <label>Foto 5:</label> --}}
                         <br />
                         <a href="{{estadistica.pathcinco}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.pathcinco}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none'">
                         </a>
                     </div>
                     <div class="form-group">
-                        <label>Foto 6:</label>
+                        {{!-- <label>Foto 6:</label> --}}
                         <br />
                         <a href="{{estadistica.pathseis}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.pathseis}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none'">
                         </a>
 
                     </div>
                     <div class="form-group">
-                        <label>Foto 7:</label>
+                        {{!-- <label>Foto 7:</label> --}}
                         <br />
                         <a href="{{estadistica.pathsiete}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.pathsiete}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none'">
                         </a>
 
                     </div>
                     <div class="form-group">
-                        <label>Foto 8:</label>
+                        {{!-- <label>Foto 8:</label> --}}
                         <br />
                         <a href="{{estadistica.pathocho}}" target="_blank">
                             <img style="border-radius:30px;" src="{{estadistica.pathocho}}" alt="_Imagen No Cargada"
-                                width="250" height="200">
+                                width="250" height="300" onerror="this.style.display='none'">
                         </a>
                     </div>
-                    <br/>
-                    <div class="form-group">
+                    <br />
+                    <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                        &laquo; Volver Atrás
+                    </a>
+                    <br /><br />
+                    {{!-- <div class="form-group">
                         <div class="form-group">
-                            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/estadisticas"><i
-                                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
-                    </div>
+                            <p style="color:brown; font-style:oblique; font-weight: bold;"><a
+                                    href="/estadisticas/listado"><i class="fas fa-list"
+                                        style='font-size:24px;color:blue'></i></a> Volver Listado</p>
+                        </div>
+                    </div> --}}
             </form>
         </div>
     </div>

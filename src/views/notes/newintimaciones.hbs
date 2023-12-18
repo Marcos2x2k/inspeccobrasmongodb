@@ -10,53 +10,53 @@
             <form action="/notes/newintimaciones" method="POST" enctype="multipart/form-data">
                 <div class="form-group">                    
                     (*) Nº Intimación:
-                    <input type="text" name="boletaintnum" class="form-control" placeholder="Num. Intimacion" required
+                    <input style="font-weight: bold; color:black" type="text" name="boletaintnum" class="form-control" placeholder="Num. Intimacion" required
                         autofocus>
                 </div>
                 <div class="form-group">
                     Expediente:
-                    <input type="text" name="numexpedienteint" class="form-control" placeholder="Numº Expediente"
+                    <input style="font-weight: bold; color:black" type="text" name="numexpedienteint" class="form-control" placeholder="Numº Expediente"
                         value="{{intimacion.numexpedienteint}}" autofocus>
                 </div>
                 <div class="form-group">
                     Adrema:
-                    <input value="{{intimacion.adremaint}}" name="adremaint" class="form-control" placeholder="Adrema"
+                    <input style="font-weight: bold; color:black" value="{{intimacion.adremaint}}" name="adremaint" class="form-control" placeholder="Adrema"
                     >
                 </div>
                 <div class="form-group">
                     (*) Señor / Señora:
-                    <input name="senorsenora" class="form-control" placeholder="Señor / Señora" required
+                    <input style="font-weight: bold; color:black" name="senorsenora" class="form-control" placeholder="Señor / Señora" required
                         value="{{intimacion.senorsenora}}" autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Domicilio Particular:
-                    <input name="domiciliopart" class="form-control" placeholder="Domicilio Particular" required
+                    <input style="font-weight: bold; color:black" name="domiciliopart" class="form-control" placeholder="Domicilio Particular" required
                         value="{{intimacion.domiciliopart}}" autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Lugar de Actuación:
-                    <input name="lugaractuacion" class="form-control" placeholder="Lugar de Actuación" required
+                    <input style="font-weight: bold; color:black" name="lugaractuacion" class="form-control" placeholder="Lugar de Actuación" required
                         value="{{intimacion.lugaractuacion}}" autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Fecha de Intimación:
-                    <input name="fechaintimacion" class="form-control" placeholder="Fecha de Intimación" type="date"
+                    <input style="font-weight: bold; color:black" name="fechaintimacion" class="form-control" placeholder="Fecha de Intimación" type="date"
                         required autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Hora de Intimación:
-                    <input type="time" name="horaintimacion" class="form-control" placeholder="Hora de Intimación"
+                    <input style="font-weight: bold; color:black" type="time" name="horaintimacion" class="form-control" placeholder="Hora de Intimación"
                         required autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Otorga el Plazo de(Días):
-                    <input type="number" name="otorgaplazode" class="form-control"
+                    <input style="font-weight: bold; color:black" type="number" name="otorgaplazode" class="form-control"
                         placeholder="Otorga el Plazo de (Días)" required autofocus></input>
                 </div>
                 <div class="form-group">
                     Para el Cumplimiento a (Observaciones):
-                    <textarea style="resize:none;" name="paracumplimientoa" rows="2" cols="40" class="form-control" placeholder="Para el Cumplimiento a"
-                        type="text"></textarea>
+                    <input style="font-weight: bold; color:black; resize:none;" value="{{intimacion.descripcion}}" name="paracumplimientoa" rows="2" cols="40" class="form-control" placeholder="Para el Cumplimiento a"
+                        type="text"></input>
                 </div>
                 <div class="form-group">
                     vencimiento de intimación:
@@ -65,21 +65,21 @@
                 </div>
                 <div class="form-group">
                     (*) Notificado (Infractor NyA):
-                    <input name="notificadoint" class="form-control" placeholder="Notificado" 
+                    <input style="font-weight: bold; color:black" name="notificadoint" class="form-control" placeholder="Notificado" 
                         value="{{intimacion.notificadoint}}" required autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Aclaración Infractor (N y A):
-                    <input value="{{intimacion.aclaracion}}" name="aclaracion" class="form-control" placeholder="Aclaración" required 
+                    <input style="font-weight: bold; color:black" value="{{intimacion.aclaracion}}" name="aclaracion" class="form-control" placeholder="Aclaración" required 
                     required autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Agente/Inspector:
-                    <input name="inspectorint" class="form-control" placeholder="Inspector" required autofocus></input>
+                    <input style="font-weight: bold; color:black" value="{{intimacion.inspectorint}}" name="inspectorint" class="form-control" placeholder="Inspector" required autofocus></input>
                 </div>
                 <div class="form-group">
                     (*) Nº Código Agente/Inspector:
-                    <input name="numcodigoint" class="form-control" placeholder="Num. Codigo" required
+                    <input style="font-weight: bold; color:black" value="{{intimacion.codinspector}}" name="numcodigoint" class="form-control" placeholder="Num. Codigo" required
                         autofocus></input>
                 </div>
                 <label style="font-weight:bold">Seleccione Fotos Intimación (Máximo 8):</label>

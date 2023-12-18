@@ -1,0 +1,67 @@
+<script>
+    var fecha = new Date()
+    var dia = fecha.getDay()
+    var dias = new Array('domingo', 'lunes', 'martes', 'miercoles', 'juev es', 'viernes', 'sabado')
+    function escribeImagen() {
+        document.write('<img src="' + dias[dia] + '.jpg">')
+    }
+</script>
+
+<div class="col-md-6 mx-auto">
+    <script>
+        var fecha = new Date();
+        document.getElementById("FechaActual").value = fecha.toJSON().slice(0, 10);
+        { { !-- < input type = "date" class="form-control form-control-sm" id = "FechaActual" > --} }
+    </script>
+
+    <div class="card">
+        <div class="car-header mx-auto">
+            <br/>
+            <h3 style="color:blue; text-decoration:underline">Nueva Estadistica</h3>
+        </div>
+        <div class="card-body">
+            <form action="/notes/newestadisticas" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    Estadistica Nº:
+                    <input type="text" name="estadisticanum" class="form-control" placeholder="Estadistica Nº"
+                        autofocus>
+                </div>
+                <div class="form-group">
+                    Fecha Estadística:
+                    <input type="date" name="fechaestadistica" class="form-control" placeholder="Fecha Estadistica"
+                        autofocus>
+                </div>
+                <div class="form-group">
+                    Hora Estadística:
+                    <input type="time" name="horaestadistica" class="form-control"
+                        placeholder="{{FechaActual}}"></input>
+                </div>
+                <label style="font-weight:bold">Seleccione Fotos Estadisticas (Máximo 8):</label>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile02"
+                            accept=".jpg,.png,.jfif" multiple>
+                        <label class="custom-file-label" for="inputGroupFile02"
+                            aria-describedby="inputGroupFileAddon02">Selecciones Foto</label>
+                    </div>
+                </div>
+                {{!-- <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Save
+                    </button>
+                </div> --}}
+                <div class="form-group">
+                    <button class="btn btn-success btn-block">
+                        Grabar
+                    </button>
+                </div>
+                <a href="javascript:window.history.back();">&laquo; Volver Menu atrás</a>
+                <br/>
+                <div class="form-group">
+                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/estadisticas"><i
+                                class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

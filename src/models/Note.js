@@ -3,7 +3,22 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const NoteSchema = new Schema({
-        origeninspeccion:{
+        borrado: {
+                type: String,
+                required: true,
+                default: "No",
+        },
+        userborrado: {
+                type: String,
+                required: true,
+                default: "Sin Datos",
+        },
+        fechaborrado: {
+                type: String,
+                required: true,
+                default: "Sin Datos",
+        },
+        origeninspeccion: {
                 type: String,
                 require: true,
                 default: "Anónimo"
@@ -168,7 +183,7 @@ const NoteSchema = new Schema({
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },
+        },        
         // este user sirve para vincular las cuentas
         user: {
                 type: String,

@@ -28,7 +28,6 @@ router.get ('/users/11vvsOpmo90W', (req, res) => {
         return res.redirect('/');
     }
     // res.render ('users/signup');
-
 });
 
 // *** cuando se borra el registro admin **
@@ -36,12 +35,10 @@ router.get ('/users/11vvsOpmo90W-MAD', (req, res) => {
     res.render ('users/signup');
 });
 
-
-
 router.post('/users/signup', async (req, res) =>{
-    const { rolusuario, name, email, password, confirm_password} = req.body;
+    const { rolusuario, name, email, dni, password, confirm_password} = req.body;
     const errors = [];
-    if(rolusuario.length<=0 || name.length<=0 || email.length<=0 || password.length<=0 || confirm_password.length<=0){
+    if(rolusuario.length<=0 || name.length<=0 || email.length<=0 || dni.length<=0 || password.length<=0 || confirm_password.length<=0){
         errors.push({text:'Todos los Datos deben ser Cargados'})
     }
     if (password != confirm_password){
@@ -51,7 +48,7 @@ router.post('/users/signup', async (req, res) =>{
         errors.push({text: "Contraseña debe tener mas de 4 caracteres"});
     }
     if (errors.length>0){
-        res.render('users/signup', {errors, name, email, password, confirm_password});
+        res.render('users/signup', {errors, name, dni, email, password, confirm_password});
     } else {
         const emailUser = await User.findOne({ email: email });
         if (emailUser) {
@@ -60,13 +57,13 @@ router.post('/users/signup', async (req, res) =>{
                 return res.redirect("/users/11vvsOpmo90W");
                 // res.render('users/signup', {errors, name, email, password, confirm_password});
         }
-        const newUser = new User({rolusuario, name, email, password});
+        const newUser = new User({rolusuario, name, dni, email, password});
         const salt = await bcrypt.genSalt(10);
         newUser.password = await bcrypt.hash(newUser.password, salt);
         // newUser.password = await newUser.EncryptPassword(password); //NOSE PORQUE NO ANDA
         await newUser.save();
         req.flash('success_msg', 'Nuevo Usuario Registrado');
-        res.redirect('/');
+        res.redirect('/usuarios');
         // console.log(req.body);
     // res.send('OK')}s
 }});

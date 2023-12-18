@@ -4,6 +4,21 @@ const { Schema } = mongoose; // aca defino esquema de base de datos
 
 
 const IntimacionSchema = new Schema({
+        borrado: {
+                type: String,
+                required: true,
+                default: "No",
+        },
+        userborrado: {
+                type: String,
+                required: true,
+                default: "Sin Datos",
+        },
+        fechaborrado: {
+                type: String,
+                required: true,
+                default: "Sin Datos",
+        },
         fechaintimacion: {
                 type: String,
                 require: false,
@@ -24,7 +39,7 @@ const IntimacionSchema = new Schema({
                 require: false,
                 default: "No Posee Información"
         },
-        zona:{
+        zona: {
                 type: Number,
                 require: true,
                 default: "No Posee Información"
@@ -43,7 +58,7 @@ const IntimacionSchema = new Schema({
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },        
+        },
         otorgaplazode: {
                 type: Number,
                 require: false,
@@ -53,7 +68,7 @@ const IntimacionSchema = new Schema({
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        }, 
+        },
         tipoacta: {
                 type: String,
                 require: false,
@@ -88,23 +103,23 @@ const IntimacionSchema = new Schema({
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },  
+        },
         vencimientoint: {    // pidio doc en macro para excel y coloco aca tambien
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },   
+        },
         //hasta aca esta en el excel de Alejandro Garcia           
         lugaractuacion: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },               
+        },
         horaintimacion: {
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },        
+        },
         aclaracion: {
                 type: String,
                 require: false,
@@ -114,7 +129,7 @@ const IntimacionSchema = new Schema({
                 type: String,
                 require: false,
                 default: "No Posee Información"
-        },        
+        },
         filename: {
                 type: String
         },
@@ -170,6 +185,11 @@ const IntimacionSchema = new Schema({
         pathocho: {
                 type: String,
                 // default: "/img/Imagen-no-disponible.png"
+        },
+        eliminado: {
+                type: String,
+                require: false,
+                default: "No"
         },
         // este user sirve para vincular las cuentas
         user: {
