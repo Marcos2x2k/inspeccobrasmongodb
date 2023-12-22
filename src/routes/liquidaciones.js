@@ -114,11 +114,15 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
             console.log("tiene centavos", centavos)
             longitudcentavos = centavos[1].length
             console.log("longitud centavos", longitudcentavos)
-            if (longitudcentavos > 1) {
-                solodoscentavos = centavos[1].slice(0, 2);
-                solodoscentavos = parseInt(solodoscentavos)
+            if (longitudcentavos >= 1) {
+                solodoscentavos = centavos[1].split("");
                 console.log("entro a longitud > de 1: ", solodoscentavos)
-                if (solodoscentavos === 0) {
+                if (solodoscentavos[1] === "0") {
+                    //buscar cero en centavos 20 o 30 o 40  
+                    var cortarsolodoscentavos = solodoscentavos.toString();
+                    var ceroensegundocentavo = cortarsolodoscentavos.split("");
+                    solodoscentavos = ceroensegundocentavo[0] + "0"
+                } else {
                     montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
                     montototalcondecimalesstring = montototalcondecimales + ",00";
                     console.log("monto total con decimales", montototalcondecimalesstring);
@@ -128,46 +132,58 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
                 solodoscentavos = centavos[1] + "0"
                 console.log("entro a longitud < de 1: ", solodoscentavos)
             }
-            if (solodoscentavos === "00") {
-                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                montototalcondecimalesstring = montototalcondecimales + ",00";
-                console.log("monto total con decimales", montototalcondecimalesstring);
-                console.log("split array centavos completos", solodoscentavos)
-            }
-            if (solodoscentavos > 9 && solodoscentavos < 99) {
-                console.log("entro a 9 y mas de 99", solodoscentavos)
-                solocentavosstring = solodoscentavos.toString();
-                console.log("solo centavos string", solocentavosstring)
-                centavos1 = solocentavosstring.split('');
-                console.log("split", centavos1)
-                if (centavos1[1] === "0") { // aca entra cuando hay un cero ej:50
-                    console.log("entro a 0", centavos1)
-                    var solocentavos = centavos1.join('')
-                    var pruebaentero = parseFloat(centavos[0] + "." + solocentavos)
-                    console.log("uniendo entero y centavo: (variable pruebaentero)" + pruebaentero)
-                    var reparado = parseFloat(pruebaentero)
-                    //reparado = parseFloat(reparado); 
-                    reparado = reparado.toLocaleString("es-ES")
-                    console.log("monto total con decimales con 0", reparado + "0");
-                } else {
-                    console.log("NO entro a 0", centavos1)
-                    montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                    montototalcondecimalesstring = montototalcondecimales + "";
-                    var pruebaentero = parseFloat(centavos[0])
-                    var solocentavos = centavos1.join('')
-                    console.log("uniendo entero y centavo: " + solocentavos)
-                    var reparado = parseFloat(pruebaentero)
-                    //reparado = parseFloat(reparado); 
-                    reparado = reparado.toLocaleString("es-ES")
-                    console.log("monto total con decimales sin cero Reparado", reparado + "," + solocentavos);
-                    //console.log("monto total con decimales oo sin cero",montototalcondecimalesstring);             	
-                }
-            } else if (solocentavos > 0 && solocentavos < 10) {
-                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                montototalcondecimalesstring = montototalcondecimales + "0";
-                console.log("monto total con decimales", montototalcondecimalesstring);
-            }
         }
+        if (solodoscentavos === "00") {
+            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+            montototalcondecimalesstring = montototalcondecimales + ",00";
+            console.log("monto total con decimales", montototalcondecimalesstring);
+            console.log("split array centavos completos", solodoscentavos)
+        }
+        if (solodoscentavos > 9 && solodoscentavos < 99) {
+            console.log("entro a 9 y mas de 99", solodoscentavos)
+            solocentavosstring = solodoscentavos.toString();
+            console.log("solo centavos string", solocentavosstring)
+            centavos1 = solocentavosstring.split('');
+            console.log("split", centavos1)
+            if (centavos1[1] === "0") { // aca entra cuando hay un cero ej:50
+                console.log("entro a 0", centavos1)
+                solocentavos = centavos1.join('')
+                var pruebaentero = parseFloat(centavos[0] + "." + solocentavos)
+                console.log("uniendo entero y centavo: (variable pruebaentero)" + pruebaentero)
+                var reparado = parseFloat(pruebaentero)
+                //reparado = parseFloat(reparado); 
+                reparado = reparado.toLocaleString("es-ES")
+                var reparadostring = reparado.toString();
+                console.log("monto total con decimales con 0", reparado + "0");
+                montototalcondecimalesstring = reparadostring + "0"
+            } else {
+                console.log("NO entro a 0", centavos1)
+                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                montototalcondecimalesstring = montototalcondecimales + "";
+                pruebaentero = parseFloat(centavos[0])
+                solocentavos = centavos1.join('')
+                console.log("uniendo entero y centavo: " + solocentavos)
+                reparado = parseFloat(pruebaentero)
+                //reparado = parseFloat(reparado); 
+                reparado = reparado.toLocaleString("es-ES")
+                var reparadostring = reparado.toString();
+                console.log("monto total con decimales sin cero Reparado", reparado + "," + solocentavos);
+                montototalcondecimalesstring = reparadostring + "," + solocentavos
+                //console.log("monto total con decimales oo sin cero",montototalcondecimalesstring);             	
+            }
+        } else if (solocentavos > 0 && solocentavos < 1) {
+            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+            montototalcondecimalesstring = montototalcondecimales;// + "0";
+            console.log("monto total con decimales", montototalcondecimalesstring);
+        } else if (solocentavos >= 0 && solocentavos < 10) {
+            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+            montototalcondecimalesstring = montototalcondecimales + "0";
+            console.log("monto total con decimales", montototalcondecimalesstring);
+
+        };
+
+        //multas.montototal = montototalcondecimalesstring.toString();
+        //multas = tablamultas
         var montoimprimir = montototalcondecimalesstring;
         tabla += `<tr>  
     <td></td>  
@@ -320,8 +336,8 @@ router.get('/multas', isAuthenticated, async (req, res) => {
         var tablamultas = await Multas.find({ $and: [{ apercibimientoprofesional: "No" }, { borrado: "No" }] }).lean().sort({ date: 'desc' });
 
         for (var multas of tablamultas) {
-            
-            var pricestring =  multas.montototal
+
+            var pricestring = multas.montototal
             var price = pricestring;
             //var pricearray = ["1434555555", "14345555.5", "14345555.55", "14345555.555", "14345555.0000", "14345555.505"];
             //var price = pricearray[5];         
@@ -345,11 +361,15 @@ router.get('/multas', isAuthenticated, async (req, res) => {
                 console.log("tiene centavos", centavos)
                 longitudcentavos = centavos[1].length
                 console.log("longitud centavos", longitudcentavos)
-                if (longitudcentavos > 1) {
-                    solodoscentavos = centavos[1].slice(0, 2);
-                    solodoscentavos = parseInt(solodoscentavos)
+                if (longitudcentavos >= 1) {
+                    solodoscentavos = centavos[1].split("");
                     console.log("entro a longitud > de 1: ", solodoscentavos)
-                    if (solodoscentavos === 0) {
+                    if (solodoscentavos[1] === "0") {
+                        //buscar cero en centavos 20 o 30 o 40  
+                        var cortarsolodoscentavos = solodoscentavos.toString();
+                        var ceroensegundocentavo = cortarsolodoscentavos.split("");
+                        solodoscentavos = ceroensegundocentavo[0] + "0"
+                    } else {
                         montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
                         montototalcondecimalesstring = montototalcondecimales + ",00";
                         console.log("monto total con decimales", montototalcondecimalesstring);
@@ -359,56 +379,65 @@ router.get('/multas', isAuthenticated, async (req, res) => {
                     solodoscentavos = centavos[1] + "0"
                     console.log("entro a longitud < de 1: ", solodoscentavos)
                 }
-                if (solodoscentavos === "00") {
+            }
+            if (solodoscentavos === "00") {
+                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                montototalcondecimalesstring = montototalcondecimales + ",00";
+                console.log("monto total con decimales", montototalcondecimalesstring);
+                console.log("split array centavos completos", solodoscentavos)
+            }
+            if (solodoscentavos > 9 && solodoscentavos < 99) {
+                console.log("entro a 9 y mas de 99", solodoscentavos)
+                solocentavosstring = solodoscentavos.toString();
+                console.log("solo centavos string", solocentavosstring)
+                centavos1 = solocentavosstring.split('');
+                console.log("split", centavos1)
+                if (centavos1[1] === "0") { // aca entra cuando hay un cero ej:50
+                    console.log("entro a 0", centavos1)
+                    solocentavos = centavos1.join('')
+                    var pruebaentero = parseFloat(centavos[0] + "." + solocentavos)
+                    console.log("uniendo entero y centavo: (variable pruebaentero)" + pruebaentero)
+                    var reparado = parseFloat(pruebaentero)
+                    //reparado = parseFloat(reparado); 
+                    reparado = reparado.toLocaleString("es-ES")
+                    var reparadostring = reparado.toString();
+                    console.log("monto total con decimales con 0", reparado + "0");
+                    montototalcondecimalesstring = reparadostring + "0"
+                } else {
+                    console.log("NO entro a 0", centavos1)
                     montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                    montototalcondecimalesstring = montototalcondecimales + ",00";
-                    console.log("monto total con decimales", montototalcondecimalesstring);
-                    console.log("split array centavos completos", solodoscentavos)
+                    montototalcondecimalesstring = montototalcondecimales + "";
+                    pruebaentero = parseFloat(centavos[0])
+                    solocentavos = centavos1.join('')
+                    console.log("uniendo entero y centavo: " + solocentavos)
+                    reparado = parseFloat(pruebaentero)
+                    //reparado = parseFloat(reparado); 
+                    reparado = reparado.toLocaleString("es-ES")
+                    var reparadostring = reparado.toString();
+                    console.log("monto total con decimales sin cero Reparado", reparado + "," + solocentavos);
+                    montototalcondecimalesstring = reparadostring + "," + solocentavos
+                    //console.log("monto total con decimales oo sin cero",montototalcondecimalesstring);             	
                 }
-                if (solodoscentavos > 9 && solodoscentavos < 99) {
-                    console.log("entro a 9 y mas de 99", solodoscentavos)
-                    solocentavosstring = solodoscentavos.toString();
-                    console.log("solo centavos string", solocentavosstring)
-                    centavos1 = solocentavosstring.split('');
-                    console.log("split", centavos1)
-                    if (centavos1[1] === "0") { // aca entra cuando hay un cero ej:50
-                        console.log("entro a 0", centavos1)
-                        var solocentavos = centavos1.join('')
-                        var pruebaentero = parseFloat(centavos[0] + "." + solocentavos)
-                        console.log("uniendo entero y centavo: (variable pruebaentero)" + pruebaentero)
-                        var reparado = parseFloat(pruebaentero)
-                        //reparado = parseFloat(reparado); 
-                        reparado = reparado.toLocaleString("es-ES")
-                        console.log("monto total con decimales con 0", reparado + "0");
-                    } else {
-                        console.log("NO entro a 0", centavos1)
-                        montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                        montototalcondecimalesstring = montototalcondecimales + "";
-                        var pruebaentero = parseFloat(centavos[0])
-                        var solocentavos = centavos1.join('')
-                        console.log("uniendo entero y centavo: " + solocentavos)
-                        var reparado = parseFloat(pruebaentero)
-                        //reparado = parseFloat(reparado); 
-                        reparado = reparado.toLocaleString("es-ES")
-                        console.log("monto total con decimales sin cero Reparado", reparado + "," + solocentavos);
-                        //console.log("monto total con decimales oo sin cero",montototalcondecimalesstring);             	
-                    }
-                } else if (solocentavos > 0 && solocentavos < 10) {
-                    montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                    montototalcondecimalesstring = montototalcondecimales + "0";
-                    console.log("monto total con decimales", montototalcondecimalesstring);
-                }
-            }   
+            } else if (solocentavos > 0 && solocentavos < 1) {
+                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                montototalcondecimalesstring = montototalcondecimales;// + "0";
+                console.log("monto total con decimales", montototalcondecimalesstring);
+            } else if (solocentavos >= 0 && solocentavos < 10) {
+                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                montototalcondecimalesstring = montototalcondecimales + "0";
+                console.log("monto total con decimales", montototalcondecimalesstring);
 
-            multas.montototal = montototalcondecimalesstring;                 
+            };
+
+            multas.montototal = montototalcondecimalesstring.toString();
             multas = tablamultas
-                   
+
             //console.log("multas monto total string: ", montototalcondecimalesstring)            
             console.log("multas: ", multas.montototal)
             console.log("multas tablamultas: ", tablamultas.montototal)
             //tabla += {
             //}
-            
+
         }
         res.render('notes/liquidaciones/allmultasusr', { multas });
     } else {

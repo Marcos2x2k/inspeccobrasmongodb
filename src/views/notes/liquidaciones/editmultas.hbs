@@ -1,15 +1,127 @@
 <script>
-    
+
     window.onload = function () {
-        let montototal = document.getElementById('montototal').value
-        var total = parseFloat(montototal)
-        document.getElementById('montototalvalorreal').value = total.toLocaleString('es-ES');
-    };    
+        //var montototal = document.getElementById('montototal').value;
+        //var total = parseFloat(montototal);
+        //document.getElementById('montototalvalorreal').value = total.toLocaleString('es-ES');
+        //var montototal = document.getElementById('montototalhidden').value;
+        var montototalvalorreal = document.getElementById('montototal').value;;
+
+        var idmontototalvalorreal = 'montototalvalorreal';
+        //var idtasautilizada = 'tcactual';
+        //calculocondecimales(montototal, idmontototal)
+        calculocondecimales(montototalvalorreal, idmontototalvalorreal)
+    };
+
+    function calculocondecimales(valor, identificacion) {
+
+        var id = identificacion.toString();
+        var pricestring = valor
+        var price = pricestring//.toString();
+        //var pricearray = ["1434555555", "14345555.5", "14345555.55", "14345555.555", "14345555.0000", "14345555.505"];
+        //var price = pricearray[5];         
+        var punto = price.includes(".")
+        var montototalcondecimales = parseFloat(price);
+        var montototalcondecimalesstring = "";
+        var centavos = 0;
+        var solocentavos = 0;
+        var solodoscentavos = 0;
+        var longitudcentavos = 0;
+        var solocentavosstring = 0;
+        var centavos1 = 0;
+
+        if (punto === false) { /// aca define si es con decimal o entero  
+            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+            montototalcondecimalesstring = montototalcondecimales + ",00"
+            console.log("no tiene .00");
+            console.log("monto total con decimales", montototalcondecimalesstring);
+        } else {
+            centavos = price.split('.');
+            console.log("tiene centavos", centavos)
+            longitudcentavos = centavos[1].length
+            console.log("longitud centavos", longitudcentavos)
+            if (longitudcentavos >= 1) {
+                solodoscentavos = centavos[1].split("");
+                console.log("entro a longitud > de 1: ", solodoscentavos)
+                if (solodoscentavos[1] === "0") {
+                    //buscar cero en centavos 20 o 30 o 40  
+                    var cortarsolodoscentavos = solodoscentavos.toString();
+                    var ceroensegundocentavo = cortarsolodoscentavos.split("");
+                    solodoscentavos = ceroensegundocentavo[0] + "0"
+                } else {
+                    montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                    montototalcondecimalesstring = montototalcondecimales + ",00";
+                    console.log("monto total con decimales", montototalcondecimalesstring);
+                    console.log("split array centavos completos", solodoscentavos)
+                }
+            } else {
+                solodoscentavos = centavos[1] + "0"
+                console.log("entro a longitud < de 1: ", solodoscentavos)
+            }
+        }
+        if (solodoscentavos === "00") {
+            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+            montototalcondecimalesstring = montototalcondecimales + ",00";
+            console.log("monto total con decimales", montototalcondecimalesstring);
+            console.log("split array centavos completos", solodoscentavos)
+        }
+        if (solodoscentavos > 9 && solodoscentavos < 99) {
+            console.log("entro a 9 y mas de 99", solodoscentavos)
+            solocentavosstring = solodoscentavos.toString();
+            console.log("solo centavos string", solocentavosstring)
+            centavos1 = solocentavosstring.split('');
+            console.log("split", centavos1)
+            if (centavos1[1] === "0") { // aca entra cuando hay un cero ej:50
+                console.log("entro a 0", centavos1)
+                solocentavos = centavos1.join('')
+                var pruebaentero = parseFloat(centavos[0] + "." + solocentavos)
+                console.log("uniendo entero y centavo: (variable pruebaentero)" + pruebaentero)
+                var reparado = parseFloat(pruebaentero)
+                //reparado = parseFloat(reparado); 
+                reparado = reparado.toLocaleString("es-ES")
+                var reparadostring = reparado.toString();
+                console.log("monto total con decimales con 0", reparado + "0");
+                montototalcondecimalesstring = reparadostring + "0"
+            } else {
+                console.log("NO entro a 0", centavos1)
+                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                montototalcondecimalesstring = montototalcondecimales + "";
+                pruebaentero = parseFloat(centavos[0])
+                solocentavos = centavos1.join('')
+                console.log("uniendo entero y centavo: " + solocentavos)
+                reparado = parseFloat(pruebaentero)
+                //reparado = parseFloat(reparado); 
+                reparado = reparado.toLocaleString("es-ES")
+                var reparadostring = reparado.toString();
+                console.log("monto total con decimales sin cero Reparado", reparado + "," + solocentavos);
+                montototalcondecimalesstring = reparadostring + "," + solocentavos
+                //console.log("monto total con decimales oo sin cero",montototalcondecimalesstring);             	
+            }
+        } else if (solocentavos > 0 && solocentavos < 1) {
+            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+            montototalcondecimalesstring = montototalcondecimales;// + "0";
+            console.log("monto total con decimales", montototalcondecimalesstring);
+        } else if (solocentavos >= 0 && solocentavos < 10) {
+            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+            montototalcondecimalesstring = montototalcondecimales + "0";
+            console.log("monto total con decimales", montototalcondecimalesstring);
+
+        };
+        document.getElementById(id).value = montototalcondecimalesstring;
+        //var multasmontototal = montototalcondecimalesstring;  
+    };
 
     function agregarSeparadorMiles(numero) {
-        let montototal = document.getElementById(numero).value
-        var total = parseFloat(montototal)
-        document.getElementById('montototalvalorreal').value = total.toLocaleString('es-ES');
+        var montototalvalorreal = document.getElementById('montototal').value;;
+        var idmontototalvalorreal = 'montototalvalorreal';
+        calculocondecimales(montototalvalorreal, idmontototalvalorreal)
+
+        //var idtasautilizada = 'tcactual';
+        //calculocondecimales(montototal, idmontototal)
+
+        //let montototal = document.getElementById(numero).value
+        //var total = parseFloat(montototal)
+        //document.getElementById('montototalvalorreal').value = total.toLocaleString('es-ES');
         //document.getElementById('montototal').value = total.toLocaleString('es-ES');        
     }
 
@@ -18,9 +130,9 @@
         ex.value = ex.value.toUpperCase();
     }
 
-    function ShowName() {
-        var writtenName = document.getElementById('propietario').value;
-        document.getElementById('propietario').value = formatToString(writtenName);
+    function ShowName(valor) {
+        var writtenName = document.getElementById(valor).value;
+        document.getElementById(valor).value = formatToString(writtenName);
     }
 
     function formatToString(writtenName) {
@@ -35,7 +147,7 @@
         })
         return fullName;
     }
-   
+
 </script>
 
 
@@ -66,6 +178,12 @@
                         value="{{multas.adrema}}" style="color: black; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Ubicación:
+                    <input onkeyup="ShowName('ubicacion')" type="text" id="ubicacion" name="ubicacion"
+                        class="form-control" placeholder="Sin Información" value="{{multas.ubicacion}}"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Nombre y Apellido:
                     <input onkeyup="ShowName('propietario')" type="text" id="propietario" name="propietario"
                         class="form-control" placeholder="Nombre y Apellido" value="{{multas.propietario}}"
@@ -90,17 +208,17 @@
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Observaciones/Posible variación fórmula:
                     <input type="text" name="observaciones" class="form-control" placeholder="Sin Información"
-                        value="{{ multas.observaciones }}" style="color: black; font-weight: bold;">
+                        value="{{ multas.observaciones }}" style="color: black; font-weight: bold;" readonly>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Tasa Utilizada:
                     <input type="text" name="tcactual" class="form-control" placeholder="Sin Información"
-                        value="{{ multas.tcactual }}" style="color: black; font-weight: bold;">
+                        value="{{ multas.tcactual }}" style="color: black; font-weight: bold;" readonly>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Con Sanción/ Sin Sanción:
                     <input type="text" name="sancionprof" class="form-control" placeholder="Sin Información"
-                        value="{{ multas.sancionprof }}" style="color: black; font-weight: bold;">
+                        value="{{ multas.sancionprof }}" style="color: black; font-weight: bold;" readonly>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Porcentaje Sanción:
@@ -117,20 +235,18 @@
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Reiteraciones:
                     <input type="text" name="reiteracion" class="form-control" placeholder="Sin Información"
-                        value="{{ multas.reiteracion }}" style="color: black; font-weight: bold;">
-                </div>                
+                        value="{{ multas.reiteracion }}" style="color: black; font-weight: bold;" readonly>
+                </div>
 
-                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                    Monto Total Cobrado: (${{multas.montototal}};)
-                    <p style="color:black">( Al Colocar nuevo monto,el punto es para decimal!)</p>
+                <div class="form-group">
+                    <h5 style="color:brown; font-style:oblique; font-weight: bold;">Monto Total Cobrado:</h5>
                     <input step="0.01" min="0"
-                        style="color:black; border: 0; width: 140px;border-radius: 8px; background-color: grey"
-                        id="montototalvalorreal" name="montototalvalorreal" readonly>(aqui refleja monto con puntos y
-                    decimales)</input>
-                    <p></p>
+                        style="text-align: center; color:black; border: 0; width: 140px;border-radius: 8px; background-color: grey"
+                        id="montototalvalorreal" name="montototalvalorreal" readonly>
+                    <p style="font-style:Verdana ; color:grey">(en Nuevo monto,el punto es para decimal!)</p>
                     <input onkeyup="agregarSeparadorMiles('montototal')" style="color: red; font-weight: bold;"
-                        type="number" step="0.01" id="montototal" name="montototal" 
-                        class="form-control" value="{{multas.montototal}}" required/>
+                        type="number" step="0.01" id="montototal" name="montototal" class="form-control"
+                        value="{{multas.montototal}}" required />
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Infracción/Infracción y Paralización:
