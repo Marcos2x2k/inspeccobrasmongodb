@@ -114,19 +114,26 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
             console.log("tiene centavos", centavos)
             longitudcentavos = centavos[1].length
             console.log("longitud centavos", longitudcentavos)
-            if (longitudcentavos >= 1) {
+            if (longitudcentavos > 1) {
                 solodoscentavos = centavos[1].split("");
                 console.log("entro a longitud > de 1: ", solodoscentavos)
-                if (solodoscentavos[1] === "0") {
+                if (solodoscentavos[1] === "0" || solodoscentavos[1] === "") {
                     //buscar cero en centavos 20 o 30 o 40  
                     var cortarsolodoscentavos = solodoscentavos.toString();
                     var ceroensegundocentavo = cortarsolodoscentavos.split("");
                     solodoscentavos = ceroensegundocentavo[0] + "0"
                 } else {
-                    montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                    montototalcondecimalesstring = montototalcondecimales + ",00";
-                    console.log("monto total con decimales", montototalcondecimalesstring);
-                    console.log("split array centavos completos", solodoscentavos)
+                    if (solodoscentavos[1] >= 1 || solodoscentavos[1] <= 9) {
+                        montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                        montototalcondecimalesstring = montototalcondecimales + "";
+                        console.log("monto total con decimales", montototalcondecimalesstring);
+                        console.log("split array centavos completos", solodoscentavos)
+                    } else {
+                        montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                        montototalcondecimalesstring = montototalcondecimales + ",00";
+                        console.log("monto total con decimales", montototalcondecimalesstring);
+                        console.log("split array centavos completos", solodoscentavos)
+                    }
                 }
             } else {
                 solodoscentavos = centavos[1] + "0"
@@ -172,15 +179,12 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
                 //console.log("monto total con decimales oo sin cero",montototalcondecimalesstring);             	
             }
         } else if (solocentavos > 0 && solocentavos < 1) {
+
             montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
             montototalcondecimalesstring = montototalcondecimales;// + "0";
             console.log("monto total con decimales", montototalcondecimalesstring);
-        } else if (solocentavos >= 0 && solocentavos < 10) {
-            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-            montototalcondecimalesstring = montototalcondecimales + "0";
-            console.log("monto total con decimales", montototalcondecimalesstring);
 
-        };
+        }
 
         //multas.montototal = montototalcondecimalesstring.toString();
         //multas = tablamultas
@@ -189,9 +193,9 @@ router.get('/descargarfactura', isAuthenticated, async (req, res) => {
     <td></td>  
     <td>${multas.numacta}</td>
     <td style="text-transform: uppercase;">${multas.propietario}</td>
-    <td>${multas.ubicacion}</td>
-    <td style="text-transform: uppercase;">${multas.inciso}</td>
-    <td style="text-transform: uppercase;">${multas.formulamulta}</td>    
+    <td style="text-transform: capitalize;">${multas.ubicacion}</td>
+    <td style="text-transform: lowercase;">${multas.inciso}</td>
+    <td style="text-transform: lowercase;">${multas.formulamulta}</td>    
     <td>${montoimprimir}</td>
     <td style="text-transform: lowercase;">${multas.infraccionoparalizacion}</td>       
     <td></td> 
@@ -361,19 +365,26 @@ router.get('/multas', isAuthenticated, async (req, res) => {
                 console.log("tiene centavos", centavos)
                 longitudcentavos = centavos[1].length
                 console.log("longitud centavos", longitudcentavos)
-                if (longitudcentavos >= 1) {
+                if (longitudcentavos > 1) {
                     solodoscentavos = centavos[1].split("");
                     console.log("entro a longitud > de 1: ", solodoscentavos)
-                    if (solodoscentavos[1] === "0") {
+                    if (solodoscentavos[1] === "0" || solodoscentavos[1] === "") {
                         //buscar cero en centavos 20 o 30 o 40  
                         var cortarsolodoscentavos = solodoscentavos.toString();
                         var ceroensegundocentavo = cortarsolodoscentavos.split("");
                         solodoscentavos = ceroensegundocentavo[0] + "0"
                     } else {
-                        montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                        montototalcondecimalesstring = montototalcondecimales + ",00";
-                        console.log("monto total con decimales", montototalcondecimalesstring);
-                        console.log("split array centavos completos", solodoscentavos)
+                        if (solodoscentavos[1] >= 1 || solodoscentavos[1] <= 9) {
+                            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                            montototalcondecimalesstring = montototalcondecimales + "";
+                            console.log("monto total con decimales", montototalcondecimalesstring);
+                            console.log("split array centavos completos", solodoscentavos)
+                        } else {
+                            montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
+                            montototalcondecimalesstring = montototalcondecimales + ",00";
+                            console.log("monto total con decimales", montototalcondecimalesstring);
+                            console.log("split array centavos completos", solodoscentavos)
+                        }
                     }
                 } else {
                     solodoscentavos = centavos[1] + "0"
@@ -419,15 +430,12 @@ router.get('/multas', isAuthenticated, async (req, res) => {
                     //console.log("monto total con decimales oo sin cero",montototalcondecimalesstring);             	
                 }
             } else if (solocentavos > 0 && solocentavos < 1) {
+
                 montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
                 montototalcondecimalesstring = montototalcondecimales;// + "0";
                 console.log("monto total con decimales", montototalcondecimalesstring);
-            } else if (solocentavos >= 0 && solocentavos < 10) {
-                montototalcondecimales = montototalcondecimales.toLocaleString('es-ES');
-                montototalcondecimalesstring = montototalcondecimales + "0";
-                console.log("monto total con decimales", montototalcondecimalesstring);
 
-            };
+            }
 
             multas.montototal = montototalcondecimalesstring.toString();
             multas = tablamultas
