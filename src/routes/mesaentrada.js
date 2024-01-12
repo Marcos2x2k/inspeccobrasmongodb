@@ -3,9 +3,9 @@ const router = express.Router()
 // const bcrypt = require("bcrypt");
 // const passport = require ('passport');
 // const User =  require ('../models/User')
-
 //const bcrypt = require("bcrypt");
 //const mongopagi = require('mongoose-paginate-v2') Paginacion de mongodb
+
 const fs = require('fs').promises
 const { isAuthenticated } = require('../helpers/auth')
 

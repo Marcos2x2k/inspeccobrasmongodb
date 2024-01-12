@@ -10,6 +10,7 @@ const Expedinspeccion = require('../models/expedinspeccion');
 const Expedticket = require('../models/Expedticket')
 const Expedticketentrainsp = require('../models/Expedticketentrainsp')
 const Expedentrsalida = require('../models/expedentrsalida');
+const Expedcoordinado  = require('../models/expedcoordinado');
 
 //** ver tema NOTE */
 const Note = require('../models/Note');
@@ -142,6 +143,93 @@ router.post('/notes/newexpedientes', isAuthenticated, async (req, res) => {
     req.flash('success_msg', 'Expediente Agregado Exitosamente');
     res.redirect('/expedientes/listado');
 });
+
+
+
+router.get('/expedientes/coordinados', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const expedcoordinado = await Expedcoordinado.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordinado });
+    } else if (rolusuario == "Inspector") {
+        const expedcoordinado = await Expedcoordinado.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/listaexpcoordininsp', { expedcoordinado });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES COORDINADOS')
+        return res.redirect('/');
+    }
+});
+
+router.get('/expedientes/coordinados/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/newexpcoordin');
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
+router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
+    const { borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
+        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
+        resultadoinspeccion, eliminado, user, name, date
+    } = req.body;
+    const newexpedcoordin = new Expedcoordinado ({
+        borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
+        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
+        resultadoinspeccion, eliminado, user, name, date
+    })
+    Expedcoordinado.user = req.user.id;
+    Expedcoordinado.name = req.user.name;
+    await newexpedcoordin.save();
+    req.flash('success_msg', 'Expediente Coordinado Agregado Exitosamente');
+    res.redirect('/expedientes/coordinados');
+});
+
+router.put('/expedcoordin/marcadelete/:id', isAuthenticated, async (req, res) => {
+    const borrado = "Si";
+    const fechaborrado = new Date();
+    const userborrado = req.user.name;
+    await Expedcoordinado.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Expediente a Papelera Reciclaje')
+    res.redirect('/expedientes/coordinados');
+});
+
+router.delete('/expedcoordin/delete/:id', isAuthenticated, async (req, res) => {
+    await Expedcoordinado.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'expediente Eliminado')
+    res.redirect('/expedientes/coordinados')
+});
+
+router.get('/expedcoordin/edit/:id', isAuthenticated, async (req, res) => {
+    const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
+    res.render('notes/inspecciones/editexpedcood', { expedcoordinado })
+});
+
+router.put('/notes/expedcoordin/:id', isAuthenticated, async (req, res) => {
+    const { borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
+        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
+        resultadoinspeccion, eliminado, user, name, date } = req.body
+    await Expedcoordinado.findByIdAndUpdate(req.params.id, {
+        borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
+        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
+        resultadoinspeccion, eliminado, user, name, date
+    });
+    req.flash('success_msg', 'Coordinación actualizada')
+    res.redirect('/expedientes/coordinados');
+});
+
+
 
 router.get('/expedientes', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
