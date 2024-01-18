@@ -41,85 +41,73 @@
     <div class="card">
         <div class="car-header mx-auto">
             <br />
-            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Nueva Coordinación de Inspección</h3>
+            <h3 style="color:blue; text-decoration:underline; font-weight: bold;">Listado Coordinación de Inspección
+            </h3>
         </div>
         <div class="card-body">
             <form action="/notes/newexpedcoordin" method="POST">
                 <div class="form-group">
-                    Extado Coord.Inspección:
-                    <select name="estado" id="estado">
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="Realizado">Realizado</option>                        
-                    </select>
-                </div>
-                <div class="form-group">
                     Expediente Nº:
                     <input onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
-                        class="form-control" placeholder="Expediente Nº" required autofocus>
+                        class="form-control" placeholder="Expediente Nº" value="{{expedcoordinado.numexpediente}}"
+                        disabled>
+                </div>
+                <div class="form-group">
+                    Estado:
+                    <input onkeyup="ShowName('codigoinspector')" type="text" id="estado" name="estado"
+                        class="form-control" placeholder="Código Inspector" value="{{expedcoordinado.estado}}"
+                        disabled />
                 </div>
                 <div class="form-group">
                     Código Inspector:
-                    <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector"
-                        name="codigoinspector" class="form-control" placeholder="Código Inspector" required />
+                    <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector" name="codigoinspector"
+                        class="form-control" placeholder="Código Inspector" value="{{expedcoordinado.codigoinspector}}"
+                        disabled />
                 </div>
                 <div class="form-group">
                     Inspector (NyA):
-                    <input onkeyup="ShowName('inspector')" type="text" id="inspector"
-                        name="inspector" class="form-control" placeholder="Inspector (NyA)" required />
+                    <input onkeyup="ShowName('inspector')" type="text" id="inspector" name="inspector"
+                        class="form-control" placeholder="Inspector (NyA)" value="{{expedcoordinado.inspector}}"
+                        disabled />
                 </div>
                 <div class="form-group">
                     Iniciador (NyA):
                     <input onkeyup="ShowName('iniciadornomyape')" type="text" id="iniciadornomyape"
-                        name="iniciadornomyape" class="form-control" placeholder="Iniciador (NyA)" required />
+                        name="iniciadornomyape" class="form-control" placeholder="Iniciador (NyA)"
+                        value="{{expedcoordinado.iniciadornomyape}}" disabled />
                 </div>
                 <div class="form-group">
                     Domicilio:
                     <input onkeyup="ShowName('domicilio')" type="text" id="domicilio" name="domicilio"
-                        class="form-control" placeholder="Domicilio" required />
+                        class="form-control" placeholder="Domicilio" value="{{expedcoordinado.domicilio}}" disabled />
                 </div>
                 <div class="form-group">
                     Adrema Nº:
                     <input onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp" class="form-control"
-                        placeholder="Nº Adrema"></input>
+                        placeholder="Nº Adrema" value="{{expedcoordinado.adremaexp}}" disabled></input>
                 </div>
                 <div class="form-group">
                     Fecha Inspección:
-                    <input type="date" name="fechainicioentrada" class="form-control" placeholder="Fecha inicio entrada"
-                        required autofocus></input>
+                    <input type="text" name="fechainicioentrada" class="form-control" placeholder="Fecha inicio entrada"
+                        value="{{expedcoordinado.fechainspeccion}}" disabled></input>
                 </div>
                 <div class="form-group">
                     Hora Inspección:
-                    <input type="time" name="horainspeccion" class="form-control" placeholder="Fecha Hora Inspección"
-                        required autofocus></input>
+                    <input type="text" name="horainspeccion" class="form-control" placeholder="Fecha Hora Inspección"
+                        value="{{expedcoordinado.horainspeccion}}" disabled></input>
+                </div>
+                <div class="form-group">
+                    Resultado Inspección:
+                    <input type="text" name="horainspeccion" class="form-control" placeholder="Fecha Hora Inspección"
+                        value="{{expedcoordinado.resultadoinspeccion}}" disabled></input>
                 </div>
                 <p></p>
                 <div class="form-group">
-                    Resultado Inspección:
-                    <select name="resultadoinspeccion" id="resultadoinspeccion">
-                        <option value="">-</option>
-                        <option value="Se Realizo informe">Realizo informe</option>
-                        <option value="Se Intimó">Intimó</option>
-                        <option value="Se Infraccionó">Infraccionó</option>
-                        <option value="No se pudo Verificar">No se pudo Verificar</option>
-                        <option value="No se pudo Inspeccionar">No se pudo Inspeccionar</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">
-                        Save
-                    </button>
-                </div>
-                <div class="form-group">
-                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i
-                                class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver Cartas</p>
-                </div>
-                <div class="form-group">
-                    <p style="color:blue; font-style:oblique; font-weight: bold;"><a href="/expedientes/listado"><i
-                                class="fas fa-list" style='font-size:24px;color:black'></i></a> Volver Listado</p>
+                    <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                        &laquo; Volver Atrás
+                    </a>
                 </div>
             </form>
         </div>
     </div>
-</div>
 </div>

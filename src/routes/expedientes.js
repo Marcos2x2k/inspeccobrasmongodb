@@ -177,6 +177,56 @@ router.get('/expedientes/coordinados/add', isAuthenticated, async (req, res) => 
     }
 });
 
+router.get('/expedientes/coordinados/list/:id', isAuthenticated, async (req, res) => {
+    const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
+    res.render('notes/inspecciones/listexpedcood', { expedcoordinado })
+});
+
+// *** BUSCAR EXPEDIENTES COORDINADOS - LISTADO ***
+router.post('/expedientes/coordinados/find', isAuthenticated, async (req, res) => {
+    const { numexpediente } = req.body;
+    const expedcoordinado = await Expedcoordinado.find({ $and: [{ borrado: "No" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ fechainicioentrada: 'desc' });;
+    if (!expedcoordinado) {
+        req.flash('success_msg', 'cargue un Nº de expediente')
+        return res.render("notes/inspecciones/listaexpcoordinadm");
+    } else {
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordinado })
+    }
+});
+
+router.post('/expedientes/coordinados/findadrema', isAuthenticated, async (req, res) => {
+    const { adremaexp } = req.body;
+    const expedcoordinado = await Expedcoordinado.find({ $and: [{ borrado: "No" }, { adremaexp: { $regex: adremaexp, $options: "i" } }] }).lean().sort({ adremaexp: 'desc' });;
+    if (!expedcoordinado) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/inspecciones/listaexpcoordinadm");
+    } else {
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordinado })
+    }
+});
+
+router.post('/expedientes/coordinados/findiniciador', isAuthenticated, async (req, res) => {
+    const { iniciadornomyape } = req.body;
+    const expedcoordinado = await Expedcoordinado.find({ $and: [{ borrado: "No" }, { iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }] }).lean().sort({ iniciadornomyape: 'desc' });;
+    if (!expedcoordinado) {
+        req.flash('success_msg', 'cargue un Iniciador (N y A)')
+        return res.render("notes/inspecciones/listaexpcoordinadm");
+    } else {
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordinado })
+    }
+});
+
+router.post('/expedientes/coordinados/findestado', isAuthenticated, async (req, res) => {
+    const { estado } = req.body;
+    const expedcoordinado = await Expedcoordinado.find({ $and: [{ borrado: "No" }, { estado: { $regex: estado, $options: "i" } }] }).lean().sort({ iniciadornomyape: 'desc' });
+    if (!expedcoordinado) {
+        req.flash('success_msg', 'cargue estado (N y A)')
+        return res.render("notes/inspecciones/listaexpcoordinadm");
+    } else {
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordinado })
+    }
+});
+
 router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
     const { borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
         iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
@@ -192,6 +242,19 @@ router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
     await newexpedcoordin.save();
     req.flash('success_msg', 'Expediente Coordinado Agregado Exitosamente');
     res.redirect('/expedientes/coordinados');
+});
+
+router.get('/movimientoexpedientecoord/add/:id', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean();
+    //const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        res.render('notes/inspecciones/movimientoexpedcoord', { expedcoordinado });;
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }    
 });
 
 router.put('/expedcoordin/marcadelete/:id', isAuthenticated, async (req, res) => {

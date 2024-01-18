@@ -23,6 +23,18 @@
         })
         return fullName;
     }
+
+    function cargar() {
+        var provincias = ["Cantabria", "Asturias", "Galicia", "Andalucia", "Extremadura"]; //Tu array de provincias
+        var select = document.getElementById("provincias"); //Seleccionamos el select
+
+        for (var i = 0; i < provincias.length; i++) {
+            var option = document.createElement("option"); //Creamos la opcion
+            option.innerHTML = provincias[i]; //Metemos el texto en la opción
+            select.appendChild(option); //Metemos la opción en el select
+        }
+    }
+    cargar();
 </script>
 
 {{!-- <h1> REGISTER </h1> --}}
@@ -34,7 +46,8 @@
                 <div class="card-body">
                     <form action="/users/signup" method="POST">
                         <div class="form-group">
-                            <p>Elige un Rol de Usuario:
+                            <p style="color:black;font-weight: bold;text-shadow: 1px 1px 2px black;">Elige un Rol de
+                                Usuario:
                                 <select name="rolusuario">
                                     <option>Administrador</option>
                                     <option>Jefe-Inspectores</option>
@@ -42,6 +55,7 @@
                                     <option>Mesa-Entrada</option>
                                     <option>Liquidaciones</option>
                                     <option>Uso-de-Suelo</option>
+                                    <option>Higiene-Seguridad</option>
                                 </select>
                             </p>
                         </div>
@@ -52,6 +66,14 @@
                         <div class="form-group">
                             <input type="number" class="form-control" id="dni" name="dni"
                                 placeholder="Doc. Nac.Identidad" value="{{dni}}">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="codigoinspector" name="codigoinspector"
+                                placeholder="codigoinspector" value="{{codigoinspector}}">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="funcion" name="funcion"
+                                placeholder="funcion" value="{{funcion}}">
                         </div>
                         <div class="form-group">
                             <input onkeyup="ponerminuscula()" id="email" type="email" class="form-control" name="email"

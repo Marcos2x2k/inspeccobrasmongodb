@@ -1,8 +1,7 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 const bcrypt = require("bcrypt");
-const User =  require ('../models/User')
-
+const User =  require ('../models/User');
 const passport = require ('passport');
 
 router.get('/users/signin', (req, res) => {
@@ -27,7 +26,6 @@ router.get ('/users/11vvsOpmo90W', (req, res) => {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA ADMIN')
         return res.redirect('/');
     }
-    // res.render ('users/signup');
 });
 
 // *** cuando se borra el registro admin **
@@ -48,7 +46,7 @@ router.post('/users/signup', async (req, res) =>{
         errors.push({text: "Contraseña debe tener mas de 4 caracteres"});
     }
     if (errors.length>0){
-        res.render('users/signup', {errors, name, dni, email, password, confirm_password});
+        res.render('users/signup', {errors, name, dni, codigoinspector, funcion, rolusuario, email, password, confirm_password});
     } else {
         const emailUser = await User.findOne({ email: email });
         if (emailUser) {
@@ -57,7 +55,7 @@ router.post('/users/signup', async (req, res) =>{
                 return res.redirect("/users/11vvsOpmo90W");
                 // res.render('users/signup', {errors, name, email, password, confirm_password});
         }
-        const newUser = new User({rolusuario, name, dni, email, password});
+        const newUser = new User({rolusuario, name, dni, codigoinspector, funcion, rolusuario, email, password});
         const salt = await bcrypt.genSalt(10);
         newUser.password = await bcrypt.hash(newUser.password, salt);
         // newUser.password = await newUser.EncryptPassword(password); //NOSE PORQUE NO ANDA
@@ -82,6 +80,7 @@ router.get('/users/logout', function (req, res, next) {
       res.redirect('/');
     });
   });
+
 // router.get ("/users/logout", (req, res) => {
 //     req.logout();
 //     res.redirect("/");

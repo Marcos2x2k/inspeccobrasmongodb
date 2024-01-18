@@ -8,6 +8,16 @@ const UserSchema = new Schema ({
     dni:{type: String, 
         require: true
     },
+    codigoinspector:{
+        type: String, 
+        require: false, 
+        default:"NoPosee"
+    },
+    funcion:{
+        type: String, 
+        require: false, 
+        default:"NoPosee"
+    },
     email: {type: String, 
         require: true},
     password: {type: String, 

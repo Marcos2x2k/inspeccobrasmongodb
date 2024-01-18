@@ -549,11 +549,10 @@ router.get('/usuarios', isAuthenticated, async (req, res) => {
     }
 });
 
-
 // ***** Aca los GET para EDITAR ******
 
-router.get('/usuarios/edit/:id', isAuthenticated, async (req, res) => {
-    const usuarios = await Users.findById(req.params.id).lean()
+router.get('/usuario/edit/:id', isAuthenticated, async (req, res) => {
+    const usuarios = await Users.findById(req.params.id).lean();
     res.render('users/editusuarios', { usuarios })
 });
 
@@ -587,7 +586,12 @@ router.get('/infracciones/edit/:id', isAuthenticated, async (req, res) => {
 router.get('/usuario/list', isAuthenticated, async (req, res) => {
     const email = req.user.email;
     const users = await Users.find({ email: email }).lean()
-    // console.log(note.date);
+    res.render('notes/listusuarioactual', { users })
+});
+
+router.get('/usuario/list/:id', isAuthenticated, async (req, res) => {  
+    const _id = req.params.id
+    const users = await Users.find({ _id: _id }).lean()    
     res.render('notes/listusuario', { users })
 });
 
@@ -971,9 +975,9 @@ router.put('/notes/editaddintimacion/:id', isAuthenticated, async (req, res) => 
 // **** SECTOR EDITAR ****
 
 router.put('/users/editusuarios/:id', isAuthenticated, async (req, res) => {
-    const { name, dni, email, rolusuario } = req.body
+    const { name, dni, codigoinspector, funcion, email, rolusuario } = req.body
     await Users.findByIdAndUpdate(req.params.id, {
-        name, dni, email, rolusuario
+        name, dni, codigoinspector, funcion, email, rolusuario
     });
     req.flash('success_msg', 'Usuario Actualizado')
     res.redirect('/usuarios');

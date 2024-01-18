@@ -21,7 +21,7 @@ const ExpedcoordinadoSchemaSchema = new Schema({
     estado: {
         type: String,
         require: false,
-        default: "No Realizado"
+        default: "Pendiente"
     },
     numexpediente: {
         type: String,

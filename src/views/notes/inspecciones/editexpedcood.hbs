@@ -21,6 +21,43 @@
             fechapermisoedificacion.style.display = "block";
         }
     }
+
+    function ShowName(name) {
+        var writtenName = ""
+        writtenName = document.getElementById(name).value;
+        document.getElementById(name).value = formatToString(writtenName);
+    }
+
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }
+
+    function ponerMayuscula(mayu) {
+        let ex = document.getElementById(mayu);
+        ex.value = ex.value.toUpperCase();
+        //let ex = document.getElementById("numexpediente");
+        //ex.value = ex.value.toUpperCase();
+        //let y = document.getElementById("adremaexp");
+        //y.value = y.value.toUpperCase();
+    }
+
+
+    function ponerminuscula(minus) {
+        let ex = document.getElementById(minus);
+        ex.value = ex.value.toLocaleLowerCase();
+        //let ex = document.getElementById("correofiduciariopropsocio");
+        //ex.value = ex.value.toLocaleLowerCase();
+    }
+
     function seleccionarPermisoDemolicion() {
         var selecpermisodemolicion = document.getElementById('selecpermisodemolicion');
         var labelplanovisado = document.getElementById("labelplanovisado")
@@ -53,63 +90,77 @@
             <form action="/notes/expedcoordin/{{expedcoordinado._id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <div class="card-body">
-                        <div class="form-group">
-                            Expediente Nº:
-                            <input type="text" name="numexpediente" class="form-control" placeholder="Num.Expediente"
-                                value="{{expedcoordinado.numexpediente}}">
-                        </div>
-                        <div class="form-group">
-                            Estado:
-                            <input type="text" name="estado" id="estado" class="form-control" placeholder="Estado"
-                                value="{{expedcoordinado.estado}}">
-                        </div>
-                        <div class="form-group">
-                            Código Inspector (NyA):
-                            <input type="text" name="codigoinspector" class="form-control" placeholder="Código Inspector"
-                                value="{{expedcoordinado.codigoinspector}}">
-                        </div>
-                        <div class="form-group">
-                            Inspector (NyA):
-                            <input type="text" name="inspector" class="form-control" placeholder="Inspector"
-                                value="{{expedcoordinado.inspector}}">
-                        </div>
-                        <div class="form-group">
-                            Iniciador (NyA):
-                            <input type="text" name="iniciadornomyape" class="form-control" placeholder="Iniciador"
-                                value="{{expedcoordinado.iniciadornomyape}}">
-                        </div>
-                        <div class="form-group">
-                            Domicilio Iniciador:
-                            <input type="text" name="domicilio" class="form-control" placeholder="Domicilio Iniciador"
-                                value="{{expedcoordinado.domicilio}}">
-                        </div>
-                        <div class="form-group">
-                            Adrema:
-                            <input type="text" name="adremaexp" class="form-control" placeholder="Adrema"
-                                value="{{expedcoordinado.adremaexp}}">
-                        </div>
-                        <div class="form-group">
-                            user:
-                            <input type="text" name="detallegeneral" class="form-control" placeholder="user"
-                                value="{{expedcoordinado.name}}" disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <button class="btn btn-primary btn-block" type="submit">
-                                Grabar
-                            </button>
-                        </div>
-                        {{!-- <div class="form-group">
-                            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i
-                                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
-                        </div> --}}
-                        <br />
-                        <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
-                            &laquo; Volver Atrás
-                        </a>
-                        <br /><br />
-                    </form>
-                </div>
+                    <div class="form-group">
+                        Expediente Nº:
+                        <input type="text" name="numexpediente" class="form-control" placeholder="Num.Expediente"
+                            value="{{expedcoordinado.numexpediente}}">
+                    </div>
+                    <div class="form-group">
+                        Extado Coord.Inspección:
+                        <select name="estado" id="estado">
+                            <option style="color:gray"  value={{expedcoordinado.estado}}>{{expedcoordinado.estado}}</option>
+                            <option style="color:green"  value="Pendiente">Pendiente</option>
+                            <option style="color:green"  value="Realizado">Realizado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Código Inspector (NyA):
+                        <input type="text" name="codigoinspector" class="form-control" placeholder="Código Inspector"
+                            value="{{expedcoordinado.codigoinspector}}">
+                    </div>
+                    <div class="form-group">
+                        Inspector (NyA):
+                        <input type="text" onkeyup="ShowName('inspector')" id="inspector" name="inspector"
+                            class="form-control" placeholder="Inspector" value="{{expedcoordinado.inspector}}">
+                    </div>
+                    <div class="form-group">
+                        Iniciador (NyA):
+                        <input type="text" onkeyup="ShowName('iniciadornomyape')" id="iniciadornomyape"
+                            name="iniciadornomyape" class="form-control" placeholder="Iniciador"
+                            value="{{expedcoordinado.iniciadornomyape}}">
+                    </div>
+                    <div class="form-group">
+                        Domicilio:
+                        <input type="text" name="domicilio" class="form-control" placeholder="Domicilio Iniciador"
+                            value="{{expedcoordinado.domicilio}}">
+                    </div>
+                    <div class="form-group">
+                        Adrema:
+                        <input type="text" name="adremaexp" class="form-control" placeholder="Adrema"
+                            value="{{expedcoordinado.adremaexp}}">
+                    </div>
+                    <div class="form-group">
+                    Resultado Inspección:
+                    <select name="resultadoinspeccion" id="resultadoinspeccion">
+                        <option style="color:gray" value={{expedcoordinado.resultadoinspeccion}}>{{expedcoordinado.resultadoinspeccion}}</option>
+                        <option style="color:green" value="Se Realizo informe">Realizo informe</option>
+                        <option style="color:green" value="Se Intimó">Intimó</option>
+                        <option style="color:green" value="Se Infraccionó">Infraccionó</option>
+                        <option style="color:green" value="No se pudo Verificar">No se pudo Verificar</option>
+                        <option style="color:green" value="No se pudo Inspeccionar">No se pudo Inspeccionar</option>
+                    </select>
+                </div>  
+                    <div class="form-group">
+                        user:
+                        <input type="text" name="detallegeneral" class="form-control" placeholder="user"
+                            value="{{expedcoordinado.name}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit">
+                            Grabar
+                        </button>
+                    </div>
+                    {{!-- <div class="form-group">
+                        <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/expedientes"><i
+                                    class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver</p>
+                    </div> --}}
+                    <br />
+                    <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                        &laquo; Volver Atrás
+                    </a>
+                    <br /><br />
+            </form>
         </div>
-
     </div>
+
+</div>
