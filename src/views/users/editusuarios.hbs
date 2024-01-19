@@ -6,7 +6,7 @@
     //}
 
     //carga al iniciar la pagina
-    window.onload = function () {        
+    window.onload = function () {
         cargar_Roles()
         //document.getElementById('botonfecha').click();
     }
@@ -14,7 +14,7 @@
     function cargar_Roles() {
 
         var todoslosroles = ["Mesa-Entrada", "Administrativo", "Administrador", "Jefe-Inspectores",
-            "Inspector", "Liquidaciones"];  
+            "Inspector", "Liquidaciones"];
         //const rolusuariosborrara = usuarios.rolusuario.toString();
         var roltraido = document.getElementById('mostrarrolusuario').value;
         var roles = todoslosroles.filter(rol => rol != roltraido);
@@ -81,10 +81,11 @@
                             </p>
                         </div> --}}
                         <div class="form-group">
-                            Rol Actual:
+                            Rol Actual en Sistema:
                             <input type="text" class="form-control" id="mostrarrolusuario" name="mostrarrolusuario"
-                                   value="{{usuarios.rolusuario}}">
-                                   <p>Elige un Rol de Usuario:</p>
+                                value="{{usuarios.rolusuario}}" readonly>
+                                <p></p>
+                            <p>Elige Nuevo Rol de Usuario:</p>
                             <select name="rolusuario">
                                 <option>{{usuarios.rolusuario}}</option>
                             </select>
@@ -129,8 +130,11 @@
                                 Login</a> --}}
                         </div>
                         <div>
-                            <p style="color:red; font-style:oblique; font-weight: bold;"><a href="/usuarios"><i
-                                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Cancelar</p>
+                            <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                                &laquo; Volver Atrás
+                            </a>
+                            {{!-- <p style="color:red; font-style:oblique; font-weight: bold;"><a href="/usuarios"><i
+                                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Cancelar</p> --}}
                         </div>
                     </form>
                 </div>

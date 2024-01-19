@@ -54,7 +54,7 @@
                                 style="color:rgb(226, 241, 9);font-weight: bold;text-shadow: 1px 1px 2px black;">+Info</a>
                             <a class="dropdown-item" href="/usuario/edit/{{_id}}"
                                 style="color:rgb(165, 196, 28)">Editar</a>
-                            <form onSubmit="return confirm('Desea Borrar Usuario?')"
+                            <form onSubmit="return confirm('Desea Borrar Definitivamente al Usuario?')"
                                 action="/usuarios/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button class="btn btn-danger btn-block btn-sm" type="submit">

@@ -1,3 +1,62 @@
+<script>
+
+    // Carga al inicio pero solo si hay un body
+    //function myOnLoad() {
+    //    cargar_provincias()
+    //}
+
+    //carga al iniciar la pagina
+    window.onload = function () {        
+        cargar_Sectores()
+        //document.getElementById('botonfecha').click();
+    }
+    // funcion para Cargar Provincias al campo <select>
+    function cargar_Sectores() {
+        var todoslossectores = ["Inspección Obras", "Obras Particulares", "Visado", "Sub Secretaría"];             
+        //const rolusuariosborrara = usuarios.rolusuario.toString();
+        var sectortraido = document.getElementById("sectortraido").value;
+        //elimina con el filter el sector traido del array
+        var sectores = todoslossectores.filter(e => e != sectortraido);
+        // Ordena el Array Alfabeticamente, es muy facil ;)):
+        sectores.sort();
+        addOptions("sector", sectores);
+    }
+    // Rutina para agregar opciones a un <select>
+    function addOptions(domElement, sectores) {
+        var select = document.getElementsByName(domElement)[0];
+        for (value in sectores) {
+            var option = document.createElement("option");
+            option.text = sectores[value];
+            select.add(option);
+        }
+    }
+
+    function ponerminuscula() {
+        let ex = document.getElementById("email");
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+    function ShowName(elegido) {
+        var writtenName = document.getElementById(elegido).value;
+        document.getElementById(elegido).value = formatToString(writtenName);
+    }
+
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }
+</script>
+
 <div class="col-md-7 mx-auto">
     <div class="card">
         <div class="card-header">
@@ -8,17 +67,12 @@
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Sector Actual:
-                    <input type="text" class="form-control" placeholder="Sin Información" value="{{mesaentrada.sector}}"
-                        style="color: #3d0ee7; font-weight: bold;" disabled>
-                </div>
-                <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;">Cambiar el Sector?
+                    <input type="text" class="form-control" id="sectortraido" name="sectortraido"
+                           value="{{mesaentrada.sector}}" style="color: #3d0ee7; font-weight: bold;" readonly/>
+                    Cambiar Sector:                    
+                    <p style="color:brown; font-style:oblique; font-weight: bold;">
                         <select name="sector">
-                            <option value="{{mesaentrada.sector}}">{{mesaentrada.sector}}</option>
-                            <option value="Inspección Obras">Inspección Obras</option>
-                            <option value="Obras Particulares">Obras Particulares</option>
-                            <option value="Visado">Visado</option>
-                            <option value="Sub Secretaria">Sub Secretaría</option>
+                                <option>{{mesaentrada.sector}}</option>
                         </select>
                     </p>
                 </div>
@@ -43,7 +97,7 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Nombre y Apellido:
-                    <input type="text" name="nomyape" class="form-control" placeholder="Nombre y Apellido"
+                    <input onkeyup="ShowName('nomyape')" type="text" id="nomyape" name="nomyape" class="form-control" placeholder="Nombre y Apellido"
                         value="{{mesaentrada.nomyape}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
