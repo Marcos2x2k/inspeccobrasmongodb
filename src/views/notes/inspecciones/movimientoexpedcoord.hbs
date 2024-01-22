@@ -35,6 +35,32 @@
         //let ex = document.getElementById("correofiduciariopropsocio");
         //ex.value = ex.value.toLocaleLowerCase();
     }
+
+    function EstadoCoordInspección() {
+        var seleccioncoord = document.getElementById("estado");
+        var resultadoinspeccion = document.getElementById("resultadoinspeccion");
+        //var y = document.getElementById("fechaintimacion");
+        if (seleccioncoord.selectedIndex == 1) {
+            resultadoinspeccion.style.display = "hidden";
+        } else {
+            resultadoinspeccion.style.display = "block";
+        }
+    }
+
+    function seleccionresinsp() {
+        var seleccion = document.getElementById("resultadoinspeccion");
+        var x = document.getElementById("fechaintimacion");
+        if (seleccion.selectedIndex == 2) {
+            x.style.display = "block";
+            document.getElementById("horaintimacion").style.display = "block";
+            document.getElementById("vencimientointimacion").style.display = "block";
+        } else (seleccion.selectedIndex == 2) {
+            document.getElementById("fechainfraccion").style.display = "block";
+            document.getElementById("horainfraccion").style.display = "block";
+            document.getElementById("vencimientoinfraccion").style.display = "block";
+        }
+    }
+
 </script>
 
 <div class="col-md-6 mx-auto">
@@ -55,21 +81,45 @@
                 </div>
                 <div class="form-group">
                     Estado Coord.Inspección:
-                    <select name="estado" id="estado">
+                    <select name="estado" id="estado" onclick="EstadoCoordInspección()">
                         <option value="Pendiente">Pendiente</option>
-                        <option value="Realizado">Realizado</option>                        
+                        <option value="Realizado">Realizado</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    Cambiar Resultado Inspección:
-                    <select name="resultadoinspeccion" id="resultadoinspeccion">
-                        <option value="Se Realizo informe">Realizó informe</option>                        
+                <div style="color:red; display:none;" class="form-group">
+                    <p>Resultado Inspección:</p>
+                    <select name="resultadoinspeccion" id="resultadoinspeccion" onclick="seleccionresinsp()">
+                        <option value="Se Realizo informe">Realizó informe</option>
                         <option value="No se pudo Verificar">No se pudo Verificar</option>
                         <option value="No se pudo Inspeccionar">No se pudo Inspeccionar</option>
                         <option value="Se Intimó">Se Intimó</option>
                         <option value="Se Infraccionó">Se Infraccionó</option>
                     </select>
-                </div>                
+                </div>
+                <div style="color:red; display:none;" class="form-group">
+                    Fecha Intimación:
+                    <input type="date" id="fechaintimacion" name="fechaintimacion" class="form-control"></input>
+                </div>
+                <div style="color:red; display:none;" class="form-group">
+                    Hora Intimación:
+                    <input type="time" id="horaintimacion" name="horaintimacion" class="form-control"
+                        placeholder="Fecha Hora Inspección"></input>
+                </div>
+                <div style="color:red; display:none;" class="form-group">
+                    Vencimiento Intimación:
+                    <input type="date" id="vencimientointimacion" name="vencimientointimacion" class="form-control"
+                        placeholder="Fecha Hora Inspección"></input>
+                </div>
+                <div style="color:red; display:none;" class="form-group">
+                    Fecha Infraccionó:
+                    <input type="date" id="fechainfraccion" name="fechainfraccion" class="form-control"
+                        placeholder="Fecha Hora Inspección"></input>
+                </div>
+                <div style="color:red; display:none;" class="form-group">
+                    Hora Infraccionó:
+                    <input type="time" id="horainfraccion" name="horainfraccion" class="form-control"
+                        placeholder="Fecha Hora Inspección"></input>
+                </div>
                 <div class="form-group">
                     Código Inspector:
                     <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector" name="codigoinspector"
@@ -107,13 +157,13 @@
                     Hora Inspección:
                     <input type="text" name="horainspeccion" class="form-control" placeholder="Fecha Hora Inspección"
                         value="{{expedcoordinado.horainspeccion}}" disabled></input>
-                </div>                
+                </div>
                 <p></p>
                 <div class="form-group">
-                            <button class="btn btn-primary btn-block" type="submit">
-                                Grabar
-                            </button>
-                        </div>
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Grabar
+                    </button>
+                </div>
                 <div class="form-group">
                     <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
                         &laquo; Volver Atrás
