@@ -228,15 +228,15 @@ router.post('/expedientes/coordinados/findestado', isAuthenticated, async (req, 
 });
 
 router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
-    const { borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
-        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
-        resultadoinspeccion, eliminado, user, name, date
-    } = req.body;
+    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
+        vencimientointimacion,  fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
+        iniciadornomyape, domicilio,  fechainspeccion, horainspeccion, motivoinspeccion, 
+        eliminado, user, name, date} = req.body;
     const newexpedcoordin = new Expedcoordinado ({
-        borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
-        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
-        resultadoinspeccion, eliminado, user, name, date
-    })
+        borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
+        vencimientointimacion, fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
+        iniciadornomyape, domicilio,  fechainspeccion, horainspeccion, motivoinspeccion, 
+        eliminado, user, name, date})
     Expedcoordinado.user = req.user.id;
     Expedcoordinado.name = req.user.name;
     await newexpedcoordin.save();
@@ -280,13 +280,15 @@ router.get('/expedcoordin/edit/:id', isAuthenticated, async (req, res) => {
 });
 
 router.put('/notes/expedcoordin/:id', isAuthenticated, async (req, res) => {
-    const { borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
-        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
-        resultadoinspeccion, eliminado, user, name, date } = req.body
+    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
+        vencimientointimacion, fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
+        iniciadornomyape, domicilio,  fechainspeccion, horainspeccion, motivoinspeccion, 
+        eliminado, user, name, date } = req.body
     await Expedcoordinado.findByIdAndUpdate(req.params.id, {
-        borrado, userborrado, fechaborrado, estado, numexpediente, codigoinspector, inspector, 
+        borrado, userborrado, fechaborrado, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
+        vencimientointimacion, fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
         iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
-        resultadoinspeccion, eliminado, user, name, date
+        eliminado, user, name, date
     });
     req.flash('success_msg', 'Coordinación actualizada')
     res.redirect('/expedientes/coordinados');

@@ -36,28 +36,49 @@
         //ex.value = ex.value.toLocaleLowerCase();
     }
 
-    function EstadoCoordInspección() {
-        var seleccioncoord = document.getElementById("estado");
-        var resultadoinspeccion = document.getElementById("resultadoinspeccion");
-        //var y = document.getElementById("fechaintimacion");
-        if (seleccioncoord.selectedIndex == 1) {
-            resultadoinspeccion.style.display = "hidden";
-        } else {
-            resultadoinspeccion.style.display = "block";
+    function EstadoCoordInspeccion() {
+        var selestadoinsp = document.getElementById("selestadoinsp");
+        var divres = document.getElementById("divresultadoinspeccion");
+        if (selestadoinsp.selectedIndex == 0) {
+            divres.style.display = "none";
+        } else if (selestadoinsp.selectedIndex == 1) {
+            divres.style.display = "block";
         }
     }
 
     function seleccionresinsp() {
-        var seleccion = document.getElementById("resultadoinspeccion");
-        var x = document.getElementById("fechaintimacion");
-        if (seleccion.selectedIndex == 2) {
-            x.style.display = "block";
-            document.getElementById("horaintimacion").style.display = "block";
-            document.getElementById("vencimientointimacion").style.display = "block";
-        } else (seleccion.selectedIndex == 2) {
-            document.getElementById("fechainfraccion").style.display = "block";
-            document.getElementById("horainfraccion").style.display = "block";
-            document.getElementById("vencimientoinfraccion").style.display = "block";
+        var selresultadoinspeccion = document.getElementById("selresultadoinspeccion");
+        var fi = document.getElementById("fechaintimacion");
+        var hi = document.getElementById("horaintimacion")
+        var vi = document.getElementById("vencimientointimacion")
+        var finf = document.getElementById("fechainfraccion")
+        var hinf = document.getElementById("horainfraccion")
+        var di = document.getElementById("descripcionintimacion")
+        var dinf = document.getElementById("descripcioninfraccion")
+        var x = selresultadoinspeccion.selectedIndex
+        if (x == 0 || x == 1 || x == 2) {
+            fi.style.display = "none";
+            hi.style.display = "none";
+            vi.style.display = "none";
+            finf.style.display = "none";
+            hinf.style.display = "none"; 
+        } else if (x == 3) {
+            fi.style.display = "block";
+            hi.style.display = "block";
+            vi.style.display = "block";
+            di.style.display = "block";
+            finf.style.display = "none";
+            hinf.style.display = "none"; 
+            dinf.style.display = "none"; 
+
+        } else if (x == 4) {
+            finf.style.display = "block";
+            hinf.style.display = "block"; 
+            dinf.style.display = "block";      
+            fi.style.display = "none";
+            hi.style.display = "none";
+            vi.style.display = "none";   
+            di.style.display = "none";
         }
     }
 
@@ -72,7 +93,7 @@
             </h5>
         </div>
         <div class="card-body">
-            <form action="/notes/expedcoordin/{{expedcoordinado._id}}?_method=PUT" method="POST">
+            <form action="/notes/expedcoordin/{{expedcoordinado._id}}?_method=PUT" method="POST">                
                 <div class="form-group">
                     Expediente Nº:
                     <input onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
@@ -81,14 +102,14 @@
                 </div>
                 <div class="form-group">
                     Estado Coord.Inspección:
-                    <select name="estado" id="estado" onclick="EstadoCoordInspección()">
+                    <select name="estado" id="selestadoinsp" onclick="EstadoCoordInspeccion()">
                         <option value="Pendiente">Pendiente</option>
                         <option value="Realizado">Realizado</option>
                     </select>
                 </div>
-                <div style="color:red; display:none;" class="form-group">
+                <div id="divresultadoinspeccion" style="display:none" class="form-group">
                     <p>Resultado Inspección:</p>
-                    <select name="resultadoinspeccion" id="resultadoinspeccion" onclick="seleccionresinsp()">
+                    <select style="color:red;" name="resultadoinspeccion" id="selresultadoinspeccion" onclick="seleccionresinsp()">
                         <option value="Se Realizo informe">Realizó informe</option>
                         <option value="No se pudo Verificar">No se pudo Verificar</option>
                         <option value="No se pudo Inspeccionar">No se pudo Inspeccionar</option>
@@ -96,29 +117,39 @@
                         <option value="Se Infraccionó">Se Infraccionó</option>
                     </select>
                 </div>
-                <div style="color:red; display:none;" class="form-group">
+                <div style="color:red; display:none;" id="fechaintimacion" class="form-group">
                     Fecha Intimación:
-                    <input type="date" id="fechaintimacion" name="fechaintimacion" class="form-control"></input>
+                    <input type="date" name="fechaintimacion" class="form-control"></input>
                 </div>
-                <div style="color:red; display:none;" class="form-group">
+                <div id="horaintimacion"  style="color:red; display:none;" class="form-group">
                     Hora Intimación:
-                    <input type="time" id="horaintimacion" name="horaintimacion" class="form-control"
+                    <input type="time" name="horaintimacion" class="form-control"
                         placeholder="Fecha Hora Inspección"></input>
                 </div>
-                <div style="color:red; display:none;" class="form-group">
+                <div id="vencimientointimacion" style="color:red; display:none;" class="form-group">
                     Vencimiento Intimación:
-                    <input type="date" id="vencimientointimacion" name="vencimientointimacion" class="form-control"
+                    <input type="date" name="vencimientointimacion" class="form-control"
                         placeholder="Fecha Hora Inspección"></input>
                 </div>
-                <div style="color:red; display:none;" class="form-group">
+                <div id="descripcionintimacion" style="color:red; display:none;" class="form-group">
+                    Causas/Descripción Intimación:
+                    <textarea name="descripcionintimacion" class="form-control"
+                        placeholder="No Posee Descripción"></textarea>
+                </div>
+                <div id="fechainfraccion"  style="color:red; display:none;" class="form-group">
                     Fecha Infraccionó:
-                    <input type="date" id="fechainfraccion" name="fechainfraccion" class="form-control"
+                    <input type="date" name="fechainfraccion" class="form-control"
                         placeholder="Fecha Hora Inspección"></input>
                 </div>
-                <div style="color:red; display:none;" class="form-group">
+                <div id="horainfraccion" style="color:red; display:none;" class="form-group">
                     Hora Infraccionó:
-                    <input type="time" id="horainfraccion" name="horainfraccion" class="form-control"
+                    <input type="time"  name="horainfraccion" class="form-control"
                         placeholder="Fecha Hora Inspección"></input>
+                </div>
+                <div id="descripcioninfraccion" style="color:red; display:none;" class="form-group">
+                    Causas/Descripción Infracción:
+                    <textarea name="descripcioninfraccion" class="form-control"
+                        placeholder="No Posee Descripción"></textarea>
                 </div>
                 <div class="form-group">
                     Código Inspector:

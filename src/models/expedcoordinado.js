@@ -3,27 +3,72 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const ExpedcoordinadoSchemaSchema = new Schema({
-    borrado:{
+    borrado: {
         type: String,
         required: true,
-        default:"No",
+        default: "No",
     },
-    userborrado:{
+    userborrado: {
         type: String,
         required: true,
-        default:"Sin Datos",
+        default: "Sin Datos",
     },
-    fechaborrado:{
+    fechaborrado: {
         type: String,
         required: true,
-        default:"Sin Datos",
+        default: "Sin Datos",
+    },
+    adremaexp: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    },
+    numexpediente: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
     },
     estado: {
         type: String,
         require: false,
         default: "Pendiente"
     },
-    numexpediente: {
+    resultadoinspeccion: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    },    
+    fechaintimacion: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    }, 
+    horaintimacion: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    }, 
+    vencimientointimacion: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    }, 
+    fechainfraccion: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    }, 
+    horainfraccion: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    },
+    descripcionintimacion: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
+    },
+    descripcioninfraccion: {
         type: String,
         require: false,
         default: "No Posee Información"
@@ -32,27 +77,22 @@ const ExpedcoordinadoSchemaSchema = new Schema({
         type: String,
         require: false,
         default: "No Posee Información"
-    },      
+    },
     inspector: {
         type: String,
         require: false,
         default: "No Posee Información"
-    },  
+    },
     iniciadornomyape: {
         type: String,
         require: false,
         default: "No Posee Información"
-    },      
+    },
     domicilio: {
         type: String,
         require: false,
         default: "No Informó"
     },
-    adremaexp: {
-        type: String,
-        require: false,
-        default: "No Posee Información"
-    },   
     fechainspeccion: {
         type: String,
         require: false,
@@ -61,16 +101,16 @@ const ExpedcoordinadoSchemaSchema = new Schema({
     horainspeccion: {
         type: String,
         require: false
-    },   
+    },
     motivoinspeccion: {
         type: String,
         require: false
-    },    
+    },
     resultadoinspeccion: {
         type: String,
         require: false,
         default: "No Realizado"
-    },  
+    },
     eliminado: {
         type: String,
         require: false,
