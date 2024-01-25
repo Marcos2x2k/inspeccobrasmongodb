@@ -39,8 +39,22 @@
     function EstadoCoordInspeccion() {
         var selestadoinsp = document.getElementById("selestadoinsp");
         var divres = document.getElementById("divresultadoinspeccion");
+        var fi = document.getElementById("fechaintimacion");
+        var hi = document.getElementById("horaintimacion")
+        var vi = document.getElementById("vencimientointimacion")
+        var finf = document.getElementById("fechainfraccion")
+        var hinf = document.getElementById("horainfraccion")
+        var di = document.getElementById("descripcionintimacion")
+        var dinf = document.getElementById("descripcioninfraccion")
         if (selestadoinsp.selectedIndex == 0) {
             divres.style.display = "none";
+            fi.style.display = "none";
+            hi.style.display = "none";
+            vi.style.display = "none";
+            finf.style.display = "none";
+            hinf.style.display = "none"; 
+            di.style.display = "none"; 
+            dinf.style.display = "none"; 
         } else if (selestadoinsp.selectedIndex == 1) {
             divres.style.display = "block";
         }
@@ -62,6 +76,8 @@
             vi.style.display = "none";
             finf.style.display = "none";
             hinf.style.display = "none"; 
+            di.style.display = "none"; 
+            dinf.style.display = "none"; 
         } else if (x == 3) {
             fi.style.display = "block";
             hi.style.display = "block";
@@ -93,12 +109,19 @@
             </h5>
         </div>
         <div class="card-body">
-            <form action="/notes/expedcoordin/{{expedcoordinado._id}}?_method=PUT" method="POST">                
+             {{!-- <form action="/notes/newtickets" method="POST"></form> --}}
+            <form action="/notes/newexpedcoordinresult/" method="POST"> 
+                <div class="form-group">
+                    Id Expediente:
+                    <input id="idexpediente" type="text" name="idexpediente"
+                        class="form-control" placeholder="ID" value="{{expedcoordinado._id}}"
+                        readonly>
+                </div>        
                 <div class="form-group">
                     Expediente Nº:
                     <input onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
                         class="form-control" placeholder="Expediente Nº" value="{{expedcoordinado.numexpediente}}"
-                        disabled>
+                        readonly>
                 </div>
                 <div class="form-group">
                     Estado Coord.Inspección:
@@ -109,10 +132,10 @@
                 </div>
                 <div id="divresultadoinspeccion" style="display:none" class="form-group">
                     <p>Resultado Inspección:</p>
-                    <select style="color:red;" name="resultadoinspeccion" id="selresultadoinspeccion" onclick="seleccionresinsp()">
-                        <option value="Se Realizo informe">Realizó informe</option>
+                    <select style="color:red;" name="resultadoinspeccion" id="selresultadoinspeccion" onclick="seleccionresinsp()">                        
                         <option value="No se pudo Verificar">No se pudo Verificar</option>
                         <option value="No se pudo Inspeccionar">No se pudo Inspeccionar</option>
+                        <option value="Se Realizo informe">Realizó informe</option>
                         <option value="Se Intimó">Se Intimó</option>
                         <option value="Se Infraccionó">Se Infraccionó</option>
                     </select>
@@ -155,39 +178,39 @@
                     Código Inspector:
                     <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector" name="codigoinspector"
                         class="form-control" placeholder="Código Inspector" value="{{expedcoordinado.codigoinspector}}"
-                        disabled />
+                        readonly />
                 </div>
                 <div class="form-group">
                     Inspector (NyA):
                     <input onkeyup="ShowName('inspector')" type="text" id="inspector" name="inspector"
                         class="form-control" placeholder="Inspector (NyA)" value="{{expedcoordinado.inspector}}"
-                        disabled />
+                        readonly />
                 </div>
                 <div class="form-group">
                     Iniciador (NyA):
                     <input onkeyup="ShowName('iniciadornomyape')" type="text" id="iniciadornomyape"
                         name="iniciadornomyape" class="form-control" placeholder="Iniciador (NyA)"
-                        value="{{expedcoordinado.iniciadornomyape}}" disabled />
+                        value="{{expedcoordinado.iniciadornomyape}}" readonly />
                 </div>
                 <div class="form-group">
                     Domicilio:
                     <input onkeyup="ShowName('domicilio')" type="text" id="domicilio" name="domicilio"
-                        class="form-control" placeholder="Domicilio" value="{{expedcoordinado.domicilio}}" disabled />
+                        class="form-control" placeholder="Domicilio" value="{{expedcoordinado.domicilio}}" readonly />
                 </div>
                 <div class="form-group">
                     Adrema Nº:
                     <input onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp" class="form-control"
-                        placeholder="Nº Adrema" value="{{expedcoordinado.adremaexp}}" disabled></input>
+                        placeholder="Nº Adrema" value="{{expedcoordinado.adremaexp}}" readonly></input>
                 </div>
                 <div class="form-group">
                     Fecha Inspección:
                     <input type="text" name="fechainicioentrada" class="form-control" placeholder="Fecha inicio entrada"
-                        value="{{expedcoordinado.fechainspeccion}}" disabled></input>
+                        value="{{expedcoordinado.fechainspeccion}}" readonly></input>
                 </div>
                 <div class="form-group">
                     Hora Inspección:
                     <input type="text" name="horainspeccion" class="form-control" placeholder="Fecha Hora Inspección"
-                        value="{{expedcoordinado.horainspeccion}}" disabled></input>
+                        value="{{expedcoordinado.horainspeccion}}" readonly></input>
                 </div>
                 <p></p>
                 <div class="form-group">

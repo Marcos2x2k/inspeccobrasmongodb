@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
-const ExpedcoordinadoSchema = new Schema({
+const ExpedcoordresultadoSchema = new Schema({
     borrado: {
         type: String,
         required: true,
@@ -26,7 +26,7 @@ const ExpedcoordinadoSchema = new Schema({
     idexpediente: {
         type: String,
         require: false,
-        default: ""
+        default: "No Posee Información"
     },
     numexpediente: {
         type: String,
@@ -140,4 +140,4 @@ const ExpedcoordinadoSchema = new Schema({
 // FECHA ENTR INSP	INSPECCION	INTIMACION	INFRACCION	INFORME	DESTINO/PASE	FECHA SALIDA
 
 
-module.exports = mongoose.model("Expedcoordinado", ExpedcoordinadoSchema);
+module.exports = mongoose.model("Expedcoordresultado", ExpedcoordresultadoSchema);

@@ -57,8 +57,7 @@
             <td>Nº Expediente</td>
             <td>Adrema</td>
             <td>Codigo-Insp</td>
-
-            <td>Iniciador (N y A)</td>            
+            <td>Iniciador (N y A)</td>
             <td>Domicilio</td>
             <td>Resultado</td>
             <td>Opciones</td>
@@ -73,18 +72,18 @@
             <td>{{ numexpediente }}</td>
             <td>{{ adremaexp }}</td>
             <td>{{codigoinspector}}</td>
-            <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>            
+            <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>
             <td style="text-transform: capitalize;">{{ domicilio }}</td>
             <td>{{ resultadoinspeccion }}</td>
             <td>
               <a class="dropdown-item" href="/movimientoexpedientecoord/add/{{_id}}"
-                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">
+                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
                 Agregar Resultado
-              </a>              
-              <a class="dropdown-item" href="/expedientes/coordinados/list/{{_id}}"
+              </a>
+              <a class="dropdown-item" href="/expedientes/coordinados/listresultado/{{_id}}"
                 style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Info Corrdinación
-              </a>           
+                Listado Movimientos
+              </a>
             </td>
             <td>
               {{!-- <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
@@ -95,14 +94,10 @@
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
                 Edit Coordinación
               </a>
-              {{!-- <form
-                onSubmit="return confirm('Recuerde que se borrará el expediente pero no sus informes. Desea Borrar?')"
-                style="" action="/expedientes/delete/{{_id}}?_method=DELETE" method="POST">
-                <input type="hidden" name="_method" value="DELETE">
-                <button class="btn btn-danger btn-block btn-sm" type="submit">
-                  Borrar
-                </button>
-              </form> --}}
+              <a class="dropdown-item" href="/expedientes/coordinados/list/{{_id}}"
+                style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
+                Info Coordinación
+              </a>
               <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
                 action="/expedcoordin/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">

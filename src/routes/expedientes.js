@@ -10,7 +10,8 @@ const Expedinspeccion = require('../models/expedinspeccion');
 const Expedticket = require('../models/Expedticket')
 const Expedticketentrainsp = require('../models/Expedticketentrainsp')
 const Expedentrsalida = require('../models/expedentrsalida');
-const Expedcoordinado  = require('../models/expedcoordinado');
+const Expedcoordinado = require('../models/expedcoordinado');
+const Expedcoordresultado = require('../models/expedcoordresultado');
 
 //** ver tema NOTE */
 const Note = require('../models/Note');
@@ -65,7 +66,7 @@ router.get('/movimientoexpediente/add/:id', isAuthenticated, async (req, res) =>
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
-    }    
+    }
 });
 
 // Cambio el estado del expediente y agendo el estado nuevo en la base de datos expedentrsalida.js
@@ -80,9 +81,9 @@ router.put('/notes/newestadoexpediente', isAuthenticated, async (req, res) => {
         user, name
     })
     newExpedentrsalida.user = req.user.id;
-    newExpedentrsalida.name = req.user.name;  
-    await newExpedentrsalida.save();    
-    await Expediente.update({numexpediente:numexpediente}, { $set: { estado: estado } }, { upsert: false, multi: true })         
+    newExpedentrsalida.name = req.user.name;
+    await newExpedentrsalida.save();
+    await Expediente.update({ numexpediente: numexpediente }, { $set: { estado: estado } }, { upsert: false, multi: true })
     req.flash('success_msg', 'Estado de Expediente Modificado Exitosamente');
     res.redirect('/expedientes/listado');
 });
@@ -91,14 +92,14 @@ router.get('/expedientes/movimientosestadosexpedientes/:id', isAuthenticated, as
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
     const rolusuario = req.user.rolusuario;
-    var id = req.params.id;
+    //var id = req.params.id;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         //const mesaentrada = await Mesaentrada.findById(req.params.id).lean() 
         const expediente = await Expediente.findById(req.params.id).lean()
         //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
         var numexpediente = expediente.numexpediente
         const expedentrsalida = await Expedentrsalida.find({ numexpediente: numexpediente }).lean().sort({ date: 'desc' });
-        res.render('notes/inspecciones/planillamovestados', { expedentrsalida, expediente });    
+        res.render('notes/inspecciones/planillamovestados', { expedentrsalida, expediente });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
@@ -182,6 +183,14 @@ router.get('/expedientes/coordinados/list/:id', isAuthenticated, async (req, res
     res.render('notes/inspecciones/listexpedcood', { expedcoordinado })
 });
 
+router.get('/expedientes/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
+    const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
+    //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
+    var idexpediente = expedcoordinado._id
+    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { idexpediente : idexpediente }] }).lean().sort({ date: 'desc' });    
+    res.render('notes/inspecciones/listaexpedcoordmov', { expedcoordresultado, expedcoordinado })
+});
+
 // *** BUSCAR EXPEDIENTES COORDINADOS - LISTADO ***
 router.post('/expedientes/coordinados/find', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
@@ -228,19 +237,38 @@ router.post('/expedientes/coordinados/findestado', isAuthenticated, async (req, 
 });
 
 router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
-    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
-        vencimientointimacion,  fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
-        iniciadornomyape, domicilio,  fechainspeccion, horainspeccion, motivoinspeccion, 
-        eliminado, user, name, date} = req.body;
-    const newexpedcoordin = new Expedcoordinado ({
-        borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
-        vencimientointimacion, fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
-        iniciadornomyape, domicilio,  fechainspeccion, horainspeccion, motivoinspeccion, 
-        eliminado, user, name, date})
+    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
+        eliminado, user, name, date } = req.body;
+    const newexpedcoordin = new Expedcoordinado({
+        borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
+        eliminado, user, name, date
+    })
     Expedcoordinado.user = req.user.id;
     Expedcoordinado.name = req.user.name;
     await newexpedcoordin.save();
     req.flash('success_msg', 'Expediente Coordinado Agregado Exitosamente');
+    res.redirect('/expedientes/coordinados');
+});
+
+router.post('/notes/newexpedcoordinresult', isAuthenticated, async (req, res) => {
+    const { borrado, userborrado, fechaborrado, adremaexp, idexpediente, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
+        eliminado, user, name, date } = req.body;
+    const newexpedcoordresultado = new Expedcoordresultado({
+        borrado, userborrado, fechaborrado, adremaexp, idexpediente, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
+        eliminado, user, name, date
+    })
+    Expedcoordresultado.user = req.user.id;
+    Expedcoordresultado.name = req.user.name;
+    await newexpedcoordresultado.save();
+    req.flash('success_msg', 'Resultado de Expediente Coordinado Agregado');
     res.redirect('/expedientes/coordinados');
 });
 
@@ -254,7 +282,7 @@ router.get('/movimientoexpedientecoord/add/:id', isAuthenticated, async (req, re
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
-    }    
+    }
 });
 
 router.put('/expedcoordin/marcadelete/:id', isAuthenticated, async (req, res) => {
@@ -280,14 +308,14 @@ router.get('/expedcoordin/edit/:id', isAuthenticated, async (req, res) => {
 });
 
 router.put('/notes/expedcoordin/:id', isAuthenticated, async (req, res) => {
-    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
-        vencimientointimacion, fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
-        iniciadornomyape, domicilio,  fechainspeccion, horainspeccion, motivoinspeccion, 
+    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
         eliminado, user, name, date } = req.body
     await Expedcoordinado.findByIdAndUpdate(req.params.id, {
-        borrado, userborrado, fechaborrado, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion, 
-        vencimientointimacion, fechainfraccion, horainfraccion,  descripcionintimacion, descripcioninfraccion, codigoinspector, inspector, 
-        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion, 
+        borrado, userborrado, fechaborrado, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        iniciadornomyape, domicilio, adremaexp, fechainspeccion, horainspeccion, motivoinspeccion,
         eliminado, user, name, date
     });
     req.flash('success_msg', 'Coordinación actualizada')
@@ -377,13 +405,13 @@ router.get('/expedientes/expedconinformeinspeccion/:id', isAuthenticated, async 
         //const mesaentrada = await Mesaentrada.findById(req.params.id).lean() 
         const expediente = await Expediente.findById(req.params.id).lean()
         //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
-        var numexpediente = expediente.numexpediente
-        const expedisnpeccion = await Expedinspeccion.find({$and: [{ numexpediente: numexpediente}, {fechaentradainspeccion: {$exists: true}}]}).lean().sort({ date: 'desc' }); //
+        var idexpediente = expediente._id
+        const expedisnpeccion = await Expedinspeccion.find({ $and: [{ idexpediente: idexpediente }, { fechaentradainspeccion: { $exists: true } }] }).lean().sort({ date: 'desc' }); //
         res.render('notes/inspecciones/planillalistaexpconinformes', { expedisnpeccion, expediente });
-    // } else if (rolusuario == "Inspector") {
-    //     const expedisnpeccion = await Expedinspeccion.find().lean().limit(100).sort({ date: 'desc' }); //
-    //     // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
-    //     res.render('notes/inspecciones/planillalistainformeexped', { expedisnpeccion });
+        // } else if (rolusuario == "Inspector") {
+        //     const expedisnpeccion = await Expedinspeccion.find().lean().limit(100).sort({ date: 'desc' }); //
+        //     // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        //     res.render('notes/inspecciones/planillalistainformeexped', { expedisnpeccion });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
         return res.redirect('/');
