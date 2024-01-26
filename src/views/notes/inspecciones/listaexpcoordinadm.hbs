@@ -41,7 +41,8 @@
   </div>
 
   <a href="/expedientes/coordinados/add" class="btn btn-success btn-block">Agregar Coordinación!</a>
-  <a href="/expedientes/coordinados" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
+  <a href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-danger btn-block">Intimaciones Vencidas</a>
+  <a href="/expedientes/coordinados" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado Completo</a>
 
   {{!-- <br /> --}}
   <div class="form-group btn-center mx-auto">
@@ -60,6 +61,7 @@
             <td>Iniciador (N y A)</td>
             <td>Domicilio</td>
             <td>Resultado</td>
+            <td>Vencimiento</td>
             <td>Opciones</td>
             <td>Extras</td>
           </tr>
@@ -75,14 +77,15 @@
             <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>
             <td style="text-transform: capitalize;">{{ domicilio }}</td>
             <td>{{ resultadoinspeccion }}</td>
+            <td>{{ vencimientointimacion }}</td>
             <td>
               <a class="dropdown-item" href="/movimientoexpedientecoord/add/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Agregar Resultado
+                Agregar Result.
               </a>
               <a class="dropdown-item" href="/expedientes/coordinados/listresultado/{{_id}}"
                 style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Listado Movimientos
+                Listado Mov.
               </a>
             </td>
             <td>

@@ -46,6 +46,7 @@
         var hinf = document.getElementById("horainfraccion")
         var di = document.getElementById("descripcionintimacion")
         var dinf = document.getElementById("descripcioninfraccion")
+        var grabar = document.getElementById("grabar")
         if (selestadoinsp.selectedIndex == 0) {
             divres.style.display = "none";
             fi.style.display = "none";
@@ -55,8 +56,10 @@
             hinf.style.display = "none"; 
             di.style.display = "none"; 
             dinf.style.display = "none"; 
+            grabar.disabled = true;
         } else if (selestadoinsp.selectedIndex == 1) {
             divres.style.display = "block";
+            grabar.disabled = false;
         }
     }
 
@@ -78,6 +81,14 @@
             hinf.style.display = "none"; 
             di.style.display = "none"; 
             dinf.style.display = "none"; 
+            // require false para int e inf
+            finf.required = "false";
+            hinf.required = "false";
+            dinf.required = "false";     
+            fi.required = "false";
+            hi.required = "false";
+            vi.required = "false";  
+            di.required = "false";
         } else if (x == 3) {
             fi.style.display = "block";
             hi.style.display = "block";
@@ -86,7 +97,11 @@
             finf.style.display = "none";
             hinf.style.display = "none"; 
             dinf.style.display = "none"; 
-
+            // requerir input de intimacion
+            fi.attributes.required = "required";
+            hi.attributes.required = "required";
+            vi.attributes.required = "required";
+            di.attributes.required = "required";
         } else if (x == 4) {
             finf.style.display = "block";
             hinf.style.display = "block"; 
@@ -95,6 +110,10 @@
             hi.style.display = "none";
             vi.style.display = "none";   
             di.style.display = "none";
+            // requiere infraccion
+            finf.required = "true";
+            hinf.required = "true";
+            dinf.required = "true";  
         }
     }
 
@@ -178,13 +197,13 @@
                     Código Inspector:
                     <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector" name="codigoinspector"
                         class="form-control" placeholder="Código Inspector" value="{{expedcoordinado.codigoinspector}}"
-                        readonly />
+                        />
                 </div>
                 <div class="form-group">
                     Inspector (NyA):
                     <input onkeyup="ShowName('inspector')" type="text" id="inspector" name="inspector"
                         class="form-control" placeholder="Inspector (NyA)" value="{{expedcoordinado.inspector}}"
-                        readonly />
+                        />
                 </div>
                 <div class="form-group">
                     Iniciador (NyA):
@@ -213,8 +232,8 @@
                         value="{{expedcoordinado.horainspeccion}}" readonly></input>
                 </div>
                 <p></p>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">
+                <div  class="form-group">
+                    <button id="grabar"class="btn btn-primary btn-block" type="submit" disabled>
                         Grabar
                     </button>
                 </div>

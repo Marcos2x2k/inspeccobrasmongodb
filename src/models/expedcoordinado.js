@@ -116,11 +116,6 @@ const ExpedcoordinadoSchema = new Schema({
         require: false,
         default: "No Realizado"
     },
-    eliminado: {
-        type: String,
-        require: false,
-        default: "No"
-    },
     user: {
         type: String,
         require: false,

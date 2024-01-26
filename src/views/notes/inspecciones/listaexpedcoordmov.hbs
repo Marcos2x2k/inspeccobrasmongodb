@@ -93,16 +93,16 @@
                         <td>{{ fechainfraccion }}</td>
                         <td>{{ fechaintimacion }}</td>
                         <td>
-                            <a class="dropdown-item " href="/expedcoordin/edit/{{_id}}"
+                            <a class="dropdown-item " href="/expedcoordinmov/info/{{_id}}"
                                 style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
                                 Info Movimientos
                             </a>
-                            <a class="dropdown-item " href="/expedcoordin/edit/{{_id}}"
+                            <a class="dropdown-item " href="/expedcoordinmov/edit/{{_id}}"
                                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
                                 Edit Movimientos
                             </a>
                             <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
-                                action="/expedcoordin/marcadelete/{{_id}}?_method=PUT" method="POST">
+                                action="/expedcoordinmov/marcadelete/{{_id}}?_method=PUT" method="POST">
                                 <input type="hidden" name="_method" value="PUT">
                                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                                     Borrar

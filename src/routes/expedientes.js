@@ -165,6 +165,27 @@ router.get('/expedientes/coordinados', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/expedientes/coordinados/intimacionesvencidas', isAuthenticated, async (req, res) => {
+    // buscar por fecha
+    //const { fechaingreso } = req.body;
+    //const expedcoordinado = await Expedcoordinado.find({ $and: [{ borrado: "No" }, { fechaingreso: { $regex: fechaingreso, $options: "i" } }] }).lean().sort({ dateturno: 'desc' })    
+    const rolusuario = req.user.rolusuario;
+    var vencimientoesmenoralafechaactual = new Date();
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const expedcoordinado = await Expedcoordinado.find({ $and: [{ borrado: "No" }, {vencimientointimacion : {"$lt" : vencimientoesmenoralafechaactual}}]}).lean().sort(); //{ vencimientointimacion: 'desc' }) //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordinado });
+    } else if (rolusuario == "Inspector") {
+        const expedcoordinado = await Expedcoordinado.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
+        // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
+        res.render('notes/inspecciones/listaexpcoordininsp', { expedcoordinado });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES COORDINADOS')
+        return res.redirect('/');
+    }
+});
+
+
 router.get('/expedientes/coordinados/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -268,6 +289,7 @@ router.post('/notes/newexpedcoordinresult', isAuthenticated, async (req, res) =>
     Expedcoordresultado.user = req.user.id;
     Expedcoordresultado.name = req.user.name;
     await newexpedcoordresultado.save();
+    await Expedcoordinado.update({ $set: { estado: estado }})    
     req.flash('success_msg', 'Resultado de Expediente Coordinado Agregado');
     res.redirect('/expedientes/coordinados');
 });
@@ -295,6 +317,18 @@ router.put('/expedcoordin/marcadelete/:id', isAuthenticated, async (req, res) =>
     req.flash('success_msg', 'Expediente a Papelera Reciclaje')
     res.redirect('/expedientes/coordinados');
 });
+
+router.put('/expedcoordinmov/marcadelete/:id', isAuthenticated, async (req, res) => {
+    const borrado = "Si";
+    const fechaborrado = new Date();
+    const userborrado = req.user.name;
+    await Expedcoordresultado.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Expediente a Papelera Reciclaje')
+    res.redirect('/expedientes/coordinados');
+});
+
 
 router.delete('/expedcoordin/delete/:id', isAuthenticated, async (req, res) => {
     await Expedcoordinado.findByIdAndDelete(req.params.id);
