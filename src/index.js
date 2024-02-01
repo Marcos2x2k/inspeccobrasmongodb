@@ -103,7 +103,6 @@ app.use(require('./routes/estadisticas.js'));
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 //Server is listen
 // app.listen(app.get('port'), () => {
 //     console.log ('Server on Port', app.get('port'));
@@ -121,12 +120,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // });
 // ******************************* //
 
-
 // Server is listen en 3001 - desde Casa
 // app.listen(app.get('port'), () => {
 //   console.log ('Server on Port', app.get('port'));
 // });
-
 
 /// *****--- copiado del doc --- *****
 // Modifica el listener ****************************

@@ -39,17 +39,14 @@
       </div>
     </form>
   </div>
-
-  <a href="/expedientes/coordinados/add" class="btn btn-success btn-block">Agregar Coordinación!</a>
-  <a href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-danger btn-block">Intimaciones Vencidas</a>
-  <a href="/expedientes/coordinados" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado Completo</a>
+  <a href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado Completo</a>
 
   {{!-- <br /> --}}
   <div class="form-group btn-center mx-auto">
     <br />
-    {{!-- <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
-      LISTADO DE MESA DE ENTRADA</h5> --}}
-    {{!-- <br /><br /> --}}
+    <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
+      LISTADO DE INTIMACIONES YA VENCIDAS</h5>
+    <br /><br />
     <div class="form-group btn-center mx-auto">
       <table class="table table-dark table-hover">
         <thead>
@@ -62,12 +59,11 @@
             <td>Domicilio</td>
             <td>Resultado</td>
             <td>Vencimiento Int.</td>
-            <td>Opciones</td>
-            <td>Extras</td>
+            <td>Opciones</td>            
           </tr>
         </thead>
         <tbody>
-          {{#each expedcoordinado}}
+          {{#each expedcoordresultado}}
           <tr>
             {{!-- <td>{{ _id }}</td> --}}
             <td style="color:yellow;">{{ estado }}</td>
@@ -77,17 +73,7 @@
             <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>
             <td style="text-transform: capitalize;">{{ domicilio }}</td>
             <td>{{ resultadoinspeccion }}</td>
-            <td>{{ vencimientointimacion }}</td>
-            <td>
-              <a class="dropdown-item" href="/movimientoexpedientecoord/add/{{_id}}"
-                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Agregar Result.
-              </a>
-              <a class="dropdown-item" href="/expedientes/coordinados/listresultado/{{_id}}"
-                style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Listado Mov.
-              </a>
-            </td>
+            <td>{{ vencimientointimacion }}</td>            
             <td>
               {{!-- <a class="dropdown-item" href="/informeinspeccion/add/{{_id}}"
                 style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">
@@ -95,12 +81,12 @@
               </a> --}}
               <a class="dropdown-item " href="/expedcoordin/edit/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Edit Coordinación
+                Edit Vencimiento
               </a>
-              <a class="dropdown-item" href="/expedientes/coordinados/list/{{_id}}"
+              {{!-- <a class="dropdown-item" href="/expedientes/coordinados/list/{{_id}}"
                 style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
                 Info Coordinación
-              </a>
+              </a> --}}
               <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
                 action="/expedcoordin/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">

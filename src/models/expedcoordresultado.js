@@ -44,9 +44,8 @@ const ExpedcoordresultadoSchema = new Schema({
         default: "No Posee Información"
     },    
     fechaintimacion: {
-        type: String,
+        type: Date,
         require: false,
-        default: "No Posee Información"
     }, 
     horaintimacion: {
         type: String,
@@ -54,9 +53,8 @@ const ExpedcoordresultadoSchema = new Schema({
         default: "No Posee Información"
     }, 
     vencimientointimacion: {
-        type: String,
-        require: false,
-        default: "No Posee Información"
+        type: Date,
+        require: false,        
     }, 
     fechainfraccion: {
         type: String,
