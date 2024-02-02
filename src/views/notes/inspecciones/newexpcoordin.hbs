@@ -45,13 +45,13 @@
         </div>
         <div class="card-body">
             <form action="/notes/newexpedcoordin" method="POST">
-                <div class="form-group">
+                {{!-- <div class="form-group">
                     Extado Coord.Inspección:
                     <select name="estado" id="estado">
                         <option value="Pendiente">Pendiente</option>
                         <option value="Realizado">Realizado</option>                        
                     </select>
-                </div>
+                </div> --}}
                 <div class="form-group">
                     Expediente Nº:
                     <input onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
@@ -84,7 +84,7 @@
                 </div>
                 <div class="form-group">
                     Fecha Inspección:
-                    <input type="date" name="fechainicioentrada" class="form-control" placeholder="Fecha inicio entrada"
+                    <input type="date" name="fechainspeccion" class="form-control" placeholder="Fecha inicio entrada"
                         required autofocus></input>
                 </div>
                 <div class="form-group">

@@ -38,10 +38,19 @@ const ExpedcoordinadoSchema = new Schema({
         require: false,
         default: "Pendiente"
     },
-    resultadoinspeccion: {
+    fechainspeccion: {
         type: String,
         require: false,
         default: "No Posee Información"
+    },
+    horainspeccion: {
+        type: String,
+        require: false
+    },
+    resultadoinspeccion: {
+        type: String,
+        require: false,
+        default: "Pendiente"
     },    
     fechaintimacion: {
         type: String,

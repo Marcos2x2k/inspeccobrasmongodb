@@ -264,14 +264,14 @@ router.post('/expedientes/coordinados/findestado', isAuthenticated, async (req, 
 });
 
 router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
-    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+    const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, fechainspeccion, horainspeccion, resultadoinspeccion, fechaintimacion, horaintimacion,
         vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
-        iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
+        iniciadornomyape, domicilio, motivoinspeccion,
         eliminado, user, name, date } = req.body;
     const newexpedcoordin = new Expedcoordinado({
-        borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
+        borrado, userborrado, fechaborrado, adremaexp, numexpediente, fechainspeccion, horainspeccion, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
         vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
-        iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
+        iniciadornomyape, domicilio,  motivoinspeccion,
         eliminado, user, name, date
     })
     Expedcoordinado.user = req.user.id;
@@ -295,7 +295,7 @@ router.post('/notes/newexpedcoordinresult', isAuthenticated, async (req, res) =>
     Expedcoordresultado.user = req.user.id;
     Expedcoordresultado.name = req.user.name;
     await newexpedcoordresultado.save();
-    await Expedcoordinado.update({ $set: { estado: estado } })
+    await newexpedcoordresultado.update({ $set: { estado: estado } })
     req.flash('success_msg', 'Resultado de Expediente Coordinado Agregado');
     res.redirect('/expedientes/coordinados');
 });

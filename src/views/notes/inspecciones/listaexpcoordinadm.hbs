@@ -53,15 +53,13 @@
     <div class="form-group btn-center mx-auto">
       <table class="table table-dark table-hover">
         <thead>
-          <tr style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
+          <tr id="cabezeralistado" style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
             <td>Estado</td>
             <td>Nº Expediente</td>
             <td>Adrema</td>
             <td>Codigo-Insp</td>
             <td>Iniciador (N y A)</td>
             <td>Domicilio</td>
-            <td>Resultado</td>
-            <td>Vencimiento Int.</td>
             <td>Opciones</td>
             <td>Extras</td>
           </tr>
@@ -75,9 +73,7 @@
             <td>{{ adremaexp }}</td>
             <td>{{codigoinspector}}</td>
             <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>
-            <td style="text-transform: capitalize;">{{ domicilio }}</td>
-            <td>{{ resultadoinspeccion }}</td>
-            <td>{{ vencimientointimacion }}</td>
+            <td style="text-transform: capitalize;">{{ domicilio }}</td>           
             <td>
               <a class="dropdown-item" href="/movimientoexpedientecoord/add/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
@@ -111,10 +107,21 @@
             </td>
           </tr>
           </tr>
+          {{else}}
+          <script>
+            document.getElementById('cabezeralistado').style.display = "none";
+          </script>
+          <div class="mx-auto">
+            <div class="card mx-auto">
+              <div class="card-body">
+                <p style="color:red; font-weight: bold;"> No se Encontraron Movimientos
+                </p>
+              </div>
+            </div>
+          </div>
           {{/each}}
         </tbody>
       </table>
     </div>
   </div>
 </div>
-{{!-- {{else}} --}}
