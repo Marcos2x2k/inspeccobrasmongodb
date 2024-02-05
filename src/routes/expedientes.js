@@ -175,10 +175,10 @@ router.get('/expedientes/coordinados/intimacionesvencidas', isAuthenticated, asy
     // Comparar fechas usando $gte y $lt
     var d = new Date(); // Obtener la fecha actual
     const fechaActual = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
-    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {  
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         //console.log("HASTAD", fechaActual)
         console.log("D", d)
-        const expedcoordresultado = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });        
+        const expedcoordresultado = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
         console.log("Expedientes Coordinados", expedcoordresultado)
         res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado });
     } else if (rolusuario == "Inspector") {
@@ -211,10 +211,14 @@ router.get('/expedientes/coordinados/list/:id', isAuthenticated, async (req, res
 });
 
 router.get('/expedientes/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
-    const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
+    var expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
     //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
     var idexpediente = expedcoordinado._id
-    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { idexpediente: idexpediente }] }).lean().sort({ date: 'desc' });
+    var expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { idexpediente: idexpediente }] }).lean().sort({ date: 'desc' });
+    var expedcoordresultado = ""
+    for (expedcoordresultado of expedcoordresultadotabla) {
+
+    }
     res.render('notes/inspecciones/listaexpedcoordmov', { expedcoordresultado, expedcoordinado })
 });
 
@@ -271,7 +275,7 @@ router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
     const newexpedcoordin = new Expedcoordinado({
         borrado, userborrado, fechaborrado, adremaexp, numexpediente, fechainspeccion, horainspeccion, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
         vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
-        iniciadornomyape, domicilio,  motivoinspeccion,
+        iniciadornomyape, domicilio, motivoinspeccion,
         eliminado, user, name, date
     })
     Expedcoordinado.user = req.user.id;

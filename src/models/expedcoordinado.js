@@ -39,7 +39,7 @@ const ExpedcoordinadoSchema = new Schema({
         default: "Pendiente"
     },
     fechainspeccion: {
-        type: String,
+        type: Date,
         require: false,
         default: "No Posee Información"
     },
@@ -53,7 +53,7 @@ const ExpedcoordinadoSchema = new Schema({
         default: "Pendiente"
     },    
     fechaintimacion: {
-        type: String,
+        type: Date,
         require: false,
         default: "No Posee Información"
     }, 
@@ -63,7 +63,7 @@ const ExpedcoordinadoSchema = new Schema({
         default: "No Posee Información"
     }, 
     vencimientointimacion: {
-        type: String,
+        type: Date,
         require: false,
         default: "No Posee Información"
     }, 
@@ -108,7 +108,7 @@ const ExpedcoordinadoSchema = new Schema({
         default: "No Informó"
     },
     fechainspeccion: {
-        type: String,
+        type: Date,
         require: false,
         default: "No Posee Información"
     },
