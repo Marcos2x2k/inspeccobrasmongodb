@@ -1,16 +1,16 @@
 <div class="row">
   <div class="form-group btn-center mx-auto">
-    <form action="/expedientes/coordinados/findestado" method="POST">
-      <input type="search" class="form-control" name="estado" placeholder="Buscar x Estado..." autofocus />
+    <form action="/expedientes/coordinados/intimacionesvencidas/findinspector" method="POST">
+      <input type="search" class="form-control" name="inspector" placeholder="Buscar x Inspector..." autofocus />
       <div class="form-group">
         <button class="btn btn-warning btn-block btn-sm" type="submit">
-          Buscar Estado
+          Buscar Inspector
         </button>
       </div>
     </form>
   </div>
   <div class="form-group btn-center mx-auto">
-    <form action="/expedientes/coordinados/find" method="POST">
+    <form action="/expedientes/coordinados/intimacionesvencidas/find" method="POST">
       <input type="search" class="form-control" name="numexpediente" placeholder="Buscar x Expediente..." autofocus />
       <div class="form-group">
         <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -20,7 +20,7 @@
     </form>
   </div>
   <div class="form-group btn-center mx-auto">
-    <form action="/expedientes/coordinados/findadrema" method="POST">
+    <form action="/expedientes/coordinados/intimacionesvencidas/findadrema" method="POST">
       <input type="search" class="form-control" name="adremaexp" placeholder="Buscar x Adrema..." autofocus />
       <div class="form-group">
         <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -30,7 +30,7 @@
     </form>
   </div>
   <div class="form-group btn-center mx-auto">
-    <form action="/expedientes/coordinados/findiniciador" method="POST">
+    <form action="/expedientes/coordinados/intimacionesvencidas/findiniciador" method="POST">
       <input type="search" class="form-control" name="iniciadornomyape" placeholder="Buscar x Iniciador..." autofocus />
       <div class="form-group">
         <button class="btn btn-warning btn-block btn-sm" type="submit">
@@ -57,7 +57,6 @@
             <td>Codigo-Insp</td>
             <td>Iniciador (N y A)</td>
             <td>Domicilio</td>
-            <td>Estado</td>
             <td>Venc.Intim.</td>
             <td>Opciones</td>            
           </tr>
@@ -71,16 +70,15 @@
             <td>{{ adremaexp }}</td>
             <td>{{codigoinspector}}</td>
             <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>
-            <td style="text-transform: capitalize;">{{ domicilio }}</td>
-            <td>{{ estado }}</td>
-            <td>{{ vencimientointimacion }}</td>            
+            <td style="text-transform: capitalize;">{{ domicilio }}</td>            
+            <td style="font-weight: bold;text-shadow: 1px 1px 2px black;color:red;">{{ vencimientointimacion }}</td>            
             <td>              
-              <a class="dropdown-item " href="/expedcoordin/edit/{{_id}}"
+              <a class="dropdown-item " href="/expedcoordin/intimacionesvencidas/list/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Edit Vencimiento
+                Info Vencimiento
               </a>
               <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
-                action="/expedcoordin/marcadelete/{{_id}}?_method=PUT" method="POST">
+                action="/expedcoordin/intimacionesvencidas/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
                   Borrar

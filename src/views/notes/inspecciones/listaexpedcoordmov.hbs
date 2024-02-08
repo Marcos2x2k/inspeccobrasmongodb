@@ -29,35 +29,28 @@
         <div class="form-group btn-center mx-auto">
             <table class="table table-dark table-hover">
                 <thead>
-                    <tr id="cabezeralistado" style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
+                    <tr id="cabezeralistado"
+                        style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
                         <td>Estado</td>
                         <td>Cod-Insp</td>
                         <td>Inspector</td>
                         <td>Resultado</td>
-                        <td>FechaIntimación</td>
-                        <td>FechaInfracción</td>
+                        <td style="color:white;font-weight: bold;text-shadow: 1px 1px 2px black;">FechaIntimación</td>
+                        <td style="color:white;font-weight: bold;text-shadow: 1px 1px 2px black;">FechaInfracción</td>
                         <td style="color:red;">Opciones</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each expedcoordresultado}}
                     <tr>
+                        {{#each expedcoordresultado}}
                         {{!-- <td contenteditable="true">{{ _id }}</td> --}}
                         <td style="color:yellow;">{{ estado }}</td>
                         <td>{{codigoinspector}}</td>
                         <td style="text-transform: capitalize;">{{inspector}}</td>
-                        <td >{{ resultadoinspeccion }}</td>
-                        <td >{{ fechaintimacion}}</td>
-                        <td>{{ fechainfraccion}}</td>
-                        <td>
-                            {{!-- <a class="dropdown-item " href="/expedcoordinmov/info/{{_id}}"
-                                style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                                Info Movimientos
-                            </a>
-                            <a class="dropdown-item " href="/expedcoordinmov/edit/{{_id}}"
-                                style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                                Edit Movimientos
-                            </a> --}}
+                        <td>{{ resultadoinspeccion }}</td>
+                        <td style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">{{ fechaintimacion}}</td>
+                        <td style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">{{ fechainfraccion}}</td>
+                        <td>                            
                             <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
                                 action="/expedcoordinmov/marcadelete/{{_id}}?_method=PUT" method="POST">
                                 <input type="hidden" name="_method" value="PUT">
@@ -90,4 +83,3 @@
         </div>
     </div>
 </div>
-{{!-- {{else}} --}}

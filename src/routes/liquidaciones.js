@@ -438,6 +438,8 @@ router.get('/multas', isAuthenticated, async (req, res) => {
             }
 
             multas.montototal = montototalcondecimalesstring.toString();
+
+            // necesito igualar nose porque
             multas = tablamultas
 
             //console.log("multas monto total string: ", montototalcondecimalesstring)            

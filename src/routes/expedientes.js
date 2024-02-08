@@ -178,8 +178,46 @@ router.get('/expedientes/coordinados/intimacionesvencidas', isAuthenticated, asy
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         //console.log("HASTAD", fechaActual)
         console.log("D", d)
-        const expedcoordresultado = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
-        console.log("Expedientes Coordinados", expedcoordresultado)
+        const expedcoordresultadotabla = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
+        //console.log("Expedientes Coordinados", expedcoordresultado)
+        for (var expedcoordresultado of expedcoordresultadotabla) {
+            //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+            //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;       
+
+            // permite mostrar en las tablas la fecha sola y ordenada
+            var tipoint = expedcoordresultado.vencimientointimacion;
+            if (tipoint != null) {
+                const fecha = new Date(expedcoordresultado.vencimientointimacion);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                expedcoordresultado.vencimientointimacion = fullyear;
+            } else {
+                expedcoordresultado.vencimientointimacion = "----"
+            }           
+
+            // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+
+            // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+            // necesito igualar para que se copie el cambio
+            expedcoordresultado = expedcoordresultadotabla
+            console.log("expedcoordresultado", expedcoordresultado);
+            console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+        }
         res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado });
     } else if (rolusuario == "Inspector") {
         const expedcoordresultado = await Expedcoordresultado.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
@@ -214,15 +252,75 @@ router.get('/expedientes/coordinados/listresultado/:id', isAuthenticated, async 
     var expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
     //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
     var idexpediente = expedcoordinado._id
-    var expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { idexpediente: idexpediente }] }).lean().sort({ date: 'desc' });
-    var expedcoordresultado = ""
-    for (expedcoordresultado of expedcoordresultadotabla) {
+    var expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { idexpediente: idexpediente }] }).lean().sort();
 
+    for (var expedcoordresultado of expedcoordresultadotabla) {
+        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;       
+
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = expedcoordresultado.fechaintimacion;
+        if (tipoint != null) {
+            const fecha = new Date(expedcoordresultado.fechaintimacion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            expedcoordresultado.fechaintimacion = fullyear;
+        } else {
+            expedcoordresultado.fechaintimacion = "----"
+        }
+
+        var tipoinf = expedcoordresultado.fechainfraccion;
+        if (tipoinf != null) {
+            const fecha = new Date(expedcoordresultado.fechainfraccion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            expedcoordresultado.fechainfraccion = fullyear;
+        } else {
+            expedcoordresultado.fechainfraccion = "----"
+        }
+
+        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+
+        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+        // necesito igualar para que se copie el cambio
+        expedcoordresultado = expedcoordresultadotabla
+        console.log("expedcoordresultado", expedcoordresultado);
+        console.log("expedcoordresultadotabla", expedcoordresultadotabla);
     }
     res.render('notes/inspecciones/listaexpedcoordmov', { expedcoordresultado, expedcoordinado })
 });
 
-// *** BUSCAR EXPEDIENTES COORDINADOS - LISTADO ***
+// *** BUSCAR EXPEDIENTES COORDINADOS - LISTADO *** SECTOR BUSQUEDAS
 router.post('/expedientes/coordinados/find', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
     const expedcoordinado = await Expedcoordinado.find({ $and: [{ borrado: "No" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ fechainicioentrada: 'desc' });;
@@ -267,6 +365,54 @@ router.post('/expedientes/coordinados/findestado', isAuthenticated, async (req, 
     }
 });
 
+// busqueda lista intimaciones vencida - lisexpcordintvenc.hbs
+
+router.post('/expedientes/coordinados/intimacionesvencidas/find', isAuthenticated, async (req, res) => {
+    const { numexpediente } = req.body;
+    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });;
+    if (!expedcoordresultado) {
+        req.flash('success_msg', 'cargue un Nº de expediente')
+        return res.render("notes/inspecciones/listaexpcoordinadm");
+    } else {
+        res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado })
+    }
+});
+
+router.post('/expedientes/coordinados/intimacionesvencidas/findadrema', isAuthenticated, async (req, res) => {
+    const { adremaexp } = req.body;
+    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { adremaexp: { $regex: adremaexp, $options: "i" } }] }).lean().sort({ date: 'desc' });;
+    if (!expedcoordresultado) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/inspecciones/listaexpcoordinadm");
+    } else {
+        res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado })
+    }
+});
+
+router.post('/expedientes/coordinados/intimacionesvencidas/findiniciador', isAuthenticated, async (req, res) => {
+    const { iniciadornomyape } = req.body;
+    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }] }).lean().sort({ date: 'desc' });;
+    if (!expedcoordresultado) {
+        req.flash('success_msg', 'cargue un Iniciador (N y A)')
+        return res.render("notes/inspecciones/listexpcordintvenc");
+    } else {
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordresultado })
+    }
+});
+
+router.post('/expedientes/coordinados/intimacionesvencidas/findinspector', isAuthenticated, async (req, res) => {
+    const { inspector } = req.body;
+    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });
+    if (!expedcoordresultado) {
+        req.flash('success_msg', 'cargue estado (N y A)')
+        return res.render("notes/inspecciones/listexpcordintvenc");
+    } else {
+        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordresultado })
+    }
+});
+// *** FIN DEL SECTOR BUSCAR BUSQUEDA FIND ///
+
+// **** SECTOR NEW ALTAS NUEVOS ******
 router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
     const { borrado, userborrado, fechaborrado, adremaexp, numexpediente, estado, fechainspeccion, horainspeccion, resultadoinspeccion, fechaintimacion, horaintimacion,
         vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
