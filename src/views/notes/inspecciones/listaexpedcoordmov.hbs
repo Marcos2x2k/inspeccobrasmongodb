@@ -31,12 +31,12 @@
                 <thead>
                     <tr id="cabezeralistado"
                         style="background-color: rgb(221, 157, 18);;text-shadow: 1px 1px 2px black">
-                        <td>Estado</td>
                         <td>Cod-Insp</td>
                         <td>Inspector</td>
-                        <td>Resultado</td>
+                        <td>Resultado</td>                        
                         <td style="color:white;font-weight: bold;text-shadow: 1px 1px 2px black;">FechaIntimación</td>
                         <td style="color:white;font-weight: bold;text-shadow: 1px 1px 2px black;">FechaInfracción</td>
+                        <td>Información</td>
                         <td style="color:red;">Opciones</td>
                     </tr>
                 </thead>
@@ -44,13 +44,29 @@
                     <tr>
                         {{#each expedcoordresultado}}
                         {{!-- <td contenteditable="true">{{ _id }}</td> --}}
-                        <td style="color:yellow;">{{ estado }}</td>
                         <td>{{codigoinspector}}</td>
                         <td style="text-transform: capitalize;">{{inspector}}</td>
                         <td>{{ resultadoinspeccion }}</td>
-                        <td style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">{{ fechaintimacion}}</td>
-                        <td style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">{{ fechainfraccion}}</td>
-                        <td>                            
+                        <td style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">{{
+                            fechaintimacion}}</td>
+                        <td style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">{{
+                            fechainfraccion}}</td>
+                        <td>
+                            <form action="/expedcoordin/intimacionesvencidas/list/{{_id}}?_method=GET" method="GET">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="btn btn-outline-success btn-block btn-sm" type="submit">
+                                    Info Completa
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form onSubmit="return confirm('Desea Desestimar Intimación?')" style=""
+                                action="/expedcoordinmov/marcadesestimar/{{_id}}?_method=PUT" method="POST">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="btn btn-outline-warning btn-block btn-sm" type="submit">
+                                    Desestimar
+                                </button>
+                            </form>
                             <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
                                 action="/expedcoordinmov/marcadelete/{{_id}}?_method=PUT" method="POST">
                                 <input type="hidden" name="_method" value="PUT">

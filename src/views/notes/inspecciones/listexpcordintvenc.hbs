@@ -71,16 +71,16 @@
             <td>{{codigoinspector}}</td>
             <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>
             <td style="text-transform: capitalize;">{{ domicilio }}</td>            
-            <td style="font-weight: bold;text-shadow: 1px 1px 2px black;color:red;">{{ vencimientointimacion }}</td>            
+            <td style="font-weight: bold;text-shadow: 1px 1px 2px black;color:rgb(42, 209, 20);">{{ vencimientointimacion }}</td>            
             <td>              
               <a class="dropdown-item " href="/expedcoordin/intimacionesvencidas/list/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
                 Info Vencimiento
-              </a>
+              </a>              
               <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
                 action="/expedcoordin/intimacionesvencidas/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
-                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                <button class="btn btn-outline-danger btn-block btn-sm" type="submit">
                   Borrar
                 </button>
               </form>

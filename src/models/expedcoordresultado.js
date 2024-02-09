@@ -3,6 +3,16 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; // aca defino esquema de base de datos
 
 const ExpedcoordresultadoSchema = new Schema({
+    desestimar: {
+        type: String,
+        required: true,
+        default: "No",
+    },
+    fechadesestimado: {
+        type: String,
+        required: true,
+        default: "Sin Datos",
+    },
     borrado: {
         type: String,
         required: true,

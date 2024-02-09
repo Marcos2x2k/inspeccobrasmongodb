@@ -178,7 +178,7 @@ router.get('/expedientes/coordinados/intimacionesvencidas', isAuthenticated, asy
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         //console.log("HASTAD", fechaActual)
         console.log("D", d)
-        const expedcoordresultadotabla = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
+        const expedcoordresultadotabla = await Expedcoordresultado.find({$and : [ {borrado : "No"}, {desestimado : "No"}, { vencimientointimacion: { $lte: fechaActual } }]}).lean().sort({ vencimientointimacion: 'desc' });
         //console.log("Expedientes Coordinados", expedcoordresultado)
         for (var expedcoordresultado of expedcoordresultadotabla) {
             //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
@@ -246,6 +246,11 @@ router.get('/expedientes/coordinados/add', isAuthenticated, async (req, res) => 
 router.get('/expedientes/coordinados/list/:id', isAuthenticated, async (req, res) => {
     const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
     res.render('notes/inspecciones/listexpedcood', { expedcoordinado })
+});
+
+router.get('/expedcoordin/intimacionesvencidas/list/:id', isAuthenticated, async (req, res) => {
+    const expedcoordresultado = await Expedcoordresultado.findById(req.params.id).lean()
+    res.render('notes/inspecciones/listexpedcoodvenc', { expedcoordresultado })
 });
 
 router.get('/expedientes/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
@@ -369,10 +374,51 @@ router.post('/expedientes/coordinados/findestado', isAuthenticated, async (req, 
 
 router.post('/expedientes/coordinados/intimacionesvencidas/find', isAuthenticated, async (req, res) => {
     const { numexpediente } = req.body;
-    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });;
+    var d = new Date(); // Obtener la fecha actual
+    const fechaActual = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
+    //const expedcoordresultadotabla = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
+    const expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { vencimientointimacion: { $lte: fechaActual } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ vencimientointimacion: 'desc' });
+    for (var expedcoordresultado of expedcoordresultadotabla) {
+        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;       
+
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = expedcoordresultado.vencimientointimacion;
+        if (tipoint != null) {
+            const fecha = new Date(expedcoordresultado.vencimientointimacion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            expedcoordresultado.vencimientointimacion = fullyear;
+        } else {
+            expedcoordresultado.vencimientointimacion = "----"
+        }           
+
+        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+
+        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+        // necesito igualar para que se copie el cambio
+        expedcoordresultado = expedcoordresultadotabla
+        console.log("expedcoordresultado", expedcoordresultado);
+        console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+    }
     if (!expedcoordresultado) {
-        req.flash('success_msg', 'cargue un Nº de expediente')
-        return res.render("notes/inspecciones/listaexpcoordinadm");
+        req.flash('success_msg', 'cargue estado (N y A)')
+        return res.render("notes/inspecciones/listexpcordintvenc");
     } else {
         res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado })
     }
@@ -380,10 +426,51 @@ router.post('/expedientes/coordinados/intimacionesvencidas/find', isAuthenticate
 
 router.post('/expedientes/coordinados/intimacionesvencidas/findadrema', isAuthenticated, async (req, res) => {
     const { adremaexp } = req.body;
-    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { adremaexp: { $regex: adremaexp, $options: "i" } }] }).lean().sort({ date: 'desc' });;
+    var d = new Date(); // Obtener la fecha actual
+    const fechaActual = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
+    //const expedcoordresultadotabla = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
+    const expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { vencimientointimacion: { $lte: fechaActual } }, { adremaexp: { $regex: adremaexp, $options: "i" } }] }).lean().sort({ vencimientointimacion: 'desc' });
+    for (var expedcoordresultado of expedcoordresultadotabla) {
+        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;       
+
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = expedcoordresultado.vencimientointimacion;
+        if (tipoint != null) {
+            const fecha = new Date(expedcoordresultado.vencimientointimacion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            expedcoordresultado.vencimientointimacion = fullyear;
+        } else {
+            expedcoordresultado.vencimientointimacion = "----"
+        }           
+
+        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+
+        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+        // necesito igualar para que se copie el cambio
+        expedcoordresultado = expedcoordresultadotabla
+        console.log("expedcoordresultado", expedcoordresultado);
+        console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+    }
     if (!expedcoordresultado) {
-        req.flash('success_msg', 'cargue un Nº de Adrema')
-        return res.render("notes/inspecciones/listaexpcoordinadm");
+        req.flash('success_msg', 'cargue estado (N y A)')
+        return res.render("notes/inspecciones/listexpcordintvenc");
     } else {
         res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado })
     }
@@ -391,23 +478,105 @@ router.post('/expedientes/coordinados/intimacionesvencidas/findadrema', isAuthen
 
 router.post('/expedientes/coordinados/intimacionesvencidas/findiniciador', isAuthenticated, async (req, res) => {
     const { iniciadornomyape } = req.body;
-    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }] }).lean().sort({ date: 'desc' });;
+    var d = new Date(); // Obtener la fecha actual
+    const fechaActual = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
+    //const expedcoordresultadotabla = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
+    const expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { vencimientointimacion: { $lte: fechaActual } }, { iniciadornomyape: { $regex: iniciadornomyape, $options: "i" } }] }).lean().sort({ vencimientointimacion: 'desc' });
+    for (var expedcoordresultado of expedcoordresultadotabla) {
+        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;       
+
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = expedcoordresultado.vencimientointimacion;
+        if (tipoint != null) {
+            const fecha = new Date(expedcoordresultado.vencimientointimacion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            expedcoordresultado.vencimientointimacion = fullyear;
+        } else {
+            expedcoordresultado.vencimientointimacion = "----"
+        }           
+
+        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+
+        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+        // necesito igualar para que se copie el cambio
+        expedcoordresultado = expedcoordresultadotabla
+        console.log("expedcoordresultado", expedcoordresultado);
+        console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+    }
     if (!expedcoordresultado) {
-        req.flash('success_msg', 'cargue un Iniciador (N y A)')
+        req.flash('success_msg', 'cargue estado (N y A)')
         return res.render("notes/inspecciones/listexpcordintvenc");
     } else {
-        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordresultado })
+        res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado })
     }
 });
 
 router.post('/expedientes/coordinados/intimacionesvencidas/findinspector', isAuthenticated, async (req, res) => {
     const { inspector } = req.body;
-    const expedcoordresultado = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });
+    var d = new Date(); // Obtener la fecha actual
+    const fechaActual = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
+    //const expedcoordresultadotabla = await Expedcoordresultado.find({ vencimientointimacion: { $lte: fechaActual } }).lean().sort({ vencimientointimacion: 'desc' });
+    const expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { vencimientointimacion: { $lte: fechaActual } }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ vencimientointimacion: 'desc' });
+    for (var expedcoordresultado of expedcoordresultadotabla) {
+        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;       
+
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = expedcoordresultado.vencimientointimacion;
+        if (tipoint != null) {
+            const fecha = new Date(expedcoordresultado.vencimientointimacion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            expedcoordresultado.vencimientointimacion = fullyear;
+        } else {
+            expedcoordresultado.vencimientointimacion = "----"
+        }           
+
+        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+
+        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+        // necesito igualar para que se copie el cambio
+        expedcoordresultado = expedcoordresultadotabla
+        console.log("expedcoordresultado", expedcoordresultado);
+        console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+    }
     if (!expedcoordresultado) {
         req.flash('success_msg', 'cargue estado (N y A)')
         return res.render("notes/inspecciones/listexpcordintvenc");
     } else {
-        res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordresultado })
+        res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado })
     }
 });
 // *** FIN DEL SECTOR BUSCAR BUSQUEDA FIND ///
@@ -491,6 +660,17 @@ router.delete('/expedcoordin/delete/:id', isAuthenticated, async (req, res) => {
     req.flash('success_msg', 'expediente Eliminado')
     res.redirect('/expedientes/coordinados')
 });
+
+router.put('/expedcoordinmov/marcadesestimar/:id', isAuthenticated, async (req, res) => {
+    const desestimar = "Si";
+    const fechadesestimado = new Date();
+    await Expedcoordresultado.findByIdAndUpdate(req.params.id, {
+        desestimar
+    });
+    req.flash('success_msg', 'Intimación Desestimada')
+    res.render('notes/inspecciones/listexpcordintvenc');
+});
+
 
 router.get('/expedcoordin/edit/:id', isAuthenticated, async (req, res) => {
     const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
