@@ -11,6 +11,7 @@ const Infraccion = require('../models/Infraccion')
 //const Estadistica = require('../models/Estadistica')
 const Ticket = require('../models/Ticket')
 const Users = require('../models/User')
+const Inspectores = require('../models/inspectores')
 //const Cicloinspeccion = require('../models/cicloinspeccion')
 const fs = require('fs').promises
 const { isAuthenticated } = require('../helpers/auth')
@@ -415,6 +416,19 @@ router.get('/usuarios', isAuthenticated, async (req, res) => {
         return res.redirect('/');
     }
 });
+
+router.get('/Inspectores', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador") {
+        const inspectores = await Inspectores.find().lean().sort({ date: 'desc' });
+        res.render('notes/allinspectoresadm', { inspectores });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
+        return res.redirect('/');
+    }
+});
+
 
 router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
