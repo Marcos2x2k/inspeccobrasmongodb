@@ -287,12 +287,44 @@ router.post('/mesaentrada/sacarestadistica', isAuthenticated, async (req, res) =
 router.get('/mesaentrada/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Mesa-Entrada") {
-        const mesaentradas = await Mesaentrada.find({ borrado: "No" }).limit(30).lean().sort({ dateturno: 'desc' });
-        res.render('notes/planillalistaturnero', { mesaentradas });
-    } else if (rolusuario == "Administrador") {
-        const mesaentradas = await Mesaentrada.find({ borrado: "No" }).limit(30).lean().sort({ dateturno: 'desc' });
-        res.render('notes/planillalistaturnero', { mesaentradas });
+    if (rolusuario == "Mesa-Entrada" || rolusuario == "Administrador") {
+        const mesaentradastabla = await Mesaentrada.find({ borrado: "No" }).limit(30).lean().sort({ dateturno: 'desc' });
+        for (var mesaentradas of mesaentradastabla) {
+            //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+            //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;       
+
+            // permite mostrar en las tablas la fecha sola y ordenada
+            var tipoint = mesaentradas.fechaingreso;
+            if (tipoint != null) {
+                const fecha = new Date(mesaentradas.fechaingreso);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                mesaentradas.fechaingreso = fullyear;
+            } else {
+                mesaentradas.fechaingreso = "----"
+            }  
+            // necesito igualar para que se copie el cambio
+            mesaentradas = mesaentradastabla
+            //console.log("expedcoordresultado", mesaentradas);
+            //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+        }
+        //res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado });
+        res.render('notes/planillalistaturnero', { mesaentradas });    
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
         return res.redirect('/');

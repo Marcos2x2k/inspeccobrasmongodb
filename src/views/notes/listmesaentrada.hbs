@@ -3,19 +3,12 @@
     function startTime() {
 
         today = new Date();
-
         h = today.getHours();
-
         m = today.getMinutes();
-
         s = today.getSeconds();
-
         m = checkTime(m);
-
         s = checkTime(s);
-
         document.getElementById(‘reloj’).innerHTML = h +»:»+m +»:»+s;
-
         t = setTimeout(‘startTime()’, 500);
     }
 
@@ -24,7 +17,6 @@
     window.onload = function () { startTime(); }
 
 </script>
-
 
 <div class="col-md-7 mx-auto">
     {{!-- <div id=»reloj» style=»font-family: ‘DS-Digital’; width: 450px; background-color: black;font-size:100px;color:
@@ -54,7 +46,7 @@
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                         Nombre y Apellido:
-                        <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        <input style="font-weight: bold; text-transform: lowercase; color:black; " type="text" name="user" class="form-control" placeholder="Sin Información"
                             value="{{ mesaentrada.nomyape }}" style="color: black; font-weight: bold;" disabled>
                     </div>
                     <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">

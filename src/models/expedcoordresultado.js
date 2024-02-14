@@ -66,6 +66,11 @@ const ExpedcoordresultadoSchema = new Schema({
         type: Date,
         require: false,        
     }, 
+    intimvinculadainfraccion :{
+        type: Date,
+        require: false,
+        default: "No Posee Información"
+    }, 
     fechainfraccion: {
         type: Date,
         require: false,

@@ -12,6 +12,7 @@ const Expedticketentrainsp = require('../models/Expedticketentrainsp')
 const Expedentrsalida = require('../models/expedentrsalida');
 const Expedcoordinado = require('../models/expedcoordinado');
 const Expedcoordresultado = require('../models/expedcoordresultado');
+const Inspectores = require('../models/inspectores');
 
 //** ver tema NOTE */
 const Note = require('../models/Note');
@@ -152,11 +153,11 @@ router.get('/expedientes/coordinados', isAuthenticated, async (req, res) => {
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const expedcoordinado = await Expedcoordinado.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
+        const expedcoordinado = await Expedcoordinado.find({ borrado: "No" }).lean().limit(200).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/inspecciones/listaexpcoordinadm', { expedcoordinado });
     } else if (rolusuario == "Inspector") {
-        const expedcoordinado = await Expedcoordinado.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
+        const expedcoordinado = await Expedcoordinado.find({ borrado: "No" }).lean().limit(200).sort({ date: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
         res.render('notes/inspecciones/listaexpcoordininsp', { expedcoordinado });
     } else {
@@ -183,7 +184,6 @@ router.get('/expedientes/coordinados/intimacionesvencidas', isAuthenticated, asy
         for (var expedcoordresultado of expedcoordresultadotabla) {
             //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
             //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;   
-
             // permite mostrar en las tablas la fecha sola y ordenada
             var tipoint = expedcoordresultado.vencimientointimacion;
             if (tipoint != null) {
@@ -320,7 +320,7 @@ router.get('/expedientes/coordinados/listresultado/:id', isAuthenticated, async 
     var expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
     //const expedientes = await Expediente.findById(id).lean().sort({ numexpediente: 'desc' });
     var idexpediente = expedcoordinado._id
-    var expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { idexpediente: idexpediente }] }).lean().sort();
+    var expedcoordresultadotabla = await Expedcoordresultado.find({ $and: [{ borrado: "No" }, { idexpediente: idexpediente }] }).lean().sort({date: 'desc'});
 
     for (var expedcoordresultado of expedcoordresultadotabla) {
         //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
@@ -665,19 +665,19 @@ router.post('/notes/newexpedcoordin', isAuthenticated, async (req, res) => {
 
 router.post('/notes/newexpedcoordinresult', isAuthenticated, async (req, res) => {
     const { borrado, userborrado, fechaborrado, adremaexp, idexpediente, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
-        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        vencimientointimacion, intimvinculadainfraccion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
         iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
         eliminado, user, name, date } = req.body;
     const newexpedcoordresultado = new Expedcoordresultado({
         borrado, userborrado, fechaborrado, adremaexp, idexpediente, numexpediente, estado, resultadoinspeccion, fechaintimacion, horaintimacion,
-        vencimientointimacion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
+        vencimientointimacion, intimvinculadainfraccion, fechainfraccion, horainfraccion, descripcionintimacion, descripcioninfraccion, codigoinspector, inspector,
         iniciadornomyape, domicilio, fechainspeccion, horainspeccion, motivoinspeccion,
         eliminado, user, name, date
-    })
+    })    
     Expedcoordresultado.user = req.user.id;
     Expedcoordresultado.name = req.user.name;
     await newexpedcoordresultado.save();
-    await newexpedcoordresultado.update({ $set: { estado: estado } })
+    await Expedcoordinado.update({ $set: { estado: estado } })
     req.flash('success_msg', 'Resultado de Expediente Coordinado Agregado');
     res.redirect('/expedientes/coordinados');
 });

@@ -40,18 +40,20 @@
         var selestadoinsp = document.getElementById("selestadoinsp");
         var divres = document.getElementById("divresultadoinspeccion");
         var fi = document.getElementById("fechaintimacion");
-        var hi = document.getElementById("horaintimacion")
-        var vi = document.getElementById("vencimientointimacion")
-        var finf = document.getElementById("fechainfraccion")
-        var hinf = document.getElementById("horainfraccion")
-        var di = document.getElementById("descripcionintimacion")
-        var dinf = document.getElementById("descripcioninfraccion")
+        var hi = document.getElementById("horaintimacion");
+        var vi = document.getElementById("vencimientointimacion");
+        var fintinf = document.getElementById("intimvinculadainfraccion");
+        var finf = document.getElementById("fechainfraccion");
+        var hinf = document.getElementById("horainfraccion");
+        var di = document.getElementById("descripcionintimacion");
+        var dinf = document.getElementById("descripcioninfraccion");
         var grabar = document.getElementById("grabar")
         if (selestadoinsp.selectedIndex == 0) {
             divres.style.display = "none";
             fi.style.display = "none";
             hi.style.display = "none";
             vi.style.display = "none";
+            fintinf.style.display = "none";
             finf.style.display = "none";
             hinf.style.display = "none"; 
             di.style.display = "none"; 
@@ -68,6 +70,7 @@
         var fi = document.getElementById("fechaintimacion");
         var hi = document.getElementById("horaintimacion")
         var vi = document.getElementById("vencimientointimacion")
+        var fintinf = document.getElementById("intimvinculadainfraccion")
         var finf = document.getElementById("fechainfraccion")
         var hinf = document.getElementById("horainfraccion")
         var di = document.getElementById("descripcionintimacion")
@@ -77,11 +80,13 @@
             fi.style.display = "none";
             hi.style.display = "none";
             vi.style.display = "none";
+            fintinf.style.display = "none";
             finf.style.display = "none";
             hinf.style.display = "none"; 
             di.style.display = "none"; 
             dinf.style.display = "none"; 
             // require false para int e inf
+            fintinf.required = "false";
             finf.required = "false";
             hinf.required = "false";
             dinf.required = "false";     
@@ -94,6 +99,7 @@
             hi.style.display = "block";
             vi.style.display = "block";
             di.style.display = "block";
+            fintinf.style.display = "none";
             finf.style.display = "none";
             hinf.style.display = "none"; 
             dinf.style.display = "none"; 
@@ -103,6 +109,7 @@
             vi.attributes.required = "required";
             di.attributes.required = "required";
         } else if (x == 4) {
+            fintinf.style.display = "block";
             finf.style.display = "block";
             hinf.style.display = "block"; 
             dinf.style.display = "block";      
@@ -111,6 +118,7 @@
             vi.style.display = "none";   
             di.style.display = "none";
             // requiere infraccion
+            fintinf.required = "true";
             finf.required = "true";
             hinf.required = "true";
             dinf.required = "true";  
@@ -177,6 +185,11 @@
                     Causas/Descripción Intimación:
                     <textarea name="descripcionintimacion" class="form-control"
                         placeholder="No Posee Descripción"></textarea>
+                </div>
+                <div id="intimvinculadainfraccion"  style="color:red; display:none;" class="form-group">
+                    Número Intimación vinculada a esta Infracción:
+                    <input type="text" name="" class="form-control"
+                        placeholder="Intimación Vinculada a esta Infacción"></input>
                 </div>
                 <div id="fechainfraccion"  style="color:red; display:none;" class="form-group">
                     Fecha Infraccionó:
