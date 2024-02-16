@@ -47,73 +47,83 @@
         </div>
         <div class="card-body">
             <form action="/notes/newexpedcoordin" method="POST">
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Expediente Nº:
-                    <input onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
+                    <input style="color:black" onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
                         class="form-control" placeholder="Expediente Nº" value="{{expedcoordresultado.numexpediente}}"
                         disabled>
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Estado:
-                    <input onkeyup="ShowName('codigoinspector')" type="text" id="estado" name="estado"
+                    <input style="color:black" onkeyup="ShowName('codigoinspector')" type="text" id="estado" name="estado"
                         class="form-control" placeholder="Código Inspector" value="{{expedcoordresultado.estado}}"
                         disabled />
+                </div><div style="color:green;font-weight: bold;" class="form-group">
+                    Desestimado? (SI/NO):
+                    <input style="color:red" onkeyup="ShowName('codigoinspector')" type="text" id="estado" name="estado"
+                        class="form-control" placeholder="Código Inspector" value="{{expedcoordresultado.desestimar}}"
+                        disabled />
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Código Inspector:
-                    <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector" name="codigoinspector"
+                    <input style="color:black" onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector" name="codigoinspector"
                         class="form-control" placeholder="Código Inspector" value="{{expedcoordresultado.codigoinspector}}"
                         disabled />
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Inspector (NyA):
-                    <input onkeyup="ShowName('inspector')" type="text" id="inspector" name="inspector"
+                    <input style="color:black" onkeyup="ShowName('inspector')" type="text" id="inspector" name="inspector"
                         class="form-control" placeholder="Inspector (NyA)" value="{{expedcoordresultado.inspector}}"
                         disabled />
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Iniciador (NyA):
-                    <input onkeyup="ShowName('iniciadornomyape')" type="text" id="iniciadornomyape"
+                    <input style="color:black" onkeyup="ShowName('iniciadornomyape')" type="text" id="iniciadornomyape"
                         name="iniciadornomyape" class="form-control" placeholder="Iniciador (NyA)"
                         value="{{expedcoordresultado.iniciadornomyape}}" disabled />
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Domicilio:
-                    <input onkeyup="ShowName('domicilio')" type="text" id="domicilio" name="domicilio"
+                    <input style="color:black" onkeyup="ShowName('domicilio')" type="text" id="domicilio" name="domicilio"
                         class="form-control" placeholder="Domicilio" value="{{expedcoordresultado.domicilio}}" disabled />
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Adrema Nº:
-                    <input onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp" class="form-control"
+                    <input style="color:black" onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp" class="form-control"
                         placeholder="Nº Adrema" value="{{expedcoordresultado.adremaexp}}" disabled></input>
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Resultado Inspección:
-                    <input style="color:brown" type="text" name="horainspeccion" class="form-control" placeholder="Fecha Hora Inspección"
+                    <input style="color:green; font-weight: bold;" type="text" name="horainspeccion" class="form-control" placeholder="Resultado Inspección"
                         value="{{expedcoordresultado.resultadoinspeccion}}" disabled></input>
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Fecha Intimación:
-                    <input type="text" name="fechaintimacion" class="form-control" placeholder="Fecha Intimación"
+                    <input  style="color:black" type="text" name="fechaintimacion" class="form-control" placeholder="------ ------"
                         value="{{expedcoordresultado.fechaintimacion}}" disabled></input>
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Hora Intimación:
-                    <input type="text" name="horaintinacion" class="form-control" placeholder="Hora Intimación"
+                    <input  style="color:black" type="text" name="horaintinacion" class="form-control" placeholder="------ ------"
                         value="{{expedcoordresultado.horaintimacion}}" disabled></input>
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
+                    Vencimiento de Intimación:
+                    <input  style="color:black" type="text" name="horaintinacion" class="form-control" placeholder="------ ------"
+                        value="{{expedcoordresultado.vencimientointimacion}}" disabled></input>
+                </div>
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Fecha Infracción:
-                    <input type="text" name="fechainfraccion" class="form-control" placeholder="Fecha Infracción"
+                    <input style="color:black" type="text" name="fechainfraccion" class="form-control" placeholder="------ ------"
                         value="{{expedcoordresultado.fechainfraccion}}" disabled></input>
                 </div>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     Hora Infracción:
-                    <input type="text" name="horainfraccion" class="form-control" placeholder="Hora Inspección"
+                    <input  style="color:black" type="text" name="horainfraccion" class="form-control" placeholder="------ ------"
                         value="{{expedcoordresultado.horainfraccion}}" disabled></input>
                 </div>
                 <p></p>
-                <div class="form-group">
+                <div style="color:brown;font-weight: bold;" class="form-group">
                     <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
                         &laquo; Volver Atrás
                     </a>

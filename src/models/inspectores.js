@@ -2,14 +2,18 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const InspectoresSchema = new Schema ({
-    numorden: {type: String, 
+    numorden: {
+        type: String, 
         require: true},
-    name: {type: String, 
+    name: {
+        type: String, 
         require: true},
-    dni:{type: String, 
+    dni:{
+        type: String, 
         require: true
     },
-    direccion:{type: String, 
+    direccion:{
+        type: String, 
         require: false
     },
     codigoinspector:{
@@ -17,11 +21,18 @@ const InspectoresSchema = new Schema ({
         require: false, 
         default:"NoPosee"
     },
-    email: {type: String, 
+    celular: {
+        type: String, 
         require: true,
         default:"No Declarado"
     },  
-    date: {type: Date, 
+    email: {
+        type: String, 
+        require: true,
+        default:"No Declarado"
+    },  
+    date: {
+        type: Date, 
         default: Date.now
     }
 });

@@ -39,10 +39,10 @@
       </div>
     </form>
   </div>
-  <a href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-outline-warning btn-block btn-sm">Recargar
-    Listado Completo</a>
-  <a href="/expedientes/coordinados/intiminfracdesestimados"
-    class="btn btn-outline-danger btn-block btn-sm">Intimaciones/Infracciones Desestimadas</a>
+  <a href="/expedientes/coordinados/intiminfracdesestimados" class="btn btn-outline-warning btn-block btn-sm">Recargar
+    Listado Completo</a> 
+<a href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-outline-danger btn-block btn-sm">
+    Volver Intimaciones vencidas </a>
   <a href="/expedientes/coordinados" class="btn btn-outline-success btn-block btn-sm">Volver Expedientes Coordinados</a>
   {{!-- <br /> --}}
   <div class="form-group btn-center mx-auto">
@@ -77,33 +77,20 @@
             <td style="font-weight: bold;text-shadow: 1px 1px 2px black;color:rgb(42, 209, 20);">
               {{ vencimientointimacin }}</td>
             <td>              
-              <script>
-                //document.getElementById("labelvalor1a").hidden = "true";
-                //.display = "none";
-                //.display = "block";
-                //let des = document.getElementById("ocultardesestimar").value
-                //if (des == "No") {
-                  //document.getElementById("desestimar").style.display = "block";
-                  //document.getElementById("borrardesestimar").style.display = "none";
-                //} else {
-                //  document.getElementById("desestimar").style.display = "none";
-                //  document.getElementById("borrardesestimar").style.display = "block";
-               // }
-              </script>              
               <form
-                onSubmit="return confirm('Desea Recuperar Intimación Desestimada?')" style=""
-                action="/expedcoordinmov/marcadesestimar/{{_id}}?_method=PUT" method="POST">
+                onSubmit="return confirm('Desea Desestimar Intimación?')" style=""
+                action="/expedcoordinmov/borrarmarcadesestimar/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button  id="borrardesestimar" class="btn btn-outline-warning btn-block btn-sm" type="submit">
-                  Desestimar
+                  Recuperar Desestimar
                 </button>
               </form>
               <a class="dropdown-item " href="/expedcoordin/intimacionesvencidas/list/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
                 Info Intimación
               </a>
-              <form onSubmit="return confirm('Desea enviar Papelera?')"                            
-                action="/expedcoordinmov/marcadelete/{{id}}?_method=PUT" method="POST">
+              <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
+                action="/expedcoordinmov/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button class="btn btn-outline-danger btn-block btn-sm" type="submit">
                   Borrar

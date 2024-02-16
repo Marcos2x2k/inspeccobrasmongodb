@@ -703,6 +703,7 @@ router.put('/expedcoordin/marcadelete/:id', isAuthenticated, async (req, res) =>
         borrado, fechaborrado, userborrado
     });
     req.flash('success_msg', 'Expediente a Papelera Reciclaje')
+    //res.render('notes/inspecciones/listexpcordintvenc');
     res.redirect('/expedientes/coordinados');
 });
 
@@ -714,9 +715,9 @@ router.put('/expedcoordinmov/marcadelete/:id', isAuthenticated, async (req, res)
         borrado, fechaborrado, userborrado
     });
     req.flash('success_msg', 'Expediente a Papelera Reciclaje')
-    res.redirect('/expedientes/coordinados');
+    res.render('notes/inspecciones/listexpcordintvenc');
+    //res.redirect('/expedientes/coordinados');
 });
-
 
 router.delete('/expedcoordin/delete/:id', isAuthenticated, async (req, res) => {
     await Expedcoordinado.findByIdAndDelete(req.params.id);
@@ -731,6 +732,17 @@ router.put('/expedcoordinmov/marcadesestimar/:id', isAuthenticated, async (req, 
         desestimar, fechadesestimado
     });
     req.flash('success_msg', 'Intimación Desestimada')
+    res.render('notes/inspecciones/listexpcordintvenc');
+});
+
+
+router.put('/expedcoordinmov/borrarmarcadesestimar/:id', isAuthenticated, async (req, res) => {
+    const desestimar = "No";
+    const fechadesestimado = new Date();
+    await Expedcoordresultado.findByIdAndUpdate(req.params.id, {
+        desestimar, fechadesestimado
+    });
+    req.flash('success_msg', 'Intimación Recuperada de Desestimación')
     res.render('notes/inspecciones/listexpcordintvenc');
 });
 
