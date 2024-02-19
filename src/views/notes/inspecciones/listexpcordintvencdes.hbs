@@ -48,7 +48,7 @@
   <div class="form-group btn-center mx-auto">
     <br />
     <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
-      LISTADO DE INTIMACIONES YA VENCIDAS</h5>
+      LISTADO DE INTIMACIONES VENCIDAS DESESTIMADAS</h5>
     <br /><br />
     <div class="form-group btn-center mx-auto">
       <table class="table table-dark table-hover">
@@ -90,7 +90,7 @@
                 Info Intimación
               </a>
               <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
-                action="/expedcoordinmov/marcadelete/{{_id}}?_method=PUT" method="POST">
+                action="/expedcoordinmovdes/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button class="btn btn-outline-danger btn-block btn-sm" type="submit">
                   Borrar

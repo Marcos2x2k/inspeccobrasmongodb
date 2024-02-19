@@ -41,7 +41,7 @@
   </div>
 
   <a href="/expedientes/coordinados/add" class="btn btn-success btn-block">Agregar Coordinación!</a>
-  <a href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-danger btn-block">Intimaciones Vencidas</a>
+  <a id="incimacionesvencidas" href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-danger btn-block">Intimaciones Vencidas</a>
   <a href="/expedientes/coordinados" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado Completo</a>
 
   {{!-- <br /> --}}
@@ -110,6 +110,7 @@
           {{else}}
           <script>
             document.getElementById('cabezeralistado').style.display = "none";
+            document.getElementById('incimacionesvencidas').style.display = "none";
           </script>
           <div class="mx-auto">
             <div class="card mx-auto">

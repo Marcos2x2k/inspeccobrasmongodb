@@ -282,11 +282,11 @@ router.get('/expedientes/coordinados/intiminfracdesestimados', isAuthenticated, 
             console.log("expedcoordresultado", expedcoordresultado);
             console.log("expedcoordresultadotabla", expedcoordresultadotabla);
         }
-        res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado });
+        res.render('notes/inspecciones/listexpcordintvencdes', { expedcoordresultado });
     } else if (rolusuario == "Inspector") {
         const expedcoordresultado = await Expedcoordresultado.find({ borrado: "No" }).lean().limit(200).sort({ numexpediente: 'desc' }); //
         // const expedientes = await Expediente.paginate({},{paginadoexpedientes}).lean().sort({ numexpediente: 'desc' });
-        res.render('notes/inspecciones/listexpcordintvenc', { expedcoordresultado });
+        res.render('notes/inspecciones/listexpcordintvencdes', { expedcoordresultado });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES COORDINADOS')
         return res.redirect('/');
@@ -702,12 +702,28 @@ router.put('/expedcoordin/marcadelete/:id', isAuthenticated, async (req, res) =>
     await Expedcoordinado.findByIdAndUpdate(req.params.id, {
         borrado, fechaborrado, userborrado
     });
-    req.flash('success_msg', 'Expediente a Papelera Reciclaje')
+    const idexpediente = req.params.id
+    await Expedcoordresultado.updateMany({idexpediente : idexpediente, borrado : "No"},{ 
+        borrado : borrado, fechaborrado: fechaborrado, userborrado: userborrado
+});
+    req.flash('success_msg', 'Expediente y sus Movimientos a Papelera Reciclaje')
     //res.render('notes/inspecciones/listexpcordintvenc');
     res.redirect('/expedientes/coordinados');
 });
 
 router.put('/expedcoordinmov/marcadelete/:id', isAuthenticated, async (req, res) => {
+    const borrado = "Si";
+    const fechaborrado = new Date();
+    const userborrado = req.user.name;
+    await Expedcoordresultado.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Expediente a Papelera Reciclaje')
+    res.render('notes/inspecciones/listexpcordintvenc');
+    //res.redirect('/expedientes/coordinados');
+});
+
+router.put('/expedcoordinmovdes/marcadelete/:id', isAuthenticated, async (req, res) => {
     const borrado = "Si";
     const fechaborrado = new Date();
     const userborrado = req.user.name;
