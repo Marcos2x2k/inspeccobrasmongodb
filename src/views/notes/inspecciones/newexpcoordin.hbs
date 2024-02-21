@@ -1,4 +1,30 @@
 <script>
+    //carga al iniciar la pagina
+    window.onload = function () {        
+        cargar_Inspectores()
+        //document.getElementById('botonfecha').click();
+    }
+    // funcion para Cargar Provincias al campo <select>
+    function cargar_Inspectores() {
+        //var todoslosinspectores = ["01","02","03"]
+        var todoslosinspectores = inspectores.numorden;  
+        //console.log("todoslosinspectores", todoslosinspectores)
+        //var inspectortraido = document.getElementById(todoslosinspectores).value;
+        //elimina con el filter el sector traido del array
+        var inspectores = todoslosinspectores.filter(e => e != inspectores);
+        // Ordena el Array Alfabeticamente, es muy facil ;)):
+        inspectores.sort();
+        addOptions("selectnuminspector", inspectores);
+    }
+    // Rutina para agregar opciones a un <select>
+    function addOptions(domElement, inspectores) {
+        var select = document.getElementsByName(domElement)[0];
+        for (value in inspectores) {
+            var option = document.createElement("option");
+            option.text = inspectores[value];
+            select.add(option);
+        }
+    }
 
     function ShowName(name) {
         var writtenName = ""
@@ -57,10 +83,21 @@
                     <input onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
                         class="form-control" placeholder="Expediente Nº" required autofocus>
                 </div>
-                <div class="form-group">
+                {{!-- <div class="form-group">
                     Código Inspector:
                     <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector"
                         name="codigoinspector" class="form-control" placeholder="Código Inspector" required />
+                </div> --}}
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Código Inspector:
+                    <input type="text" class="form-control" id="codigonuminspector" name="codigonuminspector"
+                           value="{{inspectores._id}}" style="color: #3d0ee7; font-weight: bold;"/>
+                    Cambiar Código Inspector:                    
+                    <p style="color:brown; font-style:oblique; font-weight: bold;">
+                        <select name="selectnuminspector">
+                                <option>Código Inspector...</option>
+                        </select>
+                    </p>
                 </div>
                 <div class="form-group">
                     Inspector (NyA):

@@ -294,11 +294,12 @@ router.get('/expedientes/coordinados/intiminfracdesestimados', isAuthenticated, 
 });
 
 router.get('/expedientes/coordinados/add', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
+    const rolusuario = req.user.rolusuario;    
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        const usuarios = await Users.find().lean().sort({ date: 'desc' });
-        res.render('notes/inspecciones/newexpcoordin');
+        //const usuarios = await Users.find().lean().sort({ numorden: 'desc' });
+        const inspectores = await Inspectores.find().lean().sort({ numorden: 'desc' });
+        res.render('notes/inspecciones/newexpcoordin', {inspectores});
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
@@ -382,8 +383,8 @@ router.get('/expedientes/coordinados/listresultado/:id', isAuthenticated, async 
         // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
         // necesito igualar para que se copie el cambio
         expedcoordresultado = expedcoordresultadotabla
-        console.log("expedcoordresultado", expedcoordresultado);
-        console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+        //console.log("expedcoordresultado", expedcoordresultado);
+        //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
     }
     res.render('notes/inspecciones/listaexpedcoordmov', { expedcoordresultado, expedcoordinado })
 });
