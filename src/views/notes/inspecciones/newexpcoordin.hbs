@@ -91,18 +91,12 @@
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Código Inspector:
                     <input type="text" class="form-control" id="codigonuminspector" name="codigonuminspector"
-                           value="{{inspectores._id}}" style="color: #3d0ee7; font-weight: bold;"/>
-                    Cambiar Código Inspector:                    
-                    <p style="color:brown; font-style:oblique; font-weight: bold;">
-                        <select name="selectnuminspector">
-                                <option>Código Inspector...</option>
-                        </select>
-                    </p>
+                           value="{{inspectores.codigoinspector}}" style="color: #3d0ee7; font-weight: bold;" disabled/>                    
                 </div>
                 <div class="form-group">
                     Inspector (NyA):
                     <input onkeyup="ShowName('inspector')" type="text" id="inspector"
-                        name="inspector" class="form-control" placeholder="Inspector (NyA)" required />
+                        name="inspector" value="{{inspectores.name}}" class="form-control" placeholder="Inspector (NyA)" disabled />
                 </div>
                 <div class="form-group">
                     Iniciador (NyA):

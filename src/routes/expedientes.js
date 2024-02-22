@@ -306,15 +306,14 @@ router.get('/expedientes/coordinados/inspectolres/list', isAuthenticated, async 
     }
 });
 
-router.get('/expedientes/coordinados/add', isAuthenticated, async (req, res) => {
+router.get('/expedientes/coordinados/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;    
     //console.log("ROL USUARIO", rolusuario) //Inspector
     // const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
-    // res.render('notes/inspecciones/editexpedcood', { expedcoordinado })
-    //
+    // res.render('notes/inspecciones/editexpedcood', { expedcoordinado })    //
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
         //const usuarios = await Users.find().lean().sort({ numorden: 'desc' });
-        const inspectores = await Inspectores.find().lean()
+        const inspectores = await Inspectores.findById(req.params.id).lean()
         res.render('notes/inspecciones/newexpcoordin', {inspectores});
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
