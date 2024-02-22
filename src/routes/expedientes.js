@@ -293,12 +293,28 @@ router.get('/expedientes/coordinados/intiminfracdesestimados', isAuthenticated, 
     }
 });
 
+router.get('/expedientes/coordinados/inspectolres/list', isAuthenticated, async (req, res) => {  
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        //const usuarios = await Users.find().lean().sort({ numorden: 'desc' });
+        const inspectores = await Inspectores.find().lean()
+        res.render('notes/inspecciones/listinspectorescoord', {inspectores});
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
 router.get('/expedientes/coordinados/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;    
     //console.log("ROL USUARIO", rolusuario) //Inspector
+    // const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean()
+    // res.render('notes/inspecciones/editexpedcood', { expedcoordinado })
+    //
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
         //const usuarios = await Users.find().lean().sort({ numorden: 'desc' });
-        const inspectores = await Inspectores.find().lean().sort({ numorden: 'desc' });
+        const inspectores = await Inspectores.find().lean()
         res.render('notes/inspecciones/newexpcoordin', {inspectores});
         //res.render('notes/allusuariosadm', { usuarios });
     } else {

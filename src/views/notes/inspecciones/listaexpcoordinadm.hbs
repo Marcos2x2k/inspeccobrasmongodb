@@ -40,7 +40,7 @@
     </form>
   </div>
 
-  <a href="/expedientes/coordinados/add" class="btn btn-success btn-block">Agregar Coordinación!</a>
+  <a href="/expedientes/coordinados/inspectolres/list" class="btn btn-success btn-block">Agregar Coordinación!</a>
   <a id="incimacionesvencidas" href="/expedientes/coordinados/intimacionesvencidas" class="btn btn-danger btn-block">Intimaciones Vencidas</a>
   <a href="/expedientes/coordinados" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado Completo</a>
 
@@ -60,8 +60,8 @@
             <td>Código Inspector</td>
             <td>Iniciador (N y A)</td>
             <td>Domicilio Iniciador</td>
+            <td>Movimientos</td>
             <td>Opciones</td>
-            <td>Extras</td>
           </tr>
         </thead>
         <tbody>
@@ -77,11 +77,11 @@
             <td>
               <a class="dropdown-item" href="/movimientoexpedientecoord/add/{{_id}}"
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Agregar Result.
+                Agregar Resultados
               </a>
               <a class="dropdown-item" href="/expedientes/coordinados/listresultado/{{_id}}"
                 style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
-                Listado Mov.
+                Listado Movimimiento
               </a>
             </td>
             <td>
