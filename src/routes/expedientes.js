@@ -208,10 +208,8 @@ router.get('/expedientes/coordinados/intimacionesvencidas', isAuthenticated, asy
                 expedcoordresultado.vencimientointimacion = fullyear;
             } else {
                 expedcoordresultado.vencimientointimacion = "----"
-            }           
-
+            }    
             // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
-
             // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
             // necesito igualar para que se copie el cambio
             expedcoordresultado = expedcoordresultadotabla
@@ -746,7 +744,7 @@ router.put('/expedcoordinmovdes/marcadelete/:id', isAuthenticated, async (req, r
     await Expedcoordresultado.findByIdAndUpdate(req.params.id, {
         borrado, fechaborrado, userborrado
     });
-    req.flash('success_msg', 'Expediente a Papelera Reciclaje')
+    req.flash('success_msg', 'Intimación a Papelera Reciclaje')
     res.render('notes/inspecciones/listexpcordintvenc');
     //res.redirect('/expedientes/coordinados');
 });

@@ -1,29 +1,7 @@
 <script>
     //carga al iniciar la pagina
-    window.onload = function () {        
-        cargar_Inspectores()
-        //document.getElementById('botonfecha').click();
-    }
-    // funcion para Cargar Provincias al campo <select>
-    function cargar_Inspectores() {
-        //var todoslosinspectores = ["01","02","03"]
-        var todoslosinspectores = inspectores.numorden;  
-        //console.log("todoslosinspectores", todoslosinspectores)
-        //var inspectortraido = document.getElementById(todoslosinspectores).value;
-        //elimina con el filter el sector traido del array
-        var inspectores = todoslosinspectores.filter(e => e != inspectores);
-        // Ordena el Array Alfabeticamente, es muy facil ;)):
-        inspectores.sort();
-        addOptions("selectnuminspector", inspectores);
-    }
-    // Rutina para agregar opciones a un <select>
-    function addOptions(domElement, inspectores) {
-        var select = document.getElementsByName(domElement)[0];
-        for (value in inspectores) {
-            var option = document.createElement("option");
-            option.text = inspectores[value];
-            select.add(option);
-        }
+    window.onload = function () {           
+        
     }
 
     function ShowName(name) {
@@ -53,7 +31,6 @@
         //let y = document.getElementById("adremaexp");
         //y.value = y.value.toUpperCase();
     }
-
 
     function ponerminuscula(minus) {
         let ex = document.getElementById(minus);
@@ -90,13 +67,14 @@
                 </div> --}}
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Código Inspector:
-                    <input type="text" class="form-control" id="codigonuminspector" name="codigonuminspector"
-                           value="{{inspectores.codigoinspector}}" style="color: #3d0ee7; font-weight: bold;" disabled/>                    
+                    <input type="text" class="form-control" id="codigoinspector" name="codigoinspector"
+                           value="{{inspectores.codigoinspector}}" style="color: green; font-weight: bold;" readonly/>                    
                 </div>
                 <div class="form-group">
                     Inspector (NyA):
-                    <input onkeyup="ShowName('inspector')" type="text" id="inspector"
-                        name="inspector" value="{{inspectores.name}}" class="form-control" placeholder="Inspector (NyA)" disabled />
+                    <input style="display: none;" type="text" class="form-control"  id="inspector" name="inspector" 
+                            value="{{inspectores.name}}" readonly />
+                    <input style="text-shadow: 1px 1px 2px grey; color:red; text-transform: lowercase;" type="text" value="{{inspectores.name}}" class="form-control"  id="inspectortemp" readonly />
                 </div>
                 <div class="form-group">
                     Iniciador (NyA):

@@ -36,13 +36,8 @@
                 </thead>
                 <tbody>
                     {{#each inspectores}}
-                    <tr>
-                        {{!-- <td>
-                            <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id'
-                                value=''
-                                style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
-                        </td> --}}
-                        <td>{{ name }}</td>
+                    <tr>                        
+                        <td  style="color:yellow; text-transform: lowercase; text-shadow: 1px 1px 2px black;">{{ name }}</td>
                         <td>{{ dni }}</td>
                         <td>{{ codigoinspector }}</td>
                         <td>{{ numorden }}</td>

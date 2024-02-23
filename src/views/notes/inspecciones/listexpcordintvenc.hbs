@@ -75,7 +75,7 @@
             <td style="text-transform: capitalize;">{{ iniciadornomyape }}</td>
             <td style="text-transform: capitalize;">{{ domicilio }}</td>
             <td style="font-weight: bold;text-shadow: 1px 1px 2px black;color:rgb(42, 209, 20);">
-              {{ vencimientointimacin }}</td>
+              {{ vencimientointimacion }}</td>
             <td>              
               <script>
                 //document.getElementById("labelvalor1a").hidden = "true";
@@ -91,7 +91,7 @@
                // }
               </script>              
               <form
-                onSubmit="return confirm('Desea Recuperar Intimación Desestimada?')" style=""
+                onSubmit="return confirm('Desea Recuperar Intimación Desestimada?')"
                 action="/expedcoordinmov/marcadesestimar/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button  id="borrardesestimar" class="btn btn-outline-warning btn-block btn-sm" type="submit">
@@ -102,11 +102,12 @@
                 style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
                 Info Intimación
               </a>
-              <form onSubmit="return confirm('Desea enviar Papelera?')"                            
-                action="/expedcoordinmov/marcadelete/{{id}}?_method=PUT" method="POST">
+              <form 
+                onSubmit="return confirm('Desea enviar Papelera?')"                            
+                action="/expedcoordinmov/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button class="btn btn-outline-danger btn-block btn-sm" type="submit">
-                  Borrar
+                  Borrar-int vencidas
                 </button>
               </form>
             </td>
