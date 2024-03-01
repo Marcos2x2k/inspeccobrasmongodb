@@ -1,4 +1,90 @@
 <script>
+    //carga al iniciar la pagina
+    window.onload = function () {
+        //cargar_inspectores()
+    }
+
+    // funcion para Cargar inspectores al campo <select>
+    function cargar_inspectores() {
+
+        document.getElementById("codigoinspector").value = "Esperando... nuevo codigo inspector";
+        document.getElementById("inspector").value = "Esperando... nuevo Nombre inspector";
+        document.getElementById("codigoinspector").style.color = "grey";
+        document.getElementById("inspector").style.color = "grey";
+        document.getElementById("seleccioninspector").style.display = "block";
+        document.getElementById("botoninspector").style.display = "none";
+        //document.getElementById("grabar").disabled = true;  
+            
+
+        let codigoinspectoresarray = document.getElementById("inputcodigoinspector").value
+        let nombreinspectoresarray = document.getElementById("inputinspector").value
+
+        //let str = 'Leon,Caballo,Iguana,Lobo';
+        let arrcod = codigoinspectoresarray.split(',');
+        let arr = nombreinspectoresarray.split(',');
+
+        var array = arr//["Cantabria", "Asturias", "Galicia", "Andalucia", "Extremadura"];
+        //array = inspectoresname;
+        // Ordena el Array Alfabeticamente, es muy facil ;)):
+        array.sort();
+        addOptions("selectinspectorname", array);
+    }
+
+    // Rutina para agregar opciones a un <select>
+    function addOptions(domElement, array) {
+        var select = document.getElementsByName(domElement)[0];
+
+        for (value in array) {
+            var option = document.createElement("option");
+            option.text = array[value];
+            select.add(option);
+        }
+    }
+
+    function seleccionarinspector() {
+        //*resultado inspeccion para activar guardar
+        var selresultadoinspeccion = document.getElementById("selresultadoinspeccion");
+        var x = selresultadoinspeccion.selectedIndex
+        /* Para obtener el valor */
+        var cod = document.getElementById("selectinspectorname").value;
+        /* Para obtener el texto */
+        var combo = document.getElementById("selectinspectorname");
+        var selected = combo.options[combo.selectedIndex].text;
+
+        // convierto en array los valores //
+        let codigoinspectoresarray = document.getElementById("inputcodigoinspector").value
+        //let nombreinspectoresarray = document.getElementById("inputinspector").value        
+        let arrcod = codigoinspectoresarray.split(',');
+        //let arr = nombreinspectoresarray.split(',');   
+
+        var valor = combo.selectedIndex
+        if (valor == 0) {
+            document.getElementById("codigoinspector").value = "";
+            document.getElementById("inspector").value = "";    
+            //document.getElementById("codigoinspector").style.color = "grey";
+            //document.getElementById("inspector").style.color = "grey"; 
+            document.getElementById("grabar").disabled = true;   
+             
+        } else {
+            // cargar valores a input
+            if (arrcod[valor - 1] == undefined) {
+                document.getElementById("codigoinspector").value = "Sin.Código";
+            } else {
+                document.getElementById("codigoinspector").value = arrcod[valor - 1];
+            }           
+            
+            document.getElementById("inspector").value = selected;
+            document.getElementById("codigoinspector").style.color = "red";
+            document.getElementById("inspector").style.color = "red";
+            if (x == 0) {
+              document.getElementById("grabar").disabled = true;     
+            } else {
+              document.getElementById("grabar").disabled = false;   
+            }
+        }
+        ShowName('inspector');
+    }
+
 
     function ShowName(name) {
         var writtenName = ""
@@ -55,13 +141,17 @@
             vi.style.display = "none";
             fintinf.style.display = "none";
             finf.style.display = "none";
-            hinf.style.display = "none"; 
-            di.style.display = "none"; 
-            dinf.style.display = "none"; 
+            hinf.style.display = "none";
+            di.style.display = "none";
+            dinf.style.display = "none";
             grabar.disabled = true;
+            document.getElementById("botoninspector").disabled = true;  
         } else if (selestadoinsp.selectedIndex == 1) {
             divres.style.display = "block";
             grabar.disabled = false;
+            document.getElementById("botoninspector").disabled = false;
+            //document.getElementById("selresultadoinspeccion").disabled = true;
+            
         }
     }
 
@@ -82,17 +172,17 @@
             vi.style.display = "none";
             fintinf.style.display = "none";
             finf.style.display = "none";
-            hinf.style.display = "none"; 
-            di.style.display = "none"; 
-            dinf.style.display = "none"; 
+            hinf.style.display = "none";
+            di.style.display = "none";
+            dinf.style.display = "none";
             // require false para int e inf
             fintinf.required = "false";
             finf.required = "false";
             hinf.required = "false";
-            dinf.required = "false";     
+            dinf.required = "false";
             fi.required = "false";
             hi.required = "false";
-            vi.required = "false";  
+            vi.required = "false";
             di.required = "false";
         } else if (x == 3) {
             fi.style.display = "block";
@@ -101,8 +191,8 @@
             di.style.display = "block";
             fintinf.style.display = "none";
             finf.style.display = "none";
-            hinf.style.display = "none"; 
-            dinf.style.display = "none"; 
+            hinf.style.display = "none";
+            dinf.style.display = "none";
             // requerir input de intimacion
             fi.attributes.required = "required";
             hi.attributes.required = "required";
@@ -111,17 +201,17 @@
         } else if (x == 4) {
             fintinf.style.display = "block";
             finf.style.display = "block";
-            hinf.style.display = "block"; 
-            dinf.style.display = "block";      
+            hinf.style.display = "block";
+            dinf.style.display = "block";
             fi.style.display = "none";
             hi.style.display = "none";
-            vi.style.display = "none";   
+            vi.style.display = "none";
             di.style.display = "none";
             // requiere infraccion
             fintinf.required = "true";
             finf.required = "true";
             hinf.required = "true";
-            dinf.required = "true";  
+            dinf.required = "true";
         }
     }
 
@@ -132,23 +222,17 @@
         <div class="car-header mx-auto">
             <br />
             <h5 style="color:blue; text-decoration:underline; font-weight: bold;">
-                Cambiar Estado de Coord.Inspección
+                Cambiar Estado Coordinación Inspección
             </h5>
         </div>
         <div class="card-body">
-             {{!-- <form action="/notes/newtickets" method="POST"></form> --}}
-            <form action="/notes/newexpedcoordinresult/" method="POST"> 
-                <div class="form-group">
-                    Id Expediente:
-                    <input id="idexpediente" type="text" name="idexpediente"
-                        class="form-control" placeholder="ID" value="{{expedcoordinado._id}}"
-                        readonly>
-                </div>        
+            <form action="/notes/newexpedcoordinresult/" method="POST">
+                
                 <div class="form-group">
                     Expediente Nº:
-                    <input onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text" name="numexpediente"
-                        class="form-control" placeholder="Expediente Nº" value="{{expedcoordinado.numexpediente}}"
-                        readonly>
+                    <input style="color: green" onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text"
+                        name="numexpediente" class="form-control" placeholder="Expediente Nº"
+                        value="{{expedcoordinado.numexpediente}}" readonly>
                 </div>
                 <div class="form-group">
                     Estado Coord.Inspección:
@@ -159,7 +243,8 @@
                 </div>
                 <div id="divresultadoinspeccion" style="display:none" class="form-group">
                     <p>Resultado Inspección:</p>
-                    <select style="color:red;" name="resultadoinspeccion" id="selresultadoinspeccion" onclick="seleccionresinsp()">                        
+                    <select style="color:red;" name="resultadoinspeccion" id="selresultadoinspeccion"
+                        onclick="seleccionresinsp()">
                         <option value="No se pudo Verificar">No se pudo Verificar</option>
                         <option value="No se pudo Inspeccionar">No se pudo Inspeccionar</option>
                         <option value="Se Realizo informe">Realizó informe</option>
@@ -171,7 +256,7 @@
                     Fecha Intimación:
                     <input type="date" name="fechaintimacion" class="form-control"></input>
                 </div>
-                <div id="horaintimacion"  style="color:red; display:none;" class="form-group">
+                <div id="horaintimacion" style="color:red; display:none;" class="form-group">
                     Hora Intimación:
                     <input type="time" name="horaintimacion" class="form-control"
                         placeholder="Fecha Hora Inspección"></input>
@@ -186,19 +271,19 @@
                     <textarea name="descripcionintimacion" class="form-control"
                         placeholder="No Posee Descripción"></textarea>
                 </div>
-                <div id="intimvinculadainfraccion"  style="color:red; display:none;" class="form-group">
+                <div id="intimvinculadainfraccion" style="color:red; display:none;" class="form-group">
                     Número Intimación vinculada a esta Infracción:
                     <input type="text" name="" class="form-control"
                         placeholder="Intimación Vinculada a esta Infacción"></input>
                 </div>
-                <div id="fechainfraccion"  style="color:red; display:none;" class="form-group">
+                <div id="fechainfraccion" style="color:red; display:none;" class="form-group">
                     Fecha Infraccionó:
                     <input type="date" name="fechainfraccion" class="form-control"
                         placeholder="Fecha Hora Inspección"></input>
                 </div>
                 <div id="horainfraccion" style="color:red; display:none;" class="form-group">
                     Hora Infraccionó:
-                    <input type="time"  name="horainfraccion" class="form-control"
+                    <input type="time" name="horainfraccion" class="form-control"
                         placeholder="Fecha Hora Inspección"></input>
                 </div>
                 <div id="descripcioninfraccion" style="color:red; display:none;" class="form-group">
@@ -206,33 +291,53 @@
                     <textarea name="descripcioninfraccion" class="form-control"
                         placeholder="No Posee Descripción"></textarea>
                 </div>
+                <div id="seleccioninspector" style="display: none" class="form-group">
+                    <br />
+                    <select name="selectinspectorname" id="selectinspectorname" onclick="seleccionarinspector()">
+                        <option>Seleccione Inspector...</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     Código Inspector:
-                    <input onkeyup="ShowName('codigoinspector')" type="text" id="codigoinspector" name="codigoinspector"
-                        class="form-control" placeholder="Código Inspector" value="{{expedcoordinado.codigoinspector}}"
-                        />
+                    <input style="color: black;" type="text" id="codigoinspector"
+                        name="codigoinspector" class="form-control" placeholder="Código Inspector"
+                        value="{{expedcoordinado.codigoinspector}}" readonly/>                        
+                    {{!-- Se usa para convertir en array los datos de codigo y de inspector --}}
+                    <input style="display: none" type="text" id="inputcodigoinspector"
+                        name="inputinspectorescodigo" class="form-control"
+                        value="{{inspectorescodigo}}"/>
+                    <input style="display: none" type="text" id="inputinspector" name="inputinspector"
+                        class="form-control" value="{{inspectoresname}}" />
                 </div>
                 <div class="form-group">
                     Inspector (NyA):
-                    <input onkeyup="ShowName('inspector')" type="text" id="inspector" name="inspector"
-                        class="form-control" placeholder="Inspector (NyA)" value="{{expedcoordinado.inspector}}"
-                        />
+                    <input style="color: black;" type="text" id="inspector"
+                        name="inspector" class="form-control" placeholder="Inspector (NyA)"
+                        value="{{expedcoordinado.inspector}}" readonly/>
                 </div>
+
+                <button id="botoninspector" class='btn btn-primary' name="botoninspector" type="button"
+                    onclick="cargar_inspectores()" disabled> Cambiar Inspector ->
+                    <span class="fa fa-user" aria-hidden="true"></span>
+                </button>
+                <p></p>
                 <div class="form-group">
                     Iniciador (NyA):
-                    <input onkeyup="ShowName('iniciadornomyape')" type="text" id="iniciadornomyape"
-                        name="iniciadornomyape" class="form-control" placeholder="Iniciador (NyA)"
-                        value="{{expedcoordinado.iniciadornomyape}}" readonly />
+                    <input style="color: green;" onkeyup="ShowName('iniciadornomyape')" type="text"
+                        id="iniciadornomyape" name="iniciadornomyape" class="form-control" placeholder="Iniciador (NyA)"
+                        value="{{expedcoordinado.iniciadornomyape}}" />
                 </div>
                 <div class="form-group">
                     Domicilio:
-                    <input onkeyup="ShowName('domicilio')" type="text" id="domicilio" name="domicilio"
-                        class="form-control" placeholder="Domicilio" value="{{expedcoordinado.domicilio}}" readonly />
+                    <input style="color: green" onkeyup="ShowName('domicilio')" type="text" id="domicilio"
+                        name="domicilio" class="form-control" placeholder="Domicilio"
+                        value="{{expedcoordinado.domicilio}}" readonly />
                 </div>
                 <div class="form-group">
                     Adrema Nº:
-                    <input onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp" class="form-control"
-                        placeholder="Nº Adrema" value="{{expedcoordinado.adremaexp}}" readonly></input>
+                    <input style="color: green" onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp"
+                        class="form-control" placeholder="Nº Adrema" value="{{expedcoordinado.adremaexp}}"
+                        readonly></input>
                 </div>
                 <div class="form-group">
                     Fecha Inspección:
@@ -245,8 +350,8 @@
                         value="{{expedcoordinado.horainspeccion}}" readonly></input>
                 </div>
                 <p></p>
-                <div  class="form-group">
-                    <button id="grabar"class="btn btn-primary btn-block" type="submit" disabled>
+                <div class="form-group">
+                    <button id="grabar" class="btn btn-primary btn-block" type="submit" disabled>
                         Grabar
                     </button>
                 </div>

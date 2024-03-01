@@ -304,6 +304,7 @@ router.post('/notes/newinfracciones', isAuthenticated, async (req, res) => {
     //console.log(req.body)
     const newInfraccion = new Infraccion();
     newInfraccion.actainfnum = req.body.actainfnum;
+    newInfraccion.zona = req.body.zona;
     newInfraccion.fechainfraccion = req.body.fechainfraccion;
     newInfraccion.horainfraccion = req.body.horainfraccion;
     newInfraccion.numexpedienteinf = req.body.numexpedienteinf;
@@ -1101,6 +1102,24 @@ router.delete('/infracciones/delete/:id', isAuthenticated, async (req, res) => {
     req.flash('success_msg', 'Infracción Eliminada')
     res.redirect('/infracciones')
 });
+
+//*  SECTOR ESTADISTICAS *//
+router.get('/infracciones/Estadistica', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    var contador = 0;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Jefe-Inspectores" || rolusuario == "Administrador") {
+        const infracciones = await Infraccion.find().lean().sort({ date: 'desc' });
+        for (let i = 0; i < infracciones.length; i++) {
+            contador = contador + 1
+        }
+        res.render('notes/inspecciones/infracciones/estadisticainfraccion', { infracciones, contador });       
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
 
 // router.delete('/estadisticas/delete/:id', isAuthenticated, async (req, res) => {
 //     const idfile = req.params.id;

@@ -22,6 +22,10 @@ const InfraccionSchema = new Schema({
                 type: String,
                 require: true
         },
+        zona: {
+                type: String,
+                require: true
+        },
         fechainfraccion: {
                 type: String,
                 require: false,
@@ -121,26 +125,6 @@ const InfraccionSchema = new Schema({
                 require: false,
                 default: "No Posee Información"
         },
-        // fotoinf: {
-        //         type: String,
-        //         require: false,
-        //         default: "No Posee Información"
-        // },
-        // filename: {
-        //         type: String
-        // },
-        // path: {
-        //         type: String
-        // },
-        // originalname: {
-        //         type: String
-        // },
-        // mimetype: {
-        //         type: String
-        // },
-        // size: { 
-        //         type: Number
-        // },
         filename: {
                 type: String
         },

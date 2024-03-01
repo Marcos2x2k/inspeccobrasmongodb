@@ -304,6 +304,19 @@ router.get('/expedientes/coordinados/inspectolres/list', isAuthenticated, async 
     }
 });
 
+router.get('/expedientes/coordinados/inspectolagreresult/list', isAuthenticated, async (req, res) => {  
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        //const usuarios = await Users.find().lean().sort({ numorden: 'desc' });
+        const inspectores = await Inspectores.find().lean()
+        res.render('notes/inspecciones/listinspectoresresult', {inspectores});
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')
+        return res.redirect('/');
+    }
+});
+
 router.get('/expedientes/coordinados/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;    
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -699,9 +712,16 @@ router.post('/notes/newexpedcoordinresult', isAuthenticated, async (req, res) =>
 router.get('/movimientoexpedientecoord/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const expedcoordinado = await Expedcoordinado.findById(req.params.id).lean();
+    const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort();
     //const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    var inspectoresname = []
+    var inspectorescodigo = []
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        res.render('notes/inspecciones/movimientoexpedcoord', { expedcoordinado });;
+        for (var inspectores of inspectorestabla) {           
+            inspectoresname.push(inspectores.name)            
+            inspectorescodigo.push(inspectores.codigoinspector)
+        }
+        res.render('notes/inspecciones/movimientoexpedcoord', {expedcoordinado, inspectoresname, inspectorescodigo});;
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA EXPEDIENTES')

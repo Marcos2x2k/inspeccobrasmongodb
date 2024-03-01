@@ -22,6 +22,11 @@
                         style="color: #3d0ee7; font-weight: bold;" disabled>
                 </div>
                 <div class="form-group">
+                    Zona Infracción:
+                    <input name="zona" class="form-control" value="{{infraccion.zona}}"
+                        style="color: #3d0ee7; font-weight: bold;" placeholder="SinDatos" disabled>
+                </div>
+                <div class="form-group">
                     Nº de Expediente:
                     <input type="text" name="numexpedienteinf" class="form-control" placeholder="Sin Información"
                         value="{{infraccion.numexpedienteinf}}" style="color: #3d0ee7; font-weight: bold;" disabled>
@@ -198,25 +203,28 @@
                     </a>
 
                 </div>
-        </div>
-        <div class="form-group">
-            ID Usuario. Cargó Infracción
-            <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                value="{{infraccion.user}}" style="color: red;" disabled>
-        </div>
-        <div class="form-group">
-            Fecha y Hora de Carga
-            <input type="datetime" name="dateinf" class="form-control" placeholder="Sin Información"
-                value="{{infraccion.dateinf}}" style="color: red;" disabled>
-        </div>
 
-        <div class="form-group">
-            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones/listado"><i
-                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
-        </div>
-        <div class="form-group">
-            <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones"><i
-                        class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Cartas</p>
+                <div class="form-group">
+                    ID Usuario. Cargó Infracción
+                    <input type="text" name="user" class="form-control" placeholder="Sin Información"
+                        value="{{infraccion.user}}" style="color: red;" disabled>
+                </div>
+                <div class="form-group">
+                    Fecha y Hora de Carga
+                    <input type="datetime" name="dateinf" class="form-control" placeholder="Sin Información"
+                        value="{{infraccion.dateinf}}" style="color: red;" disabled>
+                </div>
+                <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                    &laquo; Volver Atrás
+                </a>
+                {{!-- <div class="form-group">
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones/listado"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Listado</p>
+                </div>
+                <div class="form-group">
+                    <p style="color:brown; font-style:oblique; font-weight: bold;"><a href="/infracciones"><i
+                                class="fas fa-list" style='font-size:24px;color:blue'></i></a> Volver Cartas</p>
+                </div> --}}
         </div>
         </form>
     </div>
