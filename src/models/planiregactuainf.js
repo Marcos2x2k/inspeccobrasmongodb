@@ -18,6 +18,11 @@ const PlaniredactuaSchema = new Schema({
         required: true,
         default: "Sin Datos",
     },
+    fechainiciotramite: {
+        type: String,
+        required: true,
+        default: "Sin Datos",
+    },
     propietario: {
         type: String,
         required: true,

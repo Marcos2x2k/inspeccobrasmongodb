@@ -12,6 +12,7 @@ const Infraccion = require('../models/Infraccion')
 const Ticket = require('../models/Ticket')
 const Users = require('../models/User')
 const Inspectores = require('../models/inspectores')
+const Planiregactuainf = require('../models/planiregactuainf')
 //const Cicloinspeccion = require('../models/cicloinspeccion')
 const fs = require('fs').promises
 const { isAuthenticated } = require('../helpers/auth')
@@ -1117,6 +1118,73 @@ router.get('/infracciones/Estadistica', isAuthenticated, async (req, res) => {
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
+    }
+});
+
+//** SECTOR DE BASE DATOS INFRACCIONES E INTIMACIONES QUE CARGA ALEJANDRO */
+
+router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf });
+    } else if (rolusuario == "Inspector") {
+        const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/infracciones/planillaactuacionesusr', { planiregactuainf });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
+        return res.redirect('/');
+    }
+});
+
+router.get('/actuaciones/list/:id', isAuthenticated, async (req, res) => {
+    const planiregactuainf = await Planiregactuainf.findById(req.params.id).lean()
+    res.render('notes/inspecciones/infracciones/listactuaciones', { planiregactuainf })
+});
+
+router.post('/actuaciones/findiniciador', isAuthenticated, async (req, res) => {
+    const { propietario } = req.body;
+    const planiregactuainf = await Planiregactuainf.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ adrema: 'desc' });;
+    if (!planiregactuainf) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/inspecciones/infracciones/listactuaciones");
+    } else {
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf })
+    }
+});
+
+router.post('/actuaciones/findcuitdni', isAuthenticated, async (req, res) => {
+    const { cuitdni } = req.body;
+    const planiregactuainf = await Planiregactuainf.find({ cuitdni: { $regex: cuitdni, $options: "i" } }).lean().sort({ adrema: 'desc' });;
+    if (!planiregactuainf) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/inspecciones/infracciones/listactuaciones");
+    } else {
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf })
+    }
+});
+
+
+router.post('/actuaciones/findadrema', isAuthenticated, async (req, res) => {
+    const { adrema } = req.body;
+    const planiregactuainf = await Planiregactuainf.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ adrema: 'desc' });;
+    if (!planiregactuainf) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/inspecciones/infracciones/listactuaciones");
+    } else {
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf })
+    }
+});
+
+router.post('/actuaciones/findinspector', isAuthenticated, async (req, res) => {
+    const { inspector } = req.body;
+    const planiregactuainf = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ adrema: 'desc' });;
+    if (!planiregactuainf) {
+        req.flash('success_msg', 'cargue un Nº de Adrema')
+        return res.render("notes/inspecciones/infracciones/listactuaciones");
+    } else {
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf })
     }
 });
 
