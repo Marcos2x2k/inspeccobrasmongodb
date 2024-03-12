@@ -23,7 +23,7 @@ const User = require('../models/User');
 var pdfoptionsA4 = { format: 'A4' };
 
 //**** sector de recuperacoin de borrados a bases de datos no preparadas *****/
-router.get('/marcarborradosennoall', isAuthenticated, async (req, res) => {    
+router.get('/marcarborradosennoall', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador") {
         const infraccions = await Infraccion.find().lean().sort({ date: 'desc' });
@@ -605,9 +605,9 @@ router.get('/usuario/list', isAuthenticated, async (req, res) => {
     res.render('notes/listusuarioactual', { users })
 });
 
-router.get('/usuario/list/:id', isAuthenticated, async (req, res) => {  
+router.get('/usuario/list/:id', isAuthenticated, async (req, res) => {
     const _id = req.params.id
-    const users = await Users.find({ _id: _id }).lean()    
+    const users = await Users.find({ _id: _id }).lean()
     res.render('notes/listusuario', { users })
 });
 
@@ -643,7 +643,7 @@ router.post('/ticket/findlistaticket', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const { numticket } = req.body;
     const ticket = await Ticket.find({ numticket: { $regex: numticket, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Mesa-Entrada") {
+    if (rolusuario == "Jefe-Inspectores") {
         if (!ticket) {
             req.flash('success_msg', 'cargue Nombre y Apellido')
             return res.render("notes/planillalistaticket");
@@ -1114,7 +1114,7 @@ router.get('/infracciones/Estadistica', isAuthenticated, async (req, res) => {
         for (let i = 0; i < infracciones.length; i++) {
             contador = contador + 1
         }
-        res.render('notes/inspecciones/infracciones/estadisticainfraccion', { infracciones, contador });       
+        res.render('notes/inspecciones/infracciones/estadisticainfraccion', { infracciones, contador });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -1127,7 +1127,7 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        const planiregactuainf = await Planiregactuainf.find({borrado: {$ne: 'Si'}}).limit(50).lean().sort({ date: 'desc' });
         res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf });
     } else if (rolusuario == "Inspector") {
         const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
@@ -1188,6 +1188,192 @@ router.post('/actuaciones/findinspector', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/actuaciones/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/infracciones/newactuaciones' , usuarios);
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETS')
+        return res.redirect('/');
+    }
+});
+
+router.post('/actuaciones/newactuacion', isAuthenticated, async (req, res) => {
+    const { borrado, userborrado, fechaborrado, fechainiciotramite, propietario, cuitdni, direccion, adrema,
+        inspector, zona, descripcion, intimacion, numerointimacion,
+        tipoacta, observacion, expediente, actareiterada, filename,
+        path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
+        eliminado, user, name, date
+    } = req.body;
+
+    const newActuacion = new Planiregactuainf ({
+        borrado, userborrado, fechaborrado, fechainiciotramite, propietario, cuitdni, direccion, adrema,
+        inspector, zona, descripcion, intimacion, numerointimacion,
+        tipoacta, observacion, expediente, actareiterada, filename,
+        path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
+        eliminado, user, name, date
+    })
+    const mayu = propietario.replace(/\b\w/g, l => l.toUpperCase())
+    newActuacion.propietario = mayu
+    if (req.files[0]) {
+        newActuacion.filename = req.files[0].filename;
+        newActuacion.path = '/img/uploads/' + req.files[0].filename;
+    }
+    if (req.files[1]) {
+        newActuacion.filenamedos = req.files[1].filename;
+        newActuacion.pathdos = '/img/uploads/' + req.files[1].filename;
+    }
+    if (req.files[2]) {
+        newActuacion.filenametres = req.files[2].filename;
+        newActuacion.pathtres = '/img/uploads/' + req.files[2].filename;
+    }
+    if (req.files[3]) {
+        newActuacion.filenamecuatro = req.files[3].filename;
+        newActuacion.pathcuatro = '/img/uploads/' + req.files[3].filename;
+    }
+    if (req.files[4]) {
+        newActuacion.filenamecinco = req.files[4].filename;
+        newActuacion.pathcinco = '/img/uploads/' + req.files[4].filename;
+    }
+    if (req.files[5]) {
+        newActuacion.filenameseis = req.files[5].filename;
+        newActuacion.pathseis = '/img/uploads/' + req.files[5].filename;
+    }
+    if (req.files[6]) {
+        newActuacion.filenamesiete = req.files[6].filename;
+        newActuacion.pathsiete = '/img/uploads/' + req.files[6].filename;
+    }
+    if (req.files[7]) {
+        newActuacion.filenameocho = req.files[7].filename;
+        newActuacion.pathocho = '/img/uploads/' + req.files[7].filename;
+    }
+    newActuacion.user = req.user.id;
+    newActuacion.name = req.user.name;
+    await newActuacion.save();
+    req.flash('success_msg', 'Actuación Agregada Exitosamente');
+    res.redirect('/actuaciones/listado');
+});
+
+router.put('/actuaciones/marcadelete/:id', isAuthenticated, async (req, res) => {
+    //const fechaimpresohoy = new Date();    
+    //await Multas.updateMany({ _id: "id" });  
+    //Busco el id y le sumo 1 a veces impreso
+    const borrado = "Si";
+    const fechaborrado = new Date();
+    const userborrado = req.user.name;
+    await Planiregactuainf.findByIdAndUpdate(req.params.id, {
+        borrado, fechaborrado, userborrado
+    });
+    req.flash('success_msg', 'Actuación a Papelera Reciclaje')
+    res.redirect('/actuaciones/listado');
+    // await Mesaentrada.findByIdAndDelete(req.params.id);
+    // req.flash('success_msg', 'Turno Eliminado')
+    // res.redirect('/mesaentrada/listado')
+});
+
+router.delete('/actuaciones/delete/:id', isAuthenticated, async (req, res) => {
+    await Planiregactuainf.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Actuación Eliminado')
+    res.redirect('/actuaciones/listado')
+});
+
+router.get('/actuaciones/Estadisticas', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    var contador = 0;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Jefe-Inspectores" || rolusuario == "Administrador") {
+        const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        for (let i = 0; i < planiregactuainf.length; i++) {
+            contador = contador + 1
+        }
+        res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
+
+router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { nomyape, adrema, inspector, desde, hasta } = req.body;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
+        var contador = 0;
+        if (nomyape) {
+            // var dni = "";
+            // if (typeof nomyape == 'number') {
+            //     dni = parseInt(nomyape)
+            // } else {
+            //     dni = ""
+            // }
+            const planiregactuainf = await Planiregactuainf.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: nomyape }] }).lean().sort({ date: 'desc' });
+            //console.log("Multas Estadistica", multas)
+            for (let i = 0; i < planiregactuainf.length; i++) {
+                contador = contador + 1
+            }
+            res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+        } else if (adrema) {
+            var numexpediente = adrema;
+            const planiregactuainf = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+            //const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (let i = 0; i < mesaentrada.length; i++) {
+                contador = contador + 1
+            }
+            res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+        } else if (inspector) {
+            if ((desde && hasta)) {
+                var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+                const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
+                const planiregactuainf = await Planiregactuainf.find({ $and: [{ date: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ sector: 'asc' });
+                //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+                //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });  
+
+                for (let i = 0; i < planiregactuainf.length; i++) {
+                    contador = contador + 1
+                }
+                res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+            }
+        } else {
+            const planiregactuainf = await Planiregactuainf.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (let i = 0; i < planiregactuainf.length; i++) {
+                contador = contador + 1
+            }
+            res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+        }
+    } else if (desde && hasta) {
+        console.log("DESDE", desde)
+        console.log("HASTA", hasta)
+        var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+        const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
+        console.log("HASTAD", hastad)
+        console.log("D", d)
+        const planiregactuainf = await Planiregactuainf.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ sector: 'desc' });
+        //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+        //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
+        for (let i = 0; i < planiregactuainf.length; i++) {
+            contador = contador + 1
+        }
+        res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+        // } else if ((desde && hasta) && sector) {            
+        //     var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+        //     const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
+        //     const mesaentrada = await Mesaentrada.find({ $and: [{date: { $gte: desde, $lte: hastad }},{sector: sector}]}).lean().sort({ sector: 'asc' });
+        //     //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+        //     //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });                      
+        //     for (let i = 0; i < mesaentrada.length; i++) {                
+        //         contador = contador + 1
+        //     }
+        //     res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
+        // }
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+        return res.redirect('/');
+    }
+});
 
 // router.delete('/estadisticas/delete/:id', isAuthenticated, async (req, res) => {
 //     const idfile = req.params.id;

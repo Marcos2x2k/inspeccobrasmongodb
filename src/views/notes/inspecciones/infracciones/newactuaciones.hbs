@@ -1,0 +1,121 @@
+<div class="col-md-7 mx-auto">
+    <div class="card" style="font-style: italic;font-weight: bold;">
+        <div class="card-header mx-auto">
+            <h3>Nueva Actuación</h3>
+        </div>
+        <div class="card-body">
+            <form action="/actuaciones/newactuacion" method="POST" enctype="multipart/form-data">
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha Inicio Tramite
+                    <input type="date" name="fechainiciotramite" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Propietario
+                    <input type="text" name="propietario" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Cuit / DNI
+                    <input type="text" name="cuitdni" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Dirección
+                    <input type="text" name="direccion" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Adrema N°
+                    <input type="text" name="adrema" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Inspector (N y A)
+                    <input name="inspector" class="form-control" style="color: black; font-weight: bold;" />
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Zona
+                    <input type="number" name="zona" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Descripción
+                    <input type="text" name="descripcion" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Nº intimación
+                    <input type="text" name="numerointimacion" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Tipo de Acta
+                    <input type="text" name="tipoacta" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                {{!-- <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Fecha Inspección Actual
+                    <input type="text" name="inspecfecha" class="form-control" placeholder="Sin Información"
+                        value="{{planiregactuainf.inspecfecha}}" style="color: black; font-weight: bold;">
+                </div> --}}
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Observaciones
+                    <textarea type="text" name="observacion" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;"></textarea>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Expediente N°
+                    <input type="text" name="expediente" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Número de Faja
+                    <input type="text" name="numfaja" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Acta Reiterada
+                    <input type="text" name="actareiterada" class="form-control" placeholder="Sin Información"
+                        style="color: black; font-weight: bold;" />
+                </div>
+                {{!-- <img style="border-radius:30px;" src="{{planiregactuainf.path}}" width="400" /> <br /><br /> --}}
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    ID Usuario. Carga Actuación
+                    <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
+                        value="{{usuarios._id}}" style="color: #e90e0e" readonly/>
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    ID Usuario. Carga Actuación
+                    <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
+                        value="{{usuarios.name}}" style="color: #e90e0e" readonly/>
+                </div>
+
+                <label style="font-weight:bold">Seleccione Fotos Actuación: (Máximo 8):</label>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile02"
+                            accept=".jpg,.png" multiple>
+                        <label class="custom-file-label" for="inputGroupFile02"
+                            aria-describedby="inputGroupFileAddon02">Seleccione Fotos (Máximo 8)</label>
+                    </div>
+                </div>
+                {{!-- <p style="color:brown; font-style:oblique; font-weight: bold;"><a
+                        href="/notes/edit/{{planiregactuainf._id}}"><i class="fas fa-edit"
+                            style='font-size:24px;color:rgb(98, 98, 100)'></i></a>
+                    Editar
+                </p> --}}
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Grabar
+                    </button>
+                </div>
+            </form>
+            <br />
+            <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                &laquo; Volver Atrás
+            </a>
+        </div>
+    </div>
+
+</div>
