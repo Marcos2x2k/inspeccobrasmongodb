@@ -1298,32 +1298,33 @@ router.get('/actuaciones/Estadisticas', isAuthenticated, async (req, res) => {
 
 router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { nomyape, adrema, inspector, desde, hasta } = req.body;
+    const { propietario, adrema, inspector, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
-        if (nomyape) {
+        if (propietario) {
             // var dni = "";
             // if (typeof nomyape == 'number') {
             //     dni = parseInt(nomyape)
             // } else {
             //     dni = ""
             // }
-            const planiregactuainf = await Planiregactuainf.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: nomyape }] }).lean().sort({ date: 'desc' });
+            var cuitdni = propietario;
+            const planiregactuainf = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }] }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
-            res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+            res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (adrema) {
-            var numexpediente = adrema;
-            const planiregactuainf = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+            var expediente = adrema;
+            const planiregactuainf = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
             //const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
-            for (let i = 0; i < mesaentrada.length; i++) {
+            for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
-            res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+            res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (inspector) {
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
@@ -1335,14 +1336,14 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
                 }
-                res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+                res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
             }
         } else {
-            const planiregactuainf = await Planiregactuainf.find({ sector: { $regex: sector, $options: "i" } }).lean().sort({ date: 'desc' });
+            const planiregactuainf = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
-            res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
+            res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         }
     } else if (desde && hasta) {
         console.log("DESDE", desde)
@@ -1351,29 +1352,121 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
         const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
         console.log("HASTAD", hastad)
         console.log("D", d)
-        const planiregactuainf = await Planiregactuainf.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ sector: 'desc' });
+        const planiregactuainf = await Planiregactuainf.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'desc' });
         //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
         //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
         for (let i = 0; i < planiregactuainf.length; i++) {
             contador = contador + 1
         }
-        res.render('notes/actuaciones/estadisticamesaentrada', { planiregactuainf, contador });
-        // } else if ((desde && hasta) && sector) {            
-        //     var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
-        //     const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
-        //     const mesaentrada = await Mesaentrada.find({ $and: [{date: { $gte: desde, $lte: hastad }},{sector: sector}]}).lean().sort({ sector: 'asc' });
-        //     //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-        //     //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });                      
-        //     for (let i = 0; i < mesaentrada.length; i++) {                
-        //         contador = contador + 1
-        //     }
-        //     res.render('notes/mesaentrada/estadisticamesaentrada', { mesaentrada, contador });
-        // }
+        res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });        
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
     }
 });
+
+router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req, res) => {
+    const ubicacionPlantilla = require.resolve("../views/notes/inspecciones/infracciones/actuacionesestadisticaimprimir.hbs")
+    //const puerto = "172.25.2.215";
+    var fstemp = require('fs');
+    let tabla = "";
+    var contio = 0;
+    var contop = 0;
+    var contvis = 0;
+    var contsub = 0;
+    var contador = 0;
+    var filtro = "";
+    var tipofiltro = "";
+    let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
+    var tablaactuaciones = "" //await Mesaentrada.find().lean().sort({ date: 'desc' });
+    //<td>${multas.fecha}</td> este etaba en tablamultas
+    const { nomyape, adrema, inspector, desde, hasta } = req.body;
+    if (nomyape) {
+        const dni = nomyape
+        tablaactuaciones = await Planiregactuainf.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: { $regex: dni, $options: "i" } }] }).lean().sort({ date: 'desc' });
+        //tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
+        filtro = nomyape;
+        tipofiltro = "por Nombre y Apellido/DNI"
+        //console.log("Multas Estadistica", multas)
+        //contador = 0
+        // for (let i = 0; i < tablamesaentrada.length; i++) {
+        //     contador = i
+        // }
+    } else if (adrema) {
+        const numexpediente = adrema;
+        tablaactuaciones = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+        filtro = adrema;
+        tipofiltro = "por Adrema"
+        //contador = 0
+        // for (let i = 0; i < tablamesaentrada.length; i++) {
+        //     contador = i
+        // }    
+    } else if (desde && hasta) {
+        if (inspector) {
+            filtro = "Sector: " + sector + " - por Fecha: " + desde + " / " + hasta;
+            tipofiltro = "Sector con Fecha Desde y Fecha Hasta"
+            var o = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+            const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
+            console.log("HASTAO", hastao)
+            console.log("D", o)
+            tablaactuaciones = await Planiregactuainf.find({ $and: [{ date: { $gte: desde, $lte: hastao } }, { sector: { $regex: sector, $options: "i" } }] }).lean().sort({ date: 'asc' });
+        } else {
+            filtro = "por Fecha" + desde + "/" + hasta;
+            tipofiltro = "Fecha Desde y Fecha Hasta"
+            //contador = 0
+            var d = new Date(hasta);
+            const hastao = d.setDate(d.getDate() + 1);
+            tablaactuaciones = await Planiregactuainf.find({ date: { $gte: desde, $lte: hastao } }).lean().sort({ sector: 'desc' });;
+            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+            //.find({ desde: { $regex: date, $options: "i" } }).lean();            
+            // for (let i = 0; i < tablamesaentrada.length; i++) {
+            //     contador += 1
+        }
+    } else if (inspector) {
+        tablaactuaciones = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean();
+        filtro = sector;
+        tipofiltro = "por Inspector"
+        ///contador = 0
+        // for (let i = 0; i < tablamesaentrada.length; i++) {
+        //     contador += 1
+        // }
+    }
+    for (const actuaciones of tablaactuaciones) {
+        // Y concatenar las multas         
+        contador += 1
+        tabla += `<tr>   
+        <td>-</td> 
+    <td style="text-transform: lowercase;">${actuaciones.fechainiciotramite}</td>
+    <td style="text-transform: lowercase;">${actuaciones.propietario}</td>
+    <td style="text-transform: lowercase;">${actuaciones.cuitdni}</td>
+    <td style="text-transform: lowercase;">${actuaciones.direccion}</td>
+    <td style="text-transform: lowercase;">${actuaciones.adrema}</td>
+    <td style="text-transform: lowercase;">${actuaciones.inspector}</td>
+    <td style="text-transform: lowercase;">${actuaciones.actareiterada}</td>
+    <td>-</td>
+    </tr>`;
+    }
+    contador = contador-2;
+    contenidoHtml = contenidoHtml.replace("{{tablamesaentrada}}", tabla);
+    contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
+    contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
+    contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);
+    contenidoHtml = contenidoHtml.replace("{{contio}}", contio);
+    contenidoHtml = contenidoHtml.replace("{{contop}}", contop);
+    contenidoHtml = contenidoHtml.replace("{{contvis}}", contvis);
+    contenidoHtml = contenidoHtml.replace("{{contsub}}", contsub);
+
+    //contenidoHtml = contenidoHtml.replace("{{multas}}");    
+    pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
+        if (error) {
+            res.end("Error creando PDF: " + error)
+        } else {
+            req.flash('success_msg', 'Actuaciones Estadistica impresa')
+            res.setHeader("Content-Type", "application/pdf");
+            stream.pipe(res);
+        }
+    });
+})
 
 // router.delete('/estadisticas/delete/:id', isAuthenticated, async (req, res) => {
 //     const idfile = req.params.id;
