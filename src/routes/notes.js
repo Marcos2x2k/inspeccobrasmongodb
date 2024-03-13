@@ -1127,7 +1127,7 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const planiregactuainf = await Planiregactuainf.find({borrado: {$ne: 'Si'}}).limit(50).lean().sort({ date: 'desc' });
+        const planiregactuainf = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ date: 'desc' });
         res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf });
     } else if (rolusuario == "Inspector") {
         const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
@@ -1193,7 +1193,7 @@ router.get('/actuaciones/add', isAuthenticated, async (req, res) => {
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
         const usuarios = await Users.find().lean().sort({ date: 'desc' });
-        res.render('notes/inspecciones/infracciones/newactuaciones' , usuarios);
+        res.render('notes/inspecciones/infracciones/newactuaciones', usuarios);
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETS')
@@ -1209,7 +1209,7 @@ router.post('/actuaciones/newactuacion', isAuthenticated, async (req, res) => {
         eliminado, user, name, date
     } = req.body;
 
-    const newActuacion = new Planiregactuainf ({
+    const newActuacion = new Planiregactuainf({
         borrado, userborrado, fechaborrado, fechainiciotramite, propietario, cuitdni, direccion, adrema,
         inspector, zona, descripcion, intimacion, numerointimacion,
         tipoacta, observacion, expediente, actareiterada, filename,
@@ -1329,7 +1329,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
                 const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
-                const planiregactuainf = await Planiregactuainf.find({ $and: [{ date: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ sector: 'asc' });
+                const planiregactuainf = await Planiregactuainf.find({ $and: [{ date: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ date: 'desc' });
                 //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
                 //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });  
 
@@ -1337,14 +1337,14 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
                     contador = contador + 1
                 }
                 res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
-            }
-        } else {
+            }        
+         else {
             const planiregactuainf = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
             res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
-        }
+        }}
     } else if (desde && hasta) {
         console.log("DESDE", desde)
         console.log("HASTA", hasta)
@@ -1358,7 +1358,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
         for (let i = 0; i < planiregactuainf.length; i++) {
             contador = contador + 1
         }
-        res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });        
+        res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
@@ -1446,7 +1446,7 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     <td>-</td>
     </tr>`;
     }
-    contador = contador-2;
+    contador = contador - 2;
     contenidoHtml = contenidoHtml.replace("{{tablamesaentrada}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
