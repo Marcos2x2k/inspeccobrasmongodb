@@ -1202,7 +1202,7 @@ router.get('/actuaciones/add', isAuthenticated, async (req, res) => {
 });
 
 router.post('/actuaciones/newactuacion', isAuthenticated, async (req, res) => {
-    const { borrado, userborrado, fechaborrado, fechainiciotramite, propietario, cuitdni, direccion, adrema,
+    const { borrado, userborrado, fechaborrado, fechainiciotramite, lugartipo, propietario, cuitdni, direccion, adrema,
         inspector, zona, descripcion, intimacion, numerointimacion,
         tipoacta, observacion, expediente, actareiterada, filename,
         path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
@@ -1210,7 +1210,7 @@ router.post('/actuaciones/newactuacion', isAuthenticated, async (req, res) => {
     } = req.body;
 
     const newActuacion = new Planiregactuainf({
-        borrado, userborrado, fechaborrado, fechainiciotramite, propietario, cuitdni, direccion, adrema,
+        borrado, userborrado, fechaborrado, fechainiciotramite,  lugartipo, propietario, cuitdni, direccion, adrema,
         inspector, zona, descripcion, intimacion, numerointimacion,
         tipoacta, observacion, expediente, actareiterada, filename,
         path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
@@ -1298,7 +1298,7 @@ router.get('/actuaciones/Estadisticas', isAuthenticated, async (req, res) => {
 
 router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
-    const { propietario, adrema, inspector, desde, hasta } = req.body;
+    const { propietario, lugartipo, adrema, inspector, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -1359,10 +1359,17 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             contador = contador + 1
         }
         res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
+    } else if (lugartipo) {
+    const planiregactuainf = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" }}).lean().sort({ date: 'desc' });
+    //const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
+    for (let i = 0; i < planiregactuainf.length; i++) {
+        contador = contador + 1
+    }
+    res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
-    }
+    } 
 });
 
 router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req, res) => {
@@ -1468,113 +1475,27 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     });
 })
 
-// router.delete('/estadisticas/delete/:id', isAuthenticated, async (req, res) => {
-//     const idfile = req.params.id;
-//     const datosfile = Estadistica.find({ idfile: { $regex: idfile, $options: "i" } }).lean();
-//     await Estadistica.findByIdAndDelete(req.params.id);
-//     // const filenamepru = datosfile[0].filename
-//     // console.log ('filnamepru', datosfile[0].filename)
-//     console.log('filenamepru', datosfile)
-//     // fs.unlink(`./src/public/img/uploads/${filenamepru}`)
-//     // // fs.unlink('\src\public\img\uploads\',filenamepru)
-//     //     .then(() => {
-//     //         console.log('File removed')
-//     //     }).catch(err => {
-//     //         console.error('Something wrong happened removing the file', err)
-//     //     })
+router.get('/actuaciones/edit/:id', isAuthenticated, async (req, res) => {
+    const planiregactuainf = await Planiregactuainf.findById(req.params.id).lean()
+    res.render('notes/inspecciones/infracciones/editactuacion', { planiregactuainf })
+});
 
-//     req.flash('success_msg', 'Estadistica Eliminada')
-//     res.redirect('/estadisticas')
-//     // console.log(req.params.id)
-//     // res.send('ok')
-// });
-
-// **** sector IMAGEN ESTADISTICA ****
-
-// router.post('/notes/newestadisticas', isAuthenticated, async (req, res) => {
-//     const newEstadistica = new Estadistica();
-//     newEstadistica.estadisticanum = req.body.estadisticanum;
-//     newEstadistica.fechaestadistica = req.body.fechaestadistica;
-//     newEstadistica.horaestadistica = req.body.horaestadistica;
-//     if (req.files[0]) {
-//         // const file = req.files[0]        
-//         // req.files[0].nameest='Estadistica'        
-//         // console.log('req files 0', req.files[0]);
-//         newEstadistica.filename = req.files[0].filename;
-//         newEstadistica.path = '/img/uploads/' + req.files[0].filename;
-//         // newEstadistica.nameest = req.files[0].nameest;
-//     }
-//     if (req.files[1]) {
-//         newEstadistica.filenamedos = req.files[1].filename;
-//         newEstadistica.pathdos = '/img/uploads/' + req.files[1].filename;
-//     }
-//     if (req.files[2]) {
-//         newEstadistica.filenametres = req.files[2].filename;
-//         newEstadistica.pathtres = '/img/uploads/' + req.files[2].filename;
-//     }
-//     if (req.files[3]) {
-//         newEstadistica.filenamecuatro = req.files[3].filename;
-//         newEstadistica.pathcuatro = '/img/uploads/' + req.files[3].filename;
-//     }
-//     if (req.files[4]) {
-//         newEstadistica.filenamecinco = req.files[4].filename;
-//         newEstadistica.pathcinco = '/img/uploads/' + req.files[4].filename;
-//     }
-//     if (req.files[5]) {
-//         newEstadistica.filenameseis = req.files[5].filename;
-//         newEstadistica.pathseis = '/img/uploads/' + req.files[5].filename;
-//     }
-//     if (req.files[6]) {
-//         newEstadistica.filenamesiete = req.files[6].filename;
-//         newEstadistica.pathsiete = '/img/uploads/' + req.files[6].filename;
-//     }
-//     if (req.files[7]) {
-//         newEstadistica.filenameocho = req.files[7].filename;
-//         newEstadistica.pathocho = '/img/uploads/' + req.files[7].filename;
-//     }
-//     newEstadistica.user = req.user.id;
-//     newEstadistica.name = req.user.name;
-//     // newEstadistica.originalname = req.file.originalname;
-//     // newEstadistica.mimetype = req.file.mimetype;
-//     // newEstadistica.size = req.file.size;
-//     // console.log(req.files[2].filename) 
-//     await newEstadistica.save();
-//     req.flash('success_msg', 'Estadistica Creada Exitosamente');
-//     // console.log (newNote)
-//     res.redirect('/estadisticas');
-//     // await Estadistica.save();
-//     // res.redirect('/');
-// });
-
-//** ejemplo de subida de archivos */
-// uploadImage: (req, res, nex) => {
-//     //...
-//     if(req.files && req.files.uploads && Array.isArray(req.files.uploads)) { // suponiendo que espero el input llamado 'uploads'
-//       let images = req.files.uploads.map(file => {
-//         // operaciones con cada elemento file para obtener el nombre del archivo y guardarlo en una lista
-//         return fileName;
-//       });
-//       Project.findByIdAndUpdate(id, { $push: {images: {$each: images} } }, callback);
-//       // ...
-//     } else if(req.files && req.files.uploads) { // caso de un único archivo
-//       // lógica para obtener el nombre del archivo
-//       // let imageName = ...
-//       Project.findByIdAndUpdate(id, { $push: {images: imageName} }, callback);
-//       //..
-//     } else {
-//       // caso de no recibir imágenes
-//     }
-//   }
-
-//// *** SECTOR PARA ELIMINAR FISICAMENTE IMAGENES ***
-
-// router.get('/inspeccion/imagenes/:id', isAuthenticated, async (req, res) => {
-
-// })
-
-// router.get('/image/:id/delete', isAuthenticated, async (req, res) => {
-
-// })
-
+router.put('/actuacion/editactuacion/:id', isAuthenticated, async (req, res) => {
+    const { borrado, userborrado, fechaborrado, fechainiciotramite, lugartipo, propietario, cuitdni, direccion, adrema,
+        inspector, zona, descripcion, intimacion, numerointimacion,
+        tipoacta, observacion, expediente, actareiterada, filename,
+        path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
+        eliminado, user, name, date
+    } = req.body
+    await Planiregactuainf.findByIdAndUpdate(req.params.id, {
+        borrado, userborrado, fechaborrado, fechainiciotramite, lugartipo, propietario, cuitdni, direccion, adrema,
+        inspector, zona, descripcion, intimacion, numerointimacion,
+        tipoacta, observacion, expediente, actareiterada, filename,
+        path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
+        eliminado, user, name, date
+    });
+    req.flash('success_msg', 'Actuación Actualizada')
+    res.redirect('/actuaciones/listado');
+});
 
 module.exports = router;

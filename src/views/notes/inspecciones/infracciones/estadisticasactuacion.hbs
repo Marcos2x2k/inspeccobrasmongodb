@@ -9,6 +9,7 @@
         const na = document.getElementById("inspector")
         const fd = document.getElementById("desde")
         const fa = document.getElementById("hasta")
+        const lt = document.getElementById("lugartipo")
         //var mtc = document.getElementById("montototalcobrado")        
         if (seleccion.selectedIndex == 0) {
             x.disabled = true;
@@ -18,6 +19,7 @@
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
+            lt.disabled = true;
             fd.style.hidden = true;
             fa.style.hidden = true;
             p.type = "text";
@@ -25,8 +27,8 @@
             na.type = "text";
             fd.type = "text";
             fa.type = "text";
-        }
-        else if (seleccion.selectedIndex == 1) {
+            lt.type = "text";
+        } else if (seleccion.selectedIndex == 1) {
             x.disabled = false;
             //imp.disabled = false;
             p.disabled = false;
@@ -35,6 +37,7 @@
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
+            lt.disabled = true;
             p.type = "search";
             a.type = "text";
             na.type = "text";
@@ -47,6 +50,7 @@
             na.required = false;
             fd.required = false;
             fa.required = false;
+            lt.required = false;
         } else if (seleccion.selectedIndex == 2) {
             x.disabled = false;
             //imp.disabled = false;
@@ -55,6 +59,7 @@
             na.disabled = true;
             fd.disabled = true;
             fa.disabled = true;
+            lt.disabled = true;
             p.type = "text";
             a.type = "search";
             na.type = "text";
@@ -67,6 +72,7 @@
             na.required = false;
             fd.required = false;
             fa.required = false;
+            lt.required = false;
         } else if (seleccion.selectedIndex == 3) {
             x.disabled = false;
             //imp.disabled = false;
@@ -75,6 +81,7 @@
             na.disabled = false;
             fd.disabled = true;
             fa.disabled = true;
+            lt.disabled = true;
             p.type = "text";
             a.type = "text";
             na.type = "search";
@@ -87,6 +94,7 @@
             na.required = true;
             fd.required = false;
             fa.required = false;
+            lt.required = false;
         } else if (seleccion.selectedIndex == 4) {
             x.disabled = false;
             //imp.disabled = false;
@@ -95,6 +103,7 @@
             na.disabled = true;
             fd.disabled = false;
             fa.disabled = false;
+            lt.disabled = true;
             p.type = "text";
             a.type = "text";
             na.type = "text";
@@ -107,6 +116,7 @@
             na.required = false;
             fd.required = true;
             fa.required = true;
+            lt.required = false;
         } else if (seleccion.selectedIndex == 5) {
             x.disabled = false;
             //imp.disabled = false;
@@ -115,6 +125,7 @@
             na.disabled = false;
             fd.disabled = false;
             fa.disabled = false;
+            lt.disabled = true;
             p.type = "text";
             a.type = "text";
             //na.type = "text";
@@ -127,6 +138,29 @@
             na.required = true;
             fd.required = true;
             fa.required = true;
+            lt.required = false;
+        } else if (seleccion.selectedIndex == 6) {
+            x.disabled = false;
+            //imp.disabled = false;
+            p.disabled = true;
+            a.disabled = true;
+            na.disabled = true;
+            fd.disabled = true;
+            fa.disabled = true;
+            lt.disabled = false;
+            p.type = "text";
+            a.type = "text";
+            //na.type = "text";
+            fd.type = "date";
+            fa.type = "date";
+            fd.style.hidden = false;
+            fa.style.hidden = false;
+            p.required = false;
+            a.required = false;
+            na.required = false;
+            fd.required = false;
+            fa.required = false;
+            lt.required = true;
         }
     }
     function selecdatoestadisticoo() {
@@ -138,6 +172,7 @@
         const nao = document.getElementById("inspectoro")
         const fdo = document.getElementById("desdeo")
         const fao = document.getElementById("hastao")
+        const lto = document.getElementById("lugartipoo")
         //var mtc = document.getElementById("montototalcobrado")        
         if (selecciono.selectedIndex == 0) {
             //xo.disabled = true;
@@ -147,6 +182,7 @@
             nao.disabled = true;
             fdo.disabled = true;
             fao.disabled = true;
+            lto.disabled = true;
             fdo.style.hidden = true;
             fao.style.hidden = true;
             po.type = "text";
@@ -154,6 +190,7 @@
             nao.type = "text";
             fdo.type = "text";
             fao.type = "text";
+            lto.type = "text";
         }
         else if (selecciono.selectedIndex == 1) {
             //xo.disabled = false;
@@ -164,6 +201,7 @@
             nao.disabled = true;
             fdo.disabled = true;
             fao.disabled = true;
+            lto.disabled = true;
             po.type = "search";
             ao.type = "text";
             nao.type = "text";
@@ -184,6 +222,7 @@
             nao.disabled = true;
             fdo.disabled = true;
             fao.disabled = true;
+            lto.disabled = true;
             po.type = "text";
             ao.type = "search";
             nao.type = "text";
@@ -204,6 +243,7 @@
             nao.disabled = false;
             fdo.disabled = true;
             fao.disabled = true;
+            lto.disabled = true;
             po.type = "text";
             ao.type = "text";
             nao.type = "search";
@@ -224,6 +264,7 @@
             nao.disabled = true;
             fdo.disabled = false;
             fao.disabled = false;
+            lto.disabled = true;
             po.type = "text";
             ao.type = "text";
             nao.type = "text";
@@ -244,6 +285,28 @@
             nao.disabled = false;
             fdo.disabled = false;
             fao.disabled = false;
+            lto.disabled = true;
+            po.type = "text";
+            ao.type = "text";
+            nao.type = "text";
+            fdo.type = "date";
+            fao.type = "date";
+            fdo.style.hidden = false;
+            fao.style.hidden = false;
+            po.required = false;
+            ao.required = false;
+            nao.required = true;
+            fdo.required = true;
+            fao.required = true;
+        } else if (selecciono.selectedIndex == 6) {
+            //xo.disabled = false;
+            impo.disabled = false;
+            po.disabled = true;
+            ao.disabled = true;
+            nao.disabled = true;
+            fdo.disabled = true;
+            fao.disabled = true;
+            lto.disabled = false;
             po.type = "text";
             ao.type = "text";
             nao.type = "text";
@@ -307,14 +370,26 @@
                 <option value=3>por Inspector</option>
                 <option value=4>por Fechas</option>
                 <option value=5>inspector/fecha</option>
+                <option value=6>por Lugar/tipo</option>
             </select>
             <br />
-            <input class="pl-3" type="text" id="propietario" name="propietario" placeholder="Propietario/DNI..." disabled />
-            <input class="pl-3" type="text" id="adrema" name="adrema" placeholder="Expediente/Adrema..." disabled />
-            {{!-- <input class="pl-3" type="text" id="inspector" name="inspector" placeholder="inspector..." disabled /> --}}
-            <input  class="pl-3" type="text" id="inspector" name="inspector" placeholder="Inspector..." disabled/>
-            <input class="pl-3" type="text" size="14" id="desde" name="desde" placeholder="Desde..." disabled />
-            <input class="pl-3" type="text" size="14" id="hasta" name="hasta" placeholder="Hasta..." disabled />
+            <input class="pl-3" type="text" size="12" id="propietario" name="propietario"
+                placeholder="Propietario/DNI..." disabled />
+            <input class="pl-3" type="text" size="12" id="adrema" name="adrema" placeholder="Expediente/Adrema..."
+                disabled />
+            {{!-- <input class="pl-3" type="text" id="inspector" name="inspector" placeholder="inspector..." disabled />
+            --}}
+            <input class="pl-3" type="text" id="inspector" name="inspector" placeholder="Inspector..." disabled />
+            <input class="pl-3" type="text" size="12" id="desde" name="desde" placeholder="Desde..." disabled />
+            <input class="pl-3" type="text" size="12" id="hasta" name="hasta" placeholder="Hasta..." disabled />
+            {{!-- <input class="pl-3" type="text" size="12" id="lugartipo" name="lugartipo" placeholder="Lugar/Tipo..."
+                disabled /> --}}
+            <select name="lugartipo" id="lugartipo" disabled>
+                <option value="Obras">Obras</option>
+                <option value="Via-Publica">Vía Pública</option>
+                <option value="Carteleria">Cartelería</option>
+            </select>
+
             <p></p>
             <div class="form-group">
                 <button id="armarestadistica" class="btn btn-success btn-block btn-sm" type="submit" disabled>
@@ -332,14 +407,29 @@
                 <option value=3>por Inspector</option>
                 <option value=4>por Fechas</option>
                 <option value=5>inspector/fecha</option>
+                <option value=6>por Lugar/Tipo</option>
             </select>
             <br />
-            <input class="pl-3" type="text" id="propietarioo" name="propietario" placeholder="Propietario/DNI..." disabled />
-            <input class="pl-3" type="text" id="adremao" name="adrema" placeholder="Expediente/Adrema..." disabled />
-            {{!-- <input class="pl-3" type="text" id="inspectoro" name="inspector" placeholder="inspector..." disabled /> --}}
-            <input  class="pl-3" type="text" id="inspectoro" name="inspector" placeholder="Inspector..." disabled/>
-            <input class="pl-3" type="text" size="14" id="desdeo" name="desde" placeholder="Desde..." disabled />
-            <input class="pl-3" type="text" size="14" id="hastao" name="hasta" placeholder="Hasta..." disabled />
+            <input class="pl-3" type="text" size="12" id="propietarioo" name="propietario"
+                placeholder="Propietario/DNI..." disabled />
+            <input class="pl-3" type="text" size="12" id="adremao" name="adrema" placeholder="Expediente/Adrema..."
+                disabled />
+            {{!-- <input class="pl-3" type="text" id="inspectoro" name="inspector" placeholder="inspector..."
+                disabled /> --}}
+            <input class="pl-3" type="text" id="inspectoro" name="inspector" placeholder="Inspector..." disabled />
+            <input class="pl-3" type="text" size="12" id="desdeo" name="desde" placeholder="Desde..." disabled />
+            <input class="pl-3" type="text" size="12" id="hastao" name="hasta" placeholder="Hasta..." disabled />
+            {{!-- <input class="pl-3" type="text" size="12" id="lugartipoo" name="lugartipo" placeholder="Lugar/Tipo..."
+                disabled /> --}}
+            <div class="form-group">
+                <p>Elige un Lugar Actuación:
+                    <select id="lugartipoo" name="lugartipo" disabled>
+                        <option value="Obras">Obras</option>
+                        <option value="Via-Publica">Vía Pública</option>
+                        <option value="Carteleria">Cartelería</option>
+                    </select>
+                </p>
+            </div>
             <p></p>
             <button onclick="limpiarpagina()" id="imprimiresadisticao" class="btn btn-warning btn-block btn-sm"
                 type="submit" disabled>
@@ -390,7 +480,8 @@
                         <td style="text-transform: lowercase;">{{ inspector }}</td>
                         <td>
                             {{!-- <a class="dropdown-item" href="/mesaentrada/add/{{_id}}"
-                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a> --}}
+                                style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a>
+                            --}}
                             <a class="dropdown-item" href="/actuaciones/list/{{_id}}"
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
                         </td>
