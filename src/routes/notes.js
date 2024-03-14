@@ -1210,7 +1210,7 @@ router.post('/actuaciones/newactuacion', isAuthenticated, async (req, res) => {
     } = req.body;
 
     const newActuacion = new Planiregactuainf({
-        borrado, userborrado, fechaborrado, fechainiciotramite,  lugartipo, propietario, cuitdni, direccion, adrema,
+        borrado, userborrado, fechaborrado, fechainiciotramite, lugartipo, propietario, cuitdni, direccion, adrema,
         inspector, zona, descripcion, intimacion, numerointimacion,
         tipoacta, observacion, expediente, actareiterada, filename,
         path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
@@ -1325,6 +1325,12 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
                 contador = contador + 1
             }
             res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
+        } else if (lugartipo) {
+            const planiregactuainf = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (let i = 0; i < planiregactuainf.length; i++) {
+                contador = contador + 1
+            }
+            res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (inspector) {
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
@@ -1337,14 +1343,15 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
                     contador = contador + 1
                 }
                 res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
-            }        
-         else {
-            const planiregactuainf = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
-            for (let i = 0; i < planiregactuainf.length; i++) {
-                contador = contador + 1
             }
-            res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
-        }}
+            else {
+                const planiregactuainf = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
+                for (let i = 0; i < planiregactuainf.length; i++) {
+                    contador = contador + 1
+                }
+                res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
+            }
+        }
     } else if (desde && hasta) {
         console.log("DESDE", desde)
         console.log("HASTA", hasta)
@@ -1359,17 +1366,10 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             contador = contador + 1
         }
         res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
-    } else if (lugartipo) {
-    const planiregactuainf = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" }}).lean().sort({ date: 'desc' });
-    //const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
-    for (let i = 0; i < planiregactuainf.length; i++) {
-        contador = contador + 1
-    }
-    res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
-    } 
+    }
 });
 
 router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req, res) => {
