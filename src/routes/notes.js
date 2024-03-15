@@ -1207,8 +1207,7 @@ router.post('/actuaciones/newactuacion', isAuthenticated, async (req, res) => {
         tipoacta, observacion, expediente, actareiterada, filename,
         path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
         eliminado, user, name, date
-    } = req.body;
-
+    } = req.body;    
     const newActuacion = new Planiregactuainf({
         borrado, userborrado, fechaborrado, fechainiciotramite, lugartipo, propietario, cuitdni, direccion, adrema,
         inspector, zona, descripcion, intimacion, numerointimacion,
@@ -1387,27 +1386,27 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     let contenidoHtml = fstemp.readFileSync(ubicacionPlantilla, 'utf8');
     var tablaactuaciones = "" //await Mesaentrada.find().lean().sort({ date: 'desc' });
     //<td>${multas.fecha}</td> este etaba en tablamultas
-    const { nomyape, adrema, inspector, desde, hasta } = req.body;
-    if (nomyape) {
-        const dni = nomyape
-        tablaactuaciones = await Planiregactuainf.find({ $or: [{ nomyape: { $regex: nomyape, $options: "i" } }, { dni: { $regex: dni, $options: "i" } }] }).lean().sort({ date: 'desc' });
+    const { propietario, adrema, inspector, desde, hasta, lugartipo } = req.body;
+    if (propietario) {
+        const cuitdni = propietario
+        tablaactuaciones = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: { $regex: cuitdni, $options: "i" } }] }).lean().sort({ date: 'desc' });
         //tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
-        filtro = nomyape;
-        tipofiltro = "por Nombre y Apellido/DNI"
+        filtro = propietario;
+        tipofiltro = "por Propietario/Dni"
         //console.log("Multas Estadistica", multas)
         //contador = 0
         // for (let i = 0; i < tablamesaentrada.length; i++) {
         //     contador = i
         // }
     } else if (adrema) {
-        const numexpediente = adrema;
-        tablaactuaciones = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { numexpediente: { $regex: numexpediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+        const expediente = adrema;
+        tablaactuaciones = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
         filtro = adrema;
-        tipofiltro = "por Adrema"
-        //contador = 0
-        // for (let i = 0; i < tablamesaentrada.length; i++) {
-        //     contador = i
-        // }    
+        tipofiltro = "por Expediente/Adrema"
+        contador = 0
+        for (let i = 0; i < tablaactuaciones.length; i++) {
+            contador = i
+        }
     } else if (desde && hasta) {
         if (inspector) {
             filtro = "Sector: " + sector + " - por Fecha: " + desde + " / " + hasta;
@@ -1420,23 +1419,29 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         } else {
             filtro = "por Fecha" + desde + "/" + hasta;
             tipofiltro = "Fecha Desde y Fecha Hasta"
-            //contador = 0
+            contador = 0
             var d = new Date(hasta);
             const hastao = d.setDate(d.getDate() + 1);
             tablaactuaciones = await Planiregactuainf.find({ date: { $gte: desde, $lte: hastao } }).lean().sort({ sector: 'desc' });;
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean();            
-            // for (let i = 0; i < tablamesaentrada.length; i++) {
-            //     contador += 1
+            for (let i = 0; i < tablaactuaciones.length; i++) {
+                contador += 1
+            }
         }
     } else if (inspector) {
         tablaactuaciones = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean();
-        filtro = sector;
+        filtro = inspector;
         tipofiltro = "por Inspector"
-        ///contador = 0
-        // for (let i = 0; i < tablamesaentrada.length; i++) {
-        //     contador += 1
-        // }
+        contador = 0
+        for (let i = 0; i < tablaactuaciones.length; i++) {
+             contador += 1
+        }
+    } else if (lugartipo) {
+        tablaactuaciones = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
+        for (let i = 0; i < tablaactuaciones.length; i++) {
+            contador = contador + 1
+        }        
     }
     for (const actuaciones of tablaactuaciones) {
         // Y concatenar las multas         
@@ -1454,15 +1459,15 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     </tr>`;
     }
     contador = contador - 2;
-    contenidoHtml = contenidoHtml.replace("{{tablamesaentrada}}", tabla);
+    if (contador <= 0) {
+        contador = "No existen datos para contar"        
+    } else {
+        contador = contador + 2;
+    }
+    contenidoHtml = contenidoHtml.replace("{{tablaactuaciones}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
     contenidoHtml = contenidoHtml.replace("{{tipofiltro}}", tipofiltro);
-    contenidoHtml = contenidoHtml.replace("{{contio}}", contio);
-    contenidoHtml = contenidoHtml.replace("{{contop}}", contop);
-    contenidoHtml = contenidoHtml.replace("{{contvis}}", contvis);
-    contenidoHtml = contenidoHtml.replace("{{contsub}}", contsub);
-
     //contenidoHtml = contenidoHtml.replace("{{multas}}");    
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {

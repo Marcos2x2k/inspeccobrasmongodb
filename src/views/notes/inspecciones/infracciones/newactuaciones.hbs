@@ -1,3 +1,15 @@
+<script>
+
+    // Arregla el problema de error al elegir mas de 8 fotos
+    function onSelect(e) {
+        if (e.files.length > 8) {
+            alert("Solo se pueden seleccionar 8 Fotos.");
+            e.preventDefault();
+        }
+    }
+</script>
+
+
 <div class="col-md-7 mx-auto">
     <div class="card" style="font-style: italic;font-weight: bold;">
         <div class="card-header mx-auto">
@@ -12,27 +24,27 @@
                 </div>
                 <div class="form-group">
                     <p>Elige un Lugar Actuación:
-                        <select name="lugartipo">         
-                            <option value="Obras">Obras</option>                   
+                        <select name="lugartipo">
+                            <option value="Obras">Obras</option>
                             <option value="Via-Publica">Vía Pública</option>
-                            <option value="Carteleria">Cartelería</option>                           
+                            <option value="Carteleria">Cartelería</option>
                         </select>
                     </p>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Propietario
                     <input type="text" name="propietario" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;">
+                        style="color: black; font-weight: bold;" required>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Cuit / DNI
                     <input type="text" name="cuitdni" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;">
+                        style="color: black; font-weight: bold;" required>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Dirección
                     <input type="text" name="direccion" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;">
+                        style="color: black; font-weight: bold;" required>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Adrema N°
@@ -41,7 +53,7 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Inspector (N y A)
-                    <input name="inspector" class="form-control" style="color: black; font-weight: bold;" />
+                    <input name="inspector" class="form-control" style="color: black; font-weight: bold;" required />
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Zona
@@ -89,22 +101,11 @@
                         style="color: black; font-weight: bold;" />
                 </div>
                 {{!-- <img style="border-radius:30px;" src="{{planiregactuainf.path}}" width="400" /> <br /><br /> --}}
-                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                    ID Usuario. Carga Actuación
-                    <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
-                        value="{{usuarios._id}}" style="color: #e90e0e" readonly/>
-                </div>
-                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                    ID Usuario. Carga Actuación
-                    <input type="text" name="fechapasea" class="form-control" placeholder="Sin Información"
-                        value="{{usuarios.name}}" style="color: #e90e0e" readonly/>
-                </div>
-
                 <label style="font-weight:bold">Seleccione Fotos Actuación: (Máximo 8):</label>
                 <div class="input-group mb-3">
                     <div class="custom-file">
-                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile02"
-                            accept=".jpg,.png" multiple>
+                        <input onchange="onSelect()" type="file" name="image" class="custom-file-input" id="image[]" accept=".jpg,.png"
+                            multiple>
                         <label class="custom-file-label" for="inputGroupFile02"
                             aria-describedby="inputGroupFileAddon02">Seleccione Fotos (Máximo 8)</label>
                     </div>

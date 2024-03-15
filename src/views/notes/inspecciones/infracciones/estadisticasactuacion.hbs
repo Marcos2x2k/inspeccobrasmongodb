@@ -397,7 +397,7 @@
                 </button>
             </div>
         </form>
-        <form style="display:none" action="/actuaciones/descargarestadisticamesa" method="POST" Target="_blank"
+        <form style="display:none" action="/actuaciones/descargarestadisticaactu" method="POST" Target="_blank"
             id="formdatoestadisticoo">
             <label style="font-weight: bold; color:rgb(252, 93, 2)" for="datoestadisticoo">Selección:</label>
             <select name="datoestadisticoo" id="datoestadisticoo" onclick="selecdatoestadisticoo()">
@@ -421,15 +421,11 @@
             <input class="pl-3" type="text" size="12" id="hastao" name="hasta" placeholder="Hasta..." disabled />
             {{!-- <input class="pl-3" type="text" size="12" id="lugartipoo" name="lugartipo" placeholder="Lugar/Tipo..."
                 disabled /> --}}
-            <div class="form-group">
-                <p>Elige un Lugar Actuación:
-                    <select id="lugartipoo" name="lugartipo" disabled>
-                        <option value="Obras">Obras</option>
-                        <option value="Via-Publica">Vía Pública</option>
-                        <option value="Carteleria">Cartelería</option>
-                    </select>
-                </p>
-            </div>
+            <select name="lugartipo" id="lugartipo" disabled>
+                <option value="Obras">Obras</option>
+                <option value="Via-Publica">Vía Pública</option>
+                <option value="Carteleria">Cartelería</option>
+            </select>
             <p></p>
             <button onclick="limpiarpagina()" id="imprimiresadisticao" class="btn btn-warning btn-block btn-sm"
                 type="submit" disabled>

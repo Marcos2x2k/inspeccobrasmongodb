@@ -20,82 +20,66 @@ const PlaniredactuaSchema = new Schema({
     },
     fechainiciotramite: {
         type: String,
-        required: true,
         default: "Sin Datos",
     },
     propietario: {
         type: String,
-        required: true,
         default: "Sin Datos",
     },
     cuitdni: {
         type: String,
-        required: true,
         default: "Sin Datos",
     },
     direccion: {
         type: String,
-        required: true,
         default: "Sin Datos",
     },
     lugartipo:{
     type: String,
-    required: true,
     default: "No Especificado",
 },
     adrema: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     inspector: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     zona: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     descripcion: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     intimacion: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     numerointimacion: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     tipoacta: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     observacion: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     expediente: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     numfaja: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     actareiterada: {
     type: String,
-    required: true,
     default: "Sin Datos",
 },
     filename: {
