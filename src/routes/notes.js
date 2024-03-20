@@ -1127,7 +1127,36 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     const rolusuario = req.user.rolusuario;
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const planiregactuainf = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ date: 'desc' });
+        const planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ date: 'desc' });
+        for (var planiregactuainf of planiregactuainftabla) {
+            // permite mostrar en las tablas la fecha sola y ordenada
+            var tipoint = planiregactuainf.fechainiciotramite;
+            if (tipoint != null) {
+                const fecha = new Date(planiregactuainf.fechainiciotramite);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                planiregactuainf.fechainiciotramite = fullyear;
+            } else {
+                planiregactuainf.planiregactuainf = "00-00-00T00:00:00"
+            }
+        }
+        // necesito igualar para que se copie el cambio
+        planiregactuainf = planiregactuainftabla
         res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf });
     } else if (rolusuario == "Inspector") {
         const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
@@ -1207,7 +1236,7 @@ router.post('/actuaciones/newactuacion', isAuthenticated, async (req, res) => {
         tipoacta, observacion, expediente, actareiterada, filename,
         path, filenamedos, pathdos, filenametres, pathtres, filenamecuatro, pathcuatro,
         eliminado, user, name, date
-    } = req.body;    
+    } = req.body;
     const newActuacion = new Planiregactuainf({
         borrado, userborrado, fechaborrado, fechainiciotramite, lugartipo, propietario, cuitdni, direccion, adrema,
         inspector, zona, descripcion, intimacion, numerointimacion,
@@ -1284,10 +1313,39 @@ router.get('/actuaciones/Estadisticas', isAuthenticated, async (req, res) => {
     var contador = 0;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Jefe-Inspectores" || rolusuario == "Administrador") {
-        const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        const planiregactuainftabla = await Planiregactuainf.find().lean().sort({ date: 'desc' });        
+        for (var planiregactuainf of planiregactuainftabla) {
+            // permite mostrar en las tablas la fecha sola y ordenada
+            var tipoint = planiregactuainf.fechainiciotramite;
+            if (tipoint != null) {
+                const fecha = new Date(planiregactuainf.fechainiciotramite);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                planiregactuainf.fechainiciotramite = fullyear;
+            } else {
+                planiregactuainf.fechainiciotramite = "00-00-00T00:00:00"
+            }
+        }
         for (let i = 0; i < planiregactuainf.length; i++) {
             contador = contador + 1
         }
+        // necesito igualar para que se copie el cambio
+        planiregactuainf = planiregactuainftabla
         res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
@@ -1334,7 +1392,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
                 const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
-                const planiregactuainf = await Planiregactuainf.find({ $and: [{ date: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ date: 'desc' });
+                const planiregactuainf = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ date: 'desc' });
                 //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
                 //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });  
 
@@ -1350,15 +1408,13 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
                 }
                 res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
             }
-        }
+        
     } else if (desde && hasta) {
-        console.log("DESDE", desde)
-        console.log("HASTA", hasta)
+        // console.log("DESDE", desde)
+        // console.log("HASTA", hasta)
         var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
-        const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000
-        console.log("HASTAD", hastad)
-        console.log("D", d)
-        const planiregactuainf = await Planiregactuainf.find({ date: { $gte: desde, $lte: hastad } }).lean().sort({ date: 'desc' });
+        const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000        
+        const planiregactuainf = await Planiregactuainf.find({ fechainiciotramite: { $gte: desde, $lte: hastad } }).lean().sort({ fechainiciotramite: 'desc' });
         //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
         //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
         for (let i = 0; i < planiregactuainf.length; i++) {
@@ -1369,6 +1425,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
         return res.redirect('/');
     }
+    }
 });
 
 router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req, res) => {
@@ -1376,10 +1433,10 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     //const puerto = "172.25.2.215";
     var fstemp = require('fs');
     let tabla = "";
-    var contio = 0;
-    var contop = 0;
-    var contvis = 0;
-    var contsub = 0;
+    // var contio = 0;
+    // var contop = 0;
+    // var contvis = 0;
+    // var contsub = 0;
     var contador = 0;
     var filtro = "";
     var tipofiltro = "";
@@ -1404,44 +1461,44 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         filtro = adrema;
         tipofiltro = "por Expediente/Adrema"
         contador = 0
-        for (let i = 0; i < tablaactuaciones.length; i++) {
-            contador = i
-        }
+        //for (let i = 0; i < tablaactuaciones.length; i++) {
+        //contador = i
+        //}
     } else if (desde && hasta) {
         if (inspector) {
-            filtro = "Sector: " + sector + " - por Fecha: " + desde + " / " + hasta;
+            filtro = "Sector: " + inspector + " - por Fecha: " + desde + " / " + hasta;
             tipofiltro = "Sector con Fecha Desde y Fecha Hasta"
             var o = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
             const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
             console.log("HASTAO", hastao)
             console.log("D", o)
-            tablaactuaciones = await Planiregactuainf.find({ $and: [{ date: { $gte: desde, $lte: hastao } }, { sector: { $regex: sector, $options: "i" } }] }).lean().sort({ date: 'asc' });
+            tablaactuaciones = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastao } }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });
         } else {
             filtro = "por Fecha" + desde + "/" + hasta;
             tipofiltro = "Fecha Desde y Fecha Hasta"
             contador = 0
             var d = new Date(hasta);
             const hastao = d.setDate(d.getDate() + 1);
-            tablaactuaciones = await Planiregactuainf.find({ date: { $gte: desde, $lte: hastao } }).lean().sort({ sector: 'desc' });;
+            tablaactuaciones = await Planiregactuainf.find({ fechainiciotramite: { $gte: desde, $lte: hastao } }).lean().sort({ fechainiciotramite: 'desc' });;
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean();            
-            for (let i = 0; i < tablaactuaciones.length; i++) {
-                contador += 1
-            }
+            //for (let i = 0; i < tablaactuaciones.length; i++) {
+            //contador += 1
+            //}
         }
     } else if (inspector) {
         tablaactuaciones = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean();
         filtro = inspector;
         tipofiltro = "por Inspector"
         contador = 0
-        for (let i = 0; i < tablaactuaciones.length; i++) {
-             contador += 1
-        }
+        //for (let i = 0; i < tablaactuaciones.length; i++) {
+        //contador += 1
+        //}
     } else if (lugartipo) {
         tablaactuaciones = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
-        for (let i = 0; i < tablaactuaciones.length; i++) {
-            contador = contador + 1
-        }        
+        //for (let i = 0; i < tablaactuaciones.length; i++) {
+        //contador = contador + 1
+        //}        
     }
     for (const actuaciones of tablaactuaciones) {
         // Y concatenar las multas         
@@ -1458,12 +1515,12 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     <td>-</td>
     </tr>`;
     }
-    contador = contador - 2;
+    //contador = contador - 2;
     if (contador <= 0) {
-        contador = "No existen datos para contar"        
-    } else {
-        contador = contador + 2;
-    }
+        contador = "No existen datos para contar"
+    } //else {
+    //contador = contador + 2;
+    //}
     contenidoHtml = contenidoHtml.replace("{{tablaactuaciones}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
