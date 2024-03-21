@@ -1313,7 +1313,7 @@ router.get('/actuaciones/Estadisticas', isAuthenticated, async (req, res) => {
     var contador = 0;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Jefe-Inspectores" || rolusuario == "Administrador") {
-        const planiregactuainftabla = await Planiregactuainf.find().lean().sort({ date: 'desc' });        
+        const planiregactuainftabla = await Planiregactuainf.find().lean().sort({ date: 'desc' });
         for (var planiregactuainf of planiregactuainftabla) {
             // permite mostrar en las tablas la fecha sola y ordenada
             var tipoint = planiregactuainf.fechainiciotramite;
@@ -1368,22 +1368,109 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             //     dni = ""
             // }
             var cuitdni = propietario;
-            const planiregactuainf = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }] }).lean().sort({ date: 'desc' });
+            const planiregactuainftabla = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }] }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
+            for (var planiregactuainf of planiregactuainftabla) {
+                // permite mostrar en las tablas la fecha sola y ordenada
+                var tipoint = planiregactuainf.fechainiciotramite;
+                if (tipoint != null) {
+                    const fecha = new Date(planiregactuainf.fechainiciotramite);
+                    const dia = fecha.getDate()
+                    var mes = 0
+                    const calcmes = fecha.getMonth() + 1
+                    if (calcmes < 10) {
+                        mes = "0" + calcmes + "-"
+                    } else {
+                        mes = calcmes + "-"
+                    }
+                    if (dia > 0 && dia < 10) {
+                        var diastring = "0" + dia + "-"
+                    } else {
+                        var diastring = dia + "-"
+                    }
+                    const ano = fecha.getFullYear()
+                    //const fullyear = fecha.toLocaleDateString();
+                    const fullyear = diastring + mes + ano
+                    //const fullyear = fecha.toLocaleDateString();
+                    planiregactuainf.fechainiciotramite = fullyear;
+                } else {
+                    planiregactuainf.fechainiciotramite = "00-00-00T00:00:00"
+                }
+            }
+            // necesito igualar para que se copie el cambio
+            planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
             res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (adrema) {
             var expediente = adrema;
-            const planiregactuainf = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
+            const planiregactuainftabla = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
             //const mesaentrada = await Mesaentrada.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (var planiregactuainf of planiregactuainftabla) {
+                // permite mostrar en las tablas la fecha sola y ordenada
+                var tipoint = planiregactuainf.fechainiciotramite;
+                if (tipoint != null) {
+                    const fecha = new Date(planiregactuainf.fechainiciotramite);
+                    const dia = fecha.getDate()
+                    var mes = 0
+                    const calcmes = fecha.getMonth() + 1
+                    if (calcmes < 10) {
+                        mes = "0" + calcmes + "-"
+                    } else {
+                        mes = calcmes + "-"
+                    }
+                    if (dia > 0 && dia < 10) {
+                        var diastring = "0" + dia + "-"
+                    } else {
+                        var diastring = dia + "-"
+                    }
+                    const ano = fecha.getFullYear()
+                    //const fullyear = fecha.toLocaleDateString();
+                    const fullyear = diastring + mes + ano
+                    //const fullyear = fecha.toLocaleDateString();
+                    planiregactuainf.fechainiciotramite = fullyear;
+                } else {
+                    planiregactuainf.fechainiciotramite = "00-00-00T00:00:00"
+                }
+            }
+            // necesito igualar para que se copie el cambio
+            planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
             res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (lugartipo) {
-            const planiregactuainf = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
+            const planiregactuainftabla = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (var planiregactuainf of planiregactuainftabla) {
+                // permite mostrar en las tablas la fecha sola y ordenada
+                var tipoint = planiregactuainf.fechainiciotramite;
+                if (tipoint != null) {
+                    const fecha = new Date(planiregactuainf.fechainiciotramite);
+                    const dia = fecha.getDate()
+                    var mes = 0
+                    const calcmes = fecha.getMonth() + 1
+                    if (calcmes < 10) {
+                        mes = "0" + calcmes + "-"
+                    } else {
+                        mes = calcmes + "-"
+                    }
+                    if (dia > 0 && dia < 10) {
+                        var diastring = "0" + dia + "-"
+                    } else {
+                        var diastring = dia + "-"
+                    }
+                    const ano = fecha.getFullYear()
+                    //const fullyear = fecha.toLocaleDateString();
+                    const fullyear = diastring + mes + ano
+                    //const fullyear = fecha.toLocaleDateString();
+                    planiregactuainf.fechainiciotramite = fullyear;
+                } else {
+                    planiregactuainf.fechainiciotramite = "00-00-00T00:00:00"
+                }
+            }
+            // necesito igualar para que se copie el cambio
+            planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
@@ -1392,39 +1479,125 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
                 const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
-                const planiregactuainf = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ date: 'desc' });
+                const planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ date: 'desc' });
                 //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
                 //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });  
-
+                for (var planiregactuainf of planiregactuainftabla) {
+                    // permite mostrar en las tablas la fecha sola y ordenada
+                    var tipoint = planiregactuainf.fechainiciotramite;
+                    if (tipoint != null) {
+                        const fecha = new Date(planiregactuainf.fechainiciotramite);
+                        const dia = fecha.getDate()
+                        var mes = 0
+                        const calcmes = fecha.getMonth() + 1
+                        if (calcmes < 10) {
+                            mes = "0" + calcmes + "-"
+                        } else {
+                            mes = calcmes + "-"
+                        }
+                        if (dia > 0 && dia < 10) {
+                            var diastring = "0" + dia + "-"
+                        } else {
+                            var diastring = dia + "-"
+                        }
+                        const ano = fecha.getFullYear()
+                        //const fullyear = fecha.toLocaleDateString();
+                        const fullyear = diastring + mes + ano
+                        //const fullyear = fecha.toLocaleDateString();
+                        planiregactuainf.fechainiciotramite = fullyear;
+                    } else {
+                        planiregactuainf.fechainiciotramite = "00-00-00T00:00:00"
+                    }
+                }
+                // necesito igualar para que se copie el cambio
+                planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
                 }
                 res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
             }
             else {
-                const planiregactuainf = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
+                const planiregactuainftabla = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
+                for (var planiregactuainf of planiregactuainftabla) {
+                    // permite mostrar en las tablas la fecha sola y ordenada
+                    var tipoint = planiregactuainf.fechainiciotramite;
+                    if (tipoint != null) {
+                        const fecha = new Date(planiregactuainf.fechainiciotramite);
+                        const dia = fecha.getDate()
+                        var mes = 0
+                        const calcmes = fecha.getMonth() + 1
+                        if (calcmes < 10) {
+                            mes = "0" + calcmes + "-"
+                        } else {
+                            mes = calcmes + "-"
+                        }
+                        if (dia > 0 && dia < 10) {
+                            var diastring = "0" + dia + "-"
+                        } else {
+                            var diastring = dia + "-"
+                        }
+                        const ano = fecha.getFullYear()
+                        //const fullyear = fecha.toLocaleDateString();
+                        const fullyear = diastring + mes + ano
+                        //const fullyear = fecha.toLocaleDateString();
+                        planiregactuainf.fechainiciotramite = fullyear;
+                    } else {
+                        planiregactuainf.fechainiciotramite = "00-00-00T00:00:00"
+                    }
+                }
+                // necesito igualar para que se copie el cambio
+                planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
                 }
                 res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
             }
-        
-    } else if (desde && hasta) {
-        // console.log("DESDE", desde)
-        // console.log("HASTA", hasta)
-        var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
-        const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000        
-        const planiregactuainf = await Planiregactuainf.find({ fechainiciotramite: { $gte: desde, $lte: hastad } }).lean().sort({ fechainiciotramite: 'desc' });
-        //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
-        //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
-        for (let i = 0; i < planiregactuainf.length; i++) {
-            contador = contador + 1
+
+        } else if (desde && hasta) {
+            // console.log("DESDE", desde)
+            // console.log("HASTA", hasta)
+            var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
+            const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000        
+            const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $gte: desde, $lte: hastad } }).lean().sort({ fechainiciotramite: 'desc' });
+            //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
+            //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });
+            for (var planiregactuainf of planiregactuainftabla) {
+                // permite mostrar en las tablas la fecha sola y ordenada
+                var tipoint = planiregactuainf.fechainiciotramite;
+                if (tipoint != null) {
+                    const fecha = new Date(planiregactuainf.fechainiciotramite);
+                    const dia = fecha.getDate()
+                    var mes = 0
+                    const calcmes = fecha.getMonth() + 1
+                    if (calcmes < 10) {
+                        mes = "0" + calcmes + "-"
+                    } else {
+                        mes = calcmes + "-"
+                    }
+                    if (dia > 0 && dia < 10) {
+                        var diastring = "0" + dia + "-"
+                    } else {
+                        var diastring = dia + "-"
+                    }
+                    const ano = fecha.getFullYear()
+                    //const fullyear = fecha.toLocaleDateString();
+                    const fullyear = diastring + mes + ano
+                    //const fullyear = fecha.toLocaleDateString();
+                    planiregactuainf.fechainiciotramite = fullyear;
+                } else {
+                    planiregactuainf.fechainiciotramite = "00-00-00T00:00:00"
+                }
+            }
+            // necesito igualar para que se copie el cambio
+            planiregactuainf = planiregactuainftabla
+            for (let i = 0; i < planiregactuainf.length; i++) {
+                contador = contador + 1
+            }
+            res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
+        } else {
+            req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
+            return res.redirect('/');
         }
-        res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
-        return res.redirect('/');
-    }
     }
 });
 
@@ -1447,14 +1620,9 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     if (propietario) {
         const cuitdni = propietario
         tablaactuaciones = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: { $regex: cuitdni, $options: "i" } }] }).lean().sort({ date: 'desc' });
-        //tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();
+        //tablamesaentrada = await Mesaentrada.find({ nomyape: { $regex: nomyape, $options: "i" } }).lean();        
         filtro = propietario;
         tipofiltro = "por Propietario/Dni"
-        //console.log("Multas Estadistica", multas)
-        //contador = 0
-        // for (let i = 0; i < tablamesaentrada.length; i++) {
-        //     contador = i
-        // }
     } else if (adrema) {
         const expediente = adrema;
         tablaactuaciones = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
@@ -1466,8 +1634,8 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         //}
     } else if (desde && hasta) {
         if (inspector) {
-            filtro = "Sector: " + inspector + " - por Fecha: " + desde + " / " + hasta;
-            tipofiltro = "Sector con Fecha Desde y Fecha Hasta"
+            filtro = "Inspector: " + inspector + " - por Fecha: " + desde + " / " + hasta;
+            tipofiltro = "Inspector con Fecha Desde y Fecha Hasta"
             var o = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
             const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
             console.log("HASTAO", hastao)
@@ -1496,16 +1664,44 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         //}
     } else if (lugartipo) {
         tablaactuaciones = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
-        //for (let i = 0; i < tablaactuaciones.length; i++) {
-        //contador = contador + 1
-        //}        
+        filtro = lugartipo;
+        tipofiltro = "por Lugar/Tipo"
+        contador = 0    
     }
     for (const actuaciones of tablaactuaciones) {
-        // Y concatenar las multas         
+        // Y concatenar las multas    
+        var fechainiciotramite = "";
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = actuaciones.fechainiciotramite;
+        if (tipoint != null) {
+            const fecha = new Date(actuaciones.fechainiciotramite);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            fechainiciotramite = fullyear;
+        } else {
+            fechainiciotramite = "00/00/00"
+        }
+        // necesito igualar para que se copie el cambio
+        actuaciones.fechainiciotramite = fechainiciotramite
         contador += 1
         tabla += `<tr>   
         <td>-</td> 
-    <td style="text-transform: lowercase;">${actuaciones.fechainiciotramite}</td>
+    <td style="text-transform: lowercase;  font-weight: bold;">${actuaciones.fechainiciotramite}</td>
     <td style="text-transform: lowercase;">${actuaciones.propietario}</td>
     <td style="text-transform: lowercase;">${actuaciones.cuitdni}</td>
     <td style="text-transform: lowercase;">${actuaciones.direccion}</td>

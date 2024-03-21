@@ -316,9 +316,10 @@
             fao.style.hidden = false;
             po.required = false;
             ao.required = false;
-            nao.required = true;
-            fdo.required = true;
-            fao.required = true;
+            nao.required = false;
+            fdo.required = false;
+            fao.required = false; 
+            lto.required = true;
         }
     }
 
@@ -421,7 +422,7 @@
             <input class="pl-3" type="text" size="12" id="hastao" name="hasta" placeholder="Hasta..." disabled />
             {{!-- <input class="pl-3" type="text" size="12" id="lugartipoo" name="lugartipo" placeholder="Lugar/Tipo..."
                 disabled /> --}}
-            <select name="lugartipo" id="lugartipo" disabled>
+            <select name="lugartipo" id="lugartipoo" disabled>
                 <option value="Obras">Obras</option>
                 <option value="Via-Publica">Vía Pública</option>
                 <option value="Carteleria">Cartelería</option>
@@ -466,8 +467,8 @@
                             <input onclick="agregarimpresion()" type="checkbox" href="/multas/list/{{_id}}" id='_id'
                                 value=''
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
-                        </td> --}}
-                        <td style="text-transform: lowercase;">{{ fechainiciotramite }}</td>
+                        </td> --}}                       
+                        <td style="text-transform: lowercase;  font-weight: bold;">{{ fechainiciotramite }}</td>
                         <td style="text-transform: lowercase;">{{ propietario }}</td>
                         <td style="text-transform: lowercase;">{{ direccion }}</td>
                         <td style="text-transform: lowercase;">{{ cuitdni }}</td>
