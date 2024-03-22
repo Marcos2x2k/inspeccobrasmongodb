@@ -1479,7 +1479,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
                 const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000  
-                const planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" }}] }).lean().sort({ date: 'desc' });
+                const planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });
                 //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
                 //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });  
                 for (var planiregactuainf of planiregactuainftabla) {
@@ -1633,7 +1633,52 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         //}
     } else if (desde && hasta) {
         if (inspector) {
-            filtro = "Inspector: " + inspector + " - por Fecha: " + desde + " / " + hasta;
+            var tipoint = desde;
+            if (tipoint != null) {
+                const fecha = new Date(desde);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                var desdebien = fullyear;
+            }
+            var tipoint = hasta;
+            if (tipoint != null) {
+                const fecha = new Date(hasta);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                var hastabien = fullyear;
+            }
+            //filtro = "por Fecha: " + desdebien + " / " + hastabien;
+            filtro = "Inspector: " + inspector + " - por Fecha: " + desdebien + " / " + hastabien;            
             tipofiltro = "Inspector con Fecha Desde y Fecha Hasta"
             var o = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
             const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
@@ -1641,7 +1686,51 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
             console.log("D", o)
             tablaactuaciones = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastao } }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });
         } else {
-            filtro = "por Fecha" + desde + "/" + hasta;
+            var tipoint = desde;
+            if (tipoint != null) {
+                const fecha = new Date(desde);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                var desdebien = fullyear;
+            }
+            var tipoint = hasta;
+            if (tipoint != null) {
+                const fecha = new Date(hasta);
+                const dia = fecha.getDate()
+                var mes = 0
+                const calcmes = fecha.getMonth() + 1
+                if (calcmes < 10) {
+                    mes = "0" + calcmes + "-"
+                } else {
+                    mes = calcmes + "-"
+                }
+                if (dia > 0 && dia < 10) {
+                    var diastring = "0" + dia + "-"
+                } else {
+                    var diastring = dia + "-"
+                }
+                const ano = fecha.getFullYear()
+                //const fullyear = fecha.toLocaleDateString();
+                const fullyear = diastring + mes + ano
+                //const fullyear = fecha.toLocaleDateString();
+                var hastabien = fullyear;
+            }
+            filtro = "por Fecha: " + desdebien + " / " + hastabien;
             tipofiltro = "Fecha Desde y Fecha Hasta"
             contador = 0
             var d = new Date(hasta);
@@ -1694,31 +1783,31 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
             fechainiciotramite = fullyear;
         } else {
             fechainiciotramite = "00/00/00"
-        }                
+        }
         // necesito igualar para que se copie el cambio
-        actuaciones.fechainiciotramite = fechainiciotramite   
-        
+        actuaciones.fechainiciotramite = fechainiciotramite
+
         //para q en la impresion no salga undefined
-        if (actuaciones.fechainiciotramite==undefined){
-            actuaciones.fechainiciotramite="----"
+        if (actuaciones.fechainiciotramite == undefined) {
+            actuaciones.fechainiciotramite = "----"
         }
-        if (actuaciones.propietario==undefined){
-            actuaciones.propietario="----"
+        if (actuaciones.propietario == undefined) {
+            actuaciones.propietario = "----"
         }
-        if (actuaciones.cuitdni==undefined){
-            actuaciones.cuitdni="----"
+        if (actuaciones.cuitdni == undefined) {
+            actuaciones.cuitdni = "----"
         }
-        if (actuaciones.direccion==undefined){
-            actuaciones.direccion="----"
+        if (actuaciones.direccion == undefined) {
+            actuaciones.direccion = "----"
         }
-        if (actuaciones.adrema==undefined){
-            actuaciones.adrema="----"
+        if (actuaciones.adrema == undefined) {
+            actuaciones.adrema = "----"
         }
-        if (actuaciones.inspector==undefined){
-            actuaciones.inspector="No-Definido"
+        if (actuaciones.inspector == undefined) {
+            actuaciones.inspector = "No-Definido"
         }
-        if (actuaciones.actareiterada==undefined){
-            actuaciones.actareiterada="----"
+        if (actuaciones.actareiterada == undefined) {
+            actuaciones.actareiterada = "----"
         }
 
         contador += 1
