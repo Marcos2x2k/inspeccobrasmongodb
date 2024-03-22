@@ -1313,7 +1313,7 @@ router.get('/actuaciones/Estadisticas', isAuthenticated, async (req, res) => {
     var contador = 0;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     if (rolusuario == "Jefe-Inspectores" || rolusuario == "Administrador") {
-        const planiregactuainftabla = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        const planiregactuainftabla = await Planiregactuainf.find().lean().limit(30).sort({ date: 'desc' });
         for (var planiregactuainf of planiregactuainftabla) {
             // permite mostrar en las tablas la fecha sola y ordenada
             var tipoint = planiregactuainf.fechainiciotramite;
@@ -1478,8 +1478,8 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
         } else if (inspector) {
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
-                const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000                     
-                const planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: inspector }] }).lean().sort({ date: 'desc' });
+                const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000  
+                const planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" }}] }).lean().sort({ date: 'desc' });
                 //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
                 //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });  
                 for (var planiregactuainf of planiregactuainftabla) {
@@ -1515,8 +1515,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
                     contador = contador + 1
                 }
                 res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
-            }
-            else {
+            } else {
                 const planiregactuainftabla = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
                 for (var planiregactuainf of planiregactuainftabla) {
                     // permite mostrar en las tablas la fecha sola y ordenada
@@ -1666,7 +1665,7 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         tablaactuaciones = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
         filtro = lugartipo;
         tipofiltro = "por Lugar/Tipo"
-        contador = 0    
+        contador = 0
     }
     for (const actuaciones of tablaactuaciones) {
         // Y concatenar las multas    
@@ -1695,9 +1694,33 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
             fechainiciotramite = fullyear;
         } else {
             fechainiciotramite = "00/00/00"
-        }
+        }                
         // necesito igualar para que se copie el cambio
-        actuaciones.fechainiciotramite = fechainiciotramite
+        actuaciones.fechainiciotramite = fechainiciotramite   
+        
+        //para q en la impresion no salga undefined
+        if (actuaciones.fechainiciotramite==undefined){
+            actuaciones.fechainiciotramite="----"
+        }
+        if (actuaciones.propietario==undefined){
+            actuaciones.propietario="----"
+        }
+        if (actuaciones.cuitdni==undefined){
+            actuaciones.cuitdni="----"
+        }
+        if (actuaciones.direccion==undefined){
+            actuaciones.direccion="----"
+        }
+        if (actuaciones.adrema==undefined){
+            actuaciones.adrema="----"
+        }
+        if (actuaciones.inspector==undefined){
+            actuaciones.inspector="No-Definido"
+        }
+        if (actuaciones.actareiterada==undefined){
+            actuaciones.actareiterada="----"
+        }
+
         contador += 1
         tabla += `<tr>   
         <td>-</td> 
