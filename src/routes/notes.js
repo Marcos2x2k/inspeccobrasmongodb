@@ -1129,6 +1129,22 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         const planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ date: 'desc' });
         for (var planiregactuainf of planiregactuainftabla) {
+            // permite mostrar en Mayuscula los nombres
+            var writtenName = planiregactuainf.propietario;
+            if (writtenName != null) {
+                var tmp = writtenName.split(" ");
+                var fullName;
+                tmp.forEach(element => {
+                    if (fullName) {
+                        fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+                    } else {
+                        fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+                    }
+                })
+                planiregactuainf.propietario = fullName;
+            } else {
+                planiregactuainf.propietario = "No posee Datos"
+            }
             // permite mostrar en las tablas la fecha sola y ordenada
             var tipoint = planiregactuainf.fechainiciotramite;
             if (tipoint != null) {
@@ -1157,6 +1173,7 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
         }
         // necesito igualar para que se copie el cambio
         planiregactuainf = planiregactuainftabla
+        console.log(planiregactuainf)
         res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf });
     } else if (rolusuario == "Inspector") {
         const planiregactuainf = await Planiregactuainf.find().lean().sort({ date: 'desc' });
@@ -1371,6 +1388,22 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             const planiregactuainftabla = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }] }).lean().sort({ date: 'desc' });
             //console.log("Multas Estadistica", multas)
             for (var planiregactuainf of planiregactuainftabla) {
+                // permite mostrar en Mayuscula los nombres
+                var writtenName = planiregactuainf.propietario;
+                if (writtenName != null) {
+                    var tmp = writtenName.split(" ");
+                    var fullName;
+                    tmp.forEach(element => {
+                        if (fullName) {
+                            fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+                        } else {
+                            fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+                        }
+                    })
+                    planiregactuainf.propietario = fullName;
+                } else {
+                    planiregactuainf.propietario = "No posee Datos"
+                }
                 // permite mostrar en las tablas la fecha sola y ordenada
                 var tipoint = planiregactuainf.fechainiciotramite;
                 if (tipoint != null) {
@@ -1678,7 +1711,7 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
                 var hastabien = fullyear;
             }
             //filtro = "por Fecha: " + desdebien + " / " + hastabien;
-            filtro = "Inspector: " + inspector + " - por Fecha: " + desdebien + " / " + hastabien;            
+            filtro = "Inspector: " + inspector + " - por Fecha: " + desdebien + " / " + hastabien;
             tipofiltro = "Inspector con Fecha Desde y Fecha Hasta"
             var o = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
             const hastao = o.setDate(o.getDate() + 1); //HASTAD= 1690243200000
@@ -1791,9 +1824,9 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         if (actuaciones.fechainiciotramite == undefined) {
             actuaciones.fechainiciotramite = "----"
         }
-        if (actuaciones.propietario == undefined) {
-            actuaciones.propietario = "----"
-        }
+        // if (actuaciones.propietario == undefined) {
+        //     actuaciones.propietario = "----"
+        // }
         if (actuaciones.cuitdni == undefined) {
             actuaciones.cuitdni = "----"
         }
@@ -1809,12 +1842,27 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         if (actuaciones.actareiterada == undefined) {
             actuaciones.actareiterada = "----"
         }
-
+        // permite mostrar en Mayuscula los nombres
+        var writtenName = actuaciones.propietario;
+        if (writtenName != null) {
+            var tmp = writtenName.split(" ");
+            var fullName;
+            tmp.forEach(element => {
+                if (fullName) {
+                    fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+                } else {
+                    fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+                }
+            })
+            actuaciones.propietario = fullName;
+        } else {
+            actuaciones.propietario = "No posee Datos"
+        }
         contador += 1
         tabla += `<tr>   
         <td>-</td> 
     <td style="text-transform: lowercase;  font-weight: bold;">${actuaciones.fechainiciotramite}</td>
-    <td style="text-transform: lowercase;">${actuaciones.propietario}</td>
+    <td style="">${actuaciones.propietario}</td>
     <td style="text-transform: lowercase;">${actuaciones.cuitdni}</td>
     <td style="text-transform: lowercase;">${actuaciones.direccion}</td>
     <td style="text-transform: lowercase;">${actuaciones.adrema}</td>
