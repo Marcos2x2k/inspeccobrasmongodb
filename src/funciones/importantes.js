@@ -37,6 +37,12 @@ function ponerminuscula(letraminuscula) {
     ex.value = ex.value.toLowerCase();
 }
 
+
+// ** Ejemplo:
+// ** llamo al archivo de funciones
+// const funcionesimportantes = require('../funciones/importantes');
+//** llamo funciones para nombres mayusculas y fechas ordenadar            
+//planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
 function NombreMayus(valor) {
     var writtenName = valor;
     if (writtenName != null) {
