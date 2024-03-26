@@ -16,6 +16,7 @@ const Planiregactuainf = require('../models/planiregactuainf')
 //const Cicloinspeccion = require('../models/cicloinspeccion')
 const fs = require('fs').promises
 const { isAuthenticated } = require('../helpers/auth')
+const funcionesimportantes = require('../funciones/importantes');
 
 // *ZONA PDF* //
 const pdf = require("html-pdf");
@@ -1129,47 +1130,12 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         const planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ date: 'desc' });
         for (var planiregactuainf of planiregactuainftabla) {
-            // permite mostrar en Mayuscula los nombres
-            var writtenName = planiregactuainf.propietario;
-            if (writtenName != null) {
-                var tmp = writtenName.split(" ");
-                var fullName;
-                tmp.forEach(element => {
-                    if (fullName) {
-                        fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
-                    } else {
-                        fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
-                    }
-                })
-                planiregactuainf.propietario = fullName;
-            } else {
-                planiregactuainf.propietario = "No posee Datos"
-            }
-            // permite mostrar en las tablas la fecha sola y ordenada
-            var tipoint = planiregactuainf.fechainiciotramite;
-            if (tipoint != null) {
-                const fecha = new Date(planiregactuainf.fechainiciotramite);
-                const dia = fecha.getDate()
-                var mes = 0
-                const calcmes = fecha.getMonth() + 1
-                if (calcmes < 10) {
-                    mes = "0" + calcmes + "-"
-                } else {
-                    mes = calcmes + "-"
-                }
-                if (dia > 0 && dia < 10) {
-                    var diastring = "0" + dia + "-"
-                } else {
-                    var diastring = dia + "-"
-                }
-                const ano = fecha.getFullYear()
-                //const fullyear = fecha.toLocaleDateString();
-                const fullyear = diastring + mes + ano
-                //const fullyear = fecha.toLocaleDateString();
-                planiregactuainf.fechainiciotramite = fullyear;
-            } else {
-                planiregactuainf.planiregactuainf = "00-00-00T00:00:00"
-            }
+
+            //llamo funciones para nombres mayusculas y fechas ordenadar            
+            planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
+            planiregactuainf.fechainiciotramite = funcionesimportantes.ordenarfecha(planiregactuainf.fechainiciotramite);
+            planiregactuainf.inspector = funcionesimportantes.NombreMayus(planiregactuainf.inspector);
+            planiregactuainf.direccion = funcionesimportantes.NombreMayus(planiregactuainf.direccion);
         }
         // necesito igualar para que se copie el cambio
         planiregactuainf = planiregactuainftabla
@@ -1843,30 +1809,19 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
             actuaciones.actareiterada = "----"
         }
         // permite mostrar en Mayuscula los nombres
-        var writtenName = actuaciones.propietario;
-        if (writtenName != null) {
-            var tmp = writtenName.split(" ");
-            var fullName;
-            tmp.forEach(element => {
-                if (fullName) {
-                    fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
-                } else {
-                    fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
-                }
-            })
-            actuaciones.propietario = fullName;
-        } else {
-            actuaciones.propietario = "No posee Datos"
-        }
+        actuaciones.propietario = funcionesimportantes.NombreMayus(actuaciones.propietario);
+        //actuaciones.fechainiciotramite = funcionesimportantes.ordenarfecha(actuaciones.fechainiciotramite);
+        actuaciones.inspector = funcionesimportantes.NombreMayus(actuaciones.inspector);
+        actuaciones.direccion = funcionesimportantes.NombreMayus(actuaciones.direccion);
         contador += 1
         tabla += `<tr>   
         <td>-</td> 
     <td style="text-transform: lowercase;  font-weight: bold;">${actuaciones.fechainiciotramite}</td>
     <td style="">${actuaciones.propietario}</td>
     <td style="text-transform: lowercase;">${actuaciones.cuitdni}</td>
-    <td style="text-transform: lowercase;">${actuaciones.direccion}</td>
+    <td style="">${actuaciones.direccion}</td>
     <td style="text-transform: lowercase;">${actuaciones.adrema}</td>
-    <td style="text-transform: lowercase;">${actuaciones.inspector}</td>
+    <td style="">${actuaciones.inspector}</td>
     <td style="text-transform: lowercase;">${actuaciones.actareiterada}</td>
     <td>-</td>
     </tr>`;
@@ -1916,4 +1871,6 @@ router.put('/actuacion/editactuacion/:id', isAuthenticated, async (req, res) => 
     res.redirect('/actuaciones/listado');
 });
 
+
 module.exports = router;
+
