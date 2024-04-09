@@ -1377,6 +1377,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
     const { propietario, lugartipo, adrema, inspector, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     var planiregactuainftabla = {};
+    var planiregactuainf  = {};    
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
@@ -1389,13 +1390,14 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             // }
             var cuitdni = propietario;
             planiregactuainftabla = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }] }).lean().sort({ date: 'desc' });                        
+            planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
             //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (adrema) {
             var expediente = adrema;
-            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });            
+            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });                        
             planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
@@ -1403,6 +1405,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (lugartipo) {
             planiregactuainftabla = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });                        
+            planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
@@ -1412,12 +1415,14 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
                 const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000  
                 planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });                                
+                planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
                 }
                 //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
             } else {
                 planiregactuainftabla = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });                                
+                planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
                 }
@@ -1441,7 +1446,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TASAS/MULTAS')
             return res.redirect('/');
         }
-        for (var planiregactuainf of planiregactuainftabla) {
+        for (planiregactuainf of planiregactuainftabla) {
             //llamo funciones para nombres mayusculas y fechas ordenadar            
             planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
             planiregactuainf.fechainiciotramite = funcionesimportantes.ordenarfecha(planiregactuainf.fechainiciotramite);
@@ -1449,7 +1454,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             planiregactuainf.direccion = funcionesimportantes.NombreMayus(planiregactuainf.direccion);
         }
         // necesito igualar para que se copie el cambio
-        //planiregactuainf = planiregactuainftabla
+        planiregactuainf = planiregactuainftabla
         res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
     }
 });

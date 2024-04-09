@@ -1,28 +1,62 @@
+<script>
+    //carga al iniciar la pagina
+    window.onload = function () {
+        cargar_Sectores()
+        //document.getElementById('botonfecha').click();
+    }
+    // funcion para Cargar Provincias al campo <select>
+    function cargar_Sectores() {        
+        var todoslossectores = ["Obras", "Via-Publica", "Cartelería"];
+        //const rolusuariosborrara = usuarios.rolusuario.toString();
+        var sectortraido = document.getElementById("sectortraido").value;
+        //elimina con el filter el sector traido del array
+        var sectores = todoslossectores.filter(e => e != sectortraido);
+        // Ordena el Array Alfabeticamente, es muy facil ;)):
+        sectores.sort();
+        addOptions("lugartipo", sectores);
+    }
+    // Rutina para agregar opciones a un <select>
+    function addOptions(domElement, sectores) {
+        var select = document.getElementsByName(domElement)[0];
+        for (value in sectores) {
+            var option = document.createElement("option");
+            option.text = sectores[value];
+            select.add(option);
+        }
+    }
+
+</script>
+
+
 <div class="col-md-7 mx-auto">
     <div class="card" style="font-style: italic;font-weight: bold;">
         <div class="card-header mx-auto">
             <h3>Editar Actuación</h3>
         </div>
         <div class="card-body">
-            <form action="/actuacion/editactuacion/{{planiregactuainf._id}}?_method=PUT" method="POST">            
+            <form action="/actuacion/editactuacion/{{planiregactuainf._id}}?_method=PUT" method="POST">
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Fecha Inicio Tramite
                     <input type="text" name="fechainiciotramite" class="form-control" placeholder="Sin Información"
-                        value="{{planiregactuainf.fechainiciotramite}}" style="color: black; font-weight: bold;" disabled>
+                        value="{{planiregactuainf.fechainiciotramite}}" style="color: black; font-weight: bold;"
+                        disabled>
                 </div>
-                <div class="form-group">
-                    <p style="color:brown; font-style:oblique; font-weight: bold;">Lugar Actuación:
-                        <select style="color: green; font-style:oblique; font-weight: bold;" name="lugartipo" disabled>         
-                            <option value="Obras">Obras</option>                   
-                            <option value="Via-Publica">Vía Pública</option>
-                            <option value="Carteleria">Cartelería</option>                           
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Lugar Actuación:
+                    <input type="text" class="form-control" id="sectortraido" name="sectortraido"
+                        value="{{planiregactuainf.lugartipo }}" style="color: #3d0ee7; font-weight: bold;"
+                        readonly />
+                    Cambiar Lugar Actuación:
+                    <p style="color:brown; font-style:oblique; font-weight: bold;">
+                        <select name="lugartipo">
+                            <option>{{planiregactuainf.lugartipo}}</option>
                         </select>
                     </p>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Propietario
                     <input type="text" name="propietario" class="form-control" placeholder="Sin Información"
-                        value="{{planiregactuainf.propietario}}"  style="color: black; font-weight: bold;">
+                        value="{{planiregactuainf.propietario}}" style="color: black; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Cuit / DNI
@@ -42,8 +76,8 @@
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Inspector (N y A)
                     <input name="inspector" class="form-control" style="color: black; font-weight: bold;"
-                        value="{{planiregactuainf.inspector}}" style="color: black; font-weight: bold;"> 
-                    
+                        value="{{planiregactuainf.inspector}}" style="color: black; font-weight: bold;">
+
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Zona
@@ -94,12 +128,12 @@
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     ID Usuario. Carga Actuación
                     <input type="text" name="user" class="form-control" placeholder="Sin Información"
-                        value="{{planiregactuainf.user}}" style="color: #e90e0e" readonly/>
+                        value="{{planiregactuainf.user}}" style="color: #e90e0e" readonly />
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     ID Usuario. Carga Actuación
                     <input type="text" name="name" class="form-control" placeholder="Sin Información"
-                        value="{{planiregactuainf.name}}" style="color: #e90e0e" readonly/>
+                        value="{{planiregactuainf.name}}" style="color: #e90e0e" readonly />
                 </div>
                 <label style="color:brown; font-weight:bold">Fotos Inspección::</label>
                 <br />
@@ -169,7 +203,7 @@
                     <a href="{{planiregactuainf.pathocho}}" target="_blank">
                         <img style="border-radius:30px;" src="{{planiregactuainf.pathocho}}" alt="_Imagen No Cargada"
                             width="250" height="300">
-                    </a>                    
+                    </a>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-danger btn-block" type="submit">
