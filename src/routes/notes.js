@@ -21,6 +21,7 @@ const funcionesimportantes = require('../funciones/importantes');
 // *ZONA PDF* //
 const pdf = require("html-pdf");
 const User = require('../models/User');
+const { redirect } = require('react-router-dom');
 var pdfoptionsA4 = { format: 'A4' };
 
 //**** sector de recuperacoin de borrados a bases de datos no preparadas *****/
@@ -1688,10 +1689,9 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     }
     //contador = contador - 2;
     if (contador <= 0) {
-        contador = "No existen datos para contar"
-    } //else {
-    //contador = contador + 2;
-    //}
+        contador = "No existen datos para Mostrar/Contar"        
+    } 
+    
     contenidoHtml = contenidoHtml.replace("{{tablaactuaciones}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
@@ -1700,11 +1700,11 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
-        } else {
+        } else {            
             req.flash('success_msg', 'Actuaciones Estadistica impresa')
             res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);
-        }
+            stream.pipe(res);            
+        }        
     });
 })
 
