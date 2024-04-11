@@ -1156,6 +1156,27 @@ router.get('/actuaciones/list/:id', isAuthenticated, async (req, res) => {
     res.render('notes/inspecciones/infracciones/listactuaciones', { planiregactuainf })
 });
 
+router.post('/actuaciones/findfecha', isAuthenticated, async (req, res) => {
+    const { fechainiciotramite } = req.body;
+    const fechatramite = funcionesimportantes.ordenarfechaalrevez(fechainiciotramite).toString();
+    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechatramite, $options: "i" } }).lean().sort({ adrema: 'desc' });;
+    if (!planiregactuainftabla) {        
+        req.flash('success_msg', 'cargue una Fecha')
+        return res.render("notes/inspecciones/infracciones/listactuacionesadm");
+    } else {
+        for (var planiregactuainf of planiregactuainftabla) {
+            //llamo funciones para nombres mayusculas y fechas ordenadar            
+            planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
+            planiregactuainf.fechainiciotramite = funcionesimportantes.ordenarfecha(planiregactuainf.fechainiciotramite).toString();
+            planiregactuainf.inspector = funcionesimportantes.NombreMayus(planiregactuainf.inspector);
+            planiregactuainf.direccion = funcionesimportantes.NombreMayus(planiregactuainf.direccion);
+        }
+        // necesito igualar para que se copie el cambio
+        planiregactuainf = planiregactuainftabla
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf })
+    }
+});
+
 router.post('/actuaciones/findiniciador', isAuthenticated, async (req, res) => {
     const { propietario } = req.body;
     const planiregactuainftabla = await Planiregactuainf.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ adrema: 'desc' });;
@@ -1690,8 +1711,7 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     //contador = contador - 2;
     if (contador <= 0) {
         contador = "No existen datos para Mostrar/Contar"        
-    } 
-    
+    }     
     contenidoHtml = contenidoHtml.replace("{{tablaactuaciones}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
@@ -1701,7 +1721,7 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
         if (error) {
             res.end("Error creando PDF: " + error)
         } else {            
-            req.flash('success_msg', 'Actuaciones Estadistica impresa')
+            req.flash('success_msg', 'Actuaciones Estadistica Impresa')
             res.setHeader("Content-Type", "application/pdf");
             stream.pipe(res);            
         }        
@@ -1730,7 +1750,6 @@ router.put('/actuacion/editactuacion/:id', isAuthenticated, async (req, res) => 
     req.flash('success_msg', 'Actuación Actualizada')
     res.redirect('/actuaciones/listado');
 });
-
 
 module.exports = router;
 

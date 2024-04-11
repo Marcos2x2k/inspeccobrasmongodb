@@ -1,5 +1,30 @@
 <script>
 
+    window.onload = function () {
+        //cargar_Sectores()
+        //document.getElementById('botonfecha').click();
+    }
+
+    function ShowName(name) {
+        var writtenName = document.getElementById(name).value;
+        document.getElementById(name).value = formatToString(writtenName);
+        //var writtenName = document.getElementById('nomyape').value;
+        //document.getElementById('nomyape').value = formatToString(writtenName);
+    }
+
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }
+
     // Arregla el problema de error al elegir mas de 8 fotos
     function onSelect(e) {
         if (e.files.length > 8) {
@@ -7,6 +32,21 @@
             e.preventDefault();
         }
     }
+
+    function ponerminuscula(minus) {
+        let ex = document.getElementById(minus);
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+    function PonerMayuscula(mayus) {
+        let ex = document.getElementById(mayus);
+        ex.value = ex.value.toUpperCase();
+    }
+
+
+
 </script>
 
 
@@ -33,32 +73,36 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Propietario
-                    <input type="text" name="propietario" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;" required>
+                    <input onkeyup="ShowName('propietario')" type="text" id="propietario" name="propietario"
+                        class="form-control" placeholder="Sin Información" style="color: black; font-weight: bold;"
+                        required>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Cuit / DNI
-                    <input type="text" name="cuitdni" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;" required>
+                    <input onkeyup="PonerMayuscula('cuitdni')" type="text" id="cuitdni" name="cuitdni"
+                        class="form-control" placeholder="Sin Información" style="color: black; font-weight: bold;"
+                        required>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Dirección
-                    <input type="text" name="direccion" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;" required>
+                    <input onkeyup="ShowName('direccion')" type="text" id="direccion" name="direccion"
+                        class="form-control" placeholder="Sin Información" style="color: black; font-weight: bold;"
+                        required>
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Adrema N°
-                    <input type="text" name="adrema" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;">
+                    <input onkeyup="PonerMayuscula('adrema')" type="text" id="adrema" name="adrema" class="form-control"
+                        placeholder="Sin Información" style="color: black; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Inspector (N y A)
-                    <input name="inspector" class="form-control" style="color: black; font-weight: bold;" required />
+                    <input onkeyup="ShowName('inspector')" id="inspector" name="inspector" class="form-control"
+                        style="color: black; font-weight: bold;" required />
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Zona
-                    <input type="number" name="zona" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;">
+                    <input onkeyup="PonerMayuscula('zona')" type="number" id="zona" name="zona" class="form-control"
+                        placeholder="Sin Información" style="color: black; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Descripción
@@ -67,7 +111,8 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Nº intimación
-                    <input type="text" name="numerointimacion" class="form-control" placeholder="Sin Información"
+                    <input type="text" onkeyup="PonerMayuscula('numerointimacion')" id="numerointimacion"
+                        name="numerointimacion" class="form-control" placeholder="Sin Información"
                         style="color: black; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
@@ -75,11 +120,6 @@
                     <input type="text" name="tipoacta" class="form-control" placeholder="Sin Información"
                         style="color: black; font-weight: bold;">
                 </div>
-                {{!-- <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
-                    Fecha Inspección Actual
-                    <input type="text" name="inspecfecha" class="form-control" placeholder="Sin Información"
-                        value="{{planiregactuainf.inspecfecha}}" style="color: black; font-weight: bold;">
-                </div> --}}
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Observaciones
                     <textarea type="text" name="observacion" class="form-control" placeholder="Sin Información"
@@ -87,13 +127,13 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Expediente N°
-                    <input type="text" name="expediente" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;">
+                    <input onkeyup="PonerMayuscula('expediente')" type="text" id="expediente" name="expediente"
+                        class="form-control" placeholder="Sin Información" style="color: black; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Número de Faja
-                    <input type="text" name="numfaja" class="form-control" placeholder="Sin Información"
-                        style="color: black; font-weight: bold;">
+                    <input onkeyup="PonerMayuscula('numfaja')" type="text" id="numfaja" name="numfaja"
+                        class="form-control" placeholder="Sin Información" style="color: black; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Acta Reiterada
@@ -104,8 +144,8 @@
                 <label style="font-weight:bold">Seleccione Fotos Actuación: (Máximo 8):</label>
                 <div class="input-group mb-3">
                     <div class="custom-file">
-                        <input onchange="onSelect()" type="file" name="image" class="custom-file-input" id="image[]" accept=".jpg,.png"
-                            multiple>
+                        <input onchange="onSelect()" type="file" name="image" class="custom-file-input" id="image[]"
+                            accept=".jpg,.png" multiple>
                         <label class="custom-file-label" for="inputGroupFile02"
                             aria-describedby="inputGroupFileAddon02">Seleccione Fotos (Máximo 8)</label>
                     </div>
