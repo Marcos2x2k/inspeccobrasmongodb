@@ -1158,8 +1158,8 @@ router.get('/actuaciones/list/:id', isAuthenticated, async (req, res) => {
 
 router.post('/actuaciones/findfecha', isAuthenticated, async (req, res) => {
     const { fechainiciotramite } = req.body;
-    const fechatramite = funcionesimportantes.ordenarfechaalrevez(fechainiciotramite).toString();
-    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechatramite, $options: "i" } }).lean().sort({ adrema: 'desc' });;
+    //const fechatramite = funcionesimportantes.ordenarfechaalrevez(fechainiciotramite).toString();
+    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechainiciotramite, $options: "i" } }).lean().sort({ adrema: 'desc' });;
     if (!planiregactuainftabla) {        
         req.flash('success_msg', 'cargue una Fecha')
         return res.render("notes/inspecciones/infracciones/listactuacionesadm");

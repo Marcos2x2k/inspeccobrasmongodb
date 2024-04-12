@@ -297,7 +297,7 @@ router.get('/mesaentrada/listado', isAuthenticated, async (req, res) => {
             var tipoint = mesaentradas.fechaingreso;
             if (tipoint != null) {
                 const fecha = new Date(mesaentradas.fechaingreso);
-                const dia = fecha.getDate()
+                const dia = fecha.getDate() + 1;
                 var mes = 0
                 const calcmes = fecha.getMonth() + 1
                 if (calcmes < 10) {

@@ -95,29 +95,16 @@ function ordenarfechaalrevez(valor) {
     /// necesito separar todo para ordenar la BUSQUEDAAA HACER MAÑANA
     var tipoint = valor;
     if (tipoint != null) {
-        valor.split('-')
-        const fecha = valor;
-        const dia = valor;
-        var mes = 0
-        var fulldate = "";
-        const calcmes = fecha.getMonth() + 1
-        if (calcmes < 10) {
-            mes = "0" + calcmes + "-"
-        } else {
-            mes = calcmes + "-"
-        }
-        if (dia > 0 && dia < 10) {
-            var diastring = "0" + dia + "-"
-        } else {
-            var diastring = dia + "-"
-        }
-        const ano = fecha.getFullYear()
+        tipoint.split('-')
+        const dia = tipoint[0]    
+        const mes = tipoint[1]                 
+        const ano = tipoint[2]
         //const fullyear = fecha.toLocaleDateString();
-        var fullyear = ano + mes + diastring
+        var fullyear = ano +"-"+ mes +"-"+ dia
         //const fullyear = fecha.toLocaleDateString();
         fulldate = fullyear;
     } else {
-        fulldate = "00-00-0000";
+        fulldate = "0000-00-00";
     }
     return fulldate;
 }
