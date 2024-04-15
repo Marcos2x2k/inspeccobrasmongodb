@@ -1157,10 +1157,10 @@ router.get('/actuaciones/list/:id', isAuthenticated, async (req, res) => {
 });
 
 router.post('/actuaciones/findfecha', isAuthenticated, async (req, res) => {
-    const { fechainiciotramite } = req.body;
-    //const fechatramite = funcionesimportantes.ordenarfechaalrevez(fechainiciotramite).toString();
-    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechainiciotramite, $options: "i" } }).lean().sort({ adrema: 'desc' });;
-    if (!planiregactuainftabla) {        
+    const { fechainiciotramite } = req.body;      
+    const fechatramite = funcionesimportantes.ordenarfechaalrevez(fechainiciotramite);
+    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechatramite, $options: "i" }   }).lean().sort({ adrema: 'desc' });;
+    if (!planiregactuainftabla) {
         req.flash('success_msg', 'cargue una Fecha')
         return res.render("notes/inspecciones/infracciones/listactuacionesadm");
     } else {
@@ -1180,7 +1180,7 @@ router.post('/actuaciones/findfecha', isAuthenticated, async (req, res) => {
 router.post('/actuaciones/findiniciador', isAuthenticated, async (req, res) => {
     const { propietario } = req.body;
     const planiregactuainftabla = await Planiregactuainf.find({ propietario: { $regex: propietario, $options: "i" } }).lean().sort({ adrema: 'desc' });;
-    if (!planiregactuainftabla) {        
+    if (!planiregactuainftabla) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
         return res.render("notes/inspecciones/infracciones/listactuacionesadm");
     } else {
@@ -1399,7 +1399,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
     const { propietario, lugartipo, adrema, inspector, desde, hasta } = req.body;
     //console.log("ROL USUARIO", rolusuario) //Inspector
     var planiregactuainftabla = {};
-    var planiregactuainf  = {};    
+    var planiregactuainf = {};
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
         // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
         var contador = 0;
@@ -1411,7 +1411,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             //     dni = ""
             // }
             var cuitdni = propietario;
-            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }] }).lean().sort({ date: 'desc' });                        
+            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }] }).lean().sort({ date: 'desc' });
             planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
@@ -1419,14 +1419,14 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (adrema) {
             var expediente = adrema;
-            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });                        
+            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }] }).lean().sort({ date: 'desc' });
             planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
             }
             //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (lugartipo) {
-            planiregactuainftabla = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });                        
+            planiregactuainftabla = await Planiregactuainf.find({ lugartipo: { $regex: lugartipo, $options: "i" } }).lean().sort({ date: 'desc' });
             planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
@@ -1436,14 +1436,14 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
                 const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000  
-                planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });                                
+                planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" } }] }).lean().sort({ date: 'desc' });
                 planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
                 }
                 //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
             } else {
-                planiregactuainftabla = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });                                
+                planiregactuainftabla = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" } }).lean().sort({ date: 'desc' });
                 planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
@@ -1710,8 +1710,8 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     }
     //contador = contador - 2;
     if (contador <= 0) {
-        contador = "No existen datos para Mostrar/Contar"        
-    }     
+        contador = "No existen datos para Mostrar/Contar"
+    }
     contenidoHtml = contenidoHtml.replace("{{tablaactuaciones}}", tabla);
     contenidoHtml = contenidoHtml.replace("{{contador}}", contador);
     contenidoHtml = contenidoHtml.replace("{{filtro}}", filtro);
@@ -1720,11 +1720,11 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
     pdf.create(contenidoHtml, pdfoptionsA4).toStream((error, stream) => {
         if (error) {
             res.end("Error creando PDF: " + error)
-        } else {            
+        } else {
             req.flash('success_msg', 'Actuaciones Estadistica Impresa')
             res.setHeader("Content-Type", "application/pdf");
-            stream.pipe(res);            
-        }        
+            stream.pipe(res);
+        }
     });
 })
 

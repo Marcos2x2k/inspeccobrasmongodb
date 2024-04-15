@@ -10,7 +10,7 @@
     {{!-- <br /><br /> --}}
     <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findfecha" method="POST">
-            <input type="search" class="form-control" name="fechainiciotramite" placeholder="Año-Mes-Día..." autofocus/>
+            <input type="search" maxlength="10" size="11" class="form-control" name="fechainiciotramite" placeholder="00-00-0000" autofocus/>
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Fecha
@@ -32,7 +32,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findcuitdni" method="POST">
-            <input type="search" class="form-control" name="cuitdni" placeholder="Buscar x Cuit/DNI..." autofocus />
+            <input type="search" class="form-control" size="15" name="cuitdni" placeholder="Buscar x Cuit/DNI..." autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Cuit/DNI
@@ -42,7 +42,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findadrema" method="POST">
-            <input type="search" class="form-control" name="adrema" placeholder="Buscar x Adrema..." autofocus />
+            <input type="search" class="form-control" size="15" name="adrema" placeholder="Buscar x Adrema..." autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Adrema

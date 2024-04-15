@@ -93,18 +93,16 @@ function ordenarfecha(valor) {
 
 function ordenarfechaalrevez(valor) {
     /// necesito separar todo para ordenar la BUSQUEDAAA HACER MAÑANA
-    var tipoint = valor;
-    if (tipoint != null) {
-        tipoint.split('-')
-        const dia = tipoint[0]    
-        const mes = tipoint[1]                 
-        const ano = tipoint[2]
-        //const fullyear = fecha.toLocaleDateString();
-        var fullyear = ano +"-"+ mes +"-"+ dia
-        //const fullyear = fecha.toLocaleDateString();
-        fulldate = fullyear;
-    } else {
-        fulldate = "0000-00-00";
+    const authHeader = valor
+    const split = authHeader.split('-') // (1) [ 'bearer', 'token' ]
+    //const dia = split[0]
+    const mes = split[1]
+    const ano = split[2]
+    if (!authHeader) {
+        console.log("token indefinido")
+    } else {// (2) token
+        var fulldate = ano + "-" + mes //+ "-" + dia
+        console.log(valor+"fecha invertida")
     }
     return fulldate;
 }
