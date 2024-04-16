@@ -63,33 +63,42 @@ function NombreMayus(valor) {
 }
 
 function ordenarfecha(valor) {
+
     var tipoint = valor;
-    if (tipoint != null) {
-        const fecha = new Date(valor);
-        const dia = fecha.getDate()
-        var mes = 0
-        var fulldate = "";
-        const calcmes = fecha.getMonth() + 1
-        if (calcmes < 10) {
-            mes = "0" + calcmes + "-"
-        } else {
-            mes = calcmes + "-"
+    const validatedate = (tipoint) => isNaN(Date.parse(tipoint))
+    if (validatedate(tipoint) === false) {
+        var tipoint = new Date(valor);
+        if (tipoint != null) {
+            const fecha = new Date(valor);
+            const dia = fecha.getDate()
+            var mes = 0
+            var fulldate = "";
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            var fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            fulldate = fullyear;
+
+
         }
-        if (dia > 0 && dia < 10) {
-            var diastring = "0" + dia + "-"
-        } else {
-            var diastring = dia + "-"
-        }
-        const ano = fecha.getFullYear()
-        //const fullyear = fecha.toLocaleDateString();
-        var fullyear = diastring + mes + ano
-        //const fullyear = fecha.toLocaleDateString();
-        fulldate = fullyear;
     } else {
-        fulldate = "00-00-0000";
+        fulldate = tipoint;
     }
     return fulldate;
 }
+
+
 
 function ordenarfechaalrevez(valor) {
     /// necesito separar todo para ordenar la BUSQUEDAAA HACER MAÑANA
@@ -99,10 +108,10 @@ function ordenarfechaalrevez(valor) {
     const mes = split[1]
     const ano = split[2]
     if (!authHeader) {
-        console.log("token indefinido")
-    } else {// (2) token
-        var fulldate = ano + "-" + mes //+ "-" + dia
-        console.log(valor+"fecha invertida")
+        //console.log("token indefinido")
+    } else {// (2) token        
+        var fulldate = ano + "-" + mes// + "-" + dia
+        //console.log(valor+"fecha invertida")
     }
     return fulldate;
 }

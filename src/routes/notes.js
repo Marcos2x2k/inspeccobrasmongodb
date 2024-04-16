@@ -1130,11 +1130,11 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     var planiregactuainftabla = {};
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ date: 'desc' });
+        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ fechainiciotramite: 'desc' });
         for (var planiregactuainf of planiregactuainftabla) {
             //llamo funciones para nombres mayusculas y fechas ordenadar            
             planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
-            planiregactuainf.fechainiciotramite = funcionesimportantes.ordenarfecha(planiregactuainf.fechainiciotramite).toString();
+            planiregactuainf.fechainiciotramite = funcionesimportantes.ordenarfecha(planiregactuainf.fechainiciotramite);
             planiregactuainf.inspector = funcionesimportantes.NombreMayus(planiregactuainf.inspector);
             planiregactuainf.direccion = funcionesimportantes.NombreMayus(planiregactuainf.direccion);
         }
@@ -1159,7 +1159,7 @@ router.get('/actuaciones/list/:id', isAuthenticated, async (req, res) => {
 router.post('/actuaciones/findfecha', isAuthenticated, async (req, res) => {
     const { fechainiciotramite } = req.body;      
     const fechatramite = funcionesimportantes.ordenarfechaalrevez(fechainiciotramite);
-    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechatramite, $options: "i" }   }).lean().sort({ adrema: 'desc' });;
+    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechatramite, $options: "i" }   }).lean().sort({ date: 'desc' });;
     if (!planiregactuainftabla) {
         req.flash('success_msg', 'cargue una Fecha')
         return res.render("notes/inspecciones/infracciones/listactuacionesadm");
