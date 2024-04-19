@@ -7,21 +7,20 @@
 </script>
 
 <div class="row">
-    <div class="form-group btn-center mx-auto">
+    {{!-- <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findfecha" method="POST">
-            <input type="search" maxlength="10" size="11" class="form-control" name="fechainiciotramite" placeholder="00-00-0000" autofocus/>
+            <input type="search" maxlength="10" size="11" class="form-control" name="fechainiciotramite"
+                placeholder="00-00-0000" disabled />
             <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                <button class="btn btn-warning btn-block btn-sm" type="submit" disabled >
                     Buscar x Fecha
                 </button>
-
             </div>
         </form>
-    </div>
+    </div> --}}
     <div class="form-group btn-center mx-auto">
-        <form action="/actuaciones/findiniciador" method="POST">
-            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Iniciador..."
-                 />
+        <form action="/actuaciones/borrado/findiniciador" method="POST">
+            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Iniciador..." />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Iniciador/Propietario
@@ -30,39 +29,38 @@
         </form>
     </div>
     <div class="form-group btn-center mx-auto">
-        <form action="/actuaciones/findcuitdni" method="POST">
-            <input type="search" class="form-control" size="15" name="cuitdni" placeholder="Buscar x Cuit/DNI..." autofocus />
+        <form action="/actuaciones/borrado/findcuitdni" method="POST">
+            <input type="search" class="form-control" size="15" name="cuitdni" placeholder="Buscar x Cuit/DNI..."
+                 />
             <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                <button class="btn btn-warning btn-block btn-sm" type="submit" >
                     Buscar Cuit/DNI
                 </button>
             </div>
         </form>
     </div>
-    <div class="form-group btn-center mx-auto">
+    {{!-- <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findadrema" method="POST">
-            <input type="search" class="form-control" size="15" name="adrema" placeholder="Buscar x Adrema..." autofocus />
+            <input type="search" class="form-control" size="15" name="adrema" placeholder="Buscar x Adrema..."
+                disabled  />
             <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                <button class="btn btn-warning btn-block btn-sm" type="submit" disabled >
                     Buscar Adrema
                 </button>
             </div>
         </form>
-    </div>
-    <div class="form-group btn-center mx-auto">
+    </div> --}}
+    {{!-- <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findinspector" method="POST">
-            <input type="search" class="form-control" name="inspector" placeholder="Buscar x Inspector..." autofocus />
+            <input type="search" class="form-control" name="inspector" placeholder="Buscar x Inspector..." disabled  />
             <div class="form-group">
-                <button class="btn btn-warning btn-block btn-sm" type="submit">
+                <button class="btn btn-warning btn-block btn-sm" type="submit" disabled >
                     Buscar Inspector
                 </button>
             </div>
         </form>
-    </div>
-
-    <a href="/actuaciones/add" class="btn btn-success btn-block">Agregar Nueva Actuación!</a>
-    <a Style="color:red" href="/actuaciones/Estadisticas" class="btn btn-warning btn-block  btn-sm">Crear Estadistica!</a>
-    <a href="/actuaciones/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>    
+    </div>     --}}
+    <a href="/actuaciones/borradolistado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>
     {{!-- <br /> --}}
     <div class="form-group btn-center mx-auto">
         {{!-- <br /> --}}
@@ -99,17 +97,24 @@
                         <td style="text-transform: lowercase;">{{ lugartipo }}</td>
                         <td style="">{{ inspector }}</td>
                         <td>
-                            <a class="dropdown-item" href="/actuaciones/edit/{{_id}}"
-                                style="color:rgb(165, 196, 28)">Editar</a>
-                        </td>
-                        <td>
+                            {{!-- <a class="dropdown-item" href="/actuaciones/edit/{{_id}}"
+                                style="color:rgb(165, 196, 28)">Editar</a> --}}
                             <a class="dropdown-item" href="/actuaciones/list/{{_id}}"
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
-                            <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
-                                action="/actuaciones/marcadelete/{{_id}}?_method=PUT" method="POST">
+                        </td>
+                        <td>
+                            <form onSubmit="return confirm('Desea Restaurar Actuación?')" style=""
+                                action="/actuacion/marcadeleterestaurar/{{_id}}?_method=PUT" method="POST">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button class="btn btn-success btn-block btn-sm" type="submit">
+                                    Restaurar
+                                </button>
+                            </form>
+                            <form onSubmit="return confirm('Desea Borrar Definitivo?')" style=""
+                                action="/actuaciones/delete/{{_id}}?_method=DELETE" method="POST">
                                 <input type="hidden" name="_method" value="PUT">
                                 <button class="btn btn-danger btn-block btn-sm" type="submit">
-                                    Borrar
+                                    Borrado Definitivo
                                 </button>
                             </form>
                             {{!-- <form onSubmit="return confirm('Desea Borrar?')"
