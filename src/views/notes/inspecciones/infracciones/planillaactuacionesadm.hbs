@@ -4,12 +4,25 @@
         //document.getElementById("descargarfactura").hidden = true;
         document.getElementById("tabla").hidden = true;
     }
+
+    function selectordenaractuacion() { 
+        var seleccion = document.getElementById('onderaractuacion');
+        if ((seleccion.selectedIndex == 1)) {
+            href="/actuaciones/listado" 
+        } else if ((seleccion.selectedIndex == 2)) {
+
+        } else if ((seleccion.selectedIndex == 3)) {
+        
+        }
+    }
+
 </script>
 
 <div class="row">
     <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findfecha" method="POST">
-            <input type="search" maxlength="10" size="11" class="form-control" name="fechainiciotramite" placeholder="00-00-0000" autofocus/>
+            <input type="search" maxlength="10" size="11" class="form-control" name="fechainiciotramite"
+                placeholder="00-00-0000" autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar x Fecha
@@ -20,8 +33,7 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findiniciador" method="POST">
-            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Iniciador..."
-                 />
+            <input type="search" class="form-control" name="propietario" placeholder="Buscar x Iniciador..." />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Iniciador/Propietario
@@ -31,7 +43,8 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findcuitdni" method="POST">
-            <input type="search" class="form-control" size="15" name="cuitdni" placeholder="Buscar x Cuit/DNI..." autofocus />
+            <input type="search" class="form-control" size="15" name="cuitdni" placeholder="Buscar x Cuit/DNI..."
+                autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Cuit/DNI
@@ -41,7 +54,8 @@
     </div>
     <div class="form-group btn-center mx-auto">
         <form action="/actuaciones/findadrema" method="POST">
-            <input type="search" class="form-control" size="15" name="adrema" placeholder="Buscar x Adrema..." autofocus />
+            <input type="search" class="form-control" size="15" name="adrema" placeholder="Buscar x Adrema..."
+                autofocus />
             <div class="form-group">
                 <button class="btn btn-warning btn-block btn-sm" type="submit">
                     Buscar Adrema
@@ -61,18 +75,24 @@
     </div>
 
     <a href="/actuaciones/add" class="btn btn-success btn-block">Agregar Nueva Actuación!</a>
-    <a Style="color:red" href="/actuaciones/Estadisticas" class="btn btn-warning btn-block  btn-sm">Crear Estadistica!</a>
+    <a Style="color:red" href="/actuaciones/Estadisticas" class="btn btn-warning btn-block  btn-sm">Crear
+        Estadistica!</a>
     <a href="/actuaciones/listado" class="btn btn-outline-warning btn-block btn-sm">Recargar Listado</a>    
-    {{!-- <br /> --}}
     <div class="form-group btn-center mx-auto">
-        {{!-- <br /> --}}
-        {{!-- <h5 style="color:rgb(219, 216, 16); text-shadow: 2px 2px 4px #000000;">
-            LISTADO DE MESA DE ENTRADA</h5> --}}
+        <br />
+        <p style="color:red;font-weight: bold;">Ordenar por:
+            <select name="ordenaractuacion">
+                {{!-- <option readonly>Seleccione</option> --}}
+                <option value="Fecha Actuacion">Fecha Actuación</option>
+                <option value="Fecha Creacion">Fecha Creación</option>
+                <option value="Nombre">Nombre/Apellido</option>                
+            </select>
+        </p>
         <br />
         <div class="form-group btn-center mx-auto">
             <table id="tabla" class="table table-dark table-hover">
                 <thead>
-                    <tr style="background-color: rgb(172, 214, 22);font-weight: bold;; color:black;">
+                    <tr style="background-color: rgb(172, 214, 22);font-weight: bold; color:black;">
                         {{!-- <td style="visibility:collapse;">ID</td> --}}
                         <td>Fecha-Inicio</td>
                         <td class="bi bi-arrow-down-up">Iniciador</th>

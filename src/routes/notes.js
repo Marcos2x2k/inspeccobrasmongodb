@@ -1130,7 +1130,7 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     var planiregactuainftabla = {};
     if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ fechainiciotramite: 'desc' });
+        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ fechainiciotramite: -1, date: -1 });
         for (var planiregactuainf of planiregactuainftabla) {
             //llamo funciones para nombres mayusculas y fechas ordenadar            
             planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
@@ -1608,7 +1608,9 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
                 } else {
                     var diastring = dia + "-"
                 }
-                const ano = fecha.getFullYear()
+                const ano = fecha.getFullYear(
+                    
+                )
                 //const fullyear = fecha.toLocaleDateString();
                 const fullyear = diastring + mes + ano
                 //const fullyear = fecha.toLocaleDateString();

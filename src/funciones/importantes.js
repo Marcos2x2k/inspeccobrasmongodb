@@ -37,7 +37,6 @@ function ponerminuscula(letraminuscula) {
     ex.value = ex.value.toLowerCase();
 }
 
-
 // ** Ejemplo:
 // ** llamo al archivo de funciones
 // const funcionesimportantes = require('../funciones/importantes');
@@ -70,7 +69,7 @@ function ordenarfecha(valor) {
         var tipoint = new Date(valor);
         if (tipoint != null) {
             const fecha = new Date(valor);
-            const dia = fecha.getDate()
+            const dia = fecha.getDate() + 1;
             var mes = 0
             var fulldate = "";
             const calcmes = fecha.getMonth() + 1
