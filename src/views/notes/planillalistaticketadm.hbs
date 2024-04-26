@@ -93,10 +93,18 @@
           <td>
             {{!-- <a class="dropdown-item" href="/ticket/add/{{_id}}"
               style="color:rgb(211, 24, 24);font-weight: bold;text-shadow: 1px 1px 2px black;">Agregar</a> --}}
-            <a class="dropdown-item" href="/ticket/list/{{_id}}"
-              style="color:rgb(56, 219, 56);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
+            <a class="dropdown-item" href="/movimientoexpedientecoord/add/{{_id}}"
+              style="color:rgb(165, 196, 28);font-weight: bold;text-shadow: 1px 1px 2px black;">
+              Agregar Mov.Tickets
+            </a>
+            <a class="dropdown-item" href="/expedientes/coordinados/listresultado/{{_id}}"
+              style="color:rgb(24, 211, 33);font-weight: bold;text-shadow: 1px 1px 2px black;">
+              Lista Movimimiento
+            </a>
           </td>
           <td>
+            <a class="dropdown-item" href="/ticket/list/{{_id}}"
+              style="color:rgb(56, 219, 56);font-weight: bold;text-shadow: 1px 1px 2px black">Info</a>
             <a class="dropdown-item" href="/tickets/edit/{{_id}}" style="color:yellow">Editar</a>
             <form onSubmit="return confirm('Desea Borrar?')" style="" action="/tickets/delete/{{_id}}?_method=DELETE"
               method="POST">

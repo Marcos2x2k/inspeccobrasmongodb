@@ -1129,8 +1129,60 @@ router.get('/actuaciones/listado', isAuthenticated, async (req, res) => {
     // res.send('Notes from data base');
     const rolusuario = req.user.rolusuario;
     var planiregactuainftabla = {};
-    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(50).lean().sort({ fechainiciotramite: -1, date: -1 });
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores" || rolusuario == "Inspectores") {
+        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(150).lean().sort({ fechainiciotramite: 'desc' });
+        for (var planiregactuainf of planiregactuainftabla) {
+            //llamo funciones para nombres mayusculas y fechas ordenadar            
+            planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
+            planiregactuainf.fechainiciotramite = funcionesimportantes.ordenarfecha(planiregactuainf.fechainiciotramite);
+            planiregactuainf.inspector = funcionesimportantes.NombreMayus(planiregactuainf.inspector);
+            planiregactuainf.direccion = funcionesimportantes.NombreMayus(planiregactuainf.direccion);
+        }
+        // necesito igualar para que se copie el cambio
+        planiregactuainf = planiregactuainftabla
+        //console.log(planiregactuainf)
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf });
+    } else if (rolusuario == "Inspector") {
+        planiregactuainftabla = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/infracciones/planillaactuacionesusr', { planiregactuainf });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
+        return res.redirect('/');
+    }
+});
+
+router.get('/actuaciones/listadonombre', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    const rolusuario = req.user.rolusuario;
+    var planiregactuainftabla = {};
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores" || rolusuario == "Inspectores") {
+        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(150).lean().sort({ propietario: 'asc' });
+        for (var planiregactuainf of planiregactuainftabla) {
+            //llamo funciones para nombres mayusculas y fechas ordenadar            
+            planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
+            planiregactuainf.fechainiciotramite = funcionesimportantes.ordenarfecha(planiregactuainf.fechainiciotramite);
+            planiregactuainf.inspector = funcionesimportantes.NombreMayus(planiregactuainf.inspector);
+            planiregactuainf.direccion = funcionesimportantes.NombreMayus(planiregactuainf.direccion);
+        }
+        // necesito igualar para que se copie el cambio
+        planiregactuainf = planiregactuainftabla
+        //console.log(planiregactuainf)
+        res.render('notes/inspecciones/infracciones/planillaactuacionesadm', { planiregactuainf });
+    } else if (rolusuario == "Inspector") {
+        planiregactuainftabla = await Planiregactuainf.find().lean().sort({ date: 'desc' });
+        res.render('notes/inspecciones/infracciones/planillaactuacionesusr', { planiregactuainf });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
+        return res.redirect('/');
+    }
+});
+
+router.get('/actuaciones/listadocreacion', isAuthenticated, async (req, res) => {
+    // res.send('Notes from data base');
+    const rolusuario = req.user.rolusuario;
+    var planiregactuainftabla = {};
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores" || rolusuario == "Inspectores") {
+        planiregactuainftabla = await Planiregactuainf.find({ borrado: { $ne: 'Si' } }).limit(150).lean().sort({ date: 'desc' });
         for (var planiregactuainf of planiregactuainftabla) {
             //llamo funciones para nombres mayusculas y fechas ordenadar            
             planiregactuainf.propietario = funcionesimportantes.NombreMayus(planiregactuainf.propietario);
