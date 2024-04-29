@@ -449,6 +449,26 @@ router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/movimientoticketcoord/add/:id', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const ticket = await Ticket.findById(req.params.id).lean();
+    //const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort();
+    //const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    var inspectoresname = []
+    var inspectorescodigo = []
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        //for (var inspectores of inspectorestabla) {           
+          //  inspectoresname.push(inspectores.name)            
+          //  inspectorescodigo.push(inspectores.codigoinspector)
+        //}
+        res.render('notes/inspecciones/expticket/movimientoticketcood.hbs', {ticket});;
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETs')
+        return res.redirect('/');
+    }
+});
+
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
