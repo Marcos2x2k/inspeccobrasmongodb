@@ -10,6 +10,7 @@ const Intimacion = require('../models/Intimacion')
 const Infraccion = require('../models/Infraccion')
 //const Estadistica = require('../models/Estadistica')
 const Ticket = require('../models/Ticket')
+//const Ticketcoordresultado = require('../models/ticketcoordresultado');
 const Users = require('../models/User')
 const Inspectores = require('../models/inspectores')
 const Planiregactuainf = require('../models/planiregactuainf')
@@ -452,22 +453,93 @@ router.get('/ticket/listado', isAuthenticated, async (req, res) => {
 router.get('/movimientoticketcoord/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const ticket = await Ticket.findById(req.params.id).lean();
-    //const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort();
-    //const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort();
+    const usuarios = await Users.find().lean().sort({ date: 'desc' });
     var inspectoresname = []
     var inspectorescodigo = []
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        //for (var inspectores of inspectorestabla) {           
-          //  inspectoresname.push(inspectores.name)            
-          //  inspectorescodigo.push(inspectores.codigoinspector)
-        //}
-        res.render('notes/inspecciones/expticket/movimientoticketcood.hbs', {ticket});;
+        for (var inspectores of inspectorestabla) {           
+           inspectoresname.push(inspectores.name)            
+           inspectorescodigo.push(inspectores.codigoinspector)
+        }
+        res.render('notes/inspecciones/expticket/movimientoticketcood.hbs', {ticket, inspectoresname, inspectorescodigo});;
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETs')
         return res.redirect('/');
     }
 });
+
+// router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
+//     var ticketcoordinado = await Ticket.findById(req.params.id).lean()    
+//     var idticket = ticketcoordinado._id
+//     var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({date: 'desc'});
+
+//     for (var ticketcoordresultado of ticketcoordresultadotabla) {
+//         //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+//         //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;    
+
+//         // permite mostrar en las tablas la fecha sola y ordenada
+//         var tipoint = ticketcoordresultado.fechaintimacion;
+//         if (tipoint != null) {
+//             const fecha = new Date(ticketcoordresultado.fechaintimacion);
+//             const dia = fecha.getDate()
+//             var mes = 0
+//             const calcmes = fecha.getMonth() + 1
+//             if (calcmes < 10) {
+//                 mes = "0" + calcmes + "-"
+//             } else {
+//                 mes = calcmes + "-"
+//             }
+//             if (dia > 0 && dia < 10) {
+//                 var diastring = "0" + dia + "-"
+//             } else {
+//                 var diastring = dia + "-"
+//             }
+//             const ano = fecha.getFullYear()
+//             //const fullyear = fecha.toLocaleDateString();
+//             const fullyear = diastring + mes + ano
+//             //const fullyear = fecha.toLocaleDateString();
+//             ticketcoordresultado.fechaintimacion = fullyear;
+//         } else {
+//             ticketcoordresultado.fechaintimacion = "----"
+//         }
+
+//         var tipoinf = ticketcoordresultado.fechainfraccion;
+//         if (tipoinf != null) {
+//             const fecha = new Date(ticketcoordresultado.fechainfraccion);
+//             const dia = fecha.getDate()
+//             var mes = 0
+//             const calcmes = fecha.getMonth() + 1
+//             if (calcmes < 10) {
+//                 mes = "0" + calcmes + "-"
+//             } else {
+//                 mes = calcmes + "-"
+//             }
+//             if (dia > 0 && dia < 10) {
+//                 var diastring = "0" + dia + "-"
+//             } else {
+//                 var diastring = dia + "-"
+//             }
+//             const ano = fecha.getFullYear()
+//             //const fullyear = fecha.toLocaleDateString();
+//             const fullyear = diastring + mes + ano
+//             //const fullyear = fecha.toLocaleDateString();
+//             ticketcoordresultado.fechainfraccion = fullyear;
+//         } else {
+//             ticketcoordresultado.fechainfraccion = "----"
+//         }
+
+//         // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+
+//         // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+//         // necesito igualar para que se copie el cambio
+//         ticketcoordresultado = ticketcoordresultadotabla
+//         //console.log("expedcoordresultado", expedcoordresultado);
+//         //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+//     }
+//     res.render('notes/inspecciones/listaexpedcoordmov', { ticketcoordresultado, ticketcoordinado })
+// });
 
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
