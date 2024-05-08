@@ -33,12 +33,12 @@ const TicketcoordresultadoSchema = new Schema({
         require: false,
         default: "No Posee Información"
     },
-    idexpediente: {
+    idticket: {
         type: String,
         require: false,
         default: "No Posee Información"
     },
-    numexpediente: {
+    numticket: {
         type: String,
         require: false,
         default: "No Posee Información"

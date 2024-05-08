@@ -9,7 +9,7 @@
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     N° Ticket:
                     <input type="text" name="numticket" class="form-control" placeholder="Sin Información"
-                        value="{{ticket.numticket}}" style="color: #3d0ee7; font-weight: bold;" disabled>
+                        value="{{ticket.numticket}}" style="color: #3d0ee7; font-weight: bold;">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Iniciador
@@ -107,9 +107,19 @@
                         value="{{ticket.intimaciones}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Cantidad Intimaciones:
+                    <input type="text" name="intimaciones" class="form-control" placeholder="Intimaciones"
+                        value="{{ticket.cantintimaciones}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Posee Infracciones:
                     <input type="text" name="infracciones" class="form-control" placeholder="Infracciones"
                         value="{{ticket.infracciones}}">
+                </div>
+                <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
+                    Cantidad Infracciones:
+                    <input type="text" name="infracciones" class="form-control" placeholder="Infracciones"
+                        value="{{ticket.cantinfracciones}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Pase a:

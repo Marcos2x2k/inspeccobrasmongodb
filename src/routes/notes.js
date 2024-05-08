@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcrypt");
 //const mongopagi = require('mongoose-paginate-v2') Paginacion de mongodb
-
 // tengo que requerir los modelos para que mongoose me cree las tablas
 // const Expediente = require('../models/Expediente')
 const Note = require('../models/Note')
@@ -10,7 +9,7 @@ const Intimacion = require('../models/Intimacion')
 const Infraccion = require('../models/Infraccion')
 //const Estadistica = require('../models/Estadistica')
 const Ticket = require('../models/Ticket')
-//const Ticketcoordresultado = require('../models/ticketcoordresultado');
+const Ticketcoordresultado = require('../models/ticketcoordresultado');
 const Users = require('../models/User')
 const Inspectores = require('../models/inspectores')
 const Planiregactuainf = require('../models/planiregactuainf')
@@ -113,11 +112,12 @@ router.get('/infracciones/add', isAuthenticated, async (req, res) => {
 
 router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
 
-    const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
-        destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
-        zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
-        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea, eliminado,
-        user, name
+    const { 
+        plataforma, numticket, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     } = req.body;
 
     const newTicket = new Ticket({
@@ -125,8 +125,7 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
         fechaentradainspecciones, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, pasea, fechapasea, eliminado,
-        user, name
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     })
     const mayu = iniciador.replace(/\b\w/g, l => l.toUpperCase())
     newTicket.iniciador = mayu
@@ -201,14 +200,14 @@ router.post('/notes/newintimaciones', isAuthenticated, async (req, res) => {
     const { boletaintnum, numexpedienteint, adremaint, senorsenora,
         domiciliopart, lugaractuacion, otorgaplazode, paracumplimientoa,
         fechaintimacion, horaintimacion, vencimientoint, notificadoint, aclaracion,
-        numcodigoint, inspectorint, eliminado, user, name
+        numcodigoint, inspectorint, user, name
     } = req.body;
 
     const newIntimacion = new Intimacion({
         boletaintnum, numexpedienteint, adremaint, senorsenora,
         domiciliopart, lugaractuacion, otorgaplazode, paracumplimientoa,
         fechaintimacion, horaintimacion, vencimientoint, notificadoint, aclaracion,
-        numcodigoint, inspectorint, eliminado, user, name
+        numcodigoint, inspectorint, user, name
     })
 
     if (req.files[0]) {
@@ -372,7 +371,6 @@ router.post('/notes/newinfracciones', isAuthenticated, async (req, res) => {
     // }
 })
 
-
 // *** DESACTIVADO TEMPORALMENTE ESTADISTICA ****
 // router.post('/notes/newestadisticas', isAuthenticated, async (req, res) => {
 //     //console.log(req.body)
@@ -434,7 +432,6 @@ router.get('/Inspectores', isAuthenticated, async (req, res) => {
     }
 });
 
-
 router.get('/ticket/listado', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -470,76 +467,74 @@ router.get('/movimientoticketcoord/add/:id', isAuthenticated, async (req, res) =
     }
 });
 
-// router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
-//     var ticketcoordinado = await Ticket.findById(req.params.id).lean()    
-//     var idticket = ticketcoordinado._id
-//     var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({date: 'desc'});
+router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
+    var ticketcoordinado = await Ticket.findById(req.params.id).lean()    
+    var idticket = ticketcoordinado._id
+    var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({date: 'desc'});
 
-//     for (var ticketcoordresultado of ticketcoordresultadotabla) {
-//         //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
-//         //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;    
+    for (var ticketcoordresultado of ticketcoordresultadotabla) {
+        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;    
 
-//         // permite mostrar en las tablas la fecha sola y ordenada
-//         var tipoint = ticketcoordresultado.fechaintimacion;
-//         if (tipoint != null) {
-//             const fecha = new Date(ticketcoordresultado.fechaintimacion);
-//             const dia = fecha.getDate()
-//             var mes = 0
-//             const calcmes = fecha.getMonth() + 1
-//             if (calcmes < 10) {
-//                 mes = "0" + calcmes + "-"
-//             } else {
-//                 mes = calcmes + "-"
-//             }
-//             if (dia > 0 && dia < 10) {
-//                 var diastring = "0" + dia + "-"
-//             } else {
-//                 var diastring = dia + "-"
-//             }
-//             const ano = fecha.getFullYear()
-//             //const fullyear = fecha.toLocaleDateString();
-//             const fullyear = diastring + mes + ano
-//             //const fullyear = fecha.toLocaleDateString();
-//             ticketcoordresultado.fechaintimacion = fullyear;
-//         } else {
-//             ticketcoordresultado.fechaintimacion = "----"
-//         }
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = ticketcoordresultado.fechaintimacion;
+        if (tipoint != null) {
+            const fecha = new Date(ticketcoordresultado.fechaintimacion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            ticketcoordresultado.fechaintimacion = fullyear;
+        } else {
+            ticketcoordresultado.fechaintimacion = "----"
+        }
 
-//         var tipoinf = ticketcoordresultado.fechainfraccion;
-//         if (tipoinf != null) {
-//             const fecha = new Date(ticketcoordresultado.fechainfraccion);
-//             const dia = fecha.getDate()
-//             var mes = 0
-//             const calcmes = fecha.getMonth() + 1
-//             if (calcmes < 10) {
-//                 mes = "0" + calcmes + "-"
-//             } else {
-//                 mes = calcmes + "-"
-//             }
-//             if (dia > 0 && dia < 10) {
-//                 var diastring = "0" + dia + "-"
-//             } else {
-//                 var diastring = dia + "-"
-//             }
-//             const ano = fecha.getFullYear()
-//             //const fullyear = fecha.toLocaleDateString();
-//             const fullyear = diastring + mes + ano
-//             //const fullyear = fecha.toLocaleDateString();
-//             ticketcoordresultado.fechainfraccion = fullyear;
-//         } else {
-//             ticketcoordresultado.fechainfraccion = "----"
-//         }
-
-//         // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
-
-//         // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
-//         // necesito igualar para que se copie el cambio
-//         ticketcoordresultado = ticketcoordresultadotabla
-//         //console.log("expedcoordresultado", expedcoordresultado);
-//         //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
-//     }
-//     res.render('notes/inspecciones/listaexpedcoordmov', { ticketcoordresultado, ticketcoordinado })
-// });
+        var tipoinf = ticketcoordresultado.fechainfraccion;
+        if (tipoinf != null) {
+            const fecha = new Date(ticketcoordresultado.fechainfraccion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            ticketcoordresultado.fechainfraccion = fullyear;
+        } else {
+            ticketcoordresultado.fechainfraccion = "----"
+        }
+        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+        // necesito igualar para que se copie el cambio
+        ticketcoordresultado = ticketcoordresultadotabla
+        //console.log("expedcoordresultado", expedcoordresultado);
+        //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+    }
+    res.render('notes/infracciones/listaticketcoordmov', { ticketcoordresultado, ticketcoordinado })
+});
 
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
@@ -644,7 +639,6 @@ router.get('/infracciones/listado', isAuthenticated, async (req, res) => {
 //     }
 //     //para que muestre notas de un solo user
 //     // const estadisticas = await Estadistica.find({user : req.user.id}).lean().sort({estadisticanum:'desc'}); 
-
 // });
 
 router.get('/usuarios', isAuthenticated, async (req, res) => {
@@ -692,7 +686,6 @@ router.get('/infracciones/edit/:id', isAuthenticated, async (req, res) => {
 // });
 
 // ***** informacion de cada dato ****** LISTADOS
-
 router.get('/usuario/list', isAuthenticated, async (req, res) => {
     const email = req.user.email;
     const users = await Users.find({ email: email }).lean()

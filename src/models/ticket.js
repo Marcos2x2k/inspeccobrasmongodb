@@ -124,10 +124,20 @@ const TicketSchema = new Schema({
         require: false,
         default: "No Informó"
     },
+    cantintimaciones: {
+        type: String,
+        require: false,
+        default: "0"
+    },
     infracciones: {
         type: String,
         require: false,
         default: "No Informó"
+    },
+    cantinfracciones: {
+        type: String,
+        require: false,
+        default: "0"
     },
     observaciones: {
         type: String,

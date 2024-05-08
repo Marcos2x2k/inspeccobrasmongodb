@@ -113,6 +113,25 @@
         //y.value = y.value.toLowerCase();
     }
 
+    function clickselectintimacion(){
+         var selecintimacion = document.getElementById("selectintimacion")
+         var cantintimacion = document.getElementById("cantintimacion")
+        if (selecintimacion.selectedIndex == 0) {
+            cantintimacion.disabled = true;   
+        } else {
+            cantintimacion.disabled = false;
+        }
+    }
+    function clickselectinfraccion(){
+         var selecinfraccion = document.getElementById("selectinfraccion")
+         var cantinfraccion = document.getElementById("cantinfraccion")
+        if (selecinfraccion.selectedIndex == 0) {
+            cantinfraccion.disabled = true;   
+        } else {
+            cantinfraccion.disabled = false;
+        }
+    }
+
 </script>
 
 <div class="col-md-8 mx-auto">
@@ -222,19 +241,29 @@
                 </div>
                 <div class="form-group">
                     <p>Posee Intimaciones:
-                        <select name="intimaciones">
+                        <select name="intimaciones"   id="selecintimacion" onclick="clickselectintimacion()">
                             <option value="No">No</option>
                             <option value="Si">Si</option>
                         </select>
                     </p>
                 </div>
                 <div class="form-group">
+                    Cantidad Intimaciones:
+                    <input style="font-weight: bold; color:green" name="cantintimaciones" id="cantintimaciones"
+                    type="number" class="form-control" placeholder="Cantidad Intimaciones" disabled></input>
+                </div>
+                <div class="form-group">
                     <p>Posee Infracciones:
-                        <select name="infracciones">
+                        <select name="infracciones"  id="selecinfraccion" onclick="clickselectinfraccion()">
                             <option value="No">No</option>
                             <option value="Si">Si</option>
                         </select>
                     </p>
+                </div>
+                <div class="form-group">
+                    Cantidad Infracciones:
+                    <input style="font-weight: bold; color:green" name="cantinfracciones" id="cantinfracciones" 
+                    type="number" class="form-control" placeholder="Cantidad Infracciones" disabled></input>
                 </div>
                 <div class="form-group">
                     Pase a:
