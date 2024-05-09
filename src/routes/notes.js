@@ -113,18 +113,18 @@ router.get('/infracciones/add', isAuthenticated, async (req, res) => {
 router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
 
     const { 
-        plataforma, numticket, ubicacion, celular, email,
+        plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, inspeccionfecha, inspeccioninspector, intimaciones,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
         infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     } = req.body;
 
     const newTicket = new Ticket({
-        plataforma, numticket, ubicacion, celular, email,
+        plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, inspeccionfecha, inspeccioninspector, intimaciones,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
         infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     })
     const mayu = iniciador.replace(/\b\w/g, l => l.toUpperCase())
@@ -1087,18 +1087,18 @@ router.put('/users/editusuarios/:id', isAuthenticated, async (req, res) => {
 });
 
 router.put('/notes/editticket/:id', isAuthenticated, async (req, res) => {
-    const { plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
-        destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
-        zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
-        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
-        user, name
+    const { plataforma, numticket, iniciador, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     } = req.body
     await Ticket.findByIdAndUpdate(req.params.id, {
-        plataforma, numticket, iniciador, ubicacion, celular, email, adrema, directordeobra,
-        destinodeobra, superficieterreno, superficieaconstruir, supsubptabja, supsubptaaltaymas,
-        zona, observaciones, permisoobra, actainfraccion, fechaentradainspecciones,
-        inspeccionfecha, inspeccioninspector, intimaciones, infracciones, pasea, fechapasea,
-        user, name
+        plataforma, numticket, iniciador, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     });
     req.flash('success_msg', 'Ticket Actualizado')
     res.redirect('/ticket/listado');

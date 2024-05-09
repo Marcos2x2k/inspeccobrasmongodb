@@ -114,21 +114,26 @@
     }
 
     function clickselectintimacion(){
-         var selecintimacion = document.getElementById("selectintimacion")
-         var cantintimacion = document.getElementById("cantintimacion")
-        if (selecintimacion.selectedIndex == 0) {
-            cantintimacion.disabled = true;   
-        } else {
-            cantintimacion.disabled = false;
+         let sint = document.getElementById("selectintimacion")
+         var cint = document.getElementById("cantintimacion")
+        if (sint.selectedIndex == 0) {
+            cint.style.display = "none";
+            cint.value = 0;
+        } else if (sint.selectedIndex == 1) {
+            cint.style.display = "block";
+            cint.value = 1;
         }
     }
+
     function clickselectinfraccion(){
-         var selecinfraccion = document.getElementById("selectinfraccion")
-         var cantinfraccion = document.getElementById("cantinfraccion")
-        if (selecinfraccion.selectedIndex == 0) {
-            cantinfraccion.disabled = true;   
-        } else {
-            cantinfraccion.disabled = false;
+         let sinf = document.getElementById("selectinfraccion")
+         var cinf = document.getElementById("cantinfraccion")
+        if (sinf.selectedIndex == 0) {
+            cinf.style.display = "none";
+            cinf.value = 0;
+        } else if (sinf.selectedIndex == 1) {
+            cinf.style.display = "block";
+            cinf.value = 1;
         }
     }
 
@@ -173,6 +178,11 @@
                     Adrema:
                     <input id="adrema" onkeyup="ponermayuscula()" style="font-weight: bold; color:green" name="adrema" class="form-control" type="text"
                         placeholder="Adrema"></input>
+                </div>
+                <div class="form-group">
+                    Documentación Presentada:
+                    <textarea style="resize:none; font-weight: bold; color:green" name="documentacion" rows="2" cols="40"
+                        class="form-control" placeholder="Documentación"></textarea>
                 </div>
                 <div class="form-group">
                     Director de Obra:
@@ -236,34 +246,34 @@
                 </div>
                 <div class="form-group">
                     Fecha de Inspector:
-                    <input style="font-weight: bold; color:green" name="inspeccionfecha" type="date"
+                    <input style="color:green" name="inspeccionfecha" type="date"
                         class="form-control" placeholder="Fecha de Inspector"></input>
                 </div>
                 <div class="form-group">
                     <p>Posee Intimaciones:
-                        <select name="intimaciones"   id="selecintimacion" onclick="clickselectintimacion()">
+                        <select name="intimaciones" id="selectintimacion" onclick="clickselectintimacion()">
                             <option value="No">No</option>
                             <option value="Si">Si</option>
                         </select>
                     </p>
                 </div>
-                <div class="form-group">
-                    Cantidad Intimaciones:
-                    <input style="font-weight: bold; color:green" name="cantintimaciones" id="cantintimaciones"
-                    type="number" class="form-control" placeholder="Cantidad Intimaciones" disabled></input>
+                <div class="form-group"  style="display:none" id="cantintimacion">
+                    {{!-- Cantidad Intimaciones: --}}
+                    <input style="color:green; width: 110px;" name="cantintimaciones"
+                    type="number" class="form-control" placeholder="Cantidad Int."/>
                 </div>
                 <div class="form-group">
                     <p>Posee Infracciones:
-                        <select name="infracciones"  id="selecinfraccion" onclick="clickselectinfraccion()">
+                        <select name="infracciones" id="selectinfraccion" onclick="clickselectinfraccion()">
                             <option value="No">No</option>
                             <option value="Si">Si</option>
                         </select>
                     </p>
                 </div>
-                <div class="form-group">
-                    Cantidad Infracciones:
-                    <input style="font-weight: bold; color:green" name="cantinfracciones" id="cantinfracciones" 
-                    type="number" class="form-control" placeholder="Cantidad Infracciones" disabled></input>
+                <div class="form-group" style="display:none" id="cantinfraccion">
+                    {{!-- Cantidad Infracciones: --}}
+                    <input style="font-weight: bold; color:green; width: 110px;" name="cantinfracciones" 
+                    type="number" class="form-control" placeholder="Cantidad Inf."/>
                 </div>
                 <div class="form-group">
                     Pase a:

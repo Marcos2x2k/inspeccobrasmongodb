@@ -139,11 +139,6 @@ const TicketSchema = new Schema({
         require: false,
         default: "0"
     },
-    observaciones: {
-        type: String,
-        require: false,
-        default: "No Informó"
-    },
     pasea: {
         type: String,
         require: false,
