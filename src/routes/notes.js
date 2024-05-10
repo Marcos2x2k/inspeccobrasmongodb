@@ -36,19 +36,6 @@ router.get('/marcarborradosennoall', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/tickets/add', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        const usuarios = await Users.find().lean().sort({ date: 'desc' });
-        res.render('notes/newtickets');
-        //res.render('notes/allusuariosadm', { usuarios });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETS')
-        return res.redirect('/');
-    }
-});
-
 router.get('/notes/add', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
@@ -109,32 +96,6 @@ router.get('/infracciones/add', isAuthenticated, async (req, res) => {
 //         return res.redirect('/');
 //     }
 // })
-
-router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
-
-    const { 
-        plataforma, numticket, iniciador, ubicacion, celular, email,
-        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
-        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
-    } = req.body;
-
-    const newTicket = new Ticket({
-        plataforma, numticket, iniciador, ubicacion, celular, email,
-        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
-        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
-    })
-    const mayu = iniciador.replace(/\b\w/g, l => l.toUpperCase())
-    newTicket.iniciador = mayu
-    newTicket.user = req.user.id;
-    newTicket.name = req.user.name;
-    await newTicket.save();
-    req.flash('success_msg', 'Ticket Agregado Exitosamente');
-    res.redirect('/ticket/listado');
-});
 
 router.post('/notes/newnotes', isAuthenticated, async (req, res) => {
     const newNote = new Note();
@@ -432,110 +393,6 @@ router.get('/Inspectores', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/ticket/listado', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Inspector") {
-        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });;
-        res.render('notes/planillalistaticket', { ticket });
-    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });
-        res.render('notes/planillalistaticketadm', { ticket });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
-        return res.redirect('/');
-    }
-});
-
-router.get('/movimientoticketcoord/add/:id', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const ticket = await Ticket.findById(req.params.id).lean();
-    const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort();
-    const usuarios = await Users.find().lean().sort({ date: 'desc' });
-    var inspectoresname = []
-    var inspectorescodigo = []
-    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        for (var inspectores of inspectorestabla) {           
-           inspectoresname.push(inspectores.name)            
-           inspectorescodigo.push(inspectores.codigoinspector)
-        }
-        res.render('notes/inspecciones/expticket/movimientoticketcood.hbs', {ticket, inspectoresname, inspectorescodigo});;
-        //res.render('notes/allusuariosadm', { usuarios });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETs')
-        return res.redirect('/');
-    }
-});
-
-router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
-    var ticketcoordinado = await Ticket.findById(req.params.id).lean()    
-    var idticket = ticketcoordinado._id
-    var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({date: 'desc'});
-
-    for (var ticketcoordresultado of ticketcoordresultadotabla) {
-        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
-        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;    
-
-        // permite mostrar en las tablas la fecha sola y ordenada
-        var tipoint = ticketcoordresultado.fechaintimacion;
-        if (tipoint != null) {
-            const fecha = new Date(ticketcoordresultado.fechaintimacion);
-            const dia = fecha.getDate()
-            var mes = 0
-            const calcmes = fecha.getMonth() + 1
-            if (calcmes < 10) {
-                mes = "0" + calcmes + "-"
-            } else {
-                mes = calcmes + "-"
-            }
-            if (dia > 0 && dia < 10) {
-                var diastring = "0" + dia + "-"
-            } else {
-                var diastring = dia + "-"
-            }
-            const ano = fecha.getFullYear()
-            //const fullyear = fecha.toLocaleDateString();
-            const fullyear = diastring + mes + ano
-            //const fullyear = fecha.toLocaleDateString();
-            ticketcoordresultado.fechaintimacion = fullyear;
-        } else {
-            ticketcoordresultado.fechaintimacion = "----"
-        }
-
-        var tipoinf = ticketcoordresultado.fechainfraccion;
-        if (tipoinf != null) {
-            const fecha = new Date(ticketcoordresultado.fechainfraccion);
-            const dia = fecha.getDate()
-            var mes = 0
-            const calcmes = fecha.getMonth() + 1
-            if (calcmes < 10) {
-                mes = "0" + calcmes + "-"
-            } else {
-                mes = calcmes + "-"
-            }
-            if (dia > 0 && dia < 10) {
-                var diastring = "0" + dia + "-"
-            } else {
-                var diastring = dia + "-"
-            }
-            const ano = fecha.getFullYear()
-            //const fullyear = fecha.toLocaleDateString();
-            const fullyear = diastring + mes + ano
-            //const fullyear = fecha.toLocaleDateString();
-            ticketcoordresultado.fechainfraccion = fullyear;
-        } else {
-            ticketcoordresultado.fechainfraccion = "----"
-        }
-        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
-        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
-        // necesito igualar para que se copie el cambio
-        ticketcoordresultado = ticketcoordresultadotabla
-        //console.log("expedcoordresultado", expedcoordresultado);
-        //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
-    }
-    res.render('notes/infracciones/listaticketcoordmov', { ticketcoordresultado, ticketcoordinado })
-});
-
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -660,11 +517,6 @@ router.get('/usuario/edit/:id', isAuthenticated, async (req, res) => {
     res.render('users/editusuarios', { usuarios })
 });
 
-router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
-    const ticket = await Ticket.findById(req.params.id).lean()
-    res.render('notes/editticket', { ticket })
-});
-
 router.get('/notes/edit/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
     res.render('notes/inspecciones/editnote', { note })
@@ -698,11 +550,6 @@ router.get('/usuario/list/:id', isAuthenticated, async (req, res) => {
     res.render('notes/listusuario', { users })
 });
 
-router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {
-    const ticket = await Ticket.findById(req.params.id).lean()
-    res.render('notes/listticket', { ticket })
-});
-
 router.get('/notes/list/:id', isAuthenticated, async (req, res) => {
     const note = await Note.findById(req.params.id).lean()
     res.render('notes/inspecciones/listnote', { note })
@@ -725,124 +572,6 @@ router.get('/infracciones/list/:id', isAuthenticated, async (req, res) => {
 
 //  ***** SECTOR BUSQUEDA *****
 
-// *** BUSCAR EN TICKET ***
-router.post('/ticket/findlistaticket', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { numticket } = req.body;
-    const ticket = await Ticket.find({ numticket: { $regex: numticket, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Jefe-Inspectores") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticket");
-        } else {
-            res.render('notes/planillalistaticket', { ticket })
-        }
-    } else if (rolusuario == "Administrador") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticketadm");
-        } else {
-            res.render('notes/planillalistaticketadm', { ticket })
-        }
-    } else {
-        res.render('notes/planillalistaticket', { ticket })
-    }
-});
-
-router.post('/ticket/findlistainiciador', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { iniciador } = req.body;
-    const ticket = await Ticket.find({ iniciador: { $regex: iniciador, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Inspector") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticket");
-        } else {
-            res.render('notes/planillalistaticket', { ticket })
-        }
-    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticketadm");
-        } else {
-            res.render('notes/planillalistaticketadm', { ticket })
-        }
-    } else {
-        res.render('notes/planillalistaticket', { ticket })
-    }
-});
-
-router.post('/ticket/findlistaadrema', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { adrema } = req.body;
-    const ticket = await Ticket.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Inspector") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticket");
-        } else {
-            res.render('notes/planillalistaticket', { ticket })
-        }
-    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticketadm");
-        } else {
-            res.render('notes/planillalistaticketadm', { ticket })
-        }
-    } else {
-        res.render('notes/planillalistaticket', { ticket })
-    }
-});
-
-router.post('/ticket/findlistadireccion', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { ubicacion } = req.body;
-    const ticket = await Ticket.find({ ubicacion: { $regex: ubicacion, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Inspector") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticket");
-        } else {
-            res.render('notes/planillalistaticket', { ticket })
-        }
-    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticketadm");
-        } else {
-            res.render('notes/planillalistaticketadm', { ticket })
-        }
-    } else {
-        res.render('notes/planillalistaticket', { ticket })
-    }
-});
-
-router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    const { inspeccionfecha } = req.body;
-    const ticket = await Ticket.find({ inspeccionfecha: { $regex: inspeccionfecha, $options: "i" } }).lean().sort({ date: 'desc' })
-    if (rolusuario == "Inspector") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticket");
-        } else {
-            res.render('notes/planillalistaticket', { ticket })
-        }
-    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
-        if (!ticket) {
-            req.flash('success_msg', 'cargue Nombre y Apellido')
-            return res.render("notes/planillalistaticketadm");
-        } else {
-            res.render('notes/planillalistaticketadm', { ticket })
-        }
-    } else {
-        res.render('notes/planillalistaticket', { ticket })
-    }
-});
-
-
-
 // *** BUSCAR INSPECCIONES ***
 router.post('/notes/findinspeccion', isAuthenticated, async (req, res) => {
     const { numinspeccion } = req.body;
@@ -854,7 +583,6 @@ router.post('/notes/findinspeccion', isAuthenticated, async (req, res) => {
         res.render('notes/findinspeccion', { notes })
     }
 });
-
 
 router.post('/notes/findadrema', isAuthenticated, async (req, res) => {
     const { adrema } = req.body;
@@ -1086,24 +814,6 @@ router.put('/users/editusuarios/:id', isAuthenticated, async (req, res) => {
     res.redirect('/usuarios');
 });
 
-router.put('/notes/editticket/:id', isAuthenticated, async (req, res) => {
-    const { plataforma, numticket, iniciador, ubicacion, celular, email,
-        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
-        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
-    } = req.body
-    await Ticket.findByIdAndUpdate(req.params.id, {
-        plataforma, numticket, iniciador, ubicacion, celular, email,
-        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
-        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
-    });
-    req.flash('success_msg', 'Ticket Actualizado')
-    res.redirect('/ticket/listado');
-});
-
 router.put('/notes/inspecciones/editnote/:id', isAuthenticated, async (req, res) => {
     const { numinspeccion, expediente, oficio, acta, adrema, date, inspuser,
         informeinspnum, fechaentradinspec, inspecfecha, inspector,
@@ -1164,12 +874,6 @@ router.delete('/usuarios/delete/:id', isAuthenticated, async (req, res) => {
         req.flash('success_msg', 'No puede eliminar usuario único')
         res.redirect('/usuarios')
     }
-});
-
-router.delete('/tickets/delete/:id', isAuthenticated, async (req, res) => {
-    await Ticket.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', 'Ticket Eliminado')
-    res.redirect('/ticket/listado')
 });
 
 //NOTES es inspecciones
@@ -1416,7 +1120,6 @@ router.post('/actuaciones/borrado/findcuitdni', isAuthenticated, async (req, res
         res.render('notes/borrados/borradolistaactuacion', { planiregactuainf });  
     }
 });
-
 
 router.post('/actuaciones/findadrema', isAuthenticated, async (req, res) => {
     const { adrema } = req.body;
@@ -1966,6 +1669,302 @@ router.put('/actuacion/editactuacion/:id', isAuthenticated, async (req, res) => 
     });
     req.flash('success_msg', 'Actuación Actualizada')
     res.redirect('/actuaciones/listado');
+});
+
+//** SECTOR TICKETS */
+
+router.get('/ticket/listado', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Inspector") {
+        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });;
+        res.render('notes/planillalistaticket', { ticket });
+    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const ticket = await Ticket.find().limit(500).lean().sort({ date: 'desc' });
+        res.render('notes/planillalistaticketadm', { ticket });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA MESA DE ENTRADA')
+        return res.redirect('/');
+    }
+});
+
+router.get('/tickets/add', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        const usuarios = await Users.find().lean().sort({ date: 'desc' });
+        res.render('notes/newtickets');
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETS')
+        return res.redirect('/');
+    }
+});
+
+router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
+
+    const { 
+        plataforma, numticket, iniciador, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+    } = req.body;
+
+    const newTicket = new Ticket({
+        plataforma, numticket, iniciador, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+    })
+
+    const minus = iniciador.toLocaleLowerCase();
+    const mayu = minus.replace(/\b\w/g, l => l.toUpperCase())
+    newTicket.iniciador = mayu
+    newTicket.user = req.user.id;
+    newTicket.name = req.user.name;
+    await newTicket.save();
+    req.flash('success_msg', 'Ticket Agregado Exitosamente');
+    res.redirect('/ticket/listado');
+});
+
+router.get('/movimientoticketcoord/add/:id', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const ticket = await Ticket.findById(req.params.id).lean();
+    const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort();
+    const usuarios = await Users.find().lean().sort({ date: 'desc' });
+    var inspectoresname = []
+    var inspectorescodigo = []
+    if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
+        for (var inspectores of inspectorestabla) {           
+           inspectoresname.push(inspectores.name)            
+           inspectorescodigo.push(inspectores.codigoinspector)
+        }
+        res.render('notes/inspecciones/expticket/movimientoticketcood.hbs', {ticket, inspectoresname, inspectorescodigo});;
+        //res.render('notes/allusuariosadm', { usuarios });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETs')
+        return res.redirect('/');
+    }
+});
+
+router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
+    var ticketcoordinado = await Ticket.findById(req.params.id).lean()    
+    var idticket = ticketcoordinado._id
+    var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({date: 'desc'});
+
+    for (var ticketcoordresultado of ticketcoordresultadotabla) {
+        //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;    
+
+        // permite mostrar en las tablas la fecha sola y ordenada
+        var tipoint = ticketcoordresultado.fechaintimacion;
+        if (tipoint != null) {
+            const fecha = new Date(ticketcoordresultado.fechaintimacion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            ticketcoordresultado.fechaintimacion = fullyear;
+        } else {
+            ticketcoordresultado.fechaintimacion = "----"
+        }
+
+        var tipoinf = ticketcoordresultado.fechainfraccion;
+        if (tipoinf != null) {
+            const fecha = new Date(ticketcoordresultado.fechainfraccion);
+            const dia = fecha.getDate()
+            var mes = 0
+            const calcmes = fecha.getMonth() + 1
+            if (calcmes < 10) {
+                mes = "0" + calcmes + "-"
+            } else {
+                mes = calcmes + "-"
+            }
+            if (dia > 0 && dia < 10) {
+                var diastring = "0" + dia + "-"
+            } else {
+                var diastring = dia + "-"
+            }
+            const ano = fecha.getFullYear()
+            //const fullyear = fecha.toLocaleDateString();
+            const fullyear = diastring + mes + ano
+            //const fullyear = fecha.toLocaleDateString();
+            ticketcoordresultado.fechainfraccion = fullyear;
+        } else {
+            ticketcoordresultado.fechainfraccion = "----"
+        }
+        // fechaActual.toString() = expedcoordresultado.fechaintimacion.slice(0, 10); //.slice(inicioTrozo[, finTrozo])
+        // expedcoordresultado.fechaintimacion = parseInt(fechaActual);
+        // necesito igualar para que se copie el cambio
+        ticketcoordresultado = ticketcoordresultadotabla
+        //console.log("expedcoordresultado", expedcoordresultado);
+        //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
+    }
+    res.render('notes/infracciones/listaticketcoordmov', { ticketcoordresultado, ticketcoordinado })
+});
+
+router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {
+    const ticket = await Ticket.findById(req.params.id).lean()
+    res.render('notes/listticket', { ticket })
+});
+
+router.get('/tickets/edit/:id', isAuthenticated, async (req, res) => {
+    const ticket = await Ticket.findById(req.params.id).lean()
+    res.render('notes/editticket', { ticket })
+});
+
+router.put('/notes/editticket/:id', isAuthenticated, async (req, res) => {
+    const { plataforma, numticket, iniciador, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+    } = req.body
+    await Ticket.findByIdAndUpdate(req.params.id, {
+        plataforma, numticket, iniciador, ubicacion, celular, email,
+        adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
+        supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
+        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+    });
+    req.flash('success_msg', 'Ticket Actualizado')
+    res.redirect('/ticket/listado');
+});
+
+router.delete('/tickets/delete/:id', isAuthenticated, async (req, res) => {
+    await Ticket.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Ticket Eliminado')
+    res.redirect('/ticket/listado')
+});
+
+router.post('/ticket/findlistaticket', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { numticket } = req.body;
+    const ticket = await Ticket.find({ numticket: { $regex: numticket, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Jefe-Inspectores") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticket");
+        } else {
+            res.render('notes/planillalistaticket', { ticket })
+        }
+    } else if (rolusuario == "Administrador") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticketadm");
+        } else {
+            res.render('notes/planillalistaticketadm', { ticket })
+        }
+    } else {
+        res.render('notes/planillalistaticket', { ticket })
+    }
+});
+
+router.post('/ticket/findlistainiciador', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { iniciador } = req.body;
+    const ticket = await Ticket.find({ iniciador: { $regex: iniciador, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Inspector") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticket");
+        } else {
+            res.render('notes/planillalistaticket', { ticket })
+        }
+    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticketadm");
+        } else {
+            res.render('notes/planillalistaticketadm', { ticket })
+        }
+    } else {
+        res.render('notes/planillalistaticket', { ticket })
+    }
+});
+
+router.post('/ticket/findlistaadrema', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { adrema } = req.body;
+    const ticket = await Ticket.find({ adrema: { $regex: adrema, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Inspector") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticket");
+        } else {
+            res.render('notes/planillalistaticket', { ticket })
+        }
+    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticketadm");
+        } else {
+            res.render('notes/planillalistaticketadm', { ticket })
+        }
+    } else {
+        res.render('notes/planillalistaticket', { ticket })
+    }
+});
+
+router.post('/ticket/findlistadireccion', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { ubicacion } = req.body;
+    const ticket = await Ticket.find({ ubicacion: { $regex: ubicacion, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Inspector") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticket");
+        } else {
+            res.render('notes/planillalistaticket', { ticket })
+        }
+    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticketadm");
+        } else {
+            res.render('notes/planillalistaticketadm', { ticket })
+        }
+    } else {
+        res.render('notes/planillalistaticket', { ticket })
+    }
+});
+
+router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    const { inspeccionfecha } = req.body;
+    const ticket = await Ticket.find({ inspeccionfecha: { $regex: inspeccionfecha, $options: "i" } }).lean().sort({ date: 'desc' })
+    if (rolusuario == "Inspector") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticket");
+        } else {
+            res.render('notes/planillalistaticket', { ticket })
+        }
+    } else if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        if (!ticket) {
+            req.flash('success_msg', 'cargue Nombre y Apellido')
+            return res.render("notes/planillalistaticketadm");
+        } else {
+            res.render('notes/planillalistaticketadm', { ticket })
+        }
+    } else {
+        res.render('notes/planillalistaticket', { ticket })
+    }
 });
 
 module.exports = router;
