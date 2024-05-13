@@ -227,12 +227,17 @@
         </div>
         <div class="card-body">
             <form action="/notes/newexpedcoordinresult/" method="POST">
-                
                 <div class="form-group">
-                    Expediente Nº:
+                    Ticket Nº:
+                    <input style="color: green" onkeyup="ponerMayuscula('numticket')" id="numticket" type="text"
+                        name="numticket" class="form-control" placeholder="Ticket Nº"
+                        value="{{ticket.numticket}}" readonly>
+                </div>
+                <div class="form-group">
+                    Adrema Nº:
                     <input style="color: green" onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text"
                         name="numexpediente" class="form-control" placeholder="Expediente Nº"
-                        value="{{expedcoordinado.numexpediente}}" readonly>
+                        value="{{ticket.adrema}}" readonly>
                 </div>
                 <div class="form-group">
                     Estado Coord.Inspección:
@@ -301,11 +306,11 @@
                     Código Inspector:
                     <input style="color: black;" type="text" id="codigoinspector"
                         name="codigoinspector" class="form-control" placeholder="Código Inspector"
-                        value="{{expedcoordinado.codigoinspector}}" readonly/>                        
+                        value="{{ticket.codigoinspector}}" readonly/>                        
                     {{!-- Se usa para convertir en array los datos de codigo y de inspector --}}
                     <input style="display: none" type="text" id="inputcodigoinspector"
                         name="inputinspectorescodigo" class="form-control"
-                        value="{{inspectorescodigo}}"/>
+                        value="{{inspectores.codigoinspector}}"/>
                     <input style="display: none" type="text" id="inputinspector" name="inputinspector"
                         class="form-control" value="{{inspectoresname}}" />
                 </div>
@@ -313,7 +318,7 @@
                     Inspector (NyA):
                     <input style="color: black;" type="text" id="inspector"
                         name="inspector" class="form-control" placeholder="Inspector (NyA)"
-                        value="{{expedcoordinado.inspector}}" readonly/>
+                        value="{{inspectores.name}}" readonly/>
                 </div>
 
                 <button id="botoninspector" class='btn btn-primary' name="botoninspector" type="button"
@@ -325,29 +330,29 @@
                     Iniciador (NyA):
                     <input style="color: green;" onkeyup="ShowName('iniciadornomyape')" type="text"
                         id="iniciadornomyape" name="iniciadornomyape" class="form-control" placeholder="Iniciador (NyA)"
-                        value="{{expedcoordinado.iniciadornomyape}}" />
+                        value="{{ticket.iniciadornomyape}}" />
                 </div>
                 <div class="form-group">
                     Domicilio:
                     <input style="color: green" onkeyup="ShowName('domicilio')" type="text" id="domicilio"
                         name="domicilio" class="form-control" placeholder="Domicilio"
-                        value="{{expedcoordinado.domicilio}}" readonly />
+                        value="{{ticket.domicilio}}" readonly />
                 </div>
                 <div class="form-group">
                     Adrema Nº:
                     <input style="color: green" onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp"
-                        class="form-control" placeholder="Nº Adrema" value="{{expedcoordinado.adremaexp}}"
+                        class="form-control" placeholder="Nº Adrema" value="{{ticket.adremaexp}}"
                         readonly></input>
                 </div>
                 <div class="form-group">
                     Fecha Inspección:
                     <input type="text" name="fechainicioentrada" class="form-control" placeholder="Fecha inicio entrada"
-                        value="{{expedcoordinado.fechainspeccion}}" readonly></input>
+                        value="{{ticket.fechainspeccion}}" readonly></input>
                 </div>
                 <div class="form-group">
                     Hora Inspección:
                     <input type="text" name="horainspeccion" class="form-control" placeholder="Fecha Hora Inspección"
-                        value="{{expedcoordinado.horainspeccion}}" readonly></input>
+                        value="{{ticket.horainspeccion}}" readonly></input>
                 </div>
                 <p></p>
                 <div class="form-group">

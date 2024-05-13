@@ -1169,7 +1169,7 @@ router.get('/actuaciones/add', isAuthenticated, async (req, res) => {
         res.render('notes/inspecciones/infracciones/newactuaciones', usuarios);
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETS')
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA ACTUACIONES')
         return res.redirect('/');
     }
 });
@@ -1702,7 +1702,6 @@ router.get('/tickets/add', isAuthenticated, async (req, res) => {
 });
 
 router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
-
     const { 
         plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
@@ -1710,7 +1709,6 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
         fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
         infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     } = req.body;
-
     const newTicket = new Ticket({
         plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
@@ -1718,7 +1716,6 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
         fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
         infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     })
-
     const minus = iniciador.toLocaleLowerCase();
     const mayu = minus.replace(/\b\w/g, l => l.toUpperCase())
     newTicket.iniciador = mayu
@@ -1753,11 +1750,9 @@ router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req,
     var ticketcoordinado = await Ticket.findById(req.params.id).lean()    
     var idticket = ticketcoordinado._id
     var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({date: 'desc'});
-
     for (var ticketcoordresultado of ticketcoordresultadotabla) {
         //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
-        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;    
-
+        //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;  
         // permite mostrar en las tablas la fecha sola y ordenada
         var tipoint = ticketcoordresultado.fechaintimacion;
         if (tipoint != null) {
@@ -1783,7 +1778,6 @@ router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req,
         } else {
             ticketcoordresultado.fechaintimacion = "----"
         }
-
         var tipoinf = ticketcoordresultado.fechainfraccion;
         if (tipoinf != null) {
             const fecha = new Date(ticketcoordresultado.fechainfraccion);
@@ -1815,8 +1809,8 @@ router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req,
         //console.log("expedcoordresultado", expedcoordresultado);
         //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
     }
-    res.render('notes/infracciones/listaticketcoordmov', { ticketcoordresultado, ticketcoordinado })
-});
+    res.render('notes/inspecciones/infracciones/listaticketcoordmov', { ticketcoordresultado, ticketcoordinado })
+}); 
 
 router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
