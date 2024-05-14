@@ -113,6 +113,11 @@ const TicketSchema = new Schema({
         type: String,
         require: false,
         default: "No Informó"
+    }, 
+    codigoinspector: {
+        type: String,
+        require: false,
+        default: "No Posee Información"
     },
     inspeccioninspector: {
         type: String,

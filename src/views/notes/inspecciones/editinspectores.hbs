@@ -15,7 +15,7 @@
 
         var todoslosroles = ["Mesa-Entrada", "Administrativo", "Administrador", "Jefe-Inspectores",
             "Inspector", "Liquidaciones"];
-        //const rolusuariosborrara = usuarios.rolusuario.toString();
+        //const rolinspectoresborrara = inspectores.rolusuario.toString();
         var roltraido = document.getElementById('mostrarrolusuario').value;
         var roles = todoslosroles.filter(rol => rol != roltraido);
 
@@ -40,9 +40,16 @@
         //y.value = y.value.toLowerCase();
     }
 
-    function ShowName() {
-        var writtenName = document.getElementById('name').value;
-        document.getElementById('name').value = formatToString(writtenName);
+    function ponermayuscula(mayu) {
+        let ex = document.getElementById(mayu);
+        ex.value = ex.value.toUpperCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+    function ShowName(nombre) {
+        var writtenName = document.getElementById(nombre).value;
+        document.getElementById(nombre).value = formatToString(writtenName);
     }
 
     function formatToString(writtenName) {
@@ -64,56 +71,43 @@
     <div class="col-md-6 mx-auto">
         <div class="card">
             <div class="card-header">
-                <h4 style="color:red; text-shadow: 1px 1px 2px black">Edición de Usuarios/Sistema</h4>
+                <h4 style="color:red; text-shadow: 1px 1px 2px black">Edición de Inspectores</h4>
                 <div class="card-body">
-                    <form action="/users/editusuarios/{{usuarios._id}}?_method=PUT" method="POST">
-                        {{!-- <div class="form-group">
-                            <p>Elige un Rol de Usuario:
-                                <select name="aaarolusuario">
-                                    <option>{{usuarios.rolusuario}}</option>
-                                    <option>Mesa-Entrada</option>
-                                    <option>Administrativo</option>
-                                    <option>Administrador</option>
-                                    <option>Jefe-Inspectores</option>
-                                    <option>Inspector</option>
-                                    <option>Liquidaciones</option>
-                                </select>
-                            </p>
-                        </div> --}}
-                        <div class="form-group">
-                            Rol Actual en Sistema:
-                            <input type="text" class="form-control" id="mostrarrolusuario" name="mostrarrolusuario"
-                                value="{{usuarios.rolusuario}}" readonly>
-                                <p></p>
-                            <p>Elige Nuevo Rol de Usuario:</p>
-                            <select name="rolusuario">
-                                <option>{{usuarios.rolusuario}}</option>
-                            </select>
+                    <form action="/inspectores/editinspectores/{{inspectores._id}}?_method=PUT" method="POST">
+                       <div class="form-group">
+                            Numero de Orden Inspector
+                            <input onkeyup=ponermayuscula("numorden"); type="text" class="form-control" id="numorden" name="numorden"
+                                placeholder="Número de Orden" value="{{inspectores.numorden}}" readonly>
                         </div>
-                        <div class="form-group">
-                            Nombre y Apellido
-                            <input onkeyup="ShowName();" type="text" class="form-control" id="name" name="name"
-                                placeholder="Nombre" value="{{usuarios.name}}">
+                       <div class="form-group">
+                            Nombre y Apellido Inspector
+                            <input onkeyup=ShowName("name"); type="text" class="form-control" id="name" name="name"
+                                placeholder="Nombre y Apellido" value="{{inspectores.name}}">
                         </div>
                         <div class="form-group">
                             Doc. Nac.Identidad
-                            <input type="number" class="form-control" id="dni" name="dni"
-                                placeholder="Doc. Nac.Identidad" value="{{usuarios.dni}}">
+                            <input type="text" class="form-control" id="dni" name="dni"
+                                placeholder="Doc.Nac.Identidad" value="{{inspectores.dni}}">
+                        </div>
+                        <div class="form-group">
+                            Celular
+                            <input type="number" class="form-control" id="celular" name="celular"
+                                placeholder="N° Celular" value="{{inspectores.celular}}">
                         </div>
                         <div class="form-group">
                             Código Inspector
-                            <input type="text" class="form-control" id="codigoinspector" name="codigoinspector"
-                                placeholder="Código Inspector" value="{{usuarios.codigoinspector}}">
+                            <input onkeyup=ponermayuscula("codigoinspector"); type="text" class="form-control" id="codigoinspector" name="codigoinspector"
+                                placeholder="Código Inspector" value="{{inspectores.codigoinspector}}">
                         </div>
                         <div class="form-group">
                             Función
-                            <input type="text" class="form-control" id="funcion" name="funcion" placeholder="Función"
-                                value="{{usuarios.funcion}}">
+                            <input onkeyup=ponermayuscula("funcion"); type="text" class="form-control" id="funcion" name="funcion" placeholder="Función"
+                                value="{{inspectores.funcion}}">
                         </div>
                         <div class="form-group">
                             Correo/Email
                             <input onkeyup="ponerminuscula()" id="email" type="email" class="form-control" name="email"
-                                placeholder="Correo/Email" value="{{usuarios.email}}">
+                                placeholder="Correo/Email" value="{{inspectores.email}}">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Contraseña" disabled>
@@ -133,7 +127,7 @@
                             <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
                                 &laquo; Volver Atrás
                             </a>
-                            {{!-- <p style="color:red; font-style:oblique; font-weight: bold;"><a href="/usuarios"><i
+                            {{!-- <p style="color:red; font-style:oblique; font-weight: bold;"><a href="/inspectores"><i
                                         class="fas fa-list" style='font-size:24px;color:blue'></i></a> Cancelar</p> --}}
                         </div>
                     </form>

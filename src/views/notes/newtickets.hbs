@@ -99,9 +99,11 @@
         //y.value = y.value.toLowerCase();
     }
 
-    function ponermayuscula() {
+    function ponermayuscula(mayu) {
         let ex = document.getElementById("adrema");
         ex.value = ex.value.toUpperCase();
+        let em = document.getElementById(mayu);
+        em.value = em.value.toUpperCase();
         //let y = document.getElementById("adrema");
         //y.value = y.value.toLowerCase();
     }
@@ -243,6 +245,11 @@
                     Inspector:
                     <input id="nomyapeinsp" onkeyup="ShowNameInsp()" style="font-weight: bold; color:green"
                         name="inspeccioninspector" class="form-control" placeholder="Inspector"></input>
+                </div>
+                <div class="form-group">
+                    Código Inspector:
+                    <input id="codigoinspector" onkeyup=ponermayuscula("codigoinspector") style="font-weight: bold; color:green"
+                        name="codigoinspector" class="form-control" placeholder="Código Inspector"></input>
                 </div>
                 <div class="form-group">
                     Fecha de Inspector:

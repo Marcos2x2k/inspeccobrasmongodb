@@ -381,18 +381,6 @@ router.get('/usuarios', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/Inspectores', isAuthenticated, async (req, res) => {
-    const rolusuario = req.user.rolusuario;
-    //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador") {
-        const inspectores = await Inspectores.find().lean().sort({ date: 'desc' });
-        res.render('notes/allinspectoresadm', { inspectores });
-    } else {
-        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
-        return res.redirect('/');
-    }
-});
-
 router.get('/notes', isAuthenticated, async (req, res) => { // (INSPECCIONES)
     // res.send('Notes from data base');
     // const notes = await Note.find({user : req.user.id}).lean().sort({numinspeccion:'desc'}); //para que muestre notas de un solo user
@@ -1706,15 +1694,15 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
         plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+        fechaentradainspecciones, documentacion, inspeccionfecha, codigoinspector, inspeccioninspector, 
+        intimaciones, infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     } = req.body;
     const newTicket = new Ticket({
         plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, codigoinspector,
+        intimaciones, infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     })
     const minus = iniciador.toLocaleLowerCase();
     const mayu = minus.replace(/\b\w/g, l => l.toUpperCase())
@@ -1826,15 +1814,15 @@ router.put('/notes/editticket/:id', isAuthenticated, async (req, res) => {
     const { plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, codigoinspector,
+        intimaciones, infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     } = req.body
     await Ticket.findByIdAndUpdate(req.params.id, {
         plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, intimaciones,
-        infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
+        fechaentradainspecciones, documentacion, inspeccionfecha, inspeccioninspector, codigoinspector,
+        intimaciones, infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     });
     req.flash('success_msg', 'Ticket Actualizado')
     res.redirect('/ticket/listado');
@@ -1959,6 +1947,37 @@ router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
     } else {
         res.render('notes/planillalistaticket', { ticket })
     }
+});
+
+//** INSPECTORES */
+
+router.get('/Inspectores', isAuthenticated, async (req, res) => {
+    const rolusuario = req.user.rolusuario;
+    //console.log("ROL USUARIO", rolusuario) //Inspector
+    if (rolusuario == "Administrador") {
+        const inspectores = await Inspectores.find().lean().sort({ date: 'desc' });
+        res.render('notes/allinspectoresadm', { inspectores });
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
+        return res.redirect('/');
+    }
+});
+
+router.get('/inspectores/edit/:id', isAuthenticated, async (req, res) => {
+    const inspectores = await Inspectores.findById(req.params.id).lean();
+    res.render('notes/inspecciones/editinspectores', { inspectores })    
+});
+
+router.put('/inspectores/editinspectores/:id', isAuthenticated, async (req, res) => {
+    const { numorden, name, dni, direccion, codigoinspector, celular,
+        email, date
+    } = req.body
+    await Inspectores.findByIdAndUpdate(req.params.id, {
+        numorden, name, dni, direccion, codigoinspector, celular,
+        email, date
+    });
+    req.flash('success_msg', 'Inspector Actualizado')
+    res.redirect('/inspectores');
 });
 
 module.exports = router;
