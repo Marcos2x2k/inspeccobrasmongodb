@@ -2005,5 +2005,11 @@ router.put('/inspectores/editinspectores/:id', isAuthenticated, async (req, res)
     res.redirect('/inspectores');
 });
 
+router.delete('/inspectores/delete/:id', isAuthenticated, async (req, res) => {
+    await Inspectores.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Inspector Eliminado Definitivamente')
+    res.redirect('/inspectores')
+});
+
 module.exports = router;
 

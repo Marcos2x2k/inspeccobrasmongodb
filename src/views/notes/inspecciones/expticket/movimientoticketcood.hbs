@@ -1,20 +1,18 @@
 <script>
     //carga al iniciar la pagina
     window.onload = function () {
-        //cargar_inspectores()
+        cargar_inspectores()
     }
 
     // funcion para Cargar inspectores al campo <select>
     function cargar_inspectores() {
-
         document.getElementById("codigoinspector").value = "Esperando... nuevo codigo inspector";
         document.getElementById("inspector").value = "Esperando... nuevo Nombre inspector";
         document.getElementById("codigoinspector").style.color = "grey";
         document.getElementById("inspector").style.color = "grey";
         document.getElementById("seleccioninspector").style.display = "block";
         document.getElementById("botoninspector").style.display = "none";
-        //document.getElementById("grabar").disabled = true;  
-            
+        //document.getElementById("grabar").disabled = true;            
 
         let codigoinspectoresarray = document.getElementById("inputcodigoinspector").value
         let nombreinspectoresarray = document.getElementById("inputinspector").value
@@ -306,11 +304,11 @@
                     Código Inspector:
                     <input style="color: black;" type="text" id="codigoinspector"
                         name="codigoinspector" class="form-control" placeholder="Código Inspector"
-                        value="{{ticket.codigoinspector}}" readonly/>                        
+                        value="{{inspectores.codigoinspector}}" readonly/>                        
                     {{!-- Se usa para convertir en array los datos de codigo y de inspector --}}
                     <input style="display: none" type="text" id="inputcodigoinspector"
                         name="inputinspectorescodigo" class="form-control"
-                        value="{{inspectores.codigoinspector}}"/>
+                        value="{{inspectorescodigo}}"/>
                     <input style="display: none" type="text" id="inputinspector" name="inputinspector"
                         class="form-control" value="{{inspectoresname}}" />
                 </div>
@@ -318,7 +316,7 @@
                     Inspector (NyA):
                     <input style="color: black;" type="text" id="inspector"
                         name="inspector" class="form-control" placeholder="Inspector (NyA)"
-                        value="{{ticket.inspeccioninspector}}" readonly/>
+                        value="{{inspectores.inspeccioninspector}}" readonly/>
                 </div>
 
                 <button id="botoninspector" class='btn btn-primary' name="botoninspector" type="button"

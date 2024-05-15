@@ -108,7 +108,7 @@
                   Borrar
                 </button>
               </form> --}}
-              <form onSubmit="return confirm('Desea enviar Papelera?')" style=""
+              <form onSubmit="return confirm('Desea enviar Papelera? N° Expediente: {{numexpediente}}')" style=""
                 action="/expedientes/marcadelete/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <button class="btn btn-danger btn-block btn-sm" type="submit">
