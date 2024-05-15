@@ -21,6 +21,11 @@ const InspectoresSchema = new Schema ({
         require: false, 
         default:"NoPosee"
     },
+    funcion:{
+        type: String, 
+        require: false, 
+        default:"NoPosee"
+    },
     celular: {
         type: String, 
         require: true,
@@ -31,6 +36,16 @@ const InspectoresSchema = new Schema ({
         require: true,
         default:"No Declarado"
     },  
+    user: {
+        type: String,
+        require: false,
+        default: "Administrador"
+    },
+    nameuser: {
+        type: String,
+        require: false,
+        default: "Administrador"
+    },
     date: {
         type: Date, 
         default: Date.now

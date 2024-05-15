@@ -7,7 +7,7 @@
 
     //carga al iniciar la pagina
     window.onload = function () {
-        cargar_Roles()
+        //cargar_Roles()
         //document.getElementById('botonfecha').click();
     }
     // funcion para Cargar Provincias al campo <select>
@@ -67,61 +67,63 @@
 </script>
 
 {{!-- <h1> REGISTER </h1> --}}
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <div class="card">
-            <div class="card-header">
-                <h4 style="color:red; text-shadow: 1px 1px 2px black">Edición de Inspectores</h4>
-                <div class="card-body">
-                    <form action="/inspectores/editinspectores/{{inspectores._id}}?_method=PUT" method="POST">
-                       <div class="form-group">
+<div class="row" disabled >
+    <div class="col-md-6 mx-auto" disabled >
+        <div class="card" disabled >
+            <div class="card-header" disabled >
+                <h4 style="color:red; text-shadow: 1px 1px 2px black" disabled >Datos de Inspector</h4>
+                <div class="card-body" disabled >
+                    <form action="/inspectores/editinspectores/{{inspectores._id}}?_method=PUT" method="POST" disabled >
+                       <div class="form-group" disabled >
                             Numero de Orden Inspector
                             <input onkeyup=ponermayuscula("numorden"); type="text" class="form-control" id="numorden" name="numorden"
                                 placeholder="Número de Orden" value="{{inspectores.numorden}}" readonly>
                         </div>
-                       <div class="form-group">
+                       <div class="form-group" disabled >
                             Nombre y Apellido Inspector
                             <input onkeyup=ShowName("name"); type="text" class="form-control" id="name" name="name"
-                                placeholder="Nombre y Apellido" value="{{inspectores.name}}">
+                                placeholder="Nombre y Apellido" value="{{inspectores.name}}" disabled >
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" disabled >
                             Doc. Nac.Identidad
                             <input type="text" class="form-control" id="dni" name="dni"
-                                placeholder="Doc.Nac.Identidad" value="{{inspectores.dni}}">
+                                placeholder="Doc.Nac.Identidad" value="{{inspectores.dni}}" disabled >
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" disabled >
                             Celular
                             <input type="number" class="form-control" id="celular" name="celular"
-                                placeholder="N° Celular" value="{{inspectores.celular}}">
+                                placeholder="N° Celular" value="{{inspectores.celular}}" disabled >
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" disabled >
                             Código Inspector
                             <input onkeyup=ponermayuscula("codigoinspector"); type="text" class="form-control" id="codigoinspector" name="codigoinspector"
-                                placeholder="Código Inspector" value="{{inspectores.codigoinspector}}">
+                                placeholder="Código Inspector" value="{{inspectores.codigoinspector}}" disabled >
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" disabled >
                             Función
-                            <input onkeyup=ShowName("funcion"); type="text" class="form-control" id="funcion" name="funcion" placeholder="Función"
-                                value="{{inspectores.funcion}}">
+                            <input onkeyup=ponermayuscula("funcion"); type="text" class="form-control" id="funcion" name="funcion" placeholder="Función"
+                                value="{{inspectores.funcion}}" disabled >
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" disabled >
                             Correo/Email
                             <input onkeyup="ponerminuscula()" id="email" type="email" class="form-control" name="email"
-                                placeholder="Correo/Email" value="{{inspectores.email}}">
-                        </div>                        
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-block">
-                                Guardar Cambios
-                            </button>
-                            <br />
-                            {{!-- <a class="btn btn-danger btn-sm" href="/users/signin" role="button">Volver al
-                                Login</a> --}}
-                        </div>
+                                placeholder="Correo/Email" value="{{inspectores.email}}" disabled >
+                        </div>  
+                        <div style = "color:gray" class="form-group" disabled >
+                            Usuario Creo Inspector
+                            <input  style = "color:gray" onkeyup="ponerminuscula()" id="nameuser" type="text" class="form-control" name="email"
+                                placeholder="Usuario Creo Inspector" value="{{inspectores.nameuser}}" disabled >
+                        </div>  
+                        <div  style = "color:gray" class="form-group" disabled >
+                            Fecha Creacion Inspector
+                            <input  style = "color:gray" onkeyup="ponerminuscula()" id="date" type="text" class="form-control" name="email"
+                                placeholder="Fecha Creación" value="{{inspectores.date}}" disabled >
+                        </div>  
                         <div>
-                            <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;">
+                            <a href="javascript:window.history.back();" style="color:blue; font-weight: bold;" disabled >
                                 &laquo; Volver Atrás
                             </a>
-                            {{!-- <p style="color:red; font-style:oblique; font-weight: bold;"><a href="/inspectores"><i
+                            {{!-- <p style="color:red; font-style:oblique; font-weight: bold;" disabled ><a href="/inspectores" disabled ><i
                                         class="fas fa-list" style='font-size:24px;color:blue'></i></a> Cancelar</p> --}}
                         </div>
                     </form>

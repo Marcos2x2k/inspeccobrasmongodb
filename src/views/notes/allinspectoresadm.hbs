@@ -17,7 +17,7 @@
         <h5>Sección de Inspectores - ADMINISTRADOR</h5>
     </div>
     <br /><br />
-    <a href="/inspectores/11vvsOpmo90W" class="btn btn-success btn-block  btn-sm">Cargar Nuevo Inspector!</a>
+    <a href="/inspectores/add" class="btn btn-success btn-block  btn-sm">Cargar Nuevo Inspector!</a>
     <a href="/inspectores" class="btn btn-dark btn-block btn-sm">Recargar Todo el Listado</a>
     <br /><br />
     <div class="form-group btn-center mx-auto">
@@ -27,11 +27,11 @@
                 <thead>
                     <tr id="tdtable" style="background-color: rgb(22, 166, 214);text-shadow: 1px 1px 2px black">
                         {{!-- <td>_ID</td> --}}
+                        <td>N° Orden</td>
                         <td>Nombre</td>
                         <td>D.N.I.</td>
-                        <td>Cod.Inspector</td>                        
-                        <td>N° Orden</td>
-                        <td>Celular</td>
+                        <td>Cod.Inspector</td>  
+                        <td>Función</td>
                         <td>Opciones</td>
                         {{!-- <td>Impresión</td> --}}
                     </tr>
@@ -44,13 +44,13 @@
                                 value=''
                                 style="color:rgb(53, 28, 196);font-weight: bold;text-shadow: 1px 1px 2px black"></input>
                         </td> --}}
+                        <td>{{ numorden }}</td>
                         <td>{{ name }}</td>
                         <td>{{ dni }}</td>
-                        <td>{{ codigoinspector }}</td>
-                        <td>{{ numorden }}</td>
-                        <td>CrearCel</td>
+                        <td>{{ codigoinspector }}</td>                        
+                        <td>{{funcion}}</td>
                         <td>                            
-                            <a class="dropdown-item" href="/usuario/list/{{_id}}"
+                            <a class="dropdown-item" href="/inspectores/list/{{_id}}"
                                 style="color:rgb(226, 241, 9);font-weight: bold;text-shadow: 1px 1px 2px black;">+Info</a>
                             <a class="dropdown-item" href="/inspectores/edit/{{_id}}"
                                 style="color:rgb(165, 196, 28)">Editar</a>

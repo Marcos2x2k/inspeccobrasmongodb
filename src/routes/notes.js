@@ -1963,18 +1963,43 @@ router.get('/Inspectores', isAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/inspectores/list/:id', isAuthenticated, async (req, res) => {
+    //const _id = req.params.id
+    const inspectores = await Inspectores.findById(req.params.id).lean()
+    res.render('notes/inspecciones/listinspectores', { inspectores })
+});
+
+router.get('/inspectores/add', isAuthenticated, (req, res) => {
+    res.render('notes/inspecciones/newinspectores');
+})
+
+router.post('/inspectores/newinspectores', isAuthenticated, async (req, res) => {
+    const { numorden, name, dni, funcion, direccion, codigoinspector, celular,
+        email, user, nameuser, date
+    } = req.body;
+    const newInspectores = new Inspectores({
+        numorden, name, dni, funcion, direccion, codigoinspector, celular,
+        email, user, nameuser, date
+    })
+    newInspectores.user = req.user.id;
+    newInspectores.nameuser = req.user.name;
+    await newInspectores.save();
+    req.flash('success_msg', 'Inspector Agregado Exitosamente');
+    res.redirect('/Inspectores');
+})
+
 router.get('/inspectores/edit/:id', isAuthenticated, async (req, res) => {
     const inspectores = await Inspectores.findById(req.params.id).lean();
     res.render('notes/inspecciones/editinspectores', { inspectores })    
 });
 
 router.put('/inspectores/editinspectores/:id', isAuthenticated, async (req, res) => {
-    const { numorden, name, dni, direccion, codigoinspector, celular,
-        email, date
+    const { numorden, name, dni, funcion, direccion, codigoinspector, celular,
+        email, user, nameuser, date
     } = req.body
     await Inspectores.findByIdAndUpdate(req.params.id, {
-        numorden, name, dni, direccion, codigoinspector, celular,
-        email, date
+        numorden, name, dni, funcion, direccion, codigoinspector, celular,
+        email, user, nameuser, date
     });
     req.flash('success_msg', 'Inspector Actualizado')
     res.redirect('/inspectores');

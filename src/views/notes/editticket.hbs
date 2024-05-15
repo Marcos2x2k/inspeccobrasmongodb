@@ -1,3 +1,71 @@
+<script>
+
+    // Carga al inicio pero solo si hay un body
+    //function myOnLoad() {
+    //    cargar_provincias()
+    //}
+
+    //carga al iniciar la pagina
+    window.onload = function () {
+        //cargar_Roles()
+        //document.getElementById('botonfecha').click();
+    }
+    // funcion para Cargar Provincias al campo <select>
+    function cargar_Roles() {
+        var todoslosroles = ["Mesa-Entrada", "Administrativo", "Administrador", "Jefe-Inspectores",
+            "Inspector", "Liquidaciones"];
+        //const rolinspectoresborrara = inspectores.rolusuario.toString();
+        var roltraido = document.getElementById('mostrarrolusuario').value;
+        var roles = todoslosroles.filter(rol => rol != roltraido);
+
+        // Ordena el Array Alfabeticamente, es muy facil ;)):
+        roles.sort();
+        addOptions("rolusuario", roles);
+    }
+    // Rutina para agregar opciones a un <select>
+    function addOptions(domElement, roles) {
+        var select = document.getElementsByName(domElement)[0];
+        for (value in roles) {
+            var option = document.createElement("option");
+            option.text = roles[value];
+            select.add(option);
+        }
+    }
+
+    function ponerminuscula() {
+        let ex = document.getElementById("email");
+        ex.value = ex.value.toLowerCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+    function ponermayuscula(mayu) {
+        let ex = document.getElementById(mayu);
+        ex.value = ex.value.toUpperCase();
+        //let y = document.getElementById("adrema");
+        //y.value = y.value.toLowerCase();
+    }
+
+    function ShowName(nombre) {
+        var writtenName = document.getElementById(nombre).value;
+        document.getElementById(nombre).value = formatToString(writtenName);
+    }
+
+    function formatToString(writtenName) {
+        var tmp = writtenName.split(" ");
+        var fullName;
+        tmp.forEach(element => {
+            if (fullName) {
+                fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            } else {
+                fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
+            }
+        })
+        return fullName;
+    }
+</script>
+
+
 <div class="col-md-7 mx-auto">
     <div class="card">
         <div class="card-header">
@@ -13,12 +81,12 @@
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Iniciador
-                    <input type="text" name="iniciador" class="form-control" placeholder="Iniciador"
+                    <input onkeyup=ShowName("iniciador") type="text" id="iniciador" name="iniciador" class="form-control" placeholder="Iniciador"
                         value="{{ticket.iniciador}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
                     Ubicación
-                    <input type="text" name="ubicacion" class="form-control" placeholder="Ubicación"
+                    <input  onkeyup=ShowName("ubicacion") type="text" id="ubicacion" name="ubicacion" class="form-control" placeholder="Ubicación"
                         value="{{ticket.ubicacion}}">
                 </div>
                 <div class="form-group" style="color:brown; font-style:oblique; font-weight: bold;">
