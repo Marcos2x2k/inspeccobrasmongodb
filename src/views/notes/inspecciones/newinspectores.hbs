@@ -52,8 +52,8 @@
         document.getElementById(nombre).value = formatToString(writtenName);
     }
 
-    function formatToString(writtenName) {
-        var tmp = writtenName.split(" ");
+    function formatToString(writtenName) {        
+        var tmp = tmpsincoma.split(" ");                
         var fullName;
         tmp.forEach(element => {
             if (fullName) {
@@ -62,7 +62,8 @@
                 fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
             }
         })
-        return fullName;
+        var tmpsincoma = fullName.filter((i) => i !== ","); // filtramos
+        return tmpsincoma;
     }
 </script>
 
@@ -73,21 +74,20 @@
             <div class="card-header">
                 <h4 style="color:red; text-shadow: 1px 1px 2px black">Edición de Inspectores</h4>
                 <div class="card-body">
-                    <form action="/inspectores/newinspectores"  method="POST" enctype="multipart/form-data">
-                       <div class="form-group">
+                    <form action="/inspectores/newinspectores" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
                             Numero de Orden Inspector
-                            <input onkeyup=ponermayuscula("numorden"); type="text" class="form-control" id="numorden" name="numorden"
-                                placeholder="Número de Orden">
+                            <input onkeyup=ponermayuscula("numorden"); type="text" class="form-control" id="numorden"
+                                name="numorden" placeholder="Número de Orden">
                         </div>
-                       <div class="form-group">
+                        <div class="form-group">
                             Nombre y Apellido Inspector
                             <input onkeyup=ShowName("name"); type="text" class="form-control" id="name" name="name"
                                 placeholder="Nombre y Apellido">
                         </div>
                         <div class="form-group">
                             Doc. Nac.Identidad
-                            <input type="text" class="form-control" id="dni" name="dni"
-                                placeholder="Doc.Nac.Identidad">
+                            <input type="text" class="form-control" id="dni" name="dni" placeholder="Doc.Nac.Identidad">
                         </div>
                         <div class="form-group">
                             Celular
@@ -96,19 +96,19 @@
                         </div>
                         <div class="form-group">
                             Código Inspector
-                            <input onkeyup=ponermayuscula("codigoinspector"); type="text" class="form-control" id="codigoinspector" name="codigoinspector"
-                                placeholder="Código Inspector">
+                            <input onkeyup=ponermayuscula("codigoinspector"); type="text" class="form-control"
+                                id="codigoinspector" name="codigoinspector" placeholder="Código Inspector">
                         </div>
                         <div class="form-group">
                             Función
-                            <input onkeyup=ShowName("funcion"); type="text" class="form-control" id="funcion" name="funcion" placeholder="Función"
-                                >
+                            <input onkeyup=ShowName("funcion"); type="text" class="form-control" id="funcion"
+                                name="funcion" placeholder="Función">
                         </div>
                         <div class="form-group">
                             Correo/Email
                             <input onkeyup="ponerminuscula()" id="email" type="email" class="form-control" name="email"
                                 placeholder="Correo/Email">
-                        </div>                        
+                        </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success btn-block">
                                 Guardar Cambios

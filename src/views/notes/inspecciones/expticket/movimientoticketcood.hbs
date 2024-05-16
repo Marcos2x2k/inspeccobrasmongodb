@@ -24,7 +24,7 @@
         var array = arr//["Cantabria", "Asturias", "Galicia", "Andalucia", "Extremadura"];
         //array = inspectoresname;
         // Ordena el Array Alfabeticamente, es muy facil ;)):
-        array.sort();
+        //array.sort();
         addOptions("selectinspectorname", array);
     }
 
@@ -58,26 +58,25 @@
         var valor = combo.selectedIndex
         if (valor == 0) {
             document.getElementById("codigoinspector").value = "";
-            document.getElementById("inspector").value = "";    
+            document.getElementById("inspector").value = "";
             //document.getElementById("codigoinspector").style.color = "grey";
             //document.getElementById("inspector").style.color = "grey"; 
-            document.getElementById("grabar").disabled = true;   
-             
+            document.getElementById("grabar").disabled = true;
         } else {
             // cargar valores a input
             if (arrcod[valor - 1] == undefined) {
                 document.getElementById("codigoinspector").value = "Sin.Código";
             } else {
                 document.getElementById("codigoinspector").value = arrcod[valor - 1];
-            }           
-            
+            }
+
             document.getElementById("inspector").value = selected;
             document.getElementById("codigoinspector").style.color = "red";
             document.getElementById("inspector").style.color = "red";
             if (x == 0) {
-              document.getElementById("grabar").disabled = true;     
+                document.getElementById("grabar").disabled = true;
             } else {
-              document.getElementById("grabar").disabled = false;   
+                document.getElementById("grabar").disabled = false;
             }
         }
         ShowName('inspector');
@@ -143,13 +142,13 @@
             di.style.display = "none";
             dinf.style.display = "none";
             grabar.disabled = true;
-            document.getElementById("botoninspector").disabled = true;  
+            document.getElementById("botoninspector").disabled = true;
         } else if (selestadoinsp.selectedIndex == 1) {
             divres.style.display = "block";
             grabar.disabled = false;
             document.getElementById("botoninspector").disabled = false;
             //document.getElementById("selresultadoinspeccion").disabled = true;
-            
+
         }
     }
 
@@ -228,14 +227,14 @@
                 <div class="form-group">
                     Ticket Nº:
                     <input style="color: green" onkeyup="ponerMayuscula('numticket')" id="numticket" type="text"
-                        name="numticket" class="form-control" placeholder="Ticket Nº"
-                        value="{{ticket.numticket}}" readonly>
+                        name="numticket" class="form-control" placeholder="Ticket Nº" value="{{ticket.numticket}}"
+                        readonly>
                 </div>
                 <div class="form-group">
                     Adrema Nº:
                     <input style="color: green" onkeyup="ponerMayuscula('numexpediente')" id="numexpediente" type="text"
-                        name="numexpediente" class="form-control" placeholder="Expediente Nº"
-                        value="{{ticket.adrema}}" readonly>
+                        name="numexpediente" class="form-control" placeholder="Expediente Nº" value="{{ticket.adrema}}"
+                        readonly>
                 </div>
                 <div class="form-group">
                     Estado Coord.Inspección:
@@ -301,24 +300,21 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    Código Inspector:
-                    <input style="color: black;" type="text" id="codigoinspector"
-                        name="codigoinspector" class="form-control" placeholder="Código Inspector"
-                        value="{{inspectores.codigoinspector}}" readonly/>                        
                     {{!-- Se usa para convertir en array los datos de codigo y de inspector --}}
-                    <input style="display: none" type="text" id="inputcodigoinspector"
-                        name="inputinspectorescodigo" class="form-control"
-                        value="{{inspectorescodigo}}"/>
-                    <input style="display: none" type="text" id="inputinspector" name="inputinspector"
-                        class="form-control" value="{{inspectoresname}}" />
+                    <input style="display: none;" type="text" id="inputcodigoinspector" name="inputinspectorescodigo" class="form-control"
+                        value="{{inspectorescodigo}}" />
+                    <input  style="display: none;" type="text" id="inputinspector" name="inputinspector" class="form-control"
+                        value="{{inspectoresname}}" />
                 </div>
                 <div class="form-group">
                     Inspector (NyA):
-                    <input style="color: black;" type="text" id="inspector"
-                        name="inspector" class="form-control" placeholder="Inspector (NyA)"
-                        value="{{inspectores.inspeccioninspector}}" readonly/>
+                    <input style="color: black;" type="text" id="inspector" name="inspector" class="form-control"
+                        placeholder="Inspector (NyA)" value="{{inspectores.inspeccioninspector}}" readonly />
+                    Código Inspector:
+                    <input style="color: black;" type="text" id="codigoinspector" name="codigoinspector"
+                        class="form-control" placeholder="Código Inspector" value="{{inspectores.codigoinspector}}"
+                        readonly />
                 </div>
-
                 <button id="botoninspector" class='btn btn-primary' name="botoninspector" type="button"
                     onclick="cargar_inspectores()" disabled> Cambiar Inspector ->
                     <span class="fa fa-user" aria-hidden="true"></span>
@@ -333,14 +329,13 @@
                 <div class="form-group">
                     Domicilio:
                     <input style="color: green" onkeyup="ShowName('domicilio')" type="text" id="domicilio"
-                        name="domicilio" class="form-control" placeholder="Domicilio"
-                        value="{{ticket.domicilio}}" readonly />
+                        name="domicilio" class="form-control" placeholder="Domicilio" value="{{ticket.domicilio}}"
+                        readonly />
                 </div>
                 <div class="form-group">
                     Adrema Nº:
                     <input style="color: green" onkeyup="ponerMayuscula('adremaexp')" id="adremaexp" name="adremaexp"
-                        class="form-control" placeholder="Nº Adrema" value="{{ticket.adremaexp}}"
-                        readonly></input>
+                        class="form-control" placeholder="Nº Adrema" value="{{ticket.adremaexp}}" readonly></input>
                 </div>
                 <div class="form-group">
                     Fecha Inspección:

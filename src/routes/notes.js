@@ -996,7 +996,7 @@ router.get('/actuaciones/borradolistado', isAuthenticated, async (req, res) => {
         // necesito igualar para que se copie el cambio
         planiregactuainf = planiregactuainftabla
         //console.log(planiregactuainf)
-        res.render('notes/borrados/borradolistaactuacion', { planiregactuainf });    
+        res.render('notes/borrados/borradolistaactuacion', { planiregactuainf });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA INTIMACIONES')
         return res.redirect('/');
@@ -1009,9 +1009,9 @@ router.get('/actuaciones/list/:id', isAuthenticated, async (req, res) => {
 });
 
 router.post('/actuaciones/findfecha', isAuthenticated, async (req, res) => {
-    const { fechainiciotramite } = req.body;      
+    const { fechainiciotramite } = req.body;
     const fechatramite = funcionesimportantes.ordenarfechaalrevez(fechainiciotramite);
-    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechatramite, $options: "i" }, borrado: { $ne: 'Si' }    }).lean().sort({ date: 'desc' });;
+    const planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $regex: fechatramite, $options: "i" }, borrado: { $ne: 'Si' } }).lean().sort({ date: 'desc' });;
     if (!planiregactuainftabla) {
         req.flash('success_msg', 'cargue una Fecha')
         return res.render("notes/inspecciones/infracciones/listactuacionesadm");
@@ -1031,7 +1031,7 @@ router.post('/actuaciones/findfecha', isAuthenticated, async (req, res) => {
 
 router.post('/actuaciones/findiniciador', isAuthenticated, async (req, res) => {
     const { propietario } = req.body;
-    const planiregactuainftabla = await Planiregactuainf.find({ propietario: { $regex: propietario, $options: "i" }, borrado: { $ne: 'Si' }  }).lean().sort({ adrema: 'desc' });;
+    const planiregactuainftabla = await Planiregactuainf.find({ propietario: { $regex: propietario, $options: "i" }, borrado: { $ne: 'Si' } }).lean().sort({ adrema: 'desc' });;
     if (!planiregactuainftabla) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
         return res.render("notes/inspecciones/infracciones/listactuacionesadm");
@@ -1065,7 +1065,7 @@ router.post('/actuaciones/borrado/findiniciador', isAuthenticated, async (req, r
         }
         // necesito igualar para que se copie el cambio
         planiregactuainf = planiregactuainftabla
-        res.render('notes/borrados/borradolistaactuacion', { planiregactuainf });  
+        res.render('notes/borrados/borradolistaactuacion', { planiregactuainf });
     }
 });
 
@@ -1105,13 +1105,13 @@ router.post('/actuaciones/borrado/findcuitdni', isAuthenticated, async (req, res
         }
         // necesito igualar para que se copie el cambio
         planiregactuainf = planiregactuainftabla
-        res.render('notes/borrados/borradolistaactuacion', { planiregactuainf });  
+        res.render('notes/borrados/borradolistaactuacion', { planiregactuainf });
     }
 });
 
 router.post('/actuaciones/findadrema', isAuthenticated, async (req, res) => {
     const { adrema } = req.body;
-    const planiregactuainftabla = await Planiregactuainf.find({ adrema: { $regex: adrema, $options: "i" }, borrado: { $ne: 'Si' }  }).lean().sort({ adrema: 'desc' });;
+    const planiregactuainftabla = await Planiregactuainf.find({ adrema: { $regex: adrema, $options: "i" }, borrado: { $ne: 'Si' } }).lean().sort({ adrema: 'desc' });;
     if (!planiregactuainftabla) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
         return res.render("notes/inspecciones/infracciones/listactuaciones");
@@ -1131,7 +1131,7 @@ router.post('/actuaciones/findadrema', isAuthenticated, async (req, res) => {
 
 router.post('/actuaciones/findinspector', isAuthenticated, async (req, res) => {
     const { inspector } = req.body;
-    const planiregactuainftabla = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" }, borrado: { $ne: 'Si' }  }).lean().sort({ adrema: 'desc' });;
+    const planiregactuainftabla = await Planiregactuainf.find({ inspector: { $regex: inspector, $options: "i" }, borrado: { $ne: 'Si' } }).lean().sort({ adrema: 'desc' });;
     if (!planiregactuainftabla) {
         req.flash('success_msg', 'cargue un Nº de Adrema')
         return res.render("notes/inspecciones/infracciones/listactuaciones");
@@ -1236,11 +1236,11 @@ router.put('/actuaciones/marcadelete/:id', isAuthenticated, async (req, res) => 
 
 router.delete('/actuaciones/delete/:id', isAuthenticated, async (req, res) => {
     await Planiregactuainf.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', 'Actuación Eliminado')    
+    req.flash('success_msg', 'Actuación Eliminado')
     res.redirect('/actuaciones/borradolistado')
 });
 
-router.put('/actuacion/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {    
+router.put('/actuacion/marcadeleterestaurar/:id', isAuthenticated, async (req, res) => {
     //Busco el id y le sumo 1 a veces impreso
     const borrado = "No";
     const fechaborrado = "Restaurado";
@@ -1317,7 +1317,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             //     dni = ""
             // }
             var cuitdni = propietario;
-            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }], $and :[{borrado: { $ne: 'Si' }}]}).lean().sort({ date: 'desc' });
+            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ propietario: { $regex: propietario, $options: "i" } }, { cuitdni: cuitdni }], $and: [{ borrado: { $ne: 'Si' } }] }).lean().sort({ date: 'desc' });
             planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
@@ -1325,7 +1325,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
         } else if (adrema) {
             var expediente = adrema;
-            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }], $and :[{borrado: { $ne: 'Si' }}] }).lean().sort({ date: 'desc' });
+            planiregactuainftabla = await Planiregactuainf.find({ $or: [{ adrema: { $regex: adrema, $options: "i" } }, { expediente: { $regex: expediente, $options: "i" } }], $and: [{ borrado: { $ne: 'Si' } }] }).lean().sort({ date: 'desc' });
             planiregactuainf = planiregactuainftabla
             for (let i = 0; i < planiregactuainf.length; i++) {
                 contador = contador + 1
@@ -1342,14 +1342,14 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             if ((desde && hasta)) {
                 var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
                 const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000  
-                planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" }}, {borrado: { $ne: 'Si' }}] }).lean().sort({ date: 'desc' });
+                planiregactuainftabla = await Planiregactuainf.find({ $and: [{ fechainiciotramite: { $gte: desde, $lte: hastad } }, { inspector: { $regex: inspector, $options: "i" } }, { borrado: { $ne: 'Si' } }] }).lean().sort({ date: 'desc' });
                 planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
                 }
                 //res.render('notes/inspecciones/infracciones/estadisticasactuacion', { planiregactuainf, contador });
             } else {
-                planiregactuainftabla = await Planiregactuainf.find( {$and: [{inspector: { $regex: inspector, $options: "i" }}, {borrado: { $ne: 'Si' }}]}).lean().sort({ date: 'desc' });
+                planiregactuainftabla = await Planiregactuainf.find({ $and: [{ inspector: { $regex: inspector, $options: "i" } }, { borrado: { $ne: 'Si' } }] }).lean().sort({ date: 'desc' });
                 planiregactuainf = planiregactuainftabla
                 for (let i = 0; i < planiregactuainf.length; i++) {
                     contador = contador + 1
@@ -1361,7 +1361,7 @@ router.post('/actuaciones/sacarestadistica', isAuthenticated, async (req, res) =
             // console.log("HASTA", hasta)
             var d = new Date(hasta); //D= 2023-07-25T00:00:00.000Z
             const hastad = d.setDate(d.getDate() + 1); //HASTAD= 1690243200000        
-            planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $gte: desde, $lte: hastad } }, {borrado: { $ne: 'Si' }}).lean().sort({ fechainiciotramite: 'desc' });
+            planiregactuainftabla = await Planiregactuainf.find({ fechainiciotramite: { $gte: desde, $lte: hastad } }, { borrado: { $ne: 'Si' } }).lean().sort({ fechainiciotramite: 'desc' });
             //.find( "SelectedDate": {'$gte': SelectedDate1,'$lt': SelectedDate2}})
             //.find({ desde: { $regex: date, $options: "i" } }).lean().sort({ date: 'desc' });            
             // necesito igualar para que se copie el cambio
@@ -1437,7 +1437,7 @@ router.post('/actuaciones/descargarestadisticaactu', isAuthenticated, async (req
                     var diastring = dia + "-"
                 }
                 const ano = fecha.getFullYear(
-                    
+
                 )
                 //const fullyear = fecha.toLocaleDateString();
                 const fullyear = diastring + mes + ano
@@ -1690,11 +1690,11 @@ router.get('/tickets/add', isAuthenticated, async (req, res) => {
 });
 
 router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
-    const { 
+    const {
         plataforma, numticket, iniciador, ubicacion, celular, email,
         adrema, directordeobra, destinodeobra, superficieterreno, superficieaconstruir,
         supsubptabja, supsubptaaltaymas, zona, observaciones, permisoobra, actainfraccion,
-        fechaentradainspecciones, documentacion, inspeccionfecha, codigoinspector, inspeccioninspector, 
+        fechaentradainspecciones, documentacion, inspeccionfecha, codigoinspector, inspeccioninspector,
         intimaciones, infracciones, cantintimaciones, cantinfracciones, pasea, fechapasea, user, name
     } = req.body;
     const newTicket = new Ticket({
@@ -1717,16 +1717,23 @@ router.post('/notes/newtickets', isAuthenticated, async (req, res) => {
 router.get('/movimientoticketcoord/add/:id', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     const ticket = await Ticket.findById(req.params.id).lean();
-    const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort();
+    const inspectorestabla = await Inspectores.find({ borrado: "No" }).lean().sort({ name: "desc" });
     const usuarios = await Users.find().lean().sort({ date: 'desc' });
     var inspectoresname = []
     var inspectorescodigo = []
     if (rolusuario == "Administrador" || rolusuario == "Inspector" || rolusuario == "Jefe-Inspectores") {
-        for (var inspectores of inspectorestabla) {           
-           inspectoresname.push(inspectores.name)            
-           inspectorescodigo.push(inspectores.codigoinspector)
+        for (var inspectores of inspectorestabla) {
+            if(inspectores.name == ""){
+                inspectores.name = "00/000"
+            }            
+            if(inspectores.codigoinspector==""){
+                inspectores.codigoinspector = "00/000"
+            }
+            inspectoresname.push(inspectores.name)
+            inspectorescodigo.push(inspectores.codigoinspector)
+            console.log ("inspectores", inspectoresname, inspectorescodigo)
         }
-        res.render('notes/inspecciones/expticket/movimientoticketcood.hbs', {ticket, inspectoresname, inspectorescodigo});;
+        res.render('notes/inspecciones/expticket/movimientoticketcood.hbs', { ticket, inspectoresname, inspectorescodigo });;
         //res.render('notes/allusuariosadm', { usuarios });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA TICKETs')
@@ -1735,9 +1742,9 @@ router.get('/movimientoticketcoord/add/:id', isAuthenticated, async (req, res) =
 });
 
 router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req, res) => {
-    var ticketcoordinado = await Ticket.findById(req.params.id).lean()    
+    var ticketcoordinado = await Ticket.findById(req.params.id).lean()
     var idticket = ticketcoordinado._id
-    var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({date: 'desc'});
+    var ticketcoordresultadotabla = await Ticketcoordresultado.find({ $and: [{ borrado: "No" }, { idticket: idticket }] }).lean().sort({ date: 'desc' });
     for (var ticketcoordresultado of ticketcoordresultadotabla) {
         //var fechaintimacion = expedcoordresultadotabla.fechaintimacion;
         //expedcoordresultado.fechaintimacion = expedcoordresultadotabla.fechaintimacion;  
@@ -1798,7 +1805,7 @@ router.get('/ticket/coordinados/listresultado/:id', isAuthenticated, async (req,
         //console.log("expedcoordresultadotabla", expedcoordresultadotabla);
     }
     res.render('notes/inspecciones/infracciones/listaticketcoordmov', { ticketcoordresultado, ticketcoordinado })
-}); 
+});
 
 router.get('/ticket/list/:id', isAuthenticated, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id).lean()
@@ -1954,8 +1961,8 @@ router.post('/ticket/findlistafechainsp', isAuthenticated, async (req, res) => {
 router.get('/Inspectores', isAuthenticated, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     //console.log("ROL USUARIO", rolusuario) //Inspector
-    if (rolusuario == "Administrador") {
-        const inspectores = await Inspectores.find().lean().sort({ date: 'desc' });
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const inspectores = await Inspectores.find().lean().sort({ name: 'asc' });
         res.render('notes/allinspectoresadm', { inspectores });
     } else {
         req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
@@ -1965,8 +1972,13 @@ router.get('/Inspectores', isAuthenticated, async (req, res) => {
 
 router.get('/inspectores/list/:id', isAuthenticated, async (req, res) => {
     //const _id = req.params.id
-    const inspectores = await Inspectores.findById(req.params.id).lean()
-    res.render('notes/inspecciones/listinspectores', { inspectores })
+    if (rolusuario == "Administrador" || rolusuario == "Jefe-Inspectores") {
+        const inspectores = await Inspectores.findById(req.params.id).lean().sort({ name: "asc" })
+        res.render('notes/inspecciones/listinspectores', { inspectores })
+    } else {
+        req.flash('success_msg', 'NO TIENE PERMISO PARA AREA USUARIOS')
+        return res.redirect('/');
+    }
 });
 
 router.get('/inspectores/add', isAuthenticated, (req, res) => {
@@ -1990,7 +2002,7 @@ router.post('/inspectores/newinspectores', isAuthenticated, async (req, res) => 
 
 router.get('/inspectores/edit/:id', isAuthenticated, async (req, res) => {
     const inspectores = await Inspectores.findById(req.params.id).lean();
-    res.render('notes/inspecciones/editinspectores', { inspectores })    
+    res.render('notes/inspecciones/editinspectores', { inspectores })
 });
 
 router.put('/inspectores/editinspectores/:id', isAuthenticated, async (req, res) => {
