@@ -54,16 +54,17 @@
 
     function formatToString(writtenName) {        
         var tmp = tmpsincoma.split(" ");                
-        var fullName;
+        var fullName;        
         tmp.forEach(element => {
             if (fullName) {
                 fullName = fullName + " " + element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
             } else {
                 fullName = element.charAt(0).toUpperCase() + element.slice(1).toLocaleLowerCase();
-            }
+            }            
         })
-        var tmpsincoma = fullName.filter((i) => i !== ","); // filtramos
-        return tmpsincoma;
+        //fullName = fullName.filter(function(i) { return i !== "," }); // filtramos
+        //var tmpsincoma = fullName.filter((i) => i !== ","); // filtramos
+        return fullName;
     }
 </script>
 
@@ -82,12 +83,16 @@
                         </div>
                         <div class="form-group">
                             Nombre y Apellido Inspector
-                            <input onkeyup=ShowName("name"); type="text" class="form-control" id="name" name="name"
-                                placeholder="Nombre y Apellido">
-                        </div>
+                            <input onkeyup=ShowName("codigoinspector") type="text" class="form-control" id="name" name="name"
+                                placeholder="Nombre y Apellido" 
+                                onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
+                                />
+                        </div>  
+
                         <div class="form-group">
-                            Doc. Nac.Identidad
-                            <input type="text" class="form-control" id="dni" name="dni" placeholder="Doc.Nac.Identidad">
+                            Doc. Nac.Identidad (sin puntos)
+                            <input type="text" class="form-control" id="dni" name="dni" placeholder="Doc.Nac.Identidad" 
+                            onkeypress="return ((event.charCode >= 48 && event.charCode <= 57))"/>
                         </div>
                         <div class="form-group">
                             Celular
