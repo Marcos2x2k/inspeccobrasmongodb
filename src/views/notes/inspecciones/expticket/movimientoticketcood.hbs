@@ -4,6 +4,13 @@
         cargar_inspectores()
     }
 
+    function cargamanualinsp(){
+        let x = document.getElementById("codigoinspector")
+        let y = document.getElementById("inspector")
+        x.display = "block"
+        y.display = "block"
+    }
+
     // funcion para Cargar inspectores al campo <select>
     function cargar_inspectores() {
         document.getElementById("codigoinspector").value = "Esperando... nuevo codigo inspector";
@@ -297,8 +304,9 @@
                     <br />
                     <select name="selectinspectorname" id="selectinspectorname" onclick="seleccionarinspector()">
                         <option>Seleccione Inspector...</option>
-                    </select>
+                    </select>                    
                 </div>
+                <button onclick="cargamanualinsp()" class="btn btn-primary btn-block">Cargar Manualmente Inspector</button>
                 <div class="form-group">
                     {{!-- Se usa para convertir en array los datos de codigo y de inspector --}}
                     <input style="display: none;" type="text" id="inputcodigoinspector" name="inputinspectorescodigo" class="form-control"

@@ -159,7 +159,9 @@
                 <div class="form-group">
                     Iniciador (Nombre y Apellido):
                     <input id="nomyape" onkeyup="ShowName()" style="font-weight: bold; color:green" type="text"
-                        name="iniciador" class="form-control" placeholder="Nombre y Apellido">
+                        name="iniciador" class="form-control" placeholder="Nombre y Apellido"
+                        onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
+                        />
                 </div>
                 <div class="form-group">
                     Ubicación:
@@ -189,7 +191,9 @@
                 <div class="form-group">
                     Director de Obra:
                     <input id="nomyapedirob" onkeyup="ShowNameDirOb()" style="font-weight: bold; color:green"
-                        name="directordeobra" class="form-control" placeholder="Director de Obra"></input>
+                        name="directordeobra" class="form-control" placeholder="Director de Obra"
+                    onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
+                    ></input>
                 </div>
                 <div class="form-group">
                     Destino de Obra:
@@ -244,7 +248,9 @@
                 <div class="form-group">
                     Inspector:
                     <input id="nomyapeinsp" onkeyup="ShowNameInsp()" style="font-weight: bold; color:green"
-                        name="inspeccioninspector" class="form-control" placeholder="Inspector"></input>
+                        name="inspeccioninspector" class="form-control" placeholder="Inspector"
+                        onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
+                        ></input>
                 </div>
                 <div class="form-group">
                     Código Inspector:
